@@ -5,18 +5,30 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import menus.MenuHandler;
+import menus.PlaygroundUI;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, meu management, and general javafx initialization
  */
 public class SimState extends Application {
 
-    public static Group root = new Group();
-    private static Scene initialScene = new Scene(root, 300, 275);
+    //The root group that everything is a child of
+    private static Group root = new Group();
 
-    private static String playState;
+    //The main part of the simulation that houses the cows
+    public static Pane playground = new Pane();
+
+    //The main part of the UI
+    public static Pane playgroundUI = new Pane();
+
+    private static Scene initialScene = new Scene(root, 800, 600);
+
+    private static AnimationTimer simLoop;
+
+    private static String playState = "Playing";
     private static Object currentMenu;
 
     /**
@@ -24,7 +36,17 @@ public class SimState extends Application {
      * @param newState The new state the sim will switch to
      */
     public static void setSimState(String newState) {
+
         playState = newState;
+        switch (newState) {
+            case "Paused":
+                simLoop.stop();
+                break;
+
+            case "Playing":
+                simLoop.start();
+                break;
+        }
     }
 
     /**
@@ -57,6 +79,11 @@ public class SimState extends Application {
      */
     private static void simInit() {
         Input.enableInput(initialScene);
+        PlaygroundUI.create();
+
+        root.getChildren().add(playground);
+        root.getChildren().add(playgroundUI);
+
         Animal.animalList.add(new Animal());
         simLoop();
     }
@@ -65,21 +92,22 @@ public class SimState extends Application {
      * Calls the update, then the draw methods for the whole system
      */
     private static void simLoop() {
-
         //timer runs constantly
-        AnimationTimer timer = new AnimationTimer() {
+        simLoop = new AnimationTimer() {
             private long lastUpdate = 0 ;
 
             @Override
             public void handle(long frameTime) {
-                if (frameTime - lastUpdate >= (30_000_000) ) {
+                if (frameTime - lastUpdate >= (15_000_000) ) {
                     updateTick();
                     drawTick();
                     lastUpdate = frameTime;
                 }
+                drawTick();
+
             }
         };
-        timer.start();
+        simLoop.start();
     }
 
     /**
@@ -87,9 +115,17 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
+        for (int i = 0; i < Animal.animalList.size(); i++) {
+            Animal.animalList.get(i).step("Random");
+
+            if (Animal.animalList.get(i).getClicked())
+                Animal.animalList.get(i).animalMenu.updateMenu();
+
+        }
+        System.out.println(playground.getChildren().size());
+        PlaygroundUI.update();
         CameraControl.forceUpdateCamera();
-        System.out.println(root.getChildren().size());
-        //System.out.println(Animal.animalList.get(0).getClicked());
+
     }
 
     /**
@@ -98,7 +134,6 @@ public class SimState extends Application {
     private static void drawTick() {
 
     }
-
 
     /**
      * This is the main method that is run to start the whole simulation. Initializes the stage and calls simInit()

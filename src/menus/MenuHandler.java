@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MenuHandler {
 
     //Keeps track of every open menu
-    static ArrayList<StackPane> openMenus = new ArrayList<>();
+    public static ArrayList<StackPane> openMenus = new ArrayList<>();
 
     /**
      * Fetches the correct menu type based off of the object given
@@ -25,7 +25,7 @@ public class MenuHandler {
 
         switch(menuRaw.getClass().getSimpleName()) {
             case "Animal":
-                menu = new GenericMenu( ((Animal) menuRaw).getId());
+                menu = new GenericMenu( ((Animal) menuRaw));
                 break;
             case "Button":
                 menu = new GenericMenu( ((Button) menuRaw).getId());
@@ -44,20 +44,12 @@ public class MenuHandler {
     }
 
     /**
-     * Loops through every open menu and closes the one matching the given id. Removes the menu's children, removes the
-     * menu from the root node, then removes the menu from the open menu list
-     * @param id
+     * Closes the given menu
+     * @param menu the menu to be closed
      */
-    public static void closeMenu(String id) {
-        for (int i = 0; i < openMenus.size(); i++) {
-            if (openMenus.get(i).getId().equals(id)) {
-
-                openMenus.get(i).getChildren().clear();
-                SimState.root.getChildren().remove(openMenus.get(i));
-                openMenus.remove(openMenus.get(i));
-
-            }
-
-        }
+    public static void closeMenu(GenericMenu menu) {
+        menu.stack.getChildren().clear();
+        openMenus.remove(menu.stack);
+        SimState.playground.getChildren().remove(menu.stack);
     }
 }

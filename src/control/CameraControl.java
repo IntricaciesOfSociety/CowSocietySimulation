@@ -3,12 +3,10 @@ package control;
 import javafx.scene.Camera;
 import javafx.scene.ParallelCamera;
 
-class CameraControl {
+public class CameraControl {
 
     private static ParallelCamera sceneCamera;
     private static int movementOffset = 10;
-
-    public static int zoomOffset;
 
     /**
      * Initializes the parallelCamera and returns it
@@ -44,14 +42,21 @@ class CameraControl {
      * @param direction The direction that the camera is to move in
      */
     public static void zoomCamera(boolean direction) {
+        double desiredScale = SimState.playground.getScaleX();
+
         if (direction) {
-            SimState.root.setScaleX(5);
-            SimState.root.setScaleY(5);
+            if (SimState.playground.getScaleX() < 4.8)
+                desiredScale += 0.2;
         }
         else {
-            SimState.root.setScaleX(1);
-            SimState.root.setScaleY(1);
+            if (SimState.playground.getScaleX() > 0.2)
+                desiredScale -= 0.2;
         }
+
+
+        SimState.playground.setScaleX(desiredScale);
+        SimState.playground.setScaleY(desiredScale);
+
     }
 
     /**
@@ -60,6 +65,14 @@ class CameraControl {
     public static void forceUpdateCamera() {
         sceneCamera.setLayoutX(sceneCamera.getLayoutX() + 1);
         sceneCamera.setLayoutX(sceneCamera.getLayoutX() - 1);
+    }
+
+    public static double getX() {
+        return sceneCamera.getLayoutX();
+    }
+
+    public static double getY() {
+        return sceneCamera.getLayoutY();
     }
 
 }

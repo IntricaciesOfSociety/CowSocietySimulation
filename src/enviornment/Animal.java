@@ -1,11 +1,15 @@
 package enviornment;
 
 import control.SimState;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import menus.GenericMenu;
 import menus.MenuHandler;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Handles the creation and the AI integration for the animals
@@ -16,15 +20,22 @@ public class Animal {
     public static ArrayList<Animal> animalList = new ArrayList<>();
 
     private boolean clickedFlag = false;
-    private String id; //Also its name
-    private Rectangle body;
+
+    //The id is also the cow's name
+    private String id;
+
+    public GenericMenu animalMenu;
+
+    // The cow node and its image
+    private ImageView body;
+    private static Image sprite;
 
     /**
      * Calls createAnimal and adds it to the root node
      */
     public Animal() {
         createAnimal();
-        SimState.root.getChildren().addAll(body);
+        SimState.playground.getChildren().addAll(body);
     }
 
     /**
@@ -32,9 +43,15 @@ public class Animal {
      * Draws a 'animal' to the screen for testing purposes
      */
     public void createAnimal() {
-            body = new Rectangle(50,50, 50, 50);
-            body.setFill(Color.BLUE);
+            try {
+                sprite = new Image(new FileInputStream("res\\moo.png"));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            body = new ImageView(sprite);
             body.setId("Big Beefy");
+            body.relocate(400, 300);
             id = body.getId();
     }
 
@@ -45,16 +62,46 @@ public class Animal {
     public void isClicked() {
         if(getClicked()) {
             setClicked(false);
-            MenuHandler.closeMenu(id);
+            MenuHandler.closeMenu(animalMenu);
         }
         else {
             setClicked(true);
-            SimState.setCurrentMenu(this);
+            animalMenu = new GenericMenu(this);
         }
     }
 
     /**
-     * Sets the state of the animal, if clicked there should be a menu open, if not then there shouldn't be
+     * TEMP
+     * Moves the cow in a specified direction. Used for testing while AI is not implemented.
+     * @param movementType The movement that the cow will be performing
+     */
+    public void step(String movementType) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(1 + 1 + 5) - 5;
+
+        switch (movementType) {
+            case "North":
+                this.body.setLayoutY(this.body.getLayoutY() + randomNumber);
+                break;
+            case "East":
+                this.body.setLayoutX(this.body.getLayoutX() + randomNumber);
+                break;
+            case "South":
+                this.body.setLayoutY(this.body.getLayoutY() - randomNumber);
+                break;
+            case "West":
+                this.body.setLayoutX(this.body.getLayoutX() - randomNumber);
+                break;
+            case "Random":
+                this.body.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                this.body.setLayoutX(this.body.getLayoutX() + Math.cos(Math.toRadians(this.body.getRotate())) * randomNumber);
+                this.body.setLayoutY(this.body.getLayoutY() + Math.sin(Math.toRadians(this.body.getRotate())) * randomNumber);
+                break;
+        }
+    }
+
+    /**
+     * Sets the state of the animal. If clicked there should be a menu open, if not then there shouldn't be
      * @param clicked If the animal is clicked
      */
     private void setClicked(boolean clicked) {
@@ -64,7 +111,7 @@ public class Animal {
     /**
      * @return The clicked state of the animal
      */
-    private boolean getClicked() {
+    public boolean getClicked() {
         return clickedFlag;
     }
 
@@ -73,6 +120,20 @@ public class Animal {
      */
     public String toString() {
         return "Clicked: " + clickedFlag + " " + body.toString();
+    }
+
+    /**
+     * @return The X coordinate of the animal
+     */
+    public double getX() {
+        return body.getLayoutX();
+    }
+
+    /**
+     * @return The Y coordinate of the animal
+     */
+    public double getY() {
+        return body.getLayoutY();
     }
 
     /**
