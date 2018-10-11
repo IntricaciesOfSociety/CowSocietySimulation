@@ -67,7 +67,7 @@ public class Input {
             String objectString = mouseEvent.getTarget().toString();
 
             if (objectString.contains("id"))
-                parseId(objectString, true);
+                setAnimalClicked(objectString);
             else
                 return;
         });
@@ -80,7 +80,7 @@ public class Input {
             String objectString = mouseEvent.getPickResult().toString();
 
             if (objectString.contains("id") && objectString.contains("ImageView"))
-                parseId(objectString, false);
+                objectMouseIsOn = getParsedId(objectString);
             else
                 return;
         });
@@ -102,25 +102,24 @@ public class Input {
     }
 
     /**
-     * Parses the id of the clicked object and calls the corresponding isClicked logic.
-     * @param objectAsString the object represented by a string
-     * @param clicked if the click flags are to be set
+     * Sets the clicked animal as clicked in the list of animals
+     * @param objectId the object's id
      */
-    private static void parseId(String objectAsString, boolean clicked) {
-        //Gets the part of the string that contains the object id
-        String objectId = objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
-
-        if (clicked) {
-
-            for (int i = 0; i < Animal.animalList.size(); i++) {
-                if (Animal.animalList.get(i).getId().equals(objectId)) {
-                    Animal.animalList.get(i).isClicked();
-                }
+    private static void setAnimalClicked(String objectId) {
+        for (int i = 0; i < Animal.animalList.size(); i++) {
+            if (Animal.animalList.get(i).getId().equals(objectId)) {
+                Animal.animalList.get(i).isClicked();
             }
         }
-        else {
-            objectMouseIsOn = objectId;
-        }
+    }
 
+    /**
+     * Returns the id of a clicked object, parsed out of the string representation of the object
+     * @param objectAsString the object as a string
+     * @return the id from the object string
+     */
+    public static String getParsedId(String objectAsString) {
+        //Gets the part of the string that contains the object id
+        return objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
     }
 }

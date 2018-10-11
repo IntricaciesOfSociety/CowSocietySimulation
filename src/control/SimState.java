@@ -31,6 +31,8 @@ public class SimState extends Application {
     private static String playState = "Playing";
     private static Object currentMenu;
 
+    private static long simSpeed = 16_666_666;
+
     /**
      * Sets the state that the simulation can be in. For example" paused, playing, etc.
      * @param newState The new state the sim will switch to
@@ -98,7 +100,7 @@ public class SimState extends Application {
 
             @Override
             public void handle(long frameTime) {
-                if (frameTime - lastUpdate >= (15_000_000) ) {
+                if (frameTime - lastUpdate >= (simSpeed) ) {
                     updateTick();
                     drawTick();
                     lastUpdate = frameTime;
@@ -122,7 +124,9 @@ public class SimState extends Application {
                 Animal.animalList.get(i).animalMenu.updateMenu();
 
         }
-        System.out.println(playground.getChildren().size());
+        //System.out.println(playground.getChildren().size());
+        System.out.println(simSpeed);
+
         PlaygroundUI.update();
         CameraControl.forceUpdateCamera();
 
@@ -133,6 +137,14 @@ public class SimState extends Application {
      */
     private static void drawTick() {
 
+    }
+
+    /**
+     * Sets the speed of the simLoop given the button clicked's id to change the speed. Changes the speed based off button
+     * metadata
+     */
+    public static void setSimSpeed(String objectId) {
+        simSpeed = Long.parseLong(objectId);
     }
 
     /**
