@@ -9,37 +9,28 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-
+/**
+ * A GenericMenu object is a StackPane menu that holds information based off of the object given. Used currently for the
+ * specific animal menus.
+ */
 public class GenericMenu {
 
-    Animal clickedAnimal;
+    private Animal clickedAnimal;
     StackPane stack;
 
     /**
-     * Temp Creates a generic menu only containing an ID
-     * @param id The id of the object the menu is being created from
-     */
-    public GenericMenu(String id) {
-        stack = new StackPane();
-        Rectangle background = new Rectangle(0,0, 100, 150);
-        background.setFill(Color.VIOLET);
-;
-        Text idText = new Text(234,234, id);
-        MenuHandler.openMenus.add(stack);
-        SimState.playground.getChildren().add(stack);
-    }
-
-    /**
-     * Temp Creates a menu for an animal
+     * Temp Creates a menu for the given animal.
      * @param animal The animal that the menu is to be created from
      */
     public GenericMenu(Animal animal) {
         clickedAnimal = animal;
         stack = new StackPane();
 
+        //The background for the StackPane
         Rectangle background = new Rectangle(0,0, 100, 150);
         background.setFill(Color.VIOLET);
 
+        //The name of the animal
         Text idText = new Text(234,234, animal.getId());
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
         idText.setFill(Color.WHITE);
@@ -52,6 +43,9 @@ public class GenericMenu {
         updateMenu();
     }
 
+    /**
+     * Updates the position of the open menu depending on the animal that has its menu opened's position.
+     */
     public void updateMenu() {
         stack.setLayoutX(clickedAnimal.getX() + 65);
         stack.setLayoutY(clickedAnimal.getY() + 50);

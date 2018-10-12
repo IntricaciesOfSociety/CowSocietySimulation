@@ -42,7 +42,7 @@ public class Animal {
      * TEMP
      * Draws a 'animal' to the screen for testing purposes
      */
-    public void createAnimal() {
+    private void createAnimal() {
             try {
                 sprite = new Image(new FileInputStream("res\\moo.png"));
             } catch (FileNotFoundException e) {
@@ -81,21 +81,24 @@ public class Animal {
 
         switch (movementType) {
             case "North":
-                this.body.setLayoutY(this.body.getLayoutY() + randomNumber);
+                body.setRotate(270);
+                body.setLayoutY(body.getLayoutY() + Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
             case "East":
-                this.body.setLayoutX(this.body.getLayoutX() + randomNumber);
+                body.setLayoutX(body.getLayoutX() - Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
             case "South":
-                this.body.setLayoutY(this.body.getLayoutY() - randomNumber);
+                body.setRotate(90);
+                body.setLayoutY(body.getLayoutY() - Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
             case "West":
-                this.body.setLayoutX(this.body.getLayoutX() - randomNumber);
+                body.setRotate(180);
+                body.setLayoutX(body.getLayoutX() - Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
             case "Random":
-                this.body.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                this.body.setLayoutX(this.body.getLayoutX() + Math.cos(Math.toRadians(this.body.getRotate())) * randomNumber);
-                this.body.setLayoutY(this.body.getLayoutY() + Math.sin(Math.toRadians(this.body.getRotate())) * randomNumber);
+                body.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                body.setLayoutX(body.getLayoutX() + Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
+                body.setLayoutY(body.getLayoutY() + Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
         }
     }

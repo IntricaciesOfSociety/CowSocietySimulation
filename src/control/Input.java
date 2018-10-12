@@ -20,9 +20,8 @@ public class Input {
      * Sets the listener for any key press or mouse event. Will update the corresponding object.
      * @param scene The initial scene from SimState.java, required to implement a listener
      */
-    public static void enableInput(Scene scene) {
+    static void enableInput(Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            CameraControl.forceUpdateCamera();
             KeyCode keyPressed = key.getCode();
             switch (keyPressed) {
                 //WASD camera controls
@@ -61,15 +60,11 @@ public class Input {
          * Handles any click event by checking the object that was clicked, then calling the corresponding method
          */
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-            //Necessary to update menus when paused
-            CameraControl.forceUpdateCamera();
 
             String objectString = mouseEvent.getTarget().toString();
 
             if (objectString.contains("id"))
-                setAnimalClicked(objectString);
-            else
-                return;
+                setAnimalClicked(getParsedId(objectString));
         });
 
         /*
@@ -77,12 +72,12 @@ public class Input {
          * is parsed and used for the objectMouseIsOn variable.
          */
         SimState.playground.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
+            PlaygroundUI.update();
+
             String objectString = mouseEvent.getPickResult().toString();
 
             if (objectString.contains("id") && objectString.contains("ImageView"))
                 objectMouseIsOn = getParsedId(objectString);
-            else
-                return;
         });
 
         /*
@@ -90,6 +85,8 @@ public class Input {
          * only if a animal is not selected.
          */
         SimState.playground.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseEvent -> {
+            PlaygroundUI.update();
+
             if (MenuHandler.openMenus.isEmpty())
                 objectMouseIsOn = "N/A";
         });
@@ -107,9 +104,9 @@ public class Input {
      */
     private static void setAnimalClicked(String objectId) {
         for (int i = 0; i < Animal.animalList.size(); i++) {
-            if (Animal.animalList.get(i).getId().equals(objectId)) {
+
+            if (Animal.animalList.get(i).getId().equals(objectId))
                 Animal.animalList.get(i).isClicked();
-            }
         }
     }
 
