@@ -2,6 +2,7 @@ package menus;
 
 import control.SimState;
 import javafx.scene.layout.StackPane;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class MenuHandler {
      * Closes the given menu by removing it from its parent node
      * @param menu the menu to be closed
      */
-    public static void closeMenu(GenericMenu menu) {
+    public static void closeMenu(@NotNull GenericMenu menu) {
         menu.stack.getChildren().clear();
         openMenus.remove(menu.stack);
         SimState.playground.getChildren().remove(menu.stack);

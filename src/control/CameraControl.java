@@ -1,5 +1,7 @@
 package control;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Handles all of the camera movements sent by Input.java. Translates and scales the corresponding scene accordingly.
  */
@@ -11,7 +13,7 @@ class CameraControl {
      * Moves the camera's layout position according to the given direction
      * @param direction The direction that the camera was told to move in
      */
-    static void moveCamera(String direction) {
+    static void moveCamera(@NotNull String direction) {
 
         switch (direction) {
             case "North":
@@ -28,7 +30,7 @@ class CameraControl {
     }
 
     /**
-     * Zooms the camera in/out depending on the direction given
+     * Zooms the camera in/out depending on the direction given by input.
      * @param direction The direction that the camera is to move in
      */
     static void zoomCamera(boolean direction) {

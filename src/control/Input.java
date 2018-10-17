@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import menus.MenuHandler;
 import menus.PlaygroundUI;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Handles any user input, calling the corresponding methods for the key presses or mouse clicks
@@ -20,7 +21,7 @@ public class Input {
      * Sets the listener for any key press or mouse event. Will update the corresponding object.
      * @param scene The initial scene from SimState.java, required to implement a listener
      */
-    static void enableInput(Scene scene) {
+    static void enableInput(@NotNull Scene scene) {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             KeyCode keyPressed = key.getCode();
             switch (keyPressed) {
@@ -53,7 +54,7 @@ public class Input {
                     else
                         SimState.setSimState("Playing");
             }
-            PlaygroundUI.update();
+            PlaygroundUI.mouseEventUpdate();
         });
 
         /*
@@ -72,7 +73,7 @@ public class Input {
          * is parsed and used for the objectMouseIsOn variable.
          */
         SimState.playground.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
-            PlaygroundUI.update();
+            PlaygroundUI.mouseEventUpdate();
 
             String objectString = mouseEvent.getPickResult().toString();
 
@@ -85,7 +86,7 @@ public class Input {
          * only if a animal is not selected.
          */
         SimState.playground.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseEvent -> {
-            PlaygroundUI.update();
+            PlaygroundUI.mouseEventUpdate();
 
             if (MenuHandler.openMenus.isEmpty())
                 objectMouseIsOn = "N/A";
@@ -115,7 +116,8 @@ public class Input {
      * @param objectAsString the object as a string
      * @return the id from the object string
      */
-    public static String getParsedId(String objectAsString) {
+    @NotNull
+    public static String getParsedId(@NotNull String objectAsString) {
         //Gets the part of the string that contains the object id
         return objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
     }

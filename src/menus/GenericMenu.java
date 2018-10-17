@@ -8,6 +8,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A GenericMenu object is a StackPane menu that holds information based off of the object given. Used currently for the
@@ -22,7 +23,7 @@ public class GenericMenu {
      * Temp Creates a menu for the given animal.
      * @param animal The animal that the menu is to be created from
      */
-    public GenericMenu(Animal animal) {
+    public GenericMenu(@NotNull Animal animal) {
         clickedAnimal = animal;
         stack = new StackPane();
 
@@ -47,7 +48,7 @@ public class GenericMenu {
      * Updates the position of the open menu depending on the animal that has its menu opened's position.
      */
     public void updateMenu() {
-        stack.setLayoutX(clickedAnimal.getX() + 65);
-        stack.setLayoutY(clickedAnimal.getY() + 50);
+        stack.setLayoutX(clickedAnimal.getX() + 55);
+        stack.setLayoutY(clickedAnimal.getY() + 40);
     }
 }

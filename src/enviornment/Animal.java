@@ -44,7 +44,7 @@ public class Animal {
      */
     private void createAnimal() {
             try {
-                sprite = new Image(new FileInputStream("res\\moo.png"));
+                sprite = new Image(new FileInputStream("/Users/10200126/IdeaProjects/ZackPrototype01/res/moo.png"));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import menus.PlaygroundUI;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -41,7 +43,7 @@ public class SimState extends Application {
      * Sets the state that the simulation can be in. For example" paused, playing, etc.
      * @param newState The new state the sim will switch to
      */
-    static void setSimState(String newState) {
+    static void setSimState(@NotNull String newState) {
 
         playState = newState;
         switch (newState) {
@@ -59,6 +61,7 @@ public class SimState extends Application {
      * Gets the state of the sim
      * @return A string of the state that the sim is in as defined by setSimState()
      */
+    @Contract(pure = true)
     static String getSimState() {
         return playState;
     }
@@ -95,7 +98,6 @@ public class SimState extends Application {
                     lastUpdate = frameTime;
                 }
                 drawTick();
-
             }
         };
         simLoop.start();
@@ -109,10 +111,11 @@ public class SimState extends Application {
         for (int i = 0; i < Animal.animalList.size(); i++) {
             Animal.animalList.get(i).step("Random");
 
+            //Updates any animal menu that is opened
             if (Animal.animalList.get(i).getClicked())
                 Animal.animalList.get(i).animalMenu.updateMenu();
-
         }
+        PlaygroundUI.update();
     }
 
     /**
@@ -142,7 +145,6 @@ public class SimState extends Application {
 
         simInit();
     }
-
 
     /**
      * Calls the start method
