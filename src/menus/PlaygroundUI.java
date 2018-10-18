@@ -2,7 +2,7 @@ package menus;
 
 import control.Input;
 import control.SimState;
-import enviornment.Animal;
+import environment.Cow;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class PlaygroundUI {
 
     //idText displays the animal that has either been selected, or has been moused over
-    private static Text idText = new Text(234,234, "Animal: N/A");
+    private static Text idText = new Text(234,234, "Cow: N/A");
 
     //animalCoordsList holds text objects that display the x and y coordinates of every animal in the playground
     private static ArrayList<Text> animalCoordsList = new ArrayList<>();
@@ -71,8 +71,8 @@ public class PlaygroundUI {
     private static void updateForNewCows() {
         Text animalCoords;
 
-        for (int j = 0; j < Animal.animalList.size(); j++) {
-            animalCoords = new Text(0,0, "Animal: " + j + ": ");
+        for (int j = 0; j < Cow.cowList.size(); j++) {
+            animalCoords = new Text(0,0, "Cow: " + j + ": ");
 
             animalCoords.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
             animalCoords.setFill(Color.BLACK);
@@ -88,7 +88,7 @@ public class PlaygroundUI {
      * Updates the various elements within playgroundUI that change based on some sort of click event. Including: idText
      */
     public static void mouseEventUpdate() {
-        idText.setText("Animal: " + Input.objectMouseIsOn);
+        idText.setText("Cow: " + Input.objectMouseIsOn);
     }
 
     /**
@@ -96,11 +96,11 @@ public class PlaygroundUI {
      * animalCoords
      */
     public static void update() {
-        if (animalCoordsList.size() < Animal.animalList.size())
+        if (animalCoordsList.size() < Cow.cowList.size())
             updateForNewCows();
 
         for (int i = 0; i < animalCoordsList.size(); i++) {
-            animalCoordsList.get(i).setText("Animal " + i + "X: " + (int) Animal.animalList.get(i).getX() + " Y: " + (int) Animal.animalList.get(i).getY());
+            animalCoordsList.get(i).setText("Cow " + i + "X: " + (int) Cow.cowList.get(i).getX() + " Y: " + (int) Cow.cowList.get(i).getY());
         }
     }
 }

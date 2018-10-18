@@ -47,6 +47,5 @@ class CameraControl {
 
         SimState.playground.setScaleX(desiredScale);
         SimState.playground.setScaleY(desiredScale);
-
     }
 }

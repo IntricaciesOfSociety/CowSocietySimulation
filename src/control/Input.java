@@ -1,6 +1,6 @@
 package control;
 
-import enviornment.Animal;
+import environment.Cow;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -47,6 +47,11 @@ public class Input {
                     CameraControl.zoomCamera(false);
                     break;
 
+                //Toggles all cow menus
+                case N:
+                    toggleAllCowMenus();
+                    break;
+
                 //Pause/UnPause simulation
                 case P:
                     if (!SimState.getSimState().equals("Paused"))
@@ -65,7 +70,7 @@ public class Input {
             String objectString = mouseEvent.getTarget().toString();
 
             if (objectString.contains("id"))
-                setAnimalClicked(getParsedId(objectString));
+                cowClicked(getParsedId(objectString));
         });
 
         /*
@@ -100,14 +105,32 @@ public class Input {
     }
 
     /**
-     * Sets the clicked animal as clicked in the list of animals
+     * Sets the clicked cow as clicked in the list of cows and opens that cow's menu
      * @param objectId the object's id
      */
-    private static void setAnimalClicked(String objectId) {
-        for (int i = 0; i < Animal.animalList.size(); i++) {
+    private static void cowClicked(String objectId) {
+        for (int i = 0; i < Cow.cowList.size(); i++) {
+            if (Cow.cowList.get(i).getId().equals(objectId)) {
+                Cow.cowList.get(i).setClicked();
+            }
+        }
+    }
 
-            if (Animal.animalList.get(i).getId().equals(objectId))
-                Animal.animalList.get(i).isClicked();
+    /**
+     * Sets every cow in the cowList's menu to open or closed based on MenuHandler toggle.
+     */
+    private static void toggleAllCowMenus() {
+        if (MenuHandler.allCowMenusOpen) {
+            for (int i = 0; i < Cow.cowList.size(); i++) {
+                Cow.cowList.get(i).closeMenu();
+                MenuHandler.allCowMenusOpen = false;
+            }
+        }
+        else {
+            for (int i = 0; i < Cow.cowList.size(); i++) {
+                Cow.cowList.get(i).openMenu();
+                MenuHandler.allCowMenusOpen = true;
+            }
         }
     }
 

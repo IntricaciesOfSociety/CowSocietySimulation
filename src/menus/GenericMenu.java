@@ -1,7 +1,7 @@
 package menus;
 
 import control.SimState;
-import enviornment.Animal;
+import environment.Cow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,23 +16,23 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GenericMenu {
 
-    private Animal clickedAnimal;
+    private Cow clickedCow;
     StackPane stack;
 
     /**
-     * Temp Creates a menu for the given animal.
-     * @param animal The animal that the menu is to be created from
+     * Temp Creates a menu for the given cow.
+     * @param cow The cow that the menu is to be created from
      */
-    public GenericMenu(@NotNull Animal animal) {
-        clickedAnimal = animal;
+    GenericMenu(@NotNull Cow cow) {
+        clickedCow = cow;
         stack = new StackPane();
 
         //The background for the StackPane
         Rectangle background = new Rectangle(0,0, 100, 150);
         background.setFill(Color.VIOLET);
 
-        //The name of the animal
-        Text idText = new Text(234,234, animal.getId());
+        //The name of the cow
+        Text idText = new Text(234,234, cow.getId());
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
         idText.setFill(Color.WHITE);
 
@@ -48,7 +48,7 @@ public class GenericMenu {
      * Updates the position of the open menu depending on the animal that has its menu opened's position.
      */
     public void updateMenu() {
-        stack.setLayoutX(clickedAnimal.getX() + 55);
-        stack.setLayoutY(clickedAnimal.getY() + 40);
+        stack.setLayoutX(clickedCow.getX() + 55);
+        stack.setLayoutY(clickedCow.getY() + 40);
     }
 }

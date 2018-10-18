@@ -1,10 +1,11 @@
-package enviornment;
+package environment;
 
 import control.SimState;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.GenericMenu;
 import menus.MenuHandler;
+import org.jetbrains.annotations.Contract;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,60 +15,50 @@ import java.util.Random;
 /**
  * Handles the creation and the AI integration for the animals
  */
-public class Animal {
+public class Cow {
 
     //List that holds every created animal
-    public static ArrayList<Animal> animalList = new ArrayList<>();
+    public static ArrayList<Cow> cowList = new ArrayList<>();
 
+    //If the cow is currently clicked on
     private boolean clickedFlag = false;
 
     //The id is also the cow's name
     private String id;
 
-    public GenericMenu animalMenu;
+    //The menu of the cow
+    public GenericMenu cowMenu;
 
     // The cow node and its image
     private ImageView body;
     private static Image sprite;
 
+    private boolean menuIsOpened = false;
+
     /**
      * Calls createAnimal and adds it to the root node
      */
-    public Animal() {
+    public Cow() {
         createAnimal();
         SimState.playground.getChildren().addAll(body);
     }
 
     /**
      * TEMP
-     * Draws a 'animal' to the screen for testing purposes
+     * Draws a cow to the screen for testing purposes
      */
     private void createAnimal() {
-            try {
-                sprite = new Image(new FileInputStream("/Users/10200126/IdeaProjects/ZackPrototype01/res/moo.png"));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            body = new ImageView(sprite);
-            body.setId("Big Beefy");
-            body.relocate(400, 300);
-            id = body.getId();
-    }
-
-    /**
-     * Executes when the animal is clicked, to check and see the animal is in a menu, or a no menu state. Creates the menu
-     * if needed.
-     */
-    public void isClicked() {
-        if(getClicked()) {
-            setClicked(false);
-            MenuHandler.closeMenu(animalMenu);
+        try {
+            sprite = new Image(new FileInputStream("res\\moo.png"));
         }
-        else {
-            setClicked(true);
-            animalMenu = new GenericMenu(this);
+        catch (FileNotFoundException error) {
+            error.printStackTrace();
         }
+
+        body = new ImageView(sprite);
+        body.setId("Big Beefy");
+        body.relocate(400, 300);
+        id = body.getId();
     }
 
     /**
@@ -104,17 +95,53 @@ public class Animal {
     }
 
     /**
-     * Sets the state of the animal. If clicked there should be a menu open, if not then there shouldn't be
-     * @param clicked If the animal is clicked
+     * Executes when the animal is clicked, to check and see the animal is in a menu, or a no menu state.
+     * if needed.
      */
-    private void setClicked(boolean clicked) {
-        clickedFlag = clicked;
+    public void setClicked() {
+        if(getClicked()) {
+            clickedFlag = false;
+            closeMenu();
+        }
+        else {
+            clickedFlag = true;
+            openMenu();
+        }
+    }
+
+    /**
+     * Calls for the opening of the the stats menu for this cow, if the menu is not already open.
+     */
+    public void openMenu() {
+        if (!menuIsOpened) {
+            this.cowMenu = MenuHandler.createMenu(this);
+            menuIsOpened = true;
+        }
+    }
+
+    /**
+     * Calls for the closing of the stats menu for this cow, if the menu is opened.
+     */
+    public void closeMenu() {
+        if (menuIsOpened) {
+            MenuHandler.closeMenu(this.cowMenu);
+            menuIsOpened = false;
+        }
+    }
+
+    /**
+     * If the menu for the current cow is opened.
+     * @return True if the menu is opened, false if the menu is closed.
+     */
+    public boolean isMenuOpened() {
+        return menuIsOpened;
     }
 
     /**
      * @return The clicked state of the animal
      */
-    public boolean getClicked() {
+    @Contract(pure = true)
+    private boolean getClicked() {
         return clickedFlag;
     }
 

@@ -1,8 +1,10 @@
 package menus;
 
 import control.SimState;
+import environment.Cow;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -13,6 +15,22 @@ public class MenuHandler {
 
     //Stores every open menu
     public static ArrayList<StackPane> openMenus = new ArrayList<>();
+
+    public static boolean allCowMenusOpen = false;
+
+    /**
+     * Calls for the creation of a menu based on the given object. Object can be a: Cow
+     * @param objectToCreateMenuFrom The object that the new menu is to be created from
+     * @return The menu object that was created
+     */
+    @Nullable
+    public static GenericMenu createMenu(@NotNull Object objectToCreateMenuFrom) {
+
+        if (objectToCreateMenuFrom.getClass().getSimpleName().equals("Cow"))
+            return new GenericMenu((Cow) objectToCreateMenuFrom);
+        else
+            return null;
+    }
 
     /**
      * Closes the given menu by removing it from its parent node

@@ -1,6 +1,6 @@
 package control;
 
-import enviornment.Animal;
+import environment.Cow;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -77,7 +77,7 @@ public class SimState extends Application {
         root.getChildren().add(playgroundUI);
 
         for (int i = 0; i < 10; i++) {
-            Animal.animalList.add(new Animal());
+            Cow.cowList.add(new Cow());
         }
         simLoop();
     }
@@ -94,10 +94,8 @@ public class SimState extends Application {
             public void handle(long frameTime) {
                 if (frameTime - lastUpdate >= (simSpeed) ) {
                     updateTick();
-                    drawTick();
                     lastUpdate = frameTime;
                 }
-                drawTick();
             }
         };
         simLoop.start();
@@ -108,21 +106,14 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
-        for (int i = 0; i < Animal.animalList.size(); i++) {
-            Animal.animalList.get(i).step("Random");
+        for (int i = 0; i < Cow.cowList.size(); i++) {
+            Cow.cowList.get(i).step("Random");
 
             //Updates any animal menu that is opened
-            if (Animal.animalList.get(i).getClicked())
-                Animal.animalList.get(i).animalMenu.updateMenu();
+            if (Cow.cowList.get(i).isMenuOpened())
+                Cow.cowList.get(i).cowMenu.updateMenu();
         }
         PlaygroundUI.update();
-    }
-
-    /**
-     * Draws the updates that were made by the updateTick() method to the screen.
-     */
-    private static void drawTick() {
-
     }
 
     /**
