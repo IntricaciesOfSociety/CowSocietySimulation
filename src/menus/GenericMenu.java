@@ -30,6 +30,7 @@ public class GenericMenu {
         //The background for the StackPane
         Rectangle background = new Rectangle(0,0, 100, 150);
         background.setFill(Color.VIOLET);
+        background.setOpacity(0.7);
 
         //The name of the cow
         Text idText = new Text(234,234, cow.getId());

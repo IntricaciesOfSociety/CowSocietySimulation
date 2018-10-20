@@ -44,8 +44,10 @@ public class PlaygroundUI {
 
         SimState.playgroundUI.getChildren().addAll(background, idText);
 
-        /* Creates the buttons used for setting the simSpeed. The id of the buttons is set to the corresponding speed
-        that the button sets simSpeed to. */
+        /*
+        Creates the buttons used for setting the simSpeed. The id of the buttons is set to the corresponding speed
+        that the button sets simSpeed to.
+        */
         for (double i = 0.5; i < 4; i *= 2) {
             speedButtons = new ToggleButton("x" + ((i == 0.5) ? "1/2" : (int) i + "   "));
             speedButtons.setToggleGroup(simSpeedButtons);
@@ -71,13 +73,13 @@ public class PlaygroundUI {
     private static void updateForNewCows() {
         Text animalCoords;
 
-        for (int j = 0; j < Cow.cowList.size(); j++) {
-            animalCoords = new Text(0,0, "Cow: " + j + ": ");
+        for (int i = 0; i < Cow.cowList.size(); i++) {
+            animalCoords = new Text(0,0, "Cow: " + Cow.cowList.get(i).getId() + ": ");
 
-            animalCoords.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+            animalCoords.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
             animalCoords.setFill(Color.BLACK);
             animalCoords.setX(5);
-            animalCoords.setY(70 + (j * 20));
+            animalCoords.setY(70 + (i * 20));
 
             animalCoordsList.add(animalCoords);
             SimState.playgroundUI.getChildren().add(animalCoords);
@@ -100,7 +102,7 @@ public class PlaygroundUI {
             updateForNewCows();
 
         for (int i = 0; i < animalCoordsList.size(); i++) {
-            animalCoordsList.get(i).setText("Cow " + i + "X: " + (int) Cow.cowList.get(i).getX() + " Y: " + (int) Cow.cowList.get(i).getY());
+            animalCoordsList.get(i).setText("Cow " + Cow.cowList.get(i).getId() + ": X: " + (int) Cow.cowList.get(i).getX() + " Y: " + (int) Cow.cowList.get(i).getY());
         }
     }
 }

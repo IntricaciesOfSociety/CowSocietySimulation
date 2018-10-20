@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/control/SimState.java" line="29" />
+    <bookmark url="file://$PROJECT_DIR$/src/control/SimState.java" line="27" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/prototype01/control/CameraControl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/prototype01/control/CameraControl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/prototype01/control/Input.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/prototype01/control/Input.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/prototype01/control/SimState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/prototype01/control/SimState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/prototype01/enviornment/Animal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/prototype01/control/Input$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/prototype01/control/Input.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/prototype01/menus/GenericMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/prototype01/menus/GenericMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/prototype01/menus/MenuHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/prototype01/menus/MenuHandler.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/prototype01/menus/PlaygroundUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/prototype01/menus/PlaygroundUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prototype01.iml" beforeDir="false" afterPath="$PROJECT_DIR$/prototype01.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control/CameraControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/CameraControl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/control/Input.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/Input.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/control/SimState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/control/SimState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/enviornment/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/environment/Cow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/environment/Cow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/environment/Cow.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/menus/GenericMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/menus/GenericMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/menus/MenuHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/menus/MenuHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/menus/PlaygroundUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/menus/PlaygroundUI.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -121,7 +116,7 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="2" />
-          <entry key="java" value="13" />
+          <entry key="java" value="18" />
           <entry key="png" value="2" />
         </counts>
       </usages-collector>
@@ -129,17 +124,17 @@
         <counts>
           <entry key="CLASS" value="2" />
           <entry key="Image" value="2" />
-          <entry key="JAVA" value="13" />
+          <entry key="JAVA" value="18" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="1520" />
+          <entry key="java" value="4571" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1520" />
+          <entry key="JAVA" value="4571" />
         </counts>
       </usages-collector>
     </session>
@@ -149,71 +144,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/environment/Cow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2922">
-              <caret line="174" column="1" selection-start-line="174" selection-start-column="1" selection-end-line="174" selection-end-column="1" />
+            <state relative-caret-position="-1121">
+              <caret line="60" selection-start-line="60" selection-end-line="60" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3905#3906#0" expanded="true" />
-                <element signature="e#3943#3944#0" expanded="true" />
-                <element signature="e#4040#4041#0" expanded="true" />
-                <element signature="e#4074#4075#0" expanded="true" />
-                <element signature="e#4175#4176#0" expanded="true" />
-                <element signature="e#4247#4248#0" expanded="true" />
-                <element signature="e#4337#4338#0" expanded="true" />
-                <element signature="e#4377#4378#0" expanded="true" />
-                <element signature="e#4467#4468#0" expanded="true" />
-                <element signature="e#4507#4508#0" expanded="true" />
-                <element signature="e#4590#4591#0" expanded="true" />
-                <element signature="e#4615#4616#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/control/Input.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="714">
-              <caret line="50" column="23" lean-forward="true" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/menus/PlaygroundUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="32">
-              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/menus/MenuHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="117">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/menus/GenericMenu.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/control/CameraControl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="113">
+              <caret line="100" column="11" lean-forward="true" selection-start-line="100" selection-start-column="11" selection-end-line="100" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -221,8 +171,56 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/control/SimState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2023">
-              <caret line="132" column="45" lean-forward="true" selection-start-line="132" selection-start-column="45" selection-end-line="132" selection-end-column="45" />
+            <state relative-caret-position="67">
+              <caret line="71" column="35" lean-forward="true" selection-start-line="71" selection-start-column="35" selection-end-line="71" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/menus/MenuHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-191">
+              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/menus/GenericMenu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="112">
+              <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/menus/PlaygroundUI.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="49" column="8" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/control/CameraControl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -243,6 +241,7 @@
       <find>style</find>
       <find>forceUpdateCamera</find>
       <find>sceneCamera</find>
+      <find>getClicked</find>
     </findStrings>
     <replaceStrings>
       <replace>SimState.playground</replace>
@@ -264,15 +263,15 @@
         <option value="$PROJECT_DIR$/src/enviornment/Animals.java" />
         <option value="$PROJECT_DIR$/src/menus/genericMenu.java" />
         <option value="$PROJECT_DIR$/src/menus/Menus.java" />
-        <option value="$PROJECT_DIR$/src/menus/PlaygroundUI.java" />
         <option value="$PROJECT_DIR$/src/enviornment/Animal.java" />
         <option value="$PROJECT_DIR$/src/enviornment/Cow.java" />
-        <option value="$PROJECT_DIR$/src/control/Input.java" />
-        <option value="$PROJECT_DIR$/src/control/SimState.java" />
-        <option value="$PROJECT_DIR$/src/menus/GenericMenu.java" />
         <option value="$PROJECT_DIR$/src/menus/MenuHandler.java" />
         <option value="$PROJECT_DIR$/src/control/CameraControl.java" />
+        <option value="$PROJECT_DIR$/src/control/SimState.java" />
+        <option value="$PROJECT_DIR$/src/menus/GenericMenu.java" />
         <option value="$PROJECT_DIR$/src/environment/Cow.java" />
+        <option value="$PROJECT_DIR$/src/menus/PlaygroundUI.java" />
+        <option value="$PROJECT_DIR$/src/control/Input.java" />
       </list>
     </option>
   </component>
@@ -307,39 +306,38 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="prototype01" type="b2602c69:ProjectViewProjectNode" />
-              <item name="prototype01" type="462c0819:PsiDirectoryNode" />
+              <item name="ZackPrototype01" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ZackPrototype01" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="prototype01" type="b2602c69:ProjectViewProjectNode" />
-              <item name="prototype01" type="462c0819:PsiDirectoryNode" />
+              <item name="ZackPrototype01" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ZackPrototype01" type="462c0819:PsiDirectoryNode" />
               <item name="res" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="prototype01" type="b2602c69:ProjectViewProjectNode" />
-              <item name="prototype01" type="462c0819:PsiDirectoryNode" />
+              <item name="ZackPrototype01" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ZackPrototype01" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="prototype01" type="b2602c69:ProjectViewProjectNode" />
-              <item name="prototype01" type="462c0819:PsiDirectoryNode" />
+              <item name="ZackPrototype01" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ZackPrototype01" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="control" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="prototype01" type="b2602c69:ProjectViewProjectNode" />
-              <item name="prototype01" type="462c0819:PsiDirectoryNode" />
+              <item name="ZackPrototype01" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ZackPrototype01" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="environment" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="prototype01" type="b2602c69:ProjectViewProjectNode" />
-              <item name="prototype01" type="462c0819:PsiDirectoryNode" />
+              <item name="ZackPrototype01" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ZackPrototype01" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="menus" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -347,8 +345,9 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Course" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Course" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -364,11 +363,11 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/Zackary/IdeaProjects/prototype01/src/control/SimState.java" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539804135510" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1540048711989" />
     <property name="create.test.in.the.same.root" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../GUI" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
@@ -401,29 +400,9 @@
       <option name="testName" />
       <method />
     </configuration>
-    <configuration default="true" type="TestNG" factoryName="TestNG">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
-    </configuration>
-    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
-      <module name="" />
-      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
-      <option name="PROGRAM_PARAMETERS" />
-      <predefined_log_file id="idea.log" enabled="true" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
@@ -461,6 +440,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -480,10 +479,10 @@
     <option name="totallyTimeSpent" value="1302000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1056" extended-state="6" />
+    <frame x="0" y="22" width="1366" height="678" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.11645469" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.11706948" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -492,8 +491,8 @@
       <window_info id="UI Designer" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32321042" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32935154" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32423207" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -504,8 +503,8 @@
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
       <window_info anchor="bottom" id="Event Log" order="12" weight="0.329718" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.3286334" />
-      <window_info anchor="bottom" id="Terminal" order="14" weight="0.329718" />
+      <window_info anchor="bottom" id="Messages" order="13" weight="0.32764506" />
+      <window_info anchor="bottom" id="Terminal" order="14" weight="0.32935154" />
       <window_info anchor="bottom" id="Inspection Results" order="15" weight="0.329718" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -585,73 +584,70 @@
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/src.zip!/java/io/FileInputStream.java" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/javafx-src.zip!/javafx/event/EventHandler.java" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/annotations/16.0.2/annotations-16.0.2.jar!/org/jetbrains/annotations/Contract.class" />
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/image/Image.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="84" column="70" lean-forward="true" selection-start-line="84" selection-start-column="70" selection-end-line="84" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/control/SimState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2023">
-          <caret line="132" column="45" lean-forward="true" selection-start-line="132" selection-start-column="45" selection-end-line="132" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/javafx-src.zip!/javafx/scene/image/Image.java" />
     <entry file="file://$PROJECT_DIR$/src/control/CameraControl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="150">
           <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/menus/GenericMenu.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/menus/MenuHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="117">
+        <state relative-caret-position="-191">
           <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/menus/PlaygroundUI.java">
+    <entry file="file://$PROJECT_DIR$/src/control/SimState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/control/Input.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="714">
-          <caret line="50" column="23" lean-forward="true" selection-start-line="50" selection-start-column="23" selection-end-line="50" selection-end-column="23" />
+        <state relative-caret-position="67">
+          <caret line="71" column="35" lean-forward="true" selection-start-line="71" selection-start-column="35" selection-end-line="71" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/environment/Cow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2922">
-          <caret line="174" column="1" selection-start-line="174" selection-start-column="1" selection-end-line="174" selection-end-column="1" />
+        <state relative-caret-position="-1121">
+          <caret line="60" selection-start-line="60" selection-end-line="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3905#3906#0" expanded="true" />
-            <element signature="e#3943#3944#0" expanded="true" />
-            <element signature="e#4040#4041#0" expanded="true" />
-            <element signature="e#4074#4075#0" expanded="true" />
-            <element signature="e#4175#4176#0" expanded="true" />
-            <element signature="e#4247#4248#0" expanded="true" />
-            <element signature="e#4337#4338#0" expanded="true" />
-            <element signature="e#4377#4378#0" expanded="true" />
-            <element signature="e#4467#4468#0" expanded="true" />
-            <element signature="e#4507#4508#0" expanded="true" />
-            <element signature="e#4590#4591#0" expanded="true" />
-            <element signature="e#4615#4616#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/menus/PlaygroundUI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="49" column="8" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/menus/GenericMenu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/control/Input.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="113">
+          <caret line="100" column="11" lean-forward="true" selection-start-line="100" selection-start-column="11" selection-end-line="100" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -696,7 +692,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>10</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -1,11 +1,13 @@
 package environment;
 
 import control.SimState;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import menus.GenericMenu;
 import menus.MenuHandler;
-import org.jetbrains.annotations.Contract;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,9 +21,6 @@ public class Cow {
 
     //List that holds every created animal
     public static ArrayList<Cow> cowList = new ArrayList<>();
-
-    //If the cow is currently clicked on
-    private boolean clickedFlag = false;
 
     //The id is also the cow's name
     private String id;
@@ -48,17 +47,18 @@ public class Cow {
      * Draws a cow to the screen for testing purposes
      */
     private void createAnimal() {
-        try {
-            sprite = new Image(new FileInputStream("res\\moo.png"));
+        try { //res\\moo.png
+            sprite = new Image(new FileInputStream("res/moo.png"));
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
         }
 
         body = new ImageView(sprite);
-        body.setId("Big Beefy");
+        body.setId("Big Beefy" + new Random().nextInt(100));
         body.relocate(400, 300);
         id = body.getId();
+
     }
 
     /**
@@ -99,14 +99,10 @@ public class Cow {
      * if needed.
      */
     public void setClicked() {
-        if(getClicked()) {
-            clickedFlag = false;
+        if (menuIsOpened)
             closeMenu();
-        }
-        else {
-            clickedFlag = true;
+        else
             openMenu();
-        }
     }
 
     /**
@@ -138,18 +134,10 @@ public class Cow {
     }
 
     /**
-     * @return The clicked state of the animal
-     */
-    @Contract(pure = true)
-    private boolean getClicked() {
-        return clickedFlag;
-    }
-
-    /**
      * @return A string representation of the animal
      */
     public String toString() {
-        return "Clicked: " + clickedFlag + " " + body.toString();
+        return "MenuOpen: " + menuIsOpened + " :" + body.toString();
     }
 
     /**
