@@ -1,5 +1,6 @@
 package control;
 
+import environment.Playground;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,13 +18,13 @@ class CameraControl {
 
         switch (direction) {
             case "North":
-                SimState.playground.setLayoutY(SimState.playground.getLayoutY() + MOVEMENTOFFSET); break;
+                Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET); break;
             case "East":
-                SimState.playground.setLayoutX(SimState.playground.getLayoutX() - MOVEMENTOFFSET); break;
+                Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET); break;
             case "South":
-                SimState.playground.setLayoutY(SimState.playground.getLayoutY() - MOVEMENTOFFSET); break;
+                Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET); break;
             case "West":
-                SimState.playground.setLayoutX(SimState.playground.getLayoutX() + MOVEMENTOFFSET); break;
+                Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET); break;
             default:
                 break;
         }
@@ -34,18 +35,18 @@ class CameraControl {
      * @param direction The direction that the camera is to move in
      */
     static void zoomCamera(boolean direction) {
-        double desiredScale = SimState.playground.getScaleX();
+        double desiredScale = Playground.playground.getScaleX();
 
         if (direction) {
-            if (SimState.playground.getScaleX() < 4.8)
+            if (Playground.playground.getScaleX() < 4.8)
                 desiredScale += 0.2;
         }
         else {
-            if (SimState.playground.getScaleX() > 0.4)
+            if (Playground.playground.getScaleX() > 0.4)
                 desiredScale -= 0.2;
         }
 
-        SimState.playground.setScaleX(desiredScale);
-        SimState.playground.setScaleY(desiredScale);
+        Playground.playground.setScaleX(desiredScale);
+        Playground.playground.setScaleY(desiredScale);
     }
 }

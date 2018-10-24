@@ -5,6 +5,7 @@ import control.SimState;
 import environment.Cow;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
  */
 public class PlaygroundUI {
 
+    public static Pane playgroundUI = new Pane();
+
     //idText displays the animal that has either been selected, or has been moused over
     private static Text idText = new Text(234,234, "Cow: N/A");
 
@@ -30,7 +33,7 @@ public class PlaygroundUI {
     /**
      * Handles the creation of all elements within the playgroundUI. Buttons and text.
      */
-    public static void create() {
+    public static void createUI() {
         Rectangle background = new Rectangle(150, 600, Color.DARKGOLDENROD);
         ToggleGroup simSpeedButtons = new ToggleGroup();
 
@@ -42,7 +45,7 @@ public class PlaygroundUI {
         idText.setX(5);
         idText.setY(50);
 
-        SimState.playgroundUI.getChildren().addAll(background, idText);
+        PlaygroundUI.playgroundUI.getChildren().addAll(background, idText);
 
         /*
         Creates the buttons used for setting the simSpeed. The id of the buttons is set to the corresponding speed
@@ -62,7 +65,7 @@ public class PlaygroundUI {
             //When the button is clicked, set the simSpeed to the value of the id of the button
             speedButtons.setOnAction(event -> SimState.setSimSpeed(Input.getParsedId(event.toString())));
 
-            SimState.playgroundUI.getChildren().add(speedButtons);
+            PlaygroundUI.playgroundUI.getChildren().add(speedButtons);
         }
     }
 
@@ -82,7 +85,7 @@ public class PlaygroundUI {
             animalCoords.setY(70 + (i * 20));
 
             animalCoordsList.add(animalCoords);
-            SimState.playgroundUI.getChildren().add(animalCoords);
+            PlaygroundUI.playgroundUI.getChildren().add(animalCoords);
         }
     }
 

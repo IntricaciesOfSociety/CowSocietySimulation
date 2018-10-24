@@ -2,6 +2,7 @@ package menus;
 
 import control.SimState;
 import environment.Cow;
+import environment.Playground;
 import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +40,6 @@ public class MenuHandler {
     public static void closeMenu(@NotNull GenericMenu menu) {
         menu.stack.getChildren().clear();
         openMenus.remove(menu.stack);
-        SimState.playground.getChildren().remove(menu.stack);
+        Playground.playground.getChildren().remove(menu.stack);
     }
 }

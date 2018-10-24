@@ -2,6 +2,7 @@ package menus;
 
 import control.SimState;
 import environment.Cow;
+import environment.Playground;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -40,7 +41,7 @@ public class GenericMenu {
         stack.getChildren().addAll(background, idText);
 
         MenuHandler.openMenus.add(stack);
-        SimState.playground.getChildren().add(stack);
+        Playground.playground.getChildren().add(stack);
 
         updateMenu();
     }

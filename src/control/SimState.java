@@ -1,11 +1,11 @@
 package control;
 
 import environment.Cow;
+import environment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
@@ -23,13 +23,6 @@ public class SimState extends Application {
     private static Group root = new Group();
     private static Scene initialScene = new Scene(root, 800, 600);
 
-    /*Scene groupings:
-     Playground: The right side of the scene that holds the active part of the simulation
-     PlaygroundUI: The left side of the scene that holds the playground user interface elements
-     */
-    public static Group playground = new Group();
-    public static Pane playgroundUI = new Pane();
-
     /*Main loop
     SimLoop: The main simulation loop that handles the updating of moving elements
     PlayState: The state that the simLoop is in: 'Paused' or 'Playing'
@@ -44,8 +37,8 @@ public class SimState extends Application {
      * @param newState The new state the sim will switch to
      */
     static void setSimState(@NotNull String newState) {
-
         playState = newState;
+
         switch (newState) {
             case "Paused":
                 simLoop.stop();
@@ -67,14 +60,17 @@ public class SimState extends Application {
     }
 
     /**
-     * Calls the various initialize methods for: input, drawing, etc. Also starts the main sim loop
+     * Calls the various initialize methods for: input, drawing, etc. Also starts the main sim loop and adds the playgrounds
+     * into the root node.
      */
     private static void simInit() {
         Input.enableInput(initialScene);
-        PlaygroundUI.create();
 
-        root.getChildren().add(playground);
-        root.getChildren().add(playgroundUI);
+        PlaygroundUI.createUI();
+        Playground.createBorders();
+
+        root.getChildren().add(Playground.playground);
+        root.getChildren().add(PlaygroundUI.playgroundUI);
 
         for (int i = 0; i < 10; i++) {
             Cow.cowList.add(new Cow());
@@ -113,6 +109,7 @@ public class SimState extends Application {
             if (Cow.cowList.get(i).isMenuOpened())
                 Cow.cowList.get(i).cowMenu.updateMenu();
         }
+        Playground.updateBorders();
         PlaygroundUI.update();
     }
 

@@ -1,6 +1,7 @@
 package control;
 
 import environment.Cow;
+import environment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -97,7 +98,7 @@ public class Input {
          */
         scene.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
             checkDragBox();
-            dragBox.resizeRelocate(0,0,0,0);
+            dragBox.setWidth(0);
         });
 
         /*
@@ -107,15 +108,15 @@ public class Input {
         scene.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
             dragBox.setX(startXDrag);
             dragBox.setY(startYDrag);
-            dragBox.setWidth(mouseEvent.getX() - dragBox.getX());
-            dragBox.setHeight(mouseEvent.getY() - dragBox.getY());
+            dragBox.setWidth((mouseEvent.getX() > 0) ? mouseEvent.getX() - dragBox.getX() : dragBox.getX() - mouseEvent.getX());
+            dragBox.setHeight((mouseEvent.getY() > 0) ? mouseEvent.getY() - dragBox.getY() : dragBox.getY() - mouseEvent.getY());
         });
 
         /*
          * Handles anytime the mouse is moved over a node within the playground. If an animal is found then the id
          * is parsed and used for the objectMouseIsOn variable.
          */
-        SimState.playground.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
+        Playground.playground.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
             PlaygroundUI.mouseEventUpdate();
 
             String objectString = mouseEvent.getPickResult().toString();
@@ -128,7 +129,7 @@ public class Input {
          * Handles anytime that the mouse is taken off of a target within the playground defined by MOUSE_ENTERED_TARGET,
          * only if a animal is not selected.
          */
-        SimState.playground.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseEvent -> {
+        Playground.playground.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseEvent -> {
             PlaygroundUI.mouseEventUpdate();
 
             if (MenuHandler.openMenus.isEmpty())
@@ -148,7 +149,7 @@ public class Input {
     private static void initDragBox() {
         dragBox.setFill(Color.BLACK);
         dragBox.setOpacity(0.5);
-        SimState.playground.getChildren().add(dragBox);
+        Playground.playground.getChildren().add(dragBox);
     }
 
 

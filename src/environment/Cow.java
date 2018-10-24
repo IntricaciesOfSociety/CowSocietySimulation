@@ -1,11 +1,8 @@
 package environment;
 
 import control.SimState;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 import menus.GenericMenu;
 import menus.MenuHandler;
 
@@ -39,7 +36,7 @@ public class Cow {
      */
     public Cow() {
         createAnimal();
-        SimState.playground.getChildren().addAll(body);
+        Playground.playground.getChildren().addAll(body);
     }
 
     /**
