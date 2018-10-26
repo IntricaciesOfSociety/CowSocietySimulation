@@ -1,9 +1,7 @@
 package menus;
 
-import control.SimState;
 import environment.Cow;
 import environment.Playground;
-import javafx.scene.layout.StackPane;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 public class MenuHandler {
 
     //Stores every open menu
-    public static ArrayList<StackPane> openMenus = new ArrayList<>();
+    public static ArrayList<GenericMenu> openMenus = new ArrayList<>();
 
     public static boolean allCowMenusOpen = false;
 
@@ -27,8 +25,12 @@ public class MenuHandler {
     @Nullable
     public static GenericMenu createMenu(@NotNull Object objectToCreateMenuFrom) {
 
-        if (objectToCreateMenuFrom.getClass().getSimpleName().equals("Cow"))
-            return new GenericMenu((Cow) objectToCreateMenuFrom);
+        if (objectToCreateMenuFrom.getClass().getSimpleName().equals("Cow")) {
+            GenericMenu newMenu = new GenericMenu((Cow) objectToCreateMenuFrom);
+            openMenus.add(newMenu);
+            return newMenu;
+        }
+
         else
             return null;
     }
@@ -39,7 +41,13 @@ public class MenuHandler {
      */
     public static void closeMenu(@NotNull GenericMenu menu) {
         menu.stack.getChildren().clear();
-        openMenus.remove(menu.stack);
+        openMenus.remove(menu);
         Playground.playground.getChildren().remove(menu.stack);
+    }
+
+    public static void updateOpenMenus() {
+        for (GenericMenu openMenu : openMenus) {
+            openMenu.updateMenu();
+        }
     }
 }

@@ -49,4 +49,9 @@ class CameraControl {
         Playground.playground.setScaleX(desiredScale);
         Playground.playground.setScaleY(desiredScale);
     }
+
+    public static void resetZoom() {
+        Playground.playground.setScaleX(1);
+        Playground.playground.setScaleY(1);
+    }
 }

@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import menus.MenuHandler;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -109,8 +110,8 @@ public class SimState extends Application {
             if (Cow.cowList.get(i).isMenuOpened())
                 Cow.cowList.get(i).cowMenu.updateMenu();
         }
-        Playground.updateBorders();
         PlaygroundUI.update();
+        MenuHandler.updateOpenMenus();
     }
 
     /**

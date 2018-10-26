@@ -1,6 +1,5 @@
 package environment;
 
-import control.SimState;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.GenericMenu;
@@ -16,6 +15,9 @@ import java.util.Random;
  */
 public class Cow {
 
+    //TEMP: Used for random movement and stats.
+    private Random random = new Random();
+
     //List that holds every created animal
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
@@ -29,10 +31,15 @@ public class Cow {
     private ImageView body;
     private static Image sprite;
 
+    //Emotions: 0 is low 100 is high
+    private int hunger = random.nextInt(100);
+    private int happiness = random.nextInt(100);
+    private int age = random.nextInt(1 + 1 + 100);
+
     private boolean menuIsOpened = false;
 
     /**
-     * Calls createAnimal and adds it to the root node
+     * Calls createAnimal and adds the resulting cow body to the root node
      */
     public Cow() {
         createAnimal();
@@ -44,7 +51,7 @@ public class Cow {
      * Draws a cow to the screen for testing purposes
      */
     private void createAnimal() {
-        try { //res\\moo.png
+        try { //res\\moo.png <--- correct path
             sprite = new Image(new FileInputStream("res/moo.png"));
         }
         catch (FileNotFoundException error) {
@@ -55,7 +62,6 @@ public class Cow {
         body.setId("Big Beefy" + new Random().nextInt(100));
         body.relocate(400, 300);
         id = body.getId();
-
     }
 
     /**
@@ -64,7 +70,7 @@ public class Cow {
      * @param movementType The movement that the cow will be performing
      */
     public void step(String movementType) {
-        Random random = new Random();
+
         int randomNumber = random.nextInt(1 + 1 + 5) - 5;
 
         switch (movementType) {
@@ -131,30 +137,67 @@ public class Cow {
     }
 
     /**
-     * @return A string representation of the animal
+     * @return A string representation of the cow
      */
     public String toString() {
         return "MenuOpen: " + menuIsOpened + " :" + body.toString();
     }
 
     /**
-     * @return The X coordinate of the animal
+     * @return The X coordinate of the cow
      */
     public double getX() {
         return body.getLayoutX();
     }
 
     /**
-     * @return The Y coordinate of the animal
+     * @return The Y coordinate of the cow
      */
     public double getY() {
         return body.getLayoutY();
     }
 
     /**
-     * @return The animal's unique id
+     * @return The cow's unique id
      */
     public String getId() {
         return id;
+    }
+
+    /**
+     * @return The hunger value of the cow
+     */
+    public int getHunger() {
+        return hunger;
+    }
+
+    /**
+     * Sets the hunger value of the cow
+     * @param newHunger the new hunger that the cow is being set to
+     */
+    public void setHunger(int newHunger) {
+        hunger = newHunger;
+    }
+
+    /**
+     * @return The happiness value of the cow.
+     */
+    public int getHappiness() {
+        return happiness;
+    }
+
+    /**
+     * Sets the happiness value of the cow.
+     * @param newHappiness the happiness that the cow is being set to
+     */
+    public void setHappiness(int newHappiness) {
+        happiness = newHappiness;
+    }
+
+    /**
+     * @return The age value of the cow.
+     */
+    public int getAge() {
+        return age;
     }
 }
