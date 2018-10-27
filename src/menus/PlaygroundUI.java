@@ -1,11 +1,17 @@
 package menus;
 
+import control.CameraControl;
 import control.Input;
 import control.SimState;
 import environment.Cow;
+import javafx.scene.Group;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -24,8 +30,10 @@ public class PlaygroundUI {
     //idText displays the animal that has either been selected, or has been moused over
     private static Text idText = new Text(234,234, "Cow: N/A");
 
-    //animalCoordsList holds text objects that display the x and y coordinates of every animal in the playground
-    private static ArrayList<Text> animalCoordsList = new ArrayList<>();
+    //cowLinkList holds clickable text objects that centers the camera view around that cow.
+    private static ArrayList<Hyperlink> cowLinkList = new ArrayList<>();
+    private static Group cowLinkBox = new Group();
+    private static ScrollPane cowLinkScrollBox = new ScrollPane();
 
     //The offset of the simSpeedButtons
     private static int buttonOffset = 0;
@@ -35,8 +43,8 @@ public class PlaygroundUI {
      */
     public static void createUI() {
         Rectangle background = new Rectangle(150, 600, Color.DARKGOLDENROD);
-        ToggleGroup simSpeedButtons = new ToggleGroup();
 
+        ToggleGroup simSpeedButtons = new ToggleGroup();
         //Mutated into three different buttons
         ToggleButton speedButtons;
 
@@ -45,7 +53,12 @@ public class PlaygroundUI {
         idText.setX(5);
         idText.setY(50);
 
-        PlaygroundUI.playgroundUI.getChildren().addAll(background, idText);
+        cowLinkScrollBox.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        cowLinkScrollBox.setFitToHeight(false);
+        cowLinkScrollBox.setHmax(10);
+        cowLinkScrollBox.setContent(cowLinkBox);
+
+        PlaygroundUI.playgroundUI.getChildren().addAll(background, idText, cowLinkBox, cowLinkScrollBox);
 
         /*
         Creates the buttons used for setting the simSpeed. The id of the buttons is set to the corresponding speed
@@ -65,7 +78,7 @@ public class PlaygroundUI {
             //When the button is clicked, set the simSpeed to the value of the id of the button
             speedButtons.setOnAction(event -> SimState.setSimSpeed(Input.getParsedId(event.toString())));
 
-            PlaygroundUI.playgroundUI.getChildren().add(speedButtons);
+            //PlaygroundUI.playgroundUI.getChildren().add(speedButtons);
         }
     }
 
@@ -74,18 +87,23 @@ public class PlaygroundUI {
      * animal's X and Y coordinates.
      */
     private static void updateForNewCows() {
-        Text animalCoords;
+        Hyperlink cowLink;
 
         for (int i = 0; i < Cow.cowList.size(); i++) {
-            animalCoords = new Text(0,0, "Cow: " + Cow.cowList.get(i).getId() + ": ");
+            cowLink = new Hyperlink("Cow: " + Cow.cowList.get(i).getId() + ": ");
 
-            animalCoords.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
-            animalCoords.setFill(Color.BLACK);
-            animalCoords.setX(5);
-            animalCoords.setY(70 + (i * 20));
+            cowLink.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
+            cowLink.setTextFill(Color.BLACK);
+            cowLink.setLayoutX(5);
+            cowLink.setLayoutY(70 + (i * 20));
 
-            animalCoordsList.add(animalCoords);
-            PlaygroundUI.playgroundUI.getChildren().add(animalCoords);
+            //Hyperlink@268f86f3[styleClass=hyperlink]'Cow: Big Beefy29: '
+            cowLink.setOnAction(event -> {
+                CameraControl.moveCameraToCow(Input.getParsedId(event.getSource().toString()));
+            });
+
+            cowLinkList.add(cowLink);
+            cowLinkBox.getChildren().add(cowLink);
         }
     }
 
@@ -93,7 +111,7 @@ public class PlaygroundUI {
      * Updates the various elements within playgroundUI that change based on some sort of click event. Including: idText
      */
     public static void mouseEventUpdate() {
-        idText.setText("Cow: " + Input.objectMouseIsOn);
+        idText.setText("Cow: " + Input.selectedCow);
     }
 
     /**
@@ -101,11 +119,7 @@ public class PlaygroundUI {
      * animalCoords
      */
     public static void update() {
-        if (animalCoordsList.size() < Cow.cowList.size())
+        if (cowLinkList.size() < Cow.cowList.size())
             updateForNewCows();
-
-        for (int i = 0; i < animalCoordsList.size(); i++) {
-            animalCoordsList.get(i).setText("Cow " + Cow.cowList.get(i).getId() + ": X: " + (int) Cow.cowList.get(i).getX() + " Y: " + (int) Cow.cowList.get(i).getY());
-        }
     }
 }

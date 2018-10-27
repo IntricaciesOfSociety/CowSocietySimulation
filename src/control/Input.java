@@ -13,6 +13,8 @@ import menus.MenuHandler;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * Handles any user input, calling the corresponding methods for the key presses or mouse clicks
  */
@@ -26,7 +28,7 @@ public class Input {
     private static double startXDrag;
     private static double startYDrag;
 
-    public static String objectMouseIsOn = "";
+    public static String selectedCow = "";
 
     /**
      * Sets the listener for any key press or mouse event. Will update the corresponding object.
@@ -127,7 +129,7 @@ public class Input {
 
         /*
          * Handles anytime the mouse is moved over a node within the playground. If an animal is found then the id
-         * is parsed and used for the objectMouseIsOn variable.
+         * is parsed and used for the selectedCow variable.
          */
         Playground.playground.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
             PlaygroundUI.mouseEventUpdate();
@@ -135,7 +137,7 @@ public class Input {
             String objectString = mouseEvent.getPickResult().toString();
 
             if (objectString.contains("id") && objectString.contains("ImageView"))
-                objectMouseIsOn = getParsedId(objectString);
+                selectedCow = getParsedId(objectString);
         });
 
         /*
@@ -146,7 +148,7 @@ public class Input {
             PlaygroundUI.mouseEventUpdate();
 
             if (MenuHandler.openMenus.isEmpty())
-                objectMouseIsOn = "N/A";
+                selectedCow = "N/A";
         });
 
         /*
@@ -182,10 +184,7 @@ public class Input {
      * @param objectId the object's id
      */
     private static void cowClicked(String objectId) {
-        for (int i = 0; i < Cow.cowList.size(); i++) {
-            if (Cow.cowList.get(i).getId().equals(objectId))
-                Cow.cowList.get(i).setClicked();
-        }
+            Objects.requireNonNull(Cow.findCow(objectId)).setClicked();
     }
 
     /**TODO: Switch implementation to action listeners
@@ -214,6 +213,9 @@ public class Input {
     @NotNull
     public static String getParsedId(@NotNull String objectAsString) {
         //Gets the part of the string that contains the object id
-        return objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
+        if (objectAsString.contains("id="))
+            return objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
+        else
+            return objectAsString.substring(objectAsString.indexOf("Cow: ") + 5, objectAsString.lastIndexOf(':'));
     }
 }

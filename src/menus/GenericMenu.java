@@ -33,7 +33,7 @@ public class GenericMenu {
         stack = new Pane();
 
         //The background for the StackPane
-        Rectangle background = new Rectangle(0,0, 100, 150);
+        Rectangle background = new Rectangle(0,0, 110, 150);
         background.setFill(Color.BLACK);
         //background.setOpacity(0.7);
 

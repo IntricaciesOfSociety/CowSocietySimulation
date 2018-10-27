@@ -1,5 +1,6 @@
 package environment;
 
+import control.Input;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.GenericMenu;
@@ -60,7 +61,7 @@ public class Cow {
 
         body = new ImageView(sprite);
         body.setId("Big Beefy" + new Random().nextInt(100));
-        body.relocate(400, 300);
+        body.relocate(random.nextInt(800), random.nextInt(600));
         id = body.getId();
     }
 
@@ -95,6 +96,19 @@ public class Cow {
                 body.setLayoutY(body.getLayoutY() + Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
         }
+    }
+
+    /**
+     * Searches for the cow matching the given id.
+     * @param givenId The id of the cow that is being searched for
+     * @return The cow with id matching givenId if a cow is found. Else null
+     */
+    public static Cow findCow(String givenId) {
+        for (Cow aCowList : cowList) {
+            if (aCowList.getId().equals(givenId))
+                return aCowList;
+        }
+        return null;
     }
 
     /**
