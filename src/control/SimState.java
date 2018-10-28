@@ -67,15 +67,16 @@ public class SimState extends Application {
     private static void simInit() {
         Input.enableInput(initialScene);
 
-        PlaygroundUI.createUI();
-        Playground.createBorders();
-
         root.getChildren().add(Playground.playground);
         root.getChildren().add(PlaygroundUI.playgroundUI);
 
         for (int i = 0; i < 10; i++) {
             Cow.cowList.add(new Cow());
         }
+
+        PlaygroundUI.createUI();
+        Playground.createBorders();
+
         simLoop();
     }
 
@@ -110,7 +111,6 @@ public class SimState extends Application {
             if (Cow.cowList.get(i).isMenuOpened())
                 Cow.cowList.get(i).cowMenu.updateMenu();
         }
-        PlaygroundUI.update();
         MenuHandler.updateOpenMenus();
     }
 

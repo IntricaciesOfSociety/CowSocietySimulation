@@ -1,14 +1,19 @@
 package environment;
 
-import control.Input;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.GenericMenu;
 import menus.MenuHandler;
+import menus.PlaygroundUI;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -16,40 +21,46 @@ import java.util.Random;
  */
 public class Cow {
 
+    //List that holds every created cow
+    public static ArrayList<Cow> cowList = new ArrayList<>();
+
+    //The sprite used for every cow
+    private static Image sprite;
+
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
 
-    //List that holds every created animal
-    public static ArrayList<Cow> cowList = new ArrayList<>();
-
-    //The id is also the cow's name
-    private String id;
-
-    //The menu of the cow
+    //The unique menu for the cow
     public GenericMenu cowMenu;
+    private boolean menuIsOpened = false;
 
-    // The cow node and its image
+    //Link for PlaygroundUI link list
+    private Hyperlink cowLink;
+
+    /* What makes a cow
+    body: The actual object being displayed to the playground
+    id: The unique id and also the name of the cow
+     */
     private ImageView body;
-    private static Image sprite;
+    private String id;
 
     //Emotions: 0 is low 100 is high
     private int hunger = random.nextInt(100);
     private int happiness = random.nextInt(100);
     private int age = random.nextInt(1 + 1 + 100);
 
-    private boolean menuIsOpened = false;
-
     /**
      * Calls createAnimal and adds the resulting cow body to the root node
      */
     public Cow() {
         createAnimal();
-        Playground.playground.getChildren().addAll(body);
+        Playground.playground.getChildren().add(body);
     }
 
     /**
      * TEMP
-     * Draws a cow to the screen for testing purposes
+     * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
+     * for the cow to be used in PlaygroundUI.
      */
     private void createAnimal() {
         try { //res\\moo.png <--- correct path
@@ -62,7 +73,10 @@ public class Cow {
         body = new ImageView(sprite);
         body.setId("Big Beefy" + new Random().nextInt(100));
         body.relocate(random.nextInt(800), random.nextInt(600));
+
         id = body.getId();
+
+        cowLink = PlaygroundUI.cowCreationEvent(id);
     }
 
     /**
@@ -99,10 +113,32 @@ public class Cow {
     }
 
     /**
-     * Searches for the cow matching the given id.
+     * Removes the cow and any mention of the cow from the simulation by deleting the cow from the playground and the
+     * cow's link from PlaygroundUI.
+     */
+    public void kill() {
+        closeMenu();
+        cowList.remove(this);
+        PlaygroundUI.cowDeathEventUpdate(cowLink);
+        Playground.playground.getChildren().remove(body);
+    }
+
+    /**
+     * Kills a whole list of cows
+     * @param killList The list of cows to kill
+     */
+    public static void killAll(@NotNull ArrayList<Cow> killList) {
+        for (Cow aKillList : killList) {
+            aKillList.kill();
+        }
+    }
+
+    /**
+     * Searches for the cow matching the given id and returns the match (null if there was no match).
      * @param givenId The id of the cow that is being searched for
      * @return The cow with id matching givenId if a cow is found. Else null
      */
+    @Nullable
     public static Cow findCow(String givenId) {
         for (Cow aCowList : cowList) {
             if (aCowList.getId().equals(givenId))
@@ -111,11 +147,19 @@ public class Cow {
         return null;
     }
 
+    public static ArrayList<Cow> findCows(@NotNull String givenId) {
+        givenId = givenId.substring(givenId.indexOf('[') + 5, givenId.indexOf(']'));
+        ArrayList<Cow> cowList = new ArrayList<>();
+        for (String cowFromString : Arrays.asList(givenId.split(", "))) {
+            cowList.add(findCow(cowFromString));
+        }
+        return cowList;
+    }
+
     /**
-     * Executes when the animal is clicked, to check and see the animal is in a menu, or a no menu state.
-     * if needed.
+     * Opens or closes the cow's menu dependant on if the menu is already opened or not.
      */
-    public void setClicked() {
+    public void switchMenuState() {
         if (menuIsOpened)
             closeMenu();
         else
@@ -133,7 +177,7 @@ public class Cow {
     }
 
     /**
-     * Calls for the closing of the stats menu for this cow, if the menu is opened.
+     * Calls for the closing of the stats menu for this cow, if the menu is already opened.
      */
     public void closeMenu() {
         if (menuIsOpened) {

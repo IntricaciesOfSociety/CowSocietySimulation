@@ -72,4 +72,8 @@ public class GenericMenu {
         happinessText.setText("Happiness: " + Integer.toString(clickedCow.getHappiness()));
         ageText.setText("Age: " + Integer.toString(clickedCow.getAge()));
     }
+
+    public String getCowIdFromMenu() {
+        return clickedCow.getId();
+    }
 }

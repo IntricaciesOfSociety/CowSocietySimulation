@@ -2,7 +2,6 @@ package control;
 
 import environment.Cow;
 import environment.Playground;
-import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -72,13 +71,10 @@ public class CameraControl {
     }
 
     /**
-     * Sets the selected how to the given id, then calls the moving of the camera to the given cow's position
-     * @param parsedCowId The id of the cow whose position is to be moved to
+     * Moves the camera viewport to a cow.
+     * @param cowToMoveTo The cow to move the camera to
      */
-    public static void moveCameraToCow(String parsedCowId) {
-        Input.selectedCow = parsedCowId;
-        PlaygroundUI.mouseEventUpdate();
-        Cow idMatchingCow = Cow.findCow(parsedCowId);
-        moveCamera(Objects.requireNonNull(idMatchingCow).getX(), idMatchingCow.getY());
+    public static void moveCameraToCow(Cow cowToMoveTo) {
+        moveCamera(Objects.requireNonNull(cowToMoveTo).getX(), cowToMoveTo.getY());
     }
 }

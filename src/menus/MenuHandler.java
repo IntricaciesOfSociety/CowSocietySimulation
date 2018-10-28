@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class MenuHandler {
 
     //Stores every open menu
-    public static ArrayList<GenericMenu> openMenus = new ArrayList<>();
+    private static ArrayList<GenericMenu> openMenus = new ArrayList<>();
 
     public static boolean allCowMenusOpen = false;
 
@@ -49,5 +49,15 @@ public class MenuHandler {
         for (GenericMenu openMenu : openMenus) {
             openMenu.updateMenu();
         }
+    }
+
+    public static ArrayList<String> getCowsWithOpenMenus() {
+        ArrayList<String> openMenuCows = new ArrayList<>();
+
+        for (GenericMenu openMenu : openMenus) {
+            openMenuCows.add(openMenu.getCowIdFromMenu());
+        }
+
+        return openMenuCows;
     }
 }

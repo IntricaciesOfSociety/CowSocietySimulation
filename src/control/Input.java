@@ -13,6 +13,7 @@ import menus.MenuHandler;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -28,7 +29,8 @@ public class Input {
     private static double startXDrag;
     private static double startYDrag;
 
-    public static String selectedCow = "";
+    //The current selected cows
+    public static ArrayList<String> selectedCows = MenuHandler.getCowsWithOpenMenus();
 
     /**
      * Sets the listener for any key press or mouse event. Will update the corresponding object.
@@ -42,26 +44,14 @@ public class Input {
             KeyCode keyPressed = key.getCode();
             switch (keyPressed) {
                 //WASD camera controls
-                case W:
-                    CameraControl.moveCamera("North");
-                    break;
-                case A:
-                    CameraControl.moveCamera("West");
-                    break;
-                case S:
-                    CameraControl.moveCamera("South");
-                    break;
-                case D:
-                    CameraControl.moveCamera("East");
-                    break;
+                case W: CameraControl.moveCamera("North"); break;
+                case A: CameraControl.moveCamera("West"); break;
+                case S: CameraControl.moveCamera("South"); break;
+                case D: CameraControl.moveCamera("East"); break;
 
                 //XC camera zoom controls. C to center the playground
-                case Z:
-                    CameraControl.zoomCamera(true);
-                    break;
-                case X:
-                    CameraControl.zoomCamera(false);
-                    break;
+                case Z: CameraControl.zoomCamera(true); break;
+                case X: CameraControl.zoomCamera(false); break;
                 case C:
                     Playground.playground.relocate(0,0);
                     CameraControl.resetZoom();
@@ -70,6 +60,7 @@ public class Input {
                 //Toggles all cow menus
                 case N:
                     toggleAllCowMenus();
+
                     break;
 
                 //Pause/UnPause simulation
@@ -79,7 +70,6 @@ public class Input {
                     else
                         SimState.setSimState("Playing");
             }
-            PlaygroundUI.mouseEventUpdate();
         });
 
         /*
@@ -108,8 +98,10 @@ public class Input {
         Playground.playground.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             String objectString = mouseEvent.getTarget().toString();
 
-            if (objectString.contains("id"))
+            if (objectString.contains("id")) {
                 cowClicked(getParsedId(objectString));
+                PlaygroundUI.cowClickEvent();
+            }
         });
 
         /*
@@ -125,30 +117,6 @@ public class Input {
             dragBox.setWidth((xRight) ? (mouseEvent.getX() - startXDrag) : (startXDrag - mouseEvent.getX()));
             dragBox.setY((yUp) ? mouseEvent.getY() : startYDrag);
             dragBox.setHeight((yUp) ? (startYDrag - mouseEvent.getY()) : (mouseEvent.getY() - startYDrag));
-        });
-
-        /*
-         * Handles anytime the mouse is moved over a node within the playground. If an animal is found then the id
-         * is parsed and used for the selectedCow variable.
-         */
-        Playground.playground.addEventFilter(MouseEvent.MOUSE_ENTERED_TARGET, mouseEvent -> {
-            PlaygroundUI.mouseEventUpdate();
-
-            String objectString = mouseEvent.getPickResult().toString();
-
-            if (objectString.contains("id") && objectString.contains("ImageView"))
-                selectedCow = getParsedId(objectString);
-        });
-
-        /*
-         * Handles anytime that the mouse is taken off of a target within the playground, defined by MOUSE_ENTERED_TARGET,
-         * only if a animal is not selected.
-         */
-        Playground.playground.addEventFilter(MouseEvent.MOUSE_EXITED_TARGET, mouseEvent -> {
-            PlaygroundUI.mouseEventUpdate();
-
-            if (MenuHandler.openMenus.isEmpty())
-                selectedCow = "N/A";
         });
 
         /*
@@ -174,17 +142,20 @@ public class Input {
      */
     private static void checkDragBox() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
-            if (Cow.cowList.get(i).getX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getX() < dragBox.getBoundsInParent().getMaxX())
+            if (Cow.cowList.get(i).getX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getX() < dragBox.getBoundsInParent().getMaxX()) {
                 Cow.cowList.get(i).openMenu();
+                PlaygroundUI.cowClickEvent();
+            }
+
         }
     }
 
     /**TODO: Switch implementation to action listeners
-     * Sets the clicked cow as clicked in the list of cows and opens that cow's menu
-     * @param objectId the object's id
+     * Switches the state (open or closed) of the clicked cow's menu
+     * @param objectId the clicked cow's id
      */
     private static void cowClicked(String objectId) {
-            Objects.requireNonNull(Cow.findCow(objectId)).setClicked();
+            Objects.requireNonNull(Cow.findCow(objectId)).switchMenuState();
     }
 
     /**TODO: Switch implementation to action listeners
@@ -213,9 +184,16 @@ public class Input {
     @NotNull
     public static String getParsedId(@NotNull String objectAsString) {
         //Gets the part of the string that contains the object id
-        if (objectAsString.contains("id="))
+        if (objectAsString.contains("id"))
             return objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
-        else
-            return objectAsString.substring(objectAsString.indexOf("Cow: ") + 5, objectAsString.lastIndexOf(':'));
+        else {
+            System.out.println(objectAsString);
+            return objectAsString.substring(objectAsString.indexOf("Cow: ") + 5, objectAsString.lastIndexOf('\''));
+        }
+
+    }
+
+    public static void updateSelectedCows() {
+        selectedCows = MenuHandler.getCowsWithOpenMenus();
     }
 }

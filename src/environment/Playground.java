@@ -13,7 +13,7 @@ public class Playground {
      * accordingly. Automatically updates.
      */
     public static void createBorders() {
-        playground.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+       // playground.setBorder(new Border(new BorderStroke(Color.BLACK,
+        // BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     }
 }
