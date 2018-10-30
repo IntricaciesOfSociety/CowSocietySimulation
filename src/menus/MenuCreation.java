@@ -1,7 +1,10 @@
 package menus;
 
+import control.SimState;
 import environment.Cow;
 import environment.Playground;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -10,14 +13,18 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 /**
- * A GenericMenu object is a StackPane menu that holds information based off of the object given. Used currently for the
+ * A MenuCreation object is a StackPane menu that holds information based off of the object given. Used currently for the
  * specific animal menus.
  */
-public class GenericMenu {
+public class MenuCreation {
 
     private Cow clickedCow;
 
+    //Status texts
     private Text hungerText;
     private Text happinessText;
     private Text ageText;
@@ -25,10 +32,51 @@ public class GenericMenu {
     Pane stack;
 
     /**
+     * Creates a new menu (detailedView) from the cows selected when the menu was opened.
+     * @param cowsPreviouslySelected The cows that were previously selected.
+     */
+    MenuCreation(@NotNull ArrayList<String> cowsPreviouslySelected) {
+        Rectangle background = new Rectangle(150, 0, 650, 600);
+        background.setFill(Color.BLACK);
+
+        Cow detailedCow;
+        StringBuilder idTextString = new StringBuilder();
+        StringBuilder statsTextString = new StringBuilder();
+        for (String cowAlreadySelected : cowsPreviouslySelected) {
+            idTextString.append(cowAlreadySelected).append(" | ");
+
+            detailedCow = Cow.findCow(cowAlreadySelected);
+            statsTextString.append("HUNGER: ").append(Objects.requireNonNull(detailedCow).getHunger()).append("\n");
+            statsTextString.append("AGE: ").append(detailedCow.getAge()).append("\n");
+            statsTextString.append("HAPPINESS: ").append(detailedCow.getHappiness()).append("\n");
+            statsTextString.append("Lorunm Ipsum foo jhefiu" + "\n" + "hsioufhsouiefhsoiuehfi" + "\n" + "gfuisegfushefiuhseid");
+        }
+
+        Text idText = new Text(160, 30, idTextString.toString());
+        idText.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
+        idText.setFill(Color.WHITE);
+
+        Label statsText = new Label(statsTextString.toString());
+        statsText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+        idText.setFill(Color.RED);
+        statsText.setLayoutX(160);
+        statsText.setLayoutY(50);
+
+        Button exitButton = new Button("EXIT");
+        exitButton.setLayoutX(160);
+        exitButton.setLayoutY(560);
+        exitButton.setOnAction(event -> {
+            SimState.setSimState("Playing");
+            Playground.setPlayground("Motion");
+        });
+
+        Playground.playground.getChildren().addAll(background, idText, statsText, exitButton);
+    }
+    /**
      * Temp Creates a menu for the given cow.
      * @param cow The cow that the menu is to be created from
      */
-    GenericMenu(@NotNull Cow cow) {
+    MenuCreation(@NotNull Cow cow) {
         clickedCow = cow;
         stack = new Pane();
 
@@ -73,7 +121,10 @@ public class GenericMenu {
         ageText.setText("Age: " + Integer.toString(clickedCow.getAge()));
     }
 
-    public String getCowIdFromMenu() {
+    /**
+     * @return The id of the cow who this menu belongs to
+     */
+    String getCowIdFromMenu() {
         return clickedCow.getId();
     }
 }

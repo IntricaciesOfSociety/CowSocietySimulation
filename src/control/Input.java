@@ -58,10 +58,7 @@ public class Input {
                     break;
 
                 //Toggles all cow menus
-                case N:
-                    toggleAllCowMenus();
-
-                    break;
+                case N: toggleAllCowMenus(); break;
 
                 //Pause/UnPause simulation
                 case P:
@@ -137,12 +134,13 @@ public class Input {
     }
 
 
-    /**TODO: Switch implementation to action listeners
+    /**TODO: Switch implementation to action listeners, also never do this again. Yikes.
      * Checks to see what cows are within the bounds of the dragBox. Opens those cow's menus.
      */
     private static void checkDragBox() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
-            if (Cow.cowList.get(i).getX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getX() < dragBox.getBoundsInParent().getMaxX()) {
+            if (Cow.cowList.get(i).getX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getX() < dragBox.getBoundsInParent().getMaxX()
+                && Cow.cowList.get(i).getY() > dragBox.getBoundsInParent().getMinY() && Cow.cowList.get(i).getY() < dragBox.getBoundsInParent().getMaxY()) {
                 Cow.cowList.get(i).openMenu();
                 PlaygroundUI.cowClickEvent();
             }
@@ -174,6 +172,7 @@ public class Input {
                 MenuHandler.allCowMenusOpen = true;
             }
         }
+        PlaygroundUI.cowClickEvent();
     }
 
     /**
@@ -186,13 +185,13 @@ public class Input {
         //Gets the part of the string that contains the object id
         if (objectAsString.contains("id"))
             return objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
-        else {
-            System.out.println(objectAsString);
+        else
             return objectAsString.substring(objectAsString.indexOf("Cow: ") + 5, objectAsString.lastIndexOf('\''));
-        }
-
     }
 
+    /**
+     * Refreshes the selected cow variable equal to the cows from the open menus list in menu handler.
+     */
     public static void updateSelectedCows() {
         selectedCows = MenuHandler.getCowsWithOpenMenus();
     }

@@ -12,24 +12,30 @@ import java.util.Objects;
 public class CameraControl {
 
     private static final int MOVEMENTOFFSET = 10;
+    private static boolean cameraDisable = false;
 
     /**
      * Moves the camera's layout position according to the given direction
      * @param direction The direction that the camera was told to move in
      */
     static void moveCamera(@NotNull String direction) {
-
-        switch (direction) {
-            case "North":
-                Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET); break;
-            case "East":
-                Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET); break;
-            case "South":
-                Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET); break;
-            case "West":
-                Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET); break;
-            default:
-                break;
+        if (!cameraDisable) {
+            switch (direction) {
+                case "North":
+                    Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
+                    break;
+                case "East":
+                    Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
+                    break;
+                case "South":
+                    Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
+                    break;
+                case "West":
+                    Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -49,17 +55,18 @@ public class CameraControl {
     static void zoomCamera(boolean direction) {
         double desiredScale = Playground.playground.getScaleX();
 
-        if (direction) {
-            if (Playground.playground.getScaleX() < 4.8)
-                desiredScale += 0.2;
+        if (!cameraDisable) {
+            if (direction) {
+                if (Playground.playground.getScaleX() < 4.8)
+                    desiredScale += 0.2;
+            }
+            else {
+                if (Playground.playground.getScaleX() > 0.4)
+                    desiredScale -= 0.2;
+            }
+            Playground.playground.setScaleX(desiredScale);
+            Playground.playground.setScaleY(desiredScale);
         }
-        else {
-            if (Playground.playground.getScaleX() > 0.4)
-                desiredScale -= 0.2;
-        }
-
-        Playground.playground.setScaleX(desiredScale);
-        Playground.playground.setScaleY(desiredScale);
     }
 
     /**
@@ -76,5 +83,19 @@ public class CameraControl {
      */
     public static void moveCameraToCow(Cow cowToMoveTo) {
         moveCamera(Objects.requireNonNull(cowToMoveTo).getX(), cowToMoveTo.getY());
+    }
+
+    /**
+     * Disables the 'camera' from moving
+     */
+    public static void disableCamera() {
+        cameraDisable = true;
+    }
+
+    /**
+     * Enables the 'camera' so that it can move again
+     */
+    public static void enableCamera() {
+        cameraDisable = false;
     }
 }

@@ -1,11 +1,13 @@
 package control;
 
 import environment.Cow;
+import environment.Food;
 import environment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import menus.MenuHandler;
 import menus.PlaygroundUI;
@@ -21,7 +23,7 @@ public class SimState extends Application {
     Root: The root node that is the parent of the scene and everything within the scene
     InitialScene: The scene that the simulation starts out in. Holds the playground and playgroundUI
     */
-    private static Group root = new Group();
+    public static Group root = new Group();
     private static Scene initialScene = new Scene(root, 800, 600);
 
     /*Main loop
@@ -37,7 +39,7 @@ public class SimState extends Application {
      * Sets the state that the simulation can be in. For example" paused, playing, etc.
      * @param newState The new state the sim will switch to
      */
-    static void setSimState(@NotNull String newState) {
+    public static void setSimState(@NotNull String newState) {
         playState = newState;
 
         switch (newState) {
@@ -47,6 +49,10 @@ public class SimState extends Application {
 
             case "Playing":
                 simLoop.start();
+                break;
+
+            case "Menu":
+                simLoop.stop();
                 break;
         }
     }
@@ -65,6 +71,9 @@ public class SimState extends Application {
      * into the root node.
      */
     private static void simInit() {
+        Playground.init();
+
+        Food.initFood();
         Input.enableInput(initialScene);
 
         root.getChildren().add(Playground.playground);
@@ -75,7 +84,6 @@ public class SimState extends Application {
         }
 
         PlaygroundUI.createUI();
-        Playground.createBorders();
 
         simLoop();
     }
@@ -105,7 +113,14 @@ public class SimState extends Application {
      */
     private static void updateTick() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
-            Cow.cowList.get(i).step("Random");
+
+            if (Cow.cowList.get(i).getHunger() < 10)
+                Cow.cowList.get(i).step("toFood");
+            else
+                Cow.cowList.get(i).step("Random");
+
+            if (Cow.cowList.get(i).getDiseased())
+                Cow.cowList.get(i).setHunger(0);
 
             //Updates any animal menu that is opened
             if (Cow.cowList.get(i).isMenuOpened())
@@ -120,6 +135,10 @@ public class SimState extends Application {
      */
     public static void setSimSpeed(String objectId) {
         simSpeed = Long.parseLong(objectId);
+    }
+
+    public static void addPlayground(Pane playground) {
+        root.getChildren().add(0, playground);
     }
 
     /**
