@@ -1,5 +1,6 @@
 package environment;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -44,6 +46,9 @@ public class Cow {
     private ImageView body;
     private ColorAdjust color = new ColorAdjust();
     private String id;
+    private boolean notAlreadyMoving = true;
+
+    Duration TRANSLATE_DURATION = Duration.millis(500);
 
     //Emotions: 0 is low 100 is high
     private int hunger = random.nextInt(100);
@@ -76,7 +81,7 @@ public class Cow {
 
         body = new ImageView(sprite);
         body.setId("Big Beefy" + new Random().nextInt(100));
-        body.relocate(random.nextInt(800), random.nextInt(600));
+        body.relocate(random.nextInt(1000), random.nextInt(1000));
         body.setEffect(color);
 
         id = body.getId();
@@ -109,23 +114,37 @@ public class Cow {
                 body.setRotate(180);
                 body.setLayoutX(body.getLayoutX() - Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
-            case "toFood":
-                if (Food.getX() > body.getLayoutX())
-                    body.setLayoutX(body.getLayoutX() + 1);
-                else
-                    body.setLayoutX(body.getLayoutX() - 1);
 
-                if (Food.getY() > body.getLayoutY())
-                    body.setLayoutY(body.getLayoutY() + 1);
-                else
-                    body.setLayoutY(body.getLayoutY() - 1);
+            //Creates an animation to move the cow to the food
+            case "toFood":
+                body.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                if (notAlreadyMoving) {
+                    notAlreadyMoving = false;
+
+                    double distanceX = Food.getX() - body.getLayoutX();
+                    double distanceY = Food.getY() - body.getLayoutY();
+                    double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+                    final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), body);
+
+                    transition.setOnFinished(event -> openAnimation());
+
+                    transition.setToX(Food.getX() - body.getLayoutX());
+                    transition.setToY(Food.getY() - body.getLayoutY());
+                    transition.play();
+                }
                 break;
+
             case "Random":
                 body.setRotate(random.nextInt(360 + 1 + 360) - 360);
                 body.setLayoutX(body.getLayoutX() + Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
                 body.setLayoutY(body.getLayoutY() + Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
                 break;
         }
+    }
+
+    private void openAnimation() {
+        notAlreadyMoving = true;
     }
 
     /**
@@ -242,17 +261,17 @@ public class Cow {
     }
 
     /**
-     * @return The X coordinate of the cow
+     * @return The X layout coordinate of the cow plus the X translate coordinate of the cow.
      */
     public double getX() {
-        return body.getLayoutX();
+        return body.getLayoutX() + body.getTranslateX();
     }
 
     /**
-     * @return The Y coordinate of the cow
+     * @return The Y layout coordinate of the cow plus the Y translate coordinate of the cow.
      */
     public double getY() {
-        return body.getLayoutY();
+        return body.getLayoutY() + body.getTranslateY();
     }
 
     /**
