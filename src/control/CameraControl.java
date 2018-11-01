@@ -82,7 +82,7 @@ public class CameraControl {
      * @param cowToMoveTo The cow to move the camera to
      */
     public static void moveCameraToCow(Cow cowToMoveTo) {
-        moveCamera(Objects.requireNonNull(cowToMoveTo).getX(), cowToMoveTo.getY());
+        moveCamera(Objects.requireNonNull(cowToMoveTo).getAnimatedX(), cowToMoveTo.getAnimatedY());
     }
 
     /**

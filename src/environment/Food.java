@@ -27,14 +27,14 @@ public class Food {
     }
 
     /**
-     * @return The X value of the food
+     * @return The X value of the food.
      */
     static double getX() {
         return foodObject.getX();
     }
 
     /**
-     * @return The Y value of the food
+     * @return The Y value of the food.
      */
     static double getY() {
         return foodObject.getY();

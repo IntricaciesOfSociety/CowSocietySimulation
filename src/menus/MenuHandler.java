@@ -18,24 +18,24 @@ public class MenuHandler {
     public static boolean allCowMenusOpen = false;
 
     /**
-     * Calls for the creation of a menu based on the given object. Object can be a: Cow
+     * Calls for the creation of a menu based on the given object. Object can be a: Cow or and ArrayList.
      * @param objectToCreateMenuFrom The object that the new menu is to be created from
      * @return The menu object that was created
      */
     @Nullable
     public static MenuCreation createMenu(@NotNull Object objectToCreateMenuFrom) {
-        if (objectToCreateMenuFrom.getClass().getSimpleName().equals("ArrayList")) {
-            ArrayList objectCreateMenuFrom = (ArrayList) objectToCreateMenuFrom;
-            MenuCreation newMenu = new MenuCreation(objectCreateMenuFrom);
+        if (objectToCreateMenuFrom instanceof ArrayList) {
+            new MenuCreation((ArrayList) objectToCreateMenuFrom);
+            return null;
         }
-        if (objectToCreateMenuFrom.getClass().getSimpleName().equals("Cow")) {
+        else if (objectToCreateMenuFrom instanceof Cow) {
             MenuCreation newMenu = new MenuCreation((Cow) objectToCreateMenuFrom);
             openCowMenus.add(newMenu);
             return newMenu;
         }
-
-        else
+        else {
             return null;
+        }
     }
 
     /**
@@ -53,7 +53,7 @@ public class MenuHandler {
      */
     public static void updateOpenMenus() {
         for (MenuCreation openMenu : openCowMenus) {
-            openMenu.updateMenu();
+            openMenu.updateCowMenu();
         }
     }
 
@@ -61,11 +61,11 @@ public class MenuHandler {
      * Takes the ids of the cows that have their menu's open and returns them as an arrayList string.
      * @return The list of cows whos id's are open
      */
-    public static ArrayList<String> getCowsWithOpenMenus() {
-        ArrayList<String> openMenuCows = new ArrayList<>();
+    public static ArrayList<Cow> getCowsWithOpenMenus() {
+        ArrayList<Cow> openMenuCows = new ArrayList<>();
 
         for (MenuCreation openMenu : openCowMenus) {
-            openMenuCows.add(openMenu.getCowIdFromMenu());
+            openMenuCows.add(openMenu.getCowFromMenu());
         }
 
         return openMenuCows;

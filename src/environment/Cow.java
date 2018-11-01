@@ -18,37 +18,34 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Handles the creation and the AI integration for the animals
+ * Handles the creation and the AI integration for the animals. Extends ImageView to be able to be drawn to the screen
+ * as a node.
  */
-public class Cow {
+public class Cow extends ImageView {
 
     //List that holds every created cow
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
-    //The sprite used for every cow
-    private static Image sprite;
+    //If an animation is to be ran or not
+    private boolean notAlreadyMoving = true;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
 
-    //The unique menu for the cow
+    /* UI elements
+    cowLink: The hyperlink that correlates to the cow
+    cowMenu: The menu that correlates to the cow
+     */
+    private Hyperlink cowLink;
     public MenuCreation cowMenu;
     private boolean menuIsOpened = false;
 
-    //Link for PlaygroundUI link list
-    private Hyperlink cowLink;
-
     /* What makes a cow
-    body: The actual object being displayed to the playground
     color: The color effects applied to the cow
-    id: The unique id and also the name of the cow
+    sprite: The image being displayed
      */
-    private ImageView body;
     private ColorAdjust color = new ColorAdjust();
-    private String id;
-    private boolean notAlreadyMoving = true;
-
-    Duration TRANSLATE_DURATION = Duration.millis(500);
+    private static Image sprite;
 
     //Emotions: 0 is low 100 is high
     private int hunger = random.nextInt(100);
@@ -59,11 +56,11 @@ public class Cow {
     private boolean diseased = false;
 
     /**
-     * Calls createAnimal and adds the resulting cow body to the root node
+     * Calls createAnimal and adds the resulting cow body to the playground node
      */
     public Cow() {
         createAnimal();
-        Playground.playground.getChildren().add(body);
+        Playground.playground.getChildren().add(this);
     }
 
     /**
@@ -78,15 +75,12 @@ public class Cow {
         catch (FileNotFoundException error) {
             error.printStackTrace();
         }
+        this.setImage(sprite);
+        this.setId("Big Beefy" + new Random().nextInt(100));
+        this.relocate(random.nextInt(1000), random.nextInt(1000));
+        this.setEffect(color);
 
-        body = new ImageView(sprite);
-        body.setId("Big Beefy" + new Random().nextInt(100));
-        body.relocate(random.nextInt(1000), random.nextInt(1000));
-        body.setEffect(color);
-
-        id = body.getId();
-
-        cowLink = PlaygroundUI.cowCreationEvent(id);
+        cowLink = PlaygroundUI.cowCreationEvent(this.getId());
     }
 
     /**
@@ -100,49 +94,52 @@ public class Cow {
 
         switch (movementType) {
             case "North":
-                body.setRotate(270);
-                body.setLayoutY(body.getLayoutY() + Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
+                this.setRotate(270);
+                this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
                 break;
             case "East":
-                body.setLayoutX(body.getLayoutX() - Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
+                this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
                 break;
             case "South":
-                body.setRotate(90);
-                body.setLayoutY(body.getLayoutY() - Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
+                this.setRotate(90);
+                this.setLayoutY(this.getLayoutY() - Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
                 break;
             case "West":
-                body.setRotate(180);
-                body.setLayoutX(body.getLayoutX() - Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
+                this.setRotate(180);
+                this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
                 break;
 
             //Creates an animation to move the cow to the food
             case "toFood":
-                body.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                this.setRotate(random.nextInt(360 + 1 + 360) - 360);
                 if (notAlreadyMoving) {
                     notAlreadyMoving = false;
 
-                    double distanceX = Food.getX() - body.getLayoutX();
-                    double distanceY = Food.getY() - body.getLayoutY();
+                    double distanceX = Food.getX() - this.getLayoutX();
+                    double distanceY = Food.getY() - this.getLayoutY();
                     double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-                    final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), body);
+                    final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), this);
 
                     transition.setOnFinished(event -> openAnimation());
 
-                    transition.setToX(Food.getX() - body.getLayoutX());
-                    transition.setToY(Food.getY() - body.getLayoutY());
+                    transition.setToX(Food.getX() - this.getLayoutX());
+                    transition.setToY(Food.getY() - this.getLayoutY());
                     transition.play();
                 }
                 break;
 
             case "Random":
-                body.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                body.setLayoutX(body.getLayoutX() + Math.cos(Math.toRadians(body.getRotate())) * randomNumber);
-                body.setLayoutY(body.getLayoutY() + Math.sin(Math.toRadians(body.getRotate())) * randomNumber);
+                this.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                this.setLayoutX(this.getLayoutX() + Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
+                this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
                 break;
         }
     }
 
+    /**
+     * Allows the playing of an animation to happen. Stops the animation start from being constantly called.
+     */
     private void openAnimation() {
         notAlreadyMoving = true;
     }
@@ -155,7 +152,7 @@ public class Cow {
         closeMenu();
         cowList.remove(this);
         PlaygroundUI.cowDeathEventUpdate(cowLink);
-        Playground.playground.getChildren().remove(body);
+        Playground.playground.getChildren().remove(this);
     }
 
     /**
@@ -163,17 +160,17 @@ public class Cow {
      * @param killList The list of cows to kill
      */
     public static void killAll(@NotNull ArrayList<Cow> killList) {
-        for (Cow cowToKill : killList) {
+        for (Cow cowToKill : killList)
             cowToKill.kill();
-        }
     }
 
     /**
-     * Diseases the cow that called this method.
+     * Diseases the cow that called this method. Causes the cow to be hungry.
      */
     public void disease() {
-        this.diseased = true;
-        this.color.setBrightness(-1.0);
+        diseased = true;
+        setHunger(0);
+        color.setBrightness(-1.0);
     }
 
     /**
@@ -184,6 +181,7 @@ public class Cow {
         for (Cow cowToDisease : diseaseList) {
             cowToDisease.diseased = true;
             cowToDisease.color.setBrightness(-1.0);
+            cowToDisease.setHunger(0);
         }
     }
 
@@ -194,25 +192,10 @@ public class Cow {
      */
     @Nullable
     public static Cow findCow(String givenId) {
-        for (Cow aCowList : cowList) {
+        for (Cow aCowList : cowList)
             if (aCowList.getId().equals(givenId))
                 return aCowList;
-        }
         return null;
-    }
-
-    /**
-     * Searches the cow list for multiple cows with the matching ids.
-     * @param givenId The cow's ids to search for separated by commas and enclosed in brackets.
-     * @return The found cows with matching ids.
-     */
-    public static ArrayList<Cow> findCows(@NotNull String givenId) {
-        givenId = givenId.substring(givenId.indexOf('[') + 5, givenId.indexOf(']'));
-        ArrayList<Cow> cowList = new ArrayList<>();
-        for (String cowFromString : givenId.split(", ")) {
-            cowList.add(findCow(cowFromString));
-        }
-        return cowList;
     }
 
     /**
@@ -254,42 +237,28 @@ public class Cow {
     }
 
     /**
-     * @return A string representation of the cow
-     */
-    public String toString() {
-        return "MenuOpen: " + menuIsOpened + " :" + body.toString();
-    }
-
-    /**
      * @return The X layout coordinate of the cow plus the X translate coordinate of the cow.
      */
-    public double getX() {
-        return body.getLayoutX() + body.getTranslateX();
+    public double getAnimatedX() {
+        return this.getLayoutX() + this.getTranslateX();
     }
 
     /**
      * @return The Y layout coordinate of the cow plus the Y translate coordinate of the cow.
      */
-    public double getY() {
-        return body.getLayoutY() + body.getTranslateY();
+    public double getAnimatedY() {
+        return this.getLayoutY() + this.getTranslateY();
     }
 
     /**
-     * @return The cow's unique id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @return The hunger value of the cow
+     * @return The hunger value of the cow.
      */
     public int getHunger() {
         return hunger;
     }
 
     /**
-     * Sets the hunger value of the cow
+     * Sets the hunger value of the cow.
      * @param newHunger the new hunger that the cow is being set to
      */
     public void setHunger(int newHunger) {

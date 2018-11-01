@@ -13,6 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -48,12 +49,13 @@ public class PlaygroundUI {
      * Handles the creation of all static elements within the playgroundUI. Buttons, text, and containers.
      */
     public static void createUI() {
+        createSpeedButtons();
         Rectangle background = new Rectangle(150, 600, Color.DARKGOLDENROD);
 
         populationText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
         populationText.setFill(Color.BLACK);
         populationText.setX(5);
-        populationText.setY(30);
+        populationText.setY(50);
 
         cowLinkBox.setSpacing(5);
 
@@ -61,65 +63,72 @@ public class PlaygroundUI {
         cowLinkScrollBox.setContent(cowLinkBox);
         cowLinkScrollBox.setPrefHeight(100);
         cowLinkScrollBox.setLayoutX(5);
-        cowLinkScrollBox.setLayoutY(40);
+        cowLinkScrollBox.setLayoutY(60);
 
         heartAttackButton.setLayoutX(5);
-        heartAttackButton.setLayoutY(150);
+        heartAttackButton.setLayoutY(170);
 
         diseaseButton.setLayoutX(5);
-        diseaseButton.setLayoutY(180);
+        diseaseButton.setLayoutY(200);
 
         detailedViewButton.setLayoutX(5);
-        detailedViewButton.setLayoutY(210);
+        detailedViewButton.setLayoutY(230);
 
         controlGroup.setDisable(true);
-        controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton);
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         idText.setFill(Color.BLACK);
         idText.setX(5);
-        idText.setY(260);
+        idText.setY(280);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setLayoutX(5);
-        actionText.setLayoutY(270);
+        actionText.setLayoutY(290);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(300);
+        accommodationsText.setLayoutY(330);
 
-        UIText.getChildren().addAll(idText, actionText, accommodationsText);
-
-        updatePopulationText();
+        controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton);
+        UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText);
 
         PlaygroundUI.playgroundUI.getChildren().addAll(
                 background, simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup
         );
 
+        detailedViewButton.setOnAction(event -> {
+            SimState.setSimState("Menu");
+            Playground.setPlayground("DetailedView");
+            controlGroup.setDisable(true);
+        });
+
+        updatePopulationText();
+    }
+
+    /**
+     * Handles the creation and implementation of the three simSpeed control buttons. Sets the id of the buttons
+     * equal to the speed that they set the sim to.
+     */
+    private static void createSpeedButtons() {
         /*
         Creates the buttons used for setting the simSpeed. The id of the buttons is set to the corresponding speed
-        that the button sets simSpeed to.
+        that the button sets simSpeed to. SpeedButton is mutated to the three different buttons.
         */
         ToggleGroup simSpeedButtons = new ToggleGroup();
-
-        //Mutated into three different buttons
         ToggleButton speedButton;
         int buttonOffset = 0;
+
         for (double i = 0.5; i < 4; i *= 2) {
             speedButton = new ToggleButton("x" + ((i == 0.5) ? "1/2" : (int) i + "   "));
             speedButton.setToggleGroup(simSpeedButtons);
             speedButton.setSelected(i == 1);
-
             speedButton.setLayoutX(5 + (buttonOffset * 35));
-            buttonOffset++;
             speedButton.setLayoutY(5);
-
             speedButton.setId(Long.toString(((long) ((double) 16_666_666L / i))));
+            speedButton.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
 
             simSpeedGroup.getChildren().add(speedButton);
-
-            //When the button is clicked, set the simSpeed to the value of the id of the button
-            speedButton.setOnAction(event -> SimState.setSimSpeed(Input.getParsedId(event.toString())));
+            buttonOffset++;
         }
     }
 
@@ -138,8 +147,8 @@ public class PlaygroundUI {
         cowLinkList.add(cowLink);
         cowLinkBox.getChildren().add(cowLink);
 
-        //When the button is clicked, center the camera around that cow. Done by parsing the cow's id.
-        cowLink.setOnAction(event -> cowLinkClickEvent(Input.getParsedId(event.getSource().toString())));
+        //When the link is clicked, center the camera around that cow. Done by parsing the cow's id.
+        cowLink.setOnAction(event -> cowLinkClickEvent(((Hyperlink) event.getTarget()).getText()));
 
         updatePopulationText();
         return cowLink;
@@ -157,8 +166,8 @@ public class PlaygroundUI {
      * Centers the camera around the animal in the clicked hyperlink, updates the corresponding UI, and opens up that
      * cow's menu.
      */
-    private static void cowLinkClickEvent(String clickedCowLinkId) {
-        Cow cowFromId = Cow.findCow(clickedCowLinkId);
+    private static void cowLinkClickEvent(@NotNull String clickedCowLinkId) {
+        Cow cowFromId = Cow.findCow(clickedCowLinkId.substring(5));
         Objects.requireNonNull(cowFromId).openMenu();
 
         cowClickEvent();
@@ -172,39 +181,15 @@ public class PlaygroundUI {
         controlGroup.setDisable(false);
 
         if (Input.selectedCows.size() > 1) {
-
-            heartAttackButton.setId(Input.selectedCows.toString());
-            heartAttackButton.setOnAction(event -> {
-                Cow.killAll(Cow.findCows(event.getSource().toString()));
-                controlGroup.setDisable(true);
-            });
-
-            diseaseButton.setId(Input.selectedCows.toString());
-            diseaseButton.setOnAction(event -> Cow.diseaseAll(Cow.findCows(event.getSource().toString())) );
-
-            detailedViewButton.setId(Input.selectedCows.toString());
-            detailedViewButton.setOnAction(event -> {
-                SimState.setSimState("Menu");
-                Playground.setPlayground("DetailedView");
-            });
+            heartAttackButton.setOnAction(event -> Cow.killAll(Input.selectedCows));
+            diseaseButton.setOnAction(event -> Cow.diseaseAll(Input.selectedCows));
         }
         else if (Input.selectedCows.size() == 1) {
-
-            heartAttackButton.setId(Input.selectedCows.get(0));
-            heartAttackButton.setOnAction(event -> {
-                Cow.findCow(Input.getParsedId(event.getSource().toString())).kill();
-                controlGroup.setDisable(true);
-            });
-
-            diseaseButton.setId(Input.selectedCows.get(0));
-            diseaseButton.setOnAction(event -> Cow.findCow(Input.getParsedId(event.getSource().toString())).disease() );
-
-            detailedViewButton.setId(Input.selectedCows.toString());
-            detailedViewButton.setOnAction(event -> {
-                SimState.setSimState("Menu");
-                Playground.setPlayground("DetailedView");
-            });
+            heartAttackButton.setOnAction(event -> Input.selectedCows.get(0).kill());
+            diseaseButton.setOnAction(event -> Input.selectedCows.get(0).disease());
         }
+        else
+            controlGroup.setDisable(true);
     }
 
     /**
@@ -212,10 +197,11 @@ public class PlaygroundUI {
      */
     private static void updateIdText() {
         Input.updateSelectedCows();
+
         if (Input.selectedCows.size() > 1)
             idText.setText(Input.selectedCows.size() + " cows selected");
         else if (Input.selectedCows.size() == 1)
-            idText.setText("Cow: " + Input.selectedCows.get(0));
+            idText.setText("Cow: " + Input.selectedCows.get(0).getId());
         else
             idText.setText("No cow selected");
     }

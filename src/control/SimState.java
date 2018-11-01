@@ -46,11 +46,9 @@ public class SimState extends Application {
             case "Paused":
                 simLoop.stop();
                 break;
-
             case "Playing":
                 simLoop.start();
                 break;
-
             case "Menu":
                 simLoop.stop();
                 break;
@@ -58,7 +56,7 @@ public class SimState extends Application {
     }
 
     /**
-     * Gets the state of the sim
+     * Gets the state of the sim.
      * @return A string of the state that the sim is in as defined by setSimState()
      */
     @Contract(pure = true)
@@ -76,15 +74,12 @@ public class SimState extends Application {
         Food.initFood();
         Input.enableInput(initialScene);
 
-        root.getChildren().add(Playground.playground);
-        root.getChildren().add(PlaygroundUI.playgroundUI);
+        root.getChildren().addAll(Playground.playground, PlaygroundUI.playgroundUI);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++)
             Cow.cowList.add(new Cow());
-        }
 
         PlaygroundUI.createUI();
-
         simLoop();
     }
 
@@ -119,12 +114,9 @@ public class SimState extends Application {
             else
                 Cow.cowList.get(i).step("Random");
 
-            if (Cow.cowList.get(i).getDiseased())
-                Cow.cowList.get(i).setHunger(0);
-
             //Updates any animal menu that is opened
             if (Cow.cowList.get(i).isMenuOpened())
-                Cow.cowList.get(i).cowMenu.updateMenu();
+                Cow.cowList.get(i).cowMenu.updateCowMenu();
         }
         MenuHandler.updateOpenMenus();
     }
@@ -137,12 +129,16 @@ public class SimState extends Application {
         simSpeed = Long.parseLong(objectId);
     }
 
+    /**
+     * Adds the given playground to the root node.
+     * @param playground The playground to add to the root node.
+     */
     public static void addPlayground(Pane playground) {
         root.getChildren().add(0, playground);
     }
 
     /**
-     * This is the main method that is run to start the whole simulation. Initializes the stage and calls simInit()
+     * This is the main method that is run to start the whole simulation. Initializes the stage and calls simInit().
      * @param primaryStage The stage for the window that the simulation is in. Required for javafx
      */
     @Override
@@ -155,7 +151,7 @@ public class SimState extends Application {
     }
 
     /**
-     * Calls the start method
+     * Calls the start method.
      * @param args The command-line arguments that are sent when running java in a terminal (done by intellij)
      */
     public static void main(String[] args) {

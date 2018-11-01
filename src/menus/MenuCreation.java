@@ -14,7 +14,6 @@ import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * A MenuCreation object is a StackPane menu that holds information based off of the object given. Used currently for the
@@ -35,34 +34,36 @@ public class MenuCreation {
      * Creates a new menu (detailedView) from the cows selected when the menu was opened.
      * @param cowsPreviouslySelected The cows that were previously selected.
      */
-    MenuCreation(@NotNull ArrayList<String> cowsPreviouslySelected) {
-        Rectangle background = new Rectangle(150, 0, 650, 600);
-        background.setFill(Color.BLACK);
-
-        Cow detailedCow;
+    MenuCreation(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         StringBuilder idTextString = new StringBuilder();
         StringBuilder statsTextString = new StringBuilder();
-        for (String cowAlreadySelected : cowsPreviouslySelected) {
-            idTextString.append(cowAlreadySelected).append(" | ");
 
-            detailedCow = Cow.findCow(cowAlreadySelected);
-            statsTextString.append("HUNGER: ").append(Objects.requireNonNull(detailedCow).getHunger()).append("\n");
-            statsTextString.append("AGE: ").append(detailedCow.getAge()).append("\n");
-            statsTextString.append("HAPPINESS: ").append(detailedCow.getHappiness()).append("\n");
+        for (Cow cowAlreadySelected : cowsPreviouslySelected) {
+            idTextString.append(cowAlreadySelected.getId()).append(" | ");
+
+            statsTextString.append("HUNGER: ").append(cowAlreadySelected.getHunger()).append("\n");
+            statsTextString.append("AGE: ").append(cowAlreadySelected.getAge()).append("\n");
+            statsTextString.append("HAPPINESS: ").append(cowAlreadySelected.getHappiness()).append("\n");
             statsTextString.append("Lorunm Ipsum foo jhefiu" + "\n" + "hsioufhsouiefhsoiuehfi" + "\n" + "gfuisegfushefiuhseid");
         }
 
-        Text idText = new Text(160, 30, idTextString.toString());
-        idText.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
-        idText.setFill(Color.WHITE);
-
         Label statsText = new Label(statsTextString.toString());
+        Button exitButton = new Button("EXIT");
+
+        Text idText = new Text(160, 30, idTextString.toString());
+        Rectangle background = new Rectangle(150, 0, 650, 600);
+
+
+        idText.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
         statsText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+
+        background.setFill(Color.BLACK);
+        idText.setFill(Color.WHITE);
         idText.setFill(Color.RED);
+
         statsText.setLayoutX(160);
         statsText.setLayoutY(50);
 
-        Button exitButton = new Button("EXIT");
         exitButton.setLayoutX(160);
         exitButton.setLayoutY(560);
         exitButton.setOnAction(event -> {
@@ -78,44 +79,37 @@ public class MenuCreation {
      */
     MenuCreation(@NotNull Cow cow) {
         clickedCow = cow;
+
         stack = new Pane();
-
-        //The background for the StackPane
         Rectangle background = new Rectangle(0,0, 110, 150);
-        background.setFill(Color.BLACK);
-        //background.setOpacity(0.7);
-
-        //The name of the cow
         Text idText = new Text(5,15, cow.getId());
-        idText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
-        idText.setFill(Color.WHITE);
 
-        //The age of the cow
         ageText = new Text(5, 30, "Age: " + Integer.toString(clickedCow.getAge()));
-        ageText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        ageText.setFill(Color.RED);
-
-        //The hunger of the cow
         hungerText = new Text(5, 45, "Hunger: " + Integer.toString(clickedCow.getHunger()));
-        hungerText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        hungerText.setFill(Color.RED);
-
         happinessText = new Text(5, 60, "Happiness: " + Integer.toString(clickedCow.getHappiness()));
+
+        idText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+        ageText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        hungerText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         happinessText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+
+        background.setFill(Color.BLACK);
+        idText.setFill(Color.WHITE);
+        ageText.setFill(Color.RED);
+        hungerText.setFill(Color.RED);
         happinessText.setFill(Color.RED);
 
         stack.getChildren().addAll(background, idText, hungerText, happinessText, ageText);
-
         Playground.playground.getChildren().add(stack);
 
-        updateMenu();
+        updateCowMenu();
     }
 
     /**
      * Updates the position of the open menu depending on the animal that has its menu opened's position.
      */
-    public void updateMenu() {
-        stack.relocate((clickedCow.getX() + 55), (clickedCow.getY() + 40));
+    public void updateCowMenu() {
+        stack.relocate((clickedCow.getAnimatedX() + 55), (clickedCow.getAnimatedY() + 40));
         hungerText.setText("Hunger: " + Integer.toString(clickedCow.getHunger()));
         happinessText.setText("Happiness: " + Integer.toString(clickedCow.getHappiness()));
         ageText.setText("Age: " + Integer.toString(clickedCow.getAge()));
@@ -124,7 +118,7 @@ public class MenuCreation {
     /**
      * @return The id of the cow who this menu belongs to
      */
-    String getCowIdFromMenu() {
-        return clickedCow.getId();
+    Cow getCowFromMenu() {
+        return clickedCow;
     }
 }

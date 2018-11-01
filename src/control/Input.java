@@ -14,10 +14,9 @@ import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
- * Handles any user input, calling the corresponding methods for the key presses or mouse clicks
+ * Handles any user input, calling the corresponding methods for the key presses or mouse clicks.
  */
 public class Input {
 
@@ -30,7 +29,7 @@ public class Input {
     private static double startYDrag;
 
     //The current selected cows
-    public static ArrayList<String> selectedCows = MenuHandler.getCowsWithOpenMenus();
+    public static ArrayList<Cow> selectedCows = MenuHandler.getCowsWithOpenMenus();
 
     /**
      * Sets the listener for any key press or mouse event. Will update the corresponding object.
@@ -93,10 +92,8 @@ public class Input {
          * event) by checking the object that was clicked, then calling the corresponding method.
          */
         Playground.playground.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-            String objectString = mouseEvent.getTarget().toString();
-
-            if (objectString.contains("id")) {
-                cowClicked(getParsedId(objectString));
+            if (mouseEvent.getTarget() instanceof Cow) {
+                ((Cow) mouseEvent.getTarget()).switchMenuState();
                 PlaygroundUI.cowClickEvent();
             }
         });
@@ -139,21 +136,13 @@ public class Input {
      */
     private static void checkDragBox() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
-            if (Cow.cowList.get(i).getX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getX() < dragBox.getBoundsInParent().getMaxX()
-                && Cow.cowList.get(i).getY() > dragBox.getBoundsInParent().getMinY() && Cow.cowList.get(i).getY() < dragBox.getBoundsInParent().getMaxY()) {
+            if (Cow.cowList.get(i).getAnimatedX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getAnimatedX() < dragBox.getBoundsInParent().getMaxX()
+                && Cow.cowList.get(i).getAnimatedY() > dragBox.getBoundsInParent().getMinY() && Cow.cowList.get(i).getAnimatedY() < dragBox.getBoundsInParent().getMaxY()) {
                 Cow.cowList.get(i).openMenu();
                 PlaygroundUI.cowClickEvent();
             }
 
         }
-    }
-
-    /**TODO: Switch implementation to action listeners
-     * Switches the state (open or closed) of the clicked cow's menu
-     * @param objectId the clicked cow's id
-     */
-    private static void cowClicked(String objectId) {
-            Objects.requireNonNull(Cow.findCow(objectId)).switchMenuState();
     }
 
     /**TODO: Switch implementation to action listeners
@@ -173,20 +162,6 @@ public class Input {
             }
         }
         PlaygroundUI.cowClickEvent();
-    }
-
-    /**
-     * Returns the id of a clicked object, parsed out of the string representation of the object
-     * @param objectAsString the object as a string
-     * @return the id from the object string
-     */
-    @NotNull
-    public static String getParsedId(@NotNull String objectAsString) {
-        //Gets the part of the string that contains the object id
-        if (objectAsString.contains("id"))
-            return objectAsString.substring(objectAsString.indexOf("id=") + 3, objectAsString.indexOf(','));
-        else
-            return objectAsString.substring(objectAsString.indexOf("Cow: ") + 5, objectAsString.lastIndexOf('\''));
     }
 
     /**
