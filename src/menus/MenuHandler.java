@@ -1,9 +1,11 @@
 package menus;
 
-import control.SimState;
-import enviornment.Animal;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import environment.Cow;
+import environment.Playground;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -12,44 +14,62 @@ import java.util.ArrayList;
  */
 public class MenuHandler {
 
-    //Keeps track of every open menu
-    public static ArrayList<StackPane> openMenus = new ArrayList<>();
+    //Stores every open menu
+    private static ArrayList<MenuCreation> openCowMenus = new ArrayList<>();
+
+    public static BooleanProperty allCowMenusOpen = new SimpleBooleanProperty(false);
 
     /**
-     * Fetches the correct menu type based off of the object given
-     * @param menuRaw The object to create a menu from
-     * @return The new menu created
+     * Calls for the creation of a menu based on the given object. Object can be a: Cow or and ArrayList.
+     * @param objectToCreateMenuFrom The object that the new menu is to be created from
+     * @return The menu object that was created
      */
-    public static GenericMenu fetchMenu(Object menuRaw) {
-        GenericMenu menu = null;
-
-        switch(menuRaw.getClass().getSimpleName()) {
-            case "Animal":
-                menu = new GenericMenu( ((Animal) menuRaw));
-                break;
-            case "Button":
-                menu = new GenericMenu( ((Button) menuRaw).getId());
-                break;
+    @Nullable
+    public static MenuCreation createMenu(@NotNull Object objectToCreateMenuFrom) {
+        if (objectToCreateMenuFrom instanceof ArrayList) {
+            new MenuCreation((ArrayList) objectToCreateMenuFrom);
+            return null;
         }
-
-        return menu;
+        else if (objectToCreateMenuFrom instanceof Cow) {
+            MenuCreation newMenu = new MenuCreation((Cow) objectToCreateMenuFrom);
+            openCowMenus.add(newMenu);
+            return newMenu;
+        }
+        else {
+            return null;
+        }
     }
 
     /**
-     * TODO: change the creation from generic menu to here
-     * @param menu The menu object to be drawn
-     */
-    public static void drawMenu(GenericMenu menu) {
-        //menu.buttons;
-    }
-
-    /**
-     * Closes the given menu
+     * Closes the given menu by removing it from its parent node
      * @param menu the menu to be closed
      */
-    public static void closeMenu(GenericMenu menu) {
+    public static void closeMenu(@NotNull MenuCreation menu) {
         menu.stack.getChildren().clear();
-        openMenus.remove(menu.stack);
-        SimState.playground.getChildren().remove(menu.stack);
+        openCowMenus.remove(menu);
+        Playground.playground.getChildren().remove(menu.stack);
+    }
+
+    /**
+     * Iterates through the open menus and updates them all.
+     */
+    public static void updateOpenMenus() {
+        for (MenuCreation openMenu : openCowMenus) {
+            openMenu.updateCowMenu();
+        }
+    }
+
+    /**
+     * Takes the ids of the cows that have their menu's open and returns them as an arrayList string.
+     * @return The list of cows whos id's are open
+     */
+    public static ArrayList<Cow> getCowsWithOpenMenus() {
+        ArrayList<Cow> openMenuCows = new ArrayList<>();
+
+        for (MenuCreation openMenu : openCowMenus) {
+            openMenuCows.add(openMenu.getCowFromMenu());
+        }
+
+        return openMenuCows;
     }
 }
