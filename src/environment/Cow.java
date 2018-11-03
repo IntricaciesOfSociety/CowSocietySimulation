@@ -1,6 +1,7 @@
 package environment;
 
 import javafx.animation.TranslateTransition;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -81,6 +82,20 @@ public class Cow extends ImageView {
         this.setEffect(color);
 
         cowLink = PlaygroundUI.cowCreationEvent(this.getId());
+        addListeners();
+
+    }
+
+    /**
+     * Creates and applies the various listeners that the cows need to respond to.
+     */
+    private void addListeners() {
+        MenuHandler.allCowMenusOpen.addListener(allMenusOpen -> {
+            if (((BooleanProperty) allMenusOpen).getValue())
+                openMenu();
+            else
+                closeMenu();
+        });
     }
 
     /**
@@ -109,7 +124,9 @@ public class Cow extends ImageView {
                 this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
                 break;
 
-            //Creates an animation to move the cow to the food
+            /*TODO: Switch to timeline implementation?
+            Creates an animation to move the cow to the food
+             */
             case "toFood":
                 this.setRotate(random.nextInt(360 + 1 + 360) - 360);
                 if (notAlreadyMoving) {
@@ -221,7 +238,7 @@ public class Cow extends ImageView {
     /**
      * Calls for the closing of the stats menu for this cow, if the menu is already opened.
      */
-    public void closeMenu() {
+    private void closeMenu() {
         if (menuIsOpened) {
             MenuHandler.closeMenu(this.cowMenu);
             menuIsOpened = false;
@@ -258,18 +275,18 @@ public class Cow extends ImageView {
     }
 
     /**
+     * @return The happiness value of the cow.
+     */
+    public int getHappiness() {
+        return happiness;
+    }
+
+    /**
      * Sets the hunger value of the cow.
      * @param newHunger the new hunger that the cow is being set to
      */
     public void setHunger(int newHunger) {
         hunger = newHunger;
-    }
-
-    /**
-     * @return The happiness value of the cow.
-     */
-    public int getHappiness() {
-        return happiness;
     }
 
     /**

@@ -57,7 +57,10 @@ public class Input {
                     break;
 
                 //Toggles all cow menus
-                case N: toggleAllCowMenus(); break;
+                case N:
+                    if(SimState.getSimState().equals("Playing"))
+                        toggleAllCowMenus();
+                    break;
 
                 //Pause/UnPause simulation
                 case P:
@@ -131,7 +134,7 @@ public class Input {
     }
 
 
-    /**TODO: Switch implementation to action listeners, also never do this again. Yikes.
+    /**TODO: Switch implementation to action listeners, also never do this again. Yikes. Change to collision.
      * Checks to see what cows are within the bounds of the dragBox. Opens those cow's menus.
      */
     private static void checkDragBox() {
@@ -145,22 +148,15 @@ public class Input {
         }
     }
 
-    /**TODO: Switch implementation to action listeners
-     * Sets every cow in the cowList's menu to open or closed based on MenuHandler toggle.
+    /**
+     * Sets all cow menus to open or closed based off of the value of allCowMenusOpen.
      */
     private static void toggleAllCowMenus() {
-        if (MenuHandler.allCowMenusOpen) {
-            for (int i = 0; i < Cow.cowList.size(); i++) {
-                Cow.cowList.get(i).closeMenu();
-                MenuHandler.allCowMenusOpen = false;
-            }
-        }
-        else {
-            for (int i = 0; i < Cow.cowList.size(); i++) {
-                Cow.cowList.get(i).openMenu();
-                MenuHandler.allCowMenusOpen = true;
-            }
-        }
+        if (MenuHandler.allCowMenusOpen.getValue())
+                MenuHandler.allCowMenusOpen.set(false);
+        else
+                MenuHandler.allCowMenusOpen.set(true);
+
         PlaygroundUI.cowClickEvent();
     }
 

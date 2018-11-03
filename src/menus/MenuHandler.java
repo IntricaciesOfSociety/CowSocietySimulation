@@ -2,6 +2,8 @@ package menus;
 
 import environment.Cow;
 import environment.Playground;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +17,7 @@ public class MenuHandler {
     //Stores every open menu
     private static ArrayList<MenuCreation> openCowMenus = new ArrayList<>();
 
-    public static boolean allCowMenusOpen = false;
+    public static BooleanProperty allCowMenusOpen = new SimpleBooleanProperty(false);
 
     /**
      * Calls for the creation of a menu based on the given object. Object can be a: Cow or and ArrayList.
