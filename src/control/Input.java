@@ -81,6 +81,11 @@ public class Input {
         });
 
         /*
+         * Handles any scrolling event within the playground and zooms in/out according to the direction of the scroll.
+         */
+        scene.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> CameraControl.zoomCamera(scrollEvent.getDeltaY() > 0));
+
+        /*
          * Calls the check to see what cow nodes were within the dragBox, then sets the box coords and size to be out of
          * the way; all on the mouse released event in the playground.
          */
@@ -114,13 +119,6 @@ public class Input {
             dragBox.setWidth((xRight) ? (mouseEvent.getX() - startXDrag) : (startXDrag - mouseEvent.getX()));
             dragBox.setY((yUp) ? mouseEvent.getY() : startYDrag);
             dragBox.setHeight((yUp) ? (startYDrag - mouseEvent.getY()) : (mouseEvent.getY() - startYDrag));
-        });
-
-        /*
-         * Handles any scrolling event within the playground and zooms in/out according to the direction of the scroll.
-         */
-        Playground.playground.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> {
-            CameraControl.zoomCamera(scrollEvent.getDeltaY() > 0);
         });
     }
 

@@ -29,7 +29,7 @@ public class PlaygroundUI {
     private static Group UIText = new Group();
     private static Text idText = new Text("Cow: N/A");
     private static Text populationText = new Text("Population : " + Cow.cowList.size());
-    private static Label actionText = new Label("Currently not \n implementing this");
+    private static Label actionText = new Label();
     private static Label accommodationsText = new Label("Lives at 939 Drive \n with BigBeefy");
 
     //Structure for the cowLinks
@@ -159,6 +159,7 @@ public class PlaygroundUI {
      */
     public static void cowClickEvent() {
         updateIdText();
+        updateActionText();
         initControlButtons();
     }
 
@@ -204,6 +205,15 @@ public class PlaygroundUI {
             idText.setText("Cow: " + Input.selectedCows.get(0).getId());
         else
             idText.setText("No cow selected");
+    }
+
+    private static void updateActionText() {
+        if (Input.selectedCows.size() > 1)
+            actionText.setText("Many actions");
+        else if (Input.selectedCows.size() == 1)
+            actionText.setText(Input.selectedCows.get(0).getCurrentAction());
+        else
+            actionText.setText("");
     }
 
     /**

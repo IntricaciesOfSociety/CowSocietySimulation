@@ -41,6 +41,8 @@ public class Cow extends ImageView {
     public MenuCreation cowMenu;
     private boolean menuIsOpened = false;
 
+    private String currentAction = "";
+
     /* What makes a cow
     color: The color effects applied to the cow
     sprite: The image being displayed
@@ -83,7 +85,6 @@ public class Cow extends ImageView {
 
         cowLink = PlaygroundUI.cowCreationEvent(this.getId());
         addListeners();
-
     }
 
     /**
@@ -128,6 +129,7 @@ public class Cow extends ImageView {
             Creates an animation to move the cow to the food
              */
             case "toFood":
+                currentAction = "Getting Food";
                 this.setRotate(random.nextInt(360 + 1 + 360) - 360);
                 if (notAlreadyMoving) {
                     notAlreadyMoving = false;
@@ -147,6 +149,7 @@ public class Cow extends ImageView {
                 break;
 
             case "Random":
+                currentAction = "Spinning";
                 this.setRotate(random.nextInt(360 + 1 + 360) - 360);
                 this.setLayoutX(this.getLayoutX() + Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
                 this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
@@ -215,6 +218,24 @@ public class Cow extends ImageView {
         return null;
     }
 
+    public void checkForCollisions() {
+        checkForCowCollision();
+    }
+
+    private void checkForCowCollision() {
+        boolean collision = false;
+        for (int i = 0; i < cowList.size(); i++) {
+            if (this.getBoundsInParent().intersects(cowList.get(i).getBoundsInParent()) && cowList.get(i) != this) {
+                collision = true;
+                cowList.get(i).color.setContrast(-1);
+            }
+        }
+        if (collision)
+            this.color.setContrast(-1);
+        else
+            this.color.setContrast(0);
+    }
+
     /**
      * Opens or closes the cow's menu dependant on if the menu is already opened or not.
      */
@@ -251,6 +272,13 @@ public class Cow extends ImageView {
      */
     public boolean isMenuOpened() {
         return menuIsOpened;
+    }
+
+    /**
+     * @return The action that the cow is currently doing.
+     */
+    public String getCurrentAction() {
+        return currentAction;
     }
 
     /**

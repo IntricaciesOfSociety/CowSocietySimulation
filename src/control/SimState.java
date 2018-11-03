@@ -117,6 +117,8 @@ public class SimState extends Application {
             //Updates any animal menu that is opened
             if (Cow.cowList.get(i).isMenuOpened())
                 Cow.cowList.get(i).cowMenu.updateCowMenu();
+
+            Cow.cowList.get(i).checkForCollisions();
         }
         MenuHandler.updateOpenMenus();
     }
