@@ -8,11 +8,17 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menus.MenuHandler;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -24,7 +30,7 @@ public class SimState extends Application {
     InitialScene: The scene that the simulation starts out in. Holds the playground and playgroundUI
     */
     public static Group root = new Group();
-    private static Scene initialScene = new Scene(root, 800, 600);
+    private static Scene initialScene = new Scene(root, 800, 600, Color.GREEN);
 
     /*Main loop
     SimLoop: The main simulation loop that handles the updating of moving elements
@@ -34,6 +40,8 @@ public class SimState extends Application {
     private static AnimationTimer simLoop;
     private static String playState = "Playing";
     private static long simSpeed = 16_666_666;
+
+    public static int timeOfDay = new Random().nextInt(2400);
 
     /**
      * Sets the state that the simulation can be in. For example" paused, playing, etc.
@@ -120,6 +128,8 @@ public class SimState extends Application {
 
             Cow.cowList.get(i).checkForCollisions();
         }
+        timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
+        PlaygroundUI.updateTimeOfDayText();
         MenuHandler.updateOpenMenus();
     }
 
@@ -139,13 +149,27 @@ public class SimState extends Application {
         root.getChildren().add(0, playground);
     }
 
+    public static Date getTime() {
+        StringBuilder timeAsString = new StringBuilder(Integer.toString(timeOfDay));
+        while (timeAsString.length() != 4)
+            timeAsString.insert(0, "0");
+        timeAsString.insert(2, ':');
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("HH:mm").parse(timeAsString.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
     /**
      * This is the main method that is run to start the whole simulation. Initializes the stage and calls simInit().
      * @param primaryStage The stage for the window that the simulation is in. Required for javafx
      */
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Prototype01");
+        primaryStage.setTitle("Prototype03");
         primaryStage.setScene(initialScene);
         primaryStage.show();
 

@@ -20,7 +20,7 @@ public class Food {
     public static void initFood() {
         foodObject.setWidth(50);
         foodObject.setHeight(50);
-        foodObject.setFill(Color.GREEN);
+        foodObject.setFill(Color.BLUE);
         foodObject.setX(random.nextInt(800));
         foodObject.setY(random.nextInt(600));
         Playground.playground.getChildren().add(foodObject);

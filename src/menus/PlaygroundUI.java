@@ -15,7 +15,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -31,6 +34,7 @@ public class PlaygroundUI {
     private static Text populationText = new Text("Population : " + Cow.cowList.size());
     private static Label actionText = new Label();
     private static Label accommodationsText = new Label("Lives at 939 Drive \n with BigBeefy");
+    private static Text timeOfDay = new Text();
 
     //Structure for the cowLinks
     private static VBox cowLinkBox = new VBox();
@@ -89,8 +93,12 @@ public class PlaygroundUI {
         accommodationsText.setLayoutX(5);
         accommodationsText.setLayoutY(330);
 
+        timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        timeOfDay.setLayoutX(20);
+        timeOfDay.setLayoutY(590);
+
         controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton);
-        UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText);
+        UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
 
         PlaygroundUI.playgroundUI.getChildren().addAll(
                 background, simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup
@@ -223,6 +231,13 @@ public class PlaygroundUI {
         populationText.setText("Population : " + Cow.cowList.size());
     }
 
+    /**
+     * Updates the timeOfDay text equal to the time given by SimState.getTime.
+     */
+    public static void updateTimeOfDayText() {
+        timeOfDay.setText(new SimpleDateFormat("hh:mm").format(SimState.getTime())
+                + ((SimState.timeOfDay < 1200) ? " AM" : " PM"));
+    }
     /**
      * Removes a dead cow from the hyperlink list.
      * @param cowLink The link corresponding to the dead cow

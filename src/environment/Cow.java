@@ -1,5 +1,7 @@
 package environment;
 
+import control.SimState;
+import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Hyperlink;
@@ -15,7 +17,10 @@ import org.jetbrains.annotations.Nullable;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.util.Duration;
+
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -27,8 +32,11 @@ public class Cow extends ImageView {
     //List that holds every created cow
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
-    //If an animation is to be ran or not
-    private boolean notAlreadyMoving = true;
+    /* Control flags
+    alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not).
+     */
+    private boolean alreadyMoving = false;
+    AnimationTimer delayTimer;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
@@ -41,7 +49,12 @@ public class Cow extends ImageView {
     public MenuCreation cowMenu;
     private boolean menuIsOpened = false;
 
+    /* Logging elements
+    currentAction: What the cow is currently doing within the sim
+    logger: The instance of EventLogger that holds this cow's unique log
+     */
     private String currentAction = "";
+    final EventLogger logger = new EventLogger();
 
     /* What makes a cow
     color: The color effects applied to the cow
@@ -51,9 +64,37 @@ public class Cow extends ImageView {
     private static Image sprite;
 
     //Emotions: 0 is low 100 is high
-    private int hunger = random.nextInt(100);
+    private int anger = random.nextInt(100);
+    private int anticipation = random.nextInt(100);
+    private int disgust = random.nextInt(100);
+    private int fear = random.nextInt(100);
     private int happiness = random.nextInt(100);
-    private int age = random.nextInt(1 + 1 + 100);
+    private int surprise = random.nextInt(100);
+    private int trust = random.nextInt(100);
+
+    //Finances 0 is low 100 is high
+    private int income = random.nextInt(100);
+    private int bills = random.nextInt(100);
+    private int food = random.nextInt(100);
+    private int taxes = random.nextInt(100);
+    private int savings = random.nextInt(100);
+    private int debt = random.nextInt(100);
+
+    //Social 0 is low 100 is high
+    private int boredom = random.nextInt(100);
+    private int companionship = random.nextInt(100);
+
+    //Physical 0 is low 100 is high
+    private int hunger = random.nextInt(100);
+    private int age = random.nextInt(100);
+    private int physicalHealth = random.nextInt(100);
+
+    //Mental 0 is low 100 is high
+    private int faith = random.nextInt(100);
+    private int mentalHealth = random.nextInt(100);
+
+    //Academic 0 is low 100 is high
+    private int intelligence = random.nextInt(100);
 
     //Statuses
     private boolean diseased = false;
@@ -84,6 +125,8 @@ public class Cow extends ImageView {
         this.setEffect(color);
 
         cowLink = PlaygroundUI.cowCreationEvent(this.getId());
+        EventLogger.createLoggedEvent(this, "creation", 2);
+
         addListeners();
     }
 
@@ -108,31 +151,32 @@ public class Cow extends ImageView {
 
         int randomNumber = random.nextInt(1 + 1 + 5) - 5;
 
-        switch (movementType) {
-            case "North":
-                this.setRotate(270);
-                this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
-                break;
-            case "East":
-                this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
-                break;
-            case "South":
-                this.setRotate(90);
-                this.setLayoutY(this.getLayoutY() - Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
-                break;
-            case "West":
-                this.setRotate(180);
-                this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
-                break;
+        if (!alreadyMoving) {
+            switch (movementType) {
+                case "North":
+                    this.setRotate(270);
+                    this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
+                    break;
+                case "East":
+                    this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
+                    break;
+                case "South":
+                    this.setRotate(90);
+                    this.setLayoutY(this.getLayoutY() - Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
+                    break;
+                case "West":
+                    this.setRotate(180);
+                    this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
+                    break;
 
             /*TODO: Switch to timeline implementation?
             Creates an animation to move the cow to the food
              */
-            case "toFood":
-                currentAction = "Getting Food";
-                this.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                if (notAlreadyMoving) {
-                    notAlreadyMoving = false;
+                case "toFood":
+                    currentAction = "Getting Food";
+                    this.setRotate(random.nextInt(360 + 1 + 360) - 360);
+
+                    alreadyMoving = true;
 
                     double distanceX = Food.getX() - this.getLayoutX();
                     double distanceY = Food.getY() - this.getLayoutY();
@@ -140,28 +184,59 @@ public class Cow extends ImageView {
 
                     final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), this);
 
-                    transition.setOnFinished(event -> openAnimation());
+                    transition.setOnFinished(event -> openAnimation(500L));
 
                     transition.setToX(Food.getX() - this.getLayoutX());
                     transition.setToY(Food.getY() - this.getLayoutY());
                     transition.play();
-                }
-                break;
 
-            case "Random":
-                currentAction = "Spinning";
-                this.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                this.setLayoutX(this.getLayoutX() + Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
-                this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
-                break;
+                    setHunger(100);
+
+                    EventLogger.createLoggedEvent(this, "Getting food", 0);
+
+                    break;
+
+                case "Random":
+                    currentAction = "Spinning";
+                    this.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                    this.setLayoutX(this.getLayoutX() + Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
+                    this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
+                    break;
+            }
         }
+
     }
 
     /**
-     * Allows the playing of an animation to happen. Stops the animation start from being constantly called.
+     * 'Pauses' the movement of the current cow by setting an animation for however long was given.
+     * @param milliDuration The duration that the 'empty' animation lasts.
      */
-    private void openAnimation() {
-        notAlreadyMoving = true;
+    private void pauseMovement(long milliDuration) {
+        Date timeStartedDelay = SimState.getTime();
+
+        AnimationTimer delayTimer = new AnimationTimer() {
+            private long lastUpdate = milliDuration;
+
+            @Override
+            public void handle(long frameTime) {
+                //TODO: Pause correct amount.
+            }
+        };
+        delayTimer.start();
+    }
+
+    private void stopDelayLoop() {
+        delayTimer.stop();
+        alreadyMoving = false;
+    }
+
+    /**
+     * Sets the alreadyMoving flag to allow for the playing of an animation to happen. Stops animations from being
+     * constantly called. Passes through an animation allowance delay to pauseMovement.
+     */
+    private void openAnimation(long milliDuration) {
+        pauseMovement(milliDuration);
+        alreadyMoving = false;
     }
 
     /**
@@ -296,46 +371,177 @@ public class Cow extends ImageView {
     }
 
     /**
-     * @return The hunger value of the cow.
-     */
-    public int getHunger() {
-        return hunger;
-    }
-
-    /**
-     * @return The happiness value of the cow.
-     */
-    public int getHappiness() {
-        return happiness;
-    }
-
-    /**
-     * Sets the hunger value of the cow.
-     * @param newHunger the new hunger that the cow is being set to
-     */
-    public void setHunger(int newHunger) {
-        hunger = newHunger;
-    }
-
-    /**
-     * Sets the happiness value of the cow.
-     * @param newHappiness the happiness that the cow is being set to
-     */
-    public void setHappiness(int newHappiness) {
-        happiness = newHappiness;
-    }
-
-    /**
-     * @return The age value of the cow.
-     */
-    public int getAge() {
-        return age;
-    }
-
-    /**
      * @return If the cow is diseased or not.
      */
     public boolean getDiseased() {
         return diseased;
+    }
+
+    public int getAnger() {
+        return anger;
+    }
+
+    public void setAnger(int anger) {
+        this.anger = anger;
+    }
+
+    public int getAnticipation() {
+        return anticipation;
+    }
+
+    public void setAnticipation(int anticipation) {
+        this.anticipation = anticipation;
+    }
+
+    public int getDisgust() {
+        return disgust;
+    }
+
+    public void setDisgust(int disgust) {
+        this.disgust = disgust;
+    }
+
+    public int getFear() {
+        return fear;
+    }
+
+    public void setFear(int fear) {
+        this.fear = fear;
+    }
+
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
+    public int getSurprise() {
+        return surprise;
+    }
+
+    public void setSurprise(int surprise) {
+        this.surprise = surprise;
+    }
+
+    public int getTrust() {
+        return trust;
+    }
+
+    public void setTrust(int trust) {
+        this.trust = trust;
+    }
+
+    public int getIncome() {
+        return income;
+    }
+
+    public void setIncome(int income) {
+        this.income = income;
+    }
+
+    public int getBills() {
+        return bills;
+    }
+
+    public void setBills(int bills) {
+        this.bills = bills;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public int getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(int taxes) {
+        this.taxes = taxes;
+    }
+
+    public int getSavings() {
+        return savings;
+    }
+
+    public void setSavings(int savings) {
+        this.savings = savings;
+    }
+
+    public int getDebt() {
+        return debt;
+    }
+
+    public void setDebt(int debt) {
+        this.debt = debt;
+    }
+
+    public int getBoredom() {
+        return boredom;
+    }
+
+    public void setBoredom(int boredom) {
+        this.boredom = boredom;
+    }
+
+    public int getCompanionship() {
+        return companionship;
+    }
+
+    public void setCompanionship(int companionship) {
+        this.companionship = companionship;
+    }
+
+    public int getHunger() {
+        return hunger;
+    }
+
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getPhysicalHealth() {
+        return physicalHealth;
+    }
+
+    public void setPhysicalHealth(int physicalHealth) {
+        this.physicalHealth = physicalHealth;
+    }
+
+    public int getFaith() {
+        return faith;
+    }
+
+    public void setFaith(int faith) {
+        this.faith = faith;
+    }
+
+    public int getMentalHealth() {
+        return mentalHealth;
+    }
+
+    public void setMentalHealth(int mentalHealth) {
+        this.mentalHealth = mentalHealth;
+    }
+
+    public int getIntelligence() {
+        return intelligence;
+    }
+
+    public void setIntelligence(int intelligence) {
+        this.intelligence = intelligence;
     }
 }

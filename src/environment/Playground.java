@@ -3,10 +3,14 @@ package environment;
 import control.CameraControl;
 import control.Input;
 import control.SimState;
+import javafx.geometry.Insets;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import menus.MenuHandler;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 /**
  * Creates and handles the switching of the panes within the main window (the playground).
@@ -26,6 +30,7 @@ public class Playground {
      */
     public static void init() {
         playground = motion;
+        motion.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     /**

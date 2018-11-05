@@ -3,14 +3,15 @@ package menus;
 import control.SimState;
 import environment.Cow;
 import environment.Playground;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import jdk.nashorn.api.tree.Tree;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -23,10 +24,8 @@ public class MenuCreation {
 
     private Cow clickedCow;
 
-    //Status texts
-    private Text hungerText;
-    private Text happinessText;
-    private Text ageText;
+    //Statistics texts
+    private Text overallEmotion, overallFinance, overallSocial, overallPhysical, overallMental, overallAcademic;
 
     Pane stack;
 
@@ -36,33 +35,119 @@ public class MenuCreation {
      */
     MenuCreation(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         StringBuilder idTextString = new StringBuilder();
-        StringBuilder statsTextString = new StringBuilder();
+
+        TreeItem<Object> treeTier = new TreeItem<>();
+        TreeItem<Object> emotionLinks = new TreeItem<>(new Text("Emotions")),
+                financeLinks = new TreeItem<>(new Text("Finances")),
+                socialLinks = new TreeItem<>(new Text("Social")),
+                physicalLinks = new TreeItem<>(new Text("Physical")),
+                mentalLinks = new TreeItem<>(new Text("Mental")),
+                academicLinks = new TreeItem<>(new Text("Academics"));
 
         for (Cow cowAlreadySelected : cowsPreviouslySelected) {
             idTextString.append(cowAlreadySelected.getId()).append(" | ");
 
-            statsTextString.append("HUNGER: ").append(cowAlreadySelected.getHunger()).append("\n");
-            statsTextString.append("AGE: ").append(cowAlreadySelected.getAge()).append("\n");
-            statsTextString.append("HAPPINESS: ").append(cowAlreadySelected.getHappiness()).append("\n");
-            statsTextString.append("Lorunm Ipsum foo jhefiu" + "\n" + "hsioufhsouiefhsoiuehfi" + "\n" + "gfuisegfushefiuhseid");
+            Hyperlink hyperlink;
+
+            //Emotion links
+            hyperlink = new Hyperlink("ANGER: " + cowAlreadySelected.getAnger());
+            hyperlink.setOnAction(event -> System.out.println("Anger breakdown"));
+            emotionLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("ANTICIPATION: " + cowAlreadySelected.getAnticipation());
+            hyperlink.setOnAction(event -> System.out.println("Anticipation breakdown"));
+            emotionLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("DISGUST: " + cowAlreadySelected.getDisgust());
+            hyperlink.setOnAction(event -> System.out.println("Disgust breakdown"));
+            emotionLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("FEAR: " + cowAlreadySelected.getFear());
+            hyperlink.setOnAction(event -> System.out.println("Fear breakdown"));
+            emotionLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("HAPPINESS: " + cowAlreadySelected.getHappiness());
+            hyperlink.setOnAction(event -> System.out.println("Happiness breakdown"));
+            emotionLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("SURPRISE: " + cowAlreadySelected.getSurprise());
+            hyperlink.setOnAction(event -> System.out.println("Surprise breakdown"));
+            emotionLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("TRUST: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Trust breakdown"));
+            emotionLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            //Finance Links
+            hyperlink = new Hyperlink("INCOME: " + cowAlreadySelected.getIncome());
+            hyperlink.setOnAction(event -> System.out.println("Income breakdown"));
+            financeLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("BILLS: " + cowAlreadySelected.getBills());
+            hyperlink.setOnAction(event -> System.out.println("Bills breakdown"));
+            financeLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("FOOD: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Food breakdown"));
+            financeLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("TAXES: " + cowAlreadySelected.getTaxes());
+            hyperlink.setOnAction(event -> System.out.println("Taxes breakdown"));
+            financeLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("SAVINGS: " + cowAlreadySelected.getSavings());
+            hyperlink.setOnAction(event -> System.out.println("Savings breakdown"));
+            financeLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("DEBT: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Debt breakdown"));
+            financeLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            //Social links
+            hyperlink = new Hyperlink("BOREDOM: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Boredom breakdown"));
+            socialLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("COMPANIONSHIP: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Companionship breakdown"));
+            socialLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            //Physical
+            hyperlink = new Hyperlink("HUNGER: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Hunger breakdown"));
+            physicalLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("AGE: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Age breakdown"));
+            physicalLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("HEALTH: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Health breakdown"));
+            physicalLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            //Mental links
+            hyperlink = new Hyperlink("FAITH: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Faith breakdown"));
+            mentalLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            hyperlink = new Hyperlink("HEALTH: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Health breakdown"));
+            mentalLinks.getChildren().addAll(new TreeItem<>(hyperlink));
+
+            //Academic links
+            hyperlink = new Hyperlink("HERE: " + cowAlreadySelected.getTrust());
+            hyperlink.setOnAction(event -> System.out.println("Here breakdown"));
+            academicLinks.getChildren().addAll(new TreeItem<>(hyperlink));
         }
 
-        Label statsText = new Label(statsTextString.toString());
         Button exitButton = new Button("EXIT");
-
         Text idText = new Text(160, 30, idTextString.toString());
         Rectangle background = new Rectangle(150, 0, 650, 600);
 
-
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
-        statsText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
 
         background.setFill(Color.BLACK);
-        idText.setFill(Color.WHITE);
         idText.setFill(Color.RED);
-
-        statsText.setLayoutX(160);
-        statsText.setLayoutY(50);
 
         exitButton.setLayoutX(160);
         exitButton.setLayoutY(560);
@@ -71,7 +156,11 @@ public class MenuCreation {
             Playground.setPlayground("Motion");
         });
 
-        Playground.playground.getChildren().addAll(background, idText, statsText, exitButton);
+        treeTier.getChildren().addAll(emotionLinks, financeLinks, socialLinks, physicalLinks, mentalLinks, academicLinks);
+        TreeView tree = new TreeView<>(treeTier);
+        tree.setShowRoot(false);
+        tree.relocate(150, 40);
+        Playground.playground.getChildren().addAll(background, idText, exitButton, tree);
     }
     /**
      * Temp Creates a menu for the given cow.
@@ -83,23 +172,16 @@ public class MenuCreation {
         stack = new Pane();
         Rectangle background = new Rectangle(0,0, 110, 150);
         Text idText = new Text(5,15, cow.getId());
-
-        ageText = new Text(5, 30, "Age: " + Integer.toString(clickedCow.getAge()));
-        hungerText = new Text(5, 45, "Hunger: " + Integer.toString(clickedCow.getHunger()));
-        happinessText = new Text(5, 60, "Happiness: " + Integer.toString(clickedCow.getHappiness()));
+        overallEmotion = new Text(5, 30, "Emotion: ");
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
-        ageText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        hungerText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        happinessText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        overallEmotion.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
 
+        overallEmotion.setFill(Color.RED);
         background.setFill(Color.BLACK);
         idText.setFill(Color.WHITE);
-        ageText.setFill(Color.RED);
-        hungerText.setFill(Color.RED);
-        happinessText.setFill(Color.RED);
 
-        stack.getChildren().addAll(background, idText, hungerText, happinessText, ageText);
+        stack.getChildren().addAll(background, idText, overallEmotion);
         Playground.playground.getChildren().add(stack);
 
         updateCowMenu();
@@ -110,9 +192,8 @@ public class MenuCreation {
      */
     public void updateCowMenu() {
         stack.relocate((clickedCow.getAnimatedX() + 55), (clickedCow.getAnimatedY() + 40));
-        hungerText.setText("Hunger: " + Integer.toString(clickedCow.getHunger()));
-        happinessText.setText("Happiness: " + Integer.toString(clickedCow.getHappiness()));
-        ageText.setText("Age: " + Integer.toString(clickedCow.getAge()));
+        overallEmotion.setText("Emotion: ");
+
     }
 
     /**
