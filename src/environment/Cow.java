@@ -33,10 +33,13 @@ public class Cow extends ImageView {
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
     /* Control flags
-    alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not).
+    alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)
+    delayTimer: The animation timer that is created to delay movement
+    counter: A counter increasing based on ticks, used for changing emotions over time
      */
     private boolean alreadyMoving = false;
-    AnimationTimer delayTimer;
+    private AnimationTimer delayTimer;
+    private int counter = 0;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
@@ -44,9 +47,10 @@ public class Cow extends ImageView {
     /* UI elements
     cowLink: The hyperlink that correlates to the cow
     cowMenu: The menu that correlates to the cow
+    menuIsOpened: If the menu is opened or not
      */
     private Hyperlink cowLink;
-    public MenuCreation cowMenu;
+    private MenuCreation cowMenu;
     private boolean menuIsOpened = false;
 
     /* Logging elements
@@ -125,7 +129,7 @@ public class Cow extends ImageView {
         this.setEffect(color);
 
         cowLink = PlaygroundUI.cowCreationEvent(this.getId());
-        EventLogger.createLoggedEvent(this, "creation", 2);
+        EventLogger.createLoggedEvent(this, "creation", 2, null, 0);
 
         addListeners();
     }
@@ -184,7 +188,7 @@ public class Cow extends ImageView {
 
                     final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), this);
 
-                    transition.setOnFinished(event -> openAnimation(500L));
+                    transition.setOnFinished(event -> openAnimation(100));
 
                     transition.setToX(Food.getX() - this.getLayoutX());
                     transition.setToY(Food.getY() - this.getLayoutY());
@@ -192,15 +196,15 @@ public class Cow extends ImageView {
 
                     setHunger(100);
 
-                    EventLogger.createLoggedEvent(this, "Getting food", 0);
+                    EventLogger.createLoggedEvent(this, "Getting food", 0, "hunger", 100);
 
                     break;
 
                 case "Random":
                     currentAction = "Spinning";
                     this.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                    this.setLayoutX(this.getLayoutX() + Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
-                    this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
+                    this.setLayoutX(this.getLayoutX() + Math.cos(Math.toRadians(this.getRotate())) * random.nextInt(10));
+                    this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * random.nextInt(10));
                     break;
             }
         }
@@ -209,22 +213,29 @@ public class Cow extends ImageView {
 
     /**
      * 'Pauses' the movement of the current cow by setting an animation for however long was given.
-     * @param milliDuration The duration that the 'empty' animation lasts.
+     * @param centisecondDuration The duration that the 'empty' animation lasts. 0.01 of a second.
      */
-    private void pauseMovement(long milliDuration) {
-        Date timeStartedDelay = SimState.getTime();
+    private void pauseMovement(long centisecondDuration) {
 
-        AnimationTimer delayTimer = new AnimationTimer() {
-            private long lastUpdate = milliDuration;
+        delayTimer = new AnimationTimer() {
+            private long lastUpdate = 0;
 
             @Override
             public void handle(long frameTime) {
-                //TODO: Pause correct amount.
+                alreadyMoving = true;
+                if (lastUpdate == 0)
+                    lastUpdate = frameTime;
+
+                if (frameTime - lastUpdate >= centisecondDuration * 16_666_666L)
+                    stopDelayLoop();
             }
         };
         delayTimer.start();
     }
 
+    /**
+     * Stops the delay loop from executing further.
+     */
     private void stopDelayLoop() {
         delayTimer.stop();
         alreadyMoving = false;
@@ -234,9 +245,21 @@ public class Cow extends ImageView {
      * Sets the alreadyMoving flag to allow for the playing of an animation to happen. Stops animations from being
      * constantly called. Passes through an animation allowance delay to pauseMovement.
      */
-    private void openAnimation(long milliDuration) {
-        pauseMovement(milliDuration);
+    private void openAnimation(long centisecondsDuration) {
+        pauseMovement(centisecondsDuration);
         alreadyMoving = false;
+    }
+
+    /**
+     * Updates the time sensitive vital attributes in the cow from the counter.
+     */
+    public void updateVitals() {
+        counter++;
+        if (counter % 20 == 0)
+            counter = 0;
+
+        if (counter == 0)
+            setHunger(getHunger() - 1);
     }
 
     /**
@@ -293,10 +316,16 @@ public class Cow extends ImageView {
         return null;
     }
 
+    /**
+     * Calls any collision check to be executed during a normal tick.
+     */
     public void checkForCollisions() {
         checkForCowCollision();
     }
 
+    /**
+     * Checks for cow to cow collision by comparing the current cow to the rest of the cows.
+     */
     private void checkForCowCollision() {
         boolean collision = false;
         for (int i = 0; i < cowList.size(); i++) {
@@ -543,5 +572,9 @@ public class Cow extends ImageView {
 
     public void setIntelligence(int intelligence) {
         this.intelligence = intelligence;
+    }
+
+    public EventLogger getLogger() {
+        return logger;
     }
 }

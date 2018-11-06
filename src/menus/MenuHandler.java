@@ -1,11 +1,13 @@
 package menus;
 
+import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
+import control.SimState;
 import environment.Cow;
 import environment.Playground;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
@@ -19,25 +21,27 @@ public class MenuHandler {
 
     public static BooleanProperty allCowMenusOpen = new SimpleBooleanProperty(false);
 
-    /**
+    /**TODO:Switch to normal methods
      * Calls for the creation of a menu based on the given object. Object can be a: Cow or and ArrayList.
      * @param objectToCreateMenuFrom The object that the new menu is to be created from
      * @return The menu object that was created
      */
+    @Contract("null -> null")
     @Nullable
     public static MenuCreation createMenu(@NotNull Object objectToCreateMenuFrom) {
         if (objectToCreateMenuFrom instanceof ArrayList) {
-            new MenuCreation((ArrayList) objectToCreateMenuFrom);
-            return null;
+            return new MenuCreation((ArrayList) objectToCreateMenuFrom);
+        }//TODO:implement storyview
+        else if (objectToCreateMenuFrom instanceof Cow && SimState.getSimState().equals("StoryView")) {
+            return new MenuCreation((ArrayList) objectToCreateMenuFrom);
         }
         else if (objectToCreateMenuFrom instanceof Cow) {
             MenuCreation newMenu = new MenuCreation((Cow) objectToCreateMenuFrom);
             openCowMenus.add(newMenu);
             return newMenu;
         }
-        else {
+        else
             return null;
-        }
     }
 
     /**

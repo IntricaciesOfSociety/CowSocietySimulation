@@ -68,7 +68,7 @@ public class SimState extends Application {
      * @return A string of the state that the sim is in as defined by setSimState()
      */
     @Contract(pure = true)
-    static String getSimState() {
+    public static String getSimState() {
         return playState;
     }
 
@@ -116,16 +116,13 @@ public class SimState extends Application {
      */
     private static void updateTick() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
-
+            //TODO: Move movement to AI
             if (Cow.cowList.get(i).getHunger() < 10)
                 Cow.cowList.get(i).step("toFood");
             else
                 Cow.cowList.get(i).step("Random");
 
-            //Updates any animal menu that is opened
-            if (Cow.cowList.get(i).isMenuOpened())
-                Cow.cowList.get(i).cowMenu.updateCowMenu();
-
+            Cow.cowList.get(i).updateVitals();
             Cow.cowList.get(i).checkForCollisions();
         }
         timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
@@ -149,6 +146,10 @@ public class SimState extends Application {
         root.getChildren().add(0, playground);
     }
 
+    /**
+     * Converts the int representation of the time into a readable 24-hour date object.
+     * @return The date object that contains the current time of day
+     */
     public static Date getTime() {
         StringBuilder timeAsString = new StringBuilder(Integer.toString(timeOfDay));
         while (timeAsString.length() != 4)

@@ -25,6 +25,9 @@ public class Playground {
     //The pane that holds the menu when a user clicks on a detailed view button
     private static Pane detailedView = new Pane();
 
+    //The pane that holds the entire story view when a user clicks the story view button
+    private static Pane storyView = new Pane();
+
     /**
      * Defaults the playground to the motion pane.
      */
@@ -51,6 +54,17 @@ public class Playground {
             case "DetailedView":
                 SimState.root.getChildren().remove(playground);
                 playground = detailedView;
+
+                PlaygroundUI.disableUI();
+                CameraControl.disableCamera();
+
+                SimState.addPlayground(playground);
+                MenuHandler.createMenu(Input.selectedCows);
+                break;
+
+            case "StoryView":
+                SimState.root.getChildren().remove(playground);
+                playground = storyView;
 
                 PlaygroundUI.disableUI();
                 CameraControl.disableCamera();

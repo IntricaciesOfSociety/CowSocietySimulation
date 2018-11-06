@@ -1,5 +1,6 @@
 package menus;
 
+import com.sun.istack.internal.NotNull;
 import control.CameraControl;
 import control.Input;
 import control.SimState;
@@ -13,12 +14,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import org.jetbrains.annotations.NotNull;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -48,6 +45,7 @@ public class PlaygroundUI {
     private static Button heartAttackButton = new Button("Heart Attack");
     private static Button diseaseButton = new Button("Disease");
     private static Button detailedViewButton = new Button("Detailed View");
+    private static Button storyViewButton = new Button("Story View");
 
     /**
      * Handles the creation of all static elements within the playgroundUI. Buttons, text, and containers.
@@ -78,26 +76,29 @@ public class PlaygroundUI {
         detailedViewButton.setLayoutX(5);
         detailedViewButton.setLayoutY(230);
 
+        storyViewButton.setLayoutX(5);
+        storyViewButton.setLayoutY(260);
+
         controlGroup.setDisable(true);
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         idText.setFill(Color.BLACK);
         idText.setX(5);
-        idText.setY(280);
+        idText.setY(310);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setLayoutX(5);
-        actionText.setLayoutY(290);
+        actionText.setLayoutY(320);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(330);
+        accommodationsText.setLayoutY(360);
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setLayoutX(20);
         timeOfDay.setLayoutY(590);
 
-        controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton);
+        controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
 
         PlaygroundUI.playgroundUI.getChildren().addAll(
@@ -107,6 +108,12 @@ public class PlaygroundUI {
         detailedViewButton.setOnAction(event -> {
             SimState.setSimState("Menu");
             Playground.setPlayground("DetailedView");
+            controlGroup.setDisable(true);
+        });
+
+        storyViewButton.setOnAction(event ->  {
+            SimState.setSimState("Menu");
+            Playground.setPlayground("StoryView");
             controlGroup.setDisable(true);
         });
 
@@ -236,8 +243,9 @@ public class PlaygroundUI {
      */
     public static void updateTimeOfDayText() {
         timeOfDay.setText(new SimpleDateFormat("hh:mm").format(SimState.getTime())
-                + ((SimState.timeOfDay < 1200) ? " AM" : " PM"));
+                + ((SimState.timeOfDay <= 1200) ? " AM" : " PM"));
     }
+
     /**
      * Removes a dead cow from the hyperlink list.
      * @param cowLink The link corresponding to the dead cow
