@@ -129,7 +129,7 @@ public class Cow extends ImageView {
         this.setEffect(color);
 
         cowLink = PlaygroundUI.cowCreationEvent(this.getId());
-        EventLogger.createLoggedEvent(this, "creation", 2, null, 0);
+        EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
 
         addListeners();
     }

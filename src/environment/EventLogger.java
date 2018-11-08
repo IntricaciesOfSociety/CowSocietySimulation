@@ -3,9 +3,6 @@ package environment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Logs every action for each individual cow. Also auto-generates a city-wide log for important events.
@@ -13,7 +10,7 @@ import java.util.List;
  */
 public class EventLogger {
 
-    public ArrayList<String> eventLog = new ArrayList<>();
+    private ArrayList<String> eventLog = new ArrayList<>();
     public ArrayList<String> effectedEmotions = new ArrayList<>();
 
     private int nameLength;
@@ -43,6 +40,11 @@ public class EventLogger {
         System.out.println("Logged" + importance);
     }
 
+    /**
+     * Gets the events that contain the given emotion.
+     * @param emotion The emotion to use to find an event
+     * @return The events found with the given emotion
+     */
     public String getEventsFromEmotion(String emotion) {
         StringBuilder eventList = new StringBuilder();
 

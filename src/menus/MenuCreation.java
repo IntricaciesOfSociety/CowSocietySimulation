@@ -175,7 +175,7 @@ public class MenuCreation {
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("AGE: " + firstCow.getAge());
-        hyperlink.setOnAction(event -> System.out.println("Age breakdown"));
+        hyperlink.setOnAction(event -> { if (firstCow.getLogger().effectedEmotions.contains("age")) switchContent(firstCow.getLogger().getEventsFromEmotion("age")); });
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("HEALTH: " + firstCow.getPhysicalHealth());
@@ -209,8 +209,10 @@ public class MenuCreation {
      * @param events The content to be switched to the top or bottom view.
      */
     private void switchContent(String events) {
-        if (topContent.getText().equals(""))
-            topContent.setText(events);
+        if (!topContent.getText().equals(""))
+            bottomContent.setText(topContent.getText());
+        topContent.setText(events);
+
     }
 
     /**
