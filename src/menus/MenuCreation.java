@@ -1,7 +1,8 @@
 package menus;
 
 import control.SimState;
-import environment.Cow;
+import cowParts.Cow;
+import cowParts.Social;
 import environment.Playground;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -23,39 +24,147 @@ public class MenuCreation {
     private Cow clickedCow;
 
     //Statistics texts
-    private Text overallEmotion, overallFinance, overallSocial, overallPhysical, overallMental, overallAcademic;
+    private VBox cognitiveAggregates = new VBox();
 
     private Label topContent = new Label();
     private Label bottomContent = new Label();
+    private Label socialViewContent = new Label("Here");
 
     Pane stack;
+
+    /**
+     * Calls the creation of a new popup menu for the given cow.
+     * @param cow The cow that the menu is to be created from
+     */
+    MenuCreation(@NotNull Cow cow) {
+        createPopupMenu(cow);
+    }
 
     /**
      * Creates a new menu (detailedView) from the cows selected when the menu was opened.
      * @param cowsPreviouslySelected The cows that were previously selected.
      */
     MenuCreation(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        if (SimState.getSimState().equals("DetailedView"))
+            createDetailedViewMenu(cowsPreviouslySelected);
+        else if (SimState.getSimState().equals("StoryView"))
+            createStoryViewMenu(cowsPreviouslySelected);
+    }
+
+    /**
+     * Creates the UI elements for the detailedView menu.
+     * @param cowsPreviouslySelected The cows previously selected when the detailedView was clicked to open
+     */
+    private void createDetailedViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         VBox topView = new VBox();
         VBox bottomView = new VBox();
-
+        VBox socialView = new VBox();
         ScrollPane topScrollPane = new ScrollPane();
         ScrollPane bottomScrollPane = new ScrollPane();
+        ScrollPane socialViewScrollPane = new ScrollPane();
 
-        StringBuilder idTextString = new StringBuilder();
-
-        for (Cow selectedCow : cowsPreviouslySelected) {
-            idTextString.append(selectedCow.getId()).append(" | ");
-        }
-
+        Button exitButton = new Button("EXIT");
         Rectangle background = new Rectangle(150, 0, 650, 600);
 
-        Text idText = new Text(160, 30, idTextString.toString());
-        Button exitButton = new Button("EXIT");
+        Text currentStatusText = new Text("JOB: " + cowsPreviouslySelected.get(0).getJob()
+                              + "    CURRENTLY: " + cowsPreviouslySelected.get(0).getCurrentAction());
+        Text idText = new Text(160, 30, cowsPreviouslySelected.get(0).getId());
 
+        topContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        bottomContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        currentStatusText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
 
         background.setFill(Color.BLACK);
+        currentStatusText.setFill(Color.RED);
         idText.setFill(Color.RED);
+
+        currentStatusText.relocate(160, 325);
+
+        exitButton.relocate(160, 560);
+        exitButton.setOnAction(event -> {
+            SimState.setSimState("Playing");
+            Playground.setPlayground("Motion");
+        });
+
+        socialViewScrollPane.setContent(socialViewContent);
+        socialViewScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        socialViewScrollPane.setPrefWidth(300);
+        socialViewScrollPane.setPrefHeight(200);
+
+        topScrollPane.setContent(topContent);
+        topScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        topScrollPane.setPrefWidth(300);
+        topScrollPane.setPrefHeight(125);
+
+        bottomScrollPane.setContent(bottomContent);
+        bottomScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        bottomScrollPane.setPrefWidth(300);
+        bottomScrollPane.setPrefHeight(125);
+
+        topView.getChildren().addAll(topContent, topScrollPane);
+        topView.relocate(455, 50);
+        bottomView.getChildren().addAll(bottomScrollPane);
+        bottomView.relocate(455, 185);
+        socialView.getChildren().addAll(socialViewContent, socialViewScrollPane);
+        socialView.relocate(455, 350);
+
+        Playground.playground.getChildren().addAll(background, idText, exitButton, topView, bottomView, socialView, currentStatusText);
+
+        createCognitionTree(cowsPreviouslySelected.get(0));
+        createSocialLinks(cowsPreviouslySelected);
+    }
+
+    /**
+     * Creates both the links and the link structures for the socialView. The links within the view are dependant on the
+     * cow(s) selected.
+     * @param cowsPreviouslySelected The cows that were selected when the detailedView button was clicked.
+     */
+    private void createSocialLinks(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        VBox socialRelationsView = new VBox();
+        ScrollPane socialRelationsScrollPane = new ScrollPane();
+
+        if (cowsPreviouslySelected.size() == 1) {
+            ArrayList<String> relations = Social.getAllRelations(cowsPreviouslySelected.get(0));
+            for (String relation : relations) {
+                socialRelationsView.getChildren().add(createSocialLink(relation));
+            }
+        }
+        else {
+            for (int i = 1; i < cowsPreviouslySelected.size(); i++) {
+                if (Social.relationExists(cowsPreviouslySelected.get(0), cowsPreviouslySelected.get(i)))
+                    socialRelationsView.getChildren().add(createSocialLink(cowsPreviouslySelected.get(i).getId()));
+            }
+        }
+
+        socialRelationsScrollPane.setContent(socialRelationsView);
+        socialRelationsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        socialRelationsScrollPane.setPrefWidth(250);
+        socialRelationsScrollPane.setPrefHeight(150);
+
+        socialRelationsScrollPane.relocate(175, 350);
+
+        Playground.playground.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
+    }
+
+    /**
+     * Creates a hyperlink given a cow's id to be used in the socialView.
+     * @param cowIdToCreateLinkFrom The cow's id that the hyperlink is to be created from.
+     * @return The hyperlink that was created.
+     */
+    private Hyperlink createSocialLink(@NotNull String cowIdToCreateLinkFrom) {
+        Hyperlink hyperlink = new Hyperlink(cowIdToCreateLinkFrom);
+        hyperlink.setOnAction(event -> System.out.println("Clicked"));
+        return hyperlink;
+    }
+
+    /**
+     * TODO: Implement storyView
+     * @param cowsPreviouslySelected The cows selected when the story view was clicked to open.
+     */
+    private void createStoryViewMenu(ArrayList<Cow> cowsPreviouslySelected) {
+        Button exitButton = new Button("EXIT");
+        Rectangle background = new Rectangle(150, 0, 650, 600);
 
         exitButton.setLayoutX(160);
         exitButton.setLayoutY(560);
@@ -64,28 +173,7 @@ public class MenuCreation {
             Playground.setPlayground("Motion");
         });
 
-        topContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        bottomContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-
-        topScrollPane.setContent(topContent);
-        topScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        topScrollPane.setPrefWidth(300);
-        topScrollPane.setPrefHeight(200);
-
-        bottomScrollPane.setContent(bottomContent);
-        bottomScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        bottomScrollPane.setPrefWidth(300);
-        bottomScrollPane.setPrefHeight(200);
-
-        topView.getChildren().addAll(topContent, topScrollPane);
-        topView.setLayoutX(455);
-        topView.setLayoutY(30);
-        bottomView.getChildren().addAll(bottomScrollPane);
-        bottomView.setLayoutX(455);
-        bottomView.setLayoutY(250);
-
-        Playground.playground.getChildren().addAll(background, idText, exitButton, topView, bottomView);
-        createCognitionTree(cowsPreviouslySelected.get(0));
+        Playground.playground.getChildren().addAll(background, exitButton);
     }
 
     /**
@@ -106,135 +194,160 @@ public class MenuCreation {
 
         //Emotion links
         hyperlink = new Hyperlink("ANGER: " + firstCow.getAnger());
-        hyperlink.setOnAction(event -> {
-            if (firstCow.getLogger().effectedEmotions.contains("anger")) switchContent(firstCow.getLogger().getEventsFromEmotion("anger"));
-        });
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("anger")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("ANTICIPATION: " + firstCow.getAnticipation());
-        hyperlink.setOnAction(event -> System.out.println("Anticipation breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("anticipation")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("DISGUST: " + firstCow.getDisgust());
-        hyperlink.setOnAction(event -> System.out.println("Disgust breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("disgust")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("FEAR: " + firstCow.getFear());
-        hyperlink.setOnAction(event -> System.out.println("Fear breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("fear")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("HAPPINESS: " + firstCow.getHappiness());
-        hyperlink.setOnAction(event -> System.out.println("Happiness breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("happiness")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("SURPRISE: " + firstCow.getSurprise());
-        hyperlink.setOnAction(event -> System.out.println("Surprise breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("surprise")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("TRUST: " + firstCow.getTrust());
-        hyperlink.setOnAction(event -> System.out.println("Trust breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("trust")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Finance Links
         hyperlink = new Hyperlink("INCOME: " + firstCow.getIncome());
-        hyperlink.setOnAction(event -> System.out.println("Income breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("income")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("BILLS: " + firstCow.getBills());
-        hyperlink.setOnAction(event -> System.out.println("Bills breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("bills")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("FOOD: " + firstCow.getFood());
-        hyperlink.setOnAction(event -> System.out.println("Food breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("food")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("TAXES: " + firstCow.getTaxes());
-        hyperlink.setOnAction(event -> System.out.println("Taxes breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("taxes")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("SAVINGS: " + firstCow.getSavings());
-        hyperlink.setOnAction(event -> System.out.println("Savings breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("savings")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("DEBT: " + firstCow.getDebt());
-        hyperlink.setOnAction(event -> System.out.println("Debt breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("debt")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Social links
         hyperlink = new Hyperlink("BOREDOM: " + firstCow.getBoredom());
-        hyperlink.setOnAction(event -> System.out.println("Boredom breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("boredom")));
         socialLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("COMPANIONSHIP: " + firstCow.getCompanionship());
-        hyperlink.setOnAction(event -> System.out.println("Companionship breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("companionship")));
         socialLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Physical
         hyperlink = new Hyperlink("HUNGER: " + firstCow.getHunger());
-        hyperlink.setOnAction(event -> { if (firstCow.getLogger().effectedEmotions.contains("hunger")) switchContent(firstCow.getLogger().getEventsFromEmotion("hunger")); });
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("hunger")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("AGE: " + firstCow.getAge());
-        hyperlink.setOnAction(event -> { if (firstCow.getLogger().effectedEmotions.contains("age")) switchContent(firstCow.getLogger().getEventsFromEmotion("age")); });
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("age")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("HEALTH: " + firstCow.getPhysicalHealth());
-        hyperlink.setOnAction(event -> System.out.println("Health breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("physicalHealth")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Mental links
         hyperlink = new Hyperlink("FAITH: " + firstCow.getFaith());
-        hyperlink.setOnAction(event -> System.out.println("Faith breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("faith")));
         mentalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("HEALTH: " + firstCow.getMentalHealth());
-        hyperlink.setOnAction(event -> System.out.println("Health breakdown"));
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("mentalHealth")));
         mentalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Academic links
-        hyperlink = new Hyperlink("HERE: " + firstCow.getAge());
-        hyperlink.setOnAction(event -> System.out.println("Here breakdown"));
+        hyperlink = new Hyperlink("INTELLIGENCE: " + firstCow.getAge());
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("intelligence")));
         academicLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         treeTier.getChildren().addAll(emotionLinks, financeLinks, socialLinks, physicalLinks, mentalLinks, academicLinks);
         TreeView tree = new TreeView<>(treeTier);
         tree.setShowRoot(false);
-        tree.relocate(150, 40);
+        tree.relocate(175, 50);
+        tree.setPrefHeight(260);
         Playground.playground.getChildren().add(tree);
     }
 
     /**
-     * Switches the stats content to the according top/bottom view and moves the other top/bottom view's content either
-     * out entierly, or to the opposite top/bottom view.
+     * Switches the events content to the according top/bottom view and moves the other top/bottom view's content either
+     * out entirely, or to the opposite top/bottom view.
      * @param events The content to be switched to the top or bottom view.
      */
     private void switchContent(String events) {
-        if (!topContent.getText().equals(""))
+        if (topContent.getText().length() != 0 && events.length() != 0)
             bottomContent.setText(topContent.getText());
-        topContent.setText(events);
-
+        if (events.length() != 0)
+            topContent.setText(events);
     }
 
     /**
-     * Temp Creates a menu for the given cow.
-     * @param cow The cow that the menu is to be created from
+     * Creates the UI elements for the popup menu.
+     * @param cow The cow who's menu is being created.
      */
-    MenuCreation(@NotNull Cow cow) {
+    private void createPopupMenu(@NotNull Cow cow) {
         clickedCow = cow;
 
+        Text overallEmotion, overallFinance, overallSocial, overallPhysical, overallMental, overallAcademic;
         Rectangle background = new Rectangle(0,0, 110, 150);
-        overallEmotion = new Text(5, 30, "Emotion: ");
+
+        cognitiveAggregates.setSpacing(8);
+        cognitiveAggregates.setLayoutX(5);
+        cognitiveAggregates.setLayoutY(20);
+
+        overallEmotion = new Text(5, 30, "Emotion: " + cow.getEmotionAggregate());
+        overallFinance = new Text(5, 30, "Finance: " + cow.getFinanceAggregate());
+        overallSocial = new Text(5, 30, "Social: " + cow.getSocialAggregate());
+        overallPhysical = new Text(5, 30, "Physical: " + cow.getPhysicalAggregate());
+        overallMental = new Text(5, 30, "Mental: " + cow.getMentalAggregate());
+        overallAcademic = new Text(5, 30, "Academic: " + cow.getAcademicAggregate());
+
         Text idText = new Text(5,15, cow.getId());
         stack = new Pane();
 
-        overallEmotion.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+        overallEmotion.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        overallFinance.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        overallSocial.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        overallPhysical.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        overallMental.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+        overallAcademic.setFont(Font.font("Verdana", FontWeight.BOLD, 10));
+
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
 
         overallEmotion.setFill(Color.RED);
+        overallFinance.setFill(Color.RED);
+        overallSocial.setFill(Color.RED);
+        overallPhysical.setFill(Color.RED);
+        overallMental.setFill(Color.RED);
+        overallAcademic.setFill(Color.RED);
+
         background.setFill(Color.BLACK);
         idText.setFill(Color.WHITE);
 
-        stack.getChildren().addAll(background, idText, overallEmotion);
+        cognitiveAggregates.getChildren().addAll(overallEmotion, overallFinance, overallSocial, overallPhysical, overallMental, overallAcademic);
+        stack.getChildren().addAll(background, idText, cognitiveAggregates);
+
         Playground.playground.getChildren().add(stack);
 
         updateCowMenu();
@@ -245,8 +358,6 @@ public class MenuCreation {
      */
     void updateCowMenu() {
         stack.relocate((clickedCow.getAnimatedX() + 55), (clickedCow.getAnimatedY() + 40));
-        overallEmotion.setText("Emotion: ");
-
     }
 
     /**

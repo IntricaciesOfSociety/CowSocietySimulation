@@ -1,13 +1,10 @@
 package menus;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-import control.SimState;
-import environment.Cow;
+import cowParts.Cow;
 import environment.Playground;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.*;
 
 import java.util.ArrayList;
 
@@ -21,27 +18,25 @@ public class MenuHandler {
 
     public static BooleanProperty allCowMenusOpen = new SimpleBooleanProperty(false);
 
-    /**TODO:Switch to normal methods
-     * Calls for the creation of a menu based on the given object. Object can be a: Cow or and ArrayList.
-     * @param objectToCreateMenuFrom The object that the new menu is to be created from
+    /**
+     * Calls for the creation of a menu based on the given selected cows.
+     * @param selectedCow The cow that were selected to have their menu opened
      * @return The menu object that was created
      */
+    @NotNull
     @Contract("null -> null")
-    @Nullable
-    public static MenuCreation createMenu(@NotNull Object objectToCreateMenuFrom) {
-        if (objectToCreateMenuFrom instanceof ArrayList) {
-            return new MenuCreation((ArrayList) objectToCreateMenuFrom);
-        }//TODO:implement storyview
-        else if (objectToCreateMenuFrom instanceof Cow && SimState.getSimState().equals("StoryView")) {
-            return new MenuCreation((ArrayList) objectToCreateMenuFrom);
-        }
-        else if (objectToCreateMenuFrom instanceof Cow) {
-            MenuCreation newMenu = new MenuCreation((Cow) objectToCreateMenuFrom);
-            openCowMenus.add(newMenu);
-            return newMenu;
-        }
-        else
-            return null;
+    public static MenuCreation createPopupMenu(Cow selectedCow) {
+        MenuCreation newMenu = new MenuCreation(selectedCow);
+        openCowMenus.add(newMenu);
+        return newMenu;
+    }
+
+    /**
+     * Calls the creation of a menuView. Which one is decided by the sim's current state.
+     * @param selectedCows The cows selected when the menu creation was called.
+     */
+    public static void createMenuView(ArrayList selectedCows) {
+        new MenuCreation(selectedCows);
     }
 
     /**

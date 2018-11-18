@@ -59,7 +59,7 @@ public class Playground {
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenu(Input.selectedCows);
+                MenuHandler.createMenuView(Input.selectedCows);
                 break;
 
             case "StoryView":
@@ -70,7 +70,7 @@ public class Playground {
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenu(Input.selectedCows);
+                MenuHandler.createMenuView(Input.selectedCows);
                 break;
 
             case "Motion":

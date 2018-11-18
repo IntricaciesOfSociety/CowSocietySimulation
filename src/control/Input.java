@@ -1,6 +1,7 @@
 package control;
 
-import environment.Cow;
+import cowParts.Cow;
+import environment.Food;
 import environment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -52,7 +53,7 @@ public class Input {
                 case Z: CameraControl.zoomCamera(true); break;
                 case X: CameraControl.zoomCamera(false); break;
                 case C:
-                    Playground.playground.relocate(0,0);
+                    CameraControl.moveCamera(Food.getX(), Food.getY());
                     CameraControl.resetZoom();
                     break;
 
@@ -83,7 +84,7 @@ public class Input {
         /*
          * Handles any scrolling event within the playground and zooms in/out according to the direction of the scroll.
          */
-        scene.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> CameraControl.zoomCamera(scrollEvent.getDeltaY() > 0));
+        Playground.playground.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> CameraControl.zoomCamera(scrollEvent.getDeltaY() > 0));
 
         /*
          * Calls the check to see what cow nodes were within the dragBox, then sets the box coords and size to be out of
@@ -132,7 +133,7 @@ public class Input {
     }
 
 
-    /**TODO: Switch implementation to action listeners, also never do this again. Yikes. Change to collision.
+    /**TODO: Switch implementation to collision. Yikes
      * Checks to see what cows are within the bounds of the dragBox. Opens those cow's menus.
      */
     private static void checkDragBox() {
