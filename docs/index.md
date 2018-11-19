@@ -1,6 +1,6 @@
-## Welcome to GitHub Pages
+## Welcome to the simulation
 
-You can use the [editor on GitHub](https://github.com/NotZack/NotZack.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+This project is centered around gaining knowledge about creating artificial intelligence, applying java, and project development. The code is hosted on [github](https://github.com/IntricaciesOfSociety/CowSocietySimulation/) and a (very rough) concept can be found on [google drive] (https://docs.google.com/presentation/u/2/d/1yiUae5--9wsAH2D4SWKuIOJiESNoR_YNxJHhiJk0rek/edit?usp=drive_web&ouid=104197416385618381584)
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
