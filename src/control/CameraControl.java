@@ -1,6 +1,6 @@
 package control;
 
-import environment.Cow;
+import cowParts.Cow;
 import environment.Playground;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +44,7 @@ public class CameraControl {
      * @param xCoord The x coordinate to move to
      * @param yCoord The y coordinate to move to
      */
-    private static void moveCamera(double xCoord, double yCoord) {
+    public static void moveCamera(double xCoord, double yCoord) {
         Playground.playground.relocate(-xCoord + 400, -yCoord + 300);
     }
 

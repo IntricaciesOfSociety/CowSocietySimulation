@@ -10,8 +10,6 @@ import menus.MenuHandler;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-
 /**
  * Creates and handles the switching of the panes within the main window (the playground).
  */
@@ -59,7 +57,7 @@ public class Playground {
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenu(Input.selectedCows);
+                MenuHandler.createMenuView(Input.selectedCows);
                 break;
 
             case "StoryView":
@@ -70,7 +68,7 @@ public class Playground {
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenu(Input.selectedCows);
+                MenuHandler.createMenuView(Input.selectedCows);
                 break;
 
             case "Motion":

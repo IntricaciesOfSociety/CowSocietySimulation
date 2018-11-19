@@ -1,8 +1,8 @@
-package environment;
+package cowParts;
 
-import control.SimState;
+import environment.EventLogger;
+import environment.Playground;
 import javafx.animation.AnimationTimer;
-import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
@@ -16,11 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import javafx.util.Duration;
 
-import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 /**
@@ -32,13 +29,15 @@ public class Cow extends ImageView {
     //List that holds every created cow
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
+    Social socialRelations = new Social();
+
     /* Control flags
     alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)
     delayTimer: The animation timer that is created to delay movement
-    counter: A counter increasing based on ticks, used for changing emotions over time
+    counter: A counter that updates based of the main loop ticks
      */
-    private boolean alreadyMoving = false;
-    private AnimationTimer delayTimer;
+    boolean alreadyMoving = false;
+    AnimationTimer delayTimer;
     private int counter = 0;
 
     //TEMP: Used for random movement and stats.
@@ -57,8 +56,8 @@ public class Cow extends ImageView {
     currentAction: What the cow is currently doing within the sim
     logger: The instance of EventLogger that holds this cow's unique log
      */
-    private String currentAction = "";
-    final EventLogger logger = new EventLogger();
+    String currentAction = "";
+    public final EventLogger logger = new EventLogger();
 
     /* What makes a cow
     color: The color effects applied to the cow
@@ -66,6 +65,10 @@ public class Cow extends ImageView {
      */
     private ColorAdjust color = new ColorAdjust();
     private static Image sprite;
+
+    //The job that this cow has
+    private String job = "Spinning";
+    boolean parent = false;
 
     //Emotions: 0 is low 100 is high
     private int anger = random.nextInt(100);
@@ -118,16 +121,18 @@ public class Cow extends ImageView {
      */
     private void createAnimal() {
         try { //res\\moo.png <--- correct path
-            sprite = new Image(new FileInputStream("res/moo.png"));
+            sprite = new Image(new FileInputStream("res/Cow01.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
         }
         this.setImage(sprite);
         this.setId("Big Beefy" + new Random().nextInt(100));
-        this.relocate(random.nextInt(1000), random.nextInt(1000));
+        this.relocate(random.nextInt(2000), random.nextInt(2000));
         this.setEffect(color);
-
+        this.setScaleX(3);
+        this.setScaleY(3);
+        this.setSmooth(false);
         cowLink = PlaygroundUI.cowCreationEvent(this.getId());
         EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
 
@@ -147,118 +152,15 @@ public class Cow extends ImageView {
     }
 
     /**
-     * TEMP
-     * Moves the cow in a specified direction. Used for testing while AI is not implemented.
-     * @param movementType The movement that the cow will be performing
-     */
-    public void step(String movementType) {
-
-        int randomNumber = random.nextInt(1 + 1 + 5) - 5;
-
-        if (!alreadyMoving) {
-            switch (movementType) {
-                case "North":
-                    this.setRotate(270);
-                    this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
-                    break;
-                case "East":
-                    this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
-                    break;
-                case "South":
-                    this.setRotate(90);
-                    this.setLayoutY(this.getLayoutY() - Math.sin(Math.toRadians(this.getRotate())) * randomNumber);
-                    break;
-                case "West":
-                    this.setRotate(180);
-                    this.setLayoutX(this.getLayoutX() - Math.cos(Math.toRadians(this.getRotate())) * randomNumber);
-                    break;
-
-            /*TODO: Switch to timeline implementation?
-            Creates an animation to move the cow to the food
-             */
-                case "toFood":
-                    currentAction = "Getting Food";
-                    this.setRotate(random.nextInt(360 + 1 + 360) - 360);
-
-                    alreadyMoving = true;
-
-                    double distanceX = Food.getX() - this.getLayoutX();
-                    double distanceY = Food.getY() - this.getLayoutY();
-                    double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-                    final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), this);
-
-                    transition.setOnFinished(event -> openAnimation(100));
-
-                    transition.setToX(Food.getX() - this.getLayoutX());
-                    transition.setToY(Food.getY() - this.getLayoutY());
-                    transition.play();
-
-                    setHunger(100);
-
-                    EventLogger.createLoggedEvent(this, "Getting food", 0, "hunger", 100);
-
-                    break;
-
-                case "Random":
-                    currentAction = "Spinning";
-                    this.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                    this.setLayoutX(this.getLayoutX() + Math.cos(Math.toRadians(this.getRotate())) * random.nextInt(10));
-                    this.setLayoutY(this.getLayoutY() + Math.sin(Math.toRadians(this.getRotate())) * random.nextInt(10));
-                    break;
-            }
-        }
-
-    }
-
-    /**
-     * 'Pauses' the movement of the current cow by setting an animation for however long was given.
-     * @param centisecondDuration The duration that the 'empty' animation lasts. 0.01 of a second.
-     */
-    private void pauseMovement(long centisecondDuration) {
-
-        delayTimer = new AnimationTimer() {
-            private long lastUpdate = 0;
-
-            @Override
-            public void handle(long frameTime) {
-                alreadyMoving = true;
-                if (lastUpdate == 0)
-                    lastUpdate = frameTime;
-
-                if (frameTime - lastUpdate >= centisecondDuration * 16_666_666L)
-                    stopDelayLoop();
-            }
-        };
-        delayTimer.start();
-    }
-
-    /**
-     * Stops the delay loop from executing further.
-     */
-    private void stopDelayLoop() {
-        delayTimer.stop();
-        alreadyMoving = false;
-    }
-
-    /**
-     * Sets the alreadyMoving flag to allow for the playing of an animation to happen. Stops animations from being
-     * constantly called. Passes through an animation allowance delay to pauseMovement.
-     */
-    private void openAnimation(long centisecondsDuration) {
-        pauseMovement(centisecondsDuration);
-        alreadyMoving = false;
-    }
-
-    /**
-     * Updates the time sensitive vital attributes in the cow from the counter.
+     * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
+     * increases about 60 times a second.
      */
     public void updateVitals() {
         counter++;
-        if (counter % 20 == 0)
+        if (counter % 1000 == 0)
             counter = 0;
 
-        if (counter == 0)
+        if (counter % 80 == 0)
             setHunger(getHunger() - 1);
     }
 
@@ -317,30 +219,6 @@ public class Cow extends ImageView {
     }
 
     /**
-     * Calls any collision check to be executed during a normal tick.
-     */
-    public void checkForCollisions() {
-        checkForCowCollision();
-    }
-
-    /**
-     * Checks for cow to cow collision by comparing the current cow to the rest of the cows.
-     */
-    private void checkForCowCollision() {
-        boolean collision = false;
-        for (int i = 0; i < cowList.size(); i++) {
-            if (this.getBoundsInParent().intersects(cowList.get(i).getBoundsInParent()) && cowList.get(i) != this) {
-                collision = true;
-                cowList.get(i).color.setContrast(-1);
-            }
-        }
-        if (collision)
-            this.color.setContrast(-1);
-        else
-            this.color.setContrast(0);
-    }
-
-    /**
      * Opens or closes the cow's menu dependant on if the menu is already opened or not.
      */
     public void switchMenuState() {
@@ -355,7 +233,7 @@ public class Cow extends ImageView {
      */
     public void openMenu() {
         if (!menuIsOpened) {
-            this.cowMenu = MenuHandler.createMenu(this);
+            this.cowMenu = MenuHandler.createPopupMenu(this);
             menuIsOpened = true;
         }
     }
@@ -530,7 +408,7 @@ public class Cow extends ImageView {
         return hunger;
     }
 
-    public void setHunger(int hunger) {
+    void setHunger(int hunger) {
         this.hunger = hunger;
     }
 
@@ -576,5 +454,59 @@ public class Cow extends ImageView {
 
     public EventLogger getLogger() {
         return logger;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    /**
+     * @return The sum of the emotions as a string over 700, as a string.
+     */
+    public String getEmotionAggregate() {
+        return Integer.toString((anger + anticipation + disgust + fear + happiness + surprise + trust)) + "/700";
+    }
+
+    /**
+     * @return The sum of finances as a string over 600, as a string.
+     */
+    public String getFinanceAggregate() {
+        return Integer.toString((income + bills + food + taxes + savings + debt)) + "/600";
+    }
+
+    /**
+     * @return The sum of socials as a string over 200, as a string.
+     */
+    public String getSocialAggregate() {
+        return Integer.toString((boredom + companionship)) + "/200";
+    }
+
+    /**
+     * @return The sum of physicals as a string over 300, as a string.
+     */
+    public String getPhysicalAggregate() {
+        return Integer.toString((hunger + age + physicalHealth)) + "/300";
+    }
+
+    /**
+     * @return The sum of mentals as a string over 200, as a string.
+     */
+    public String getMentalAggregate() {
+        return Integer.toString((faith + mentalHealth)) + "/200";
+    }
+
+    /**
+     * @return The sum of the emotions as a string over 100, as a string.
+     */
+    public String getAcademicAggregate() {
+        return Integer.toString((intelligence)) + "/100";
+    }
+
+    public Social getSocialRelations() {
+        return socialRelations;
     }
 }

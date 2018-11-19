@@ -4,7 +4,7 @@ import com.sun.istack.internal.NotNull;
 import control.CameraControl;
 import control.Input;
 import control.SimState;
-import environment.Cow;
+import cowParts.Cow;
 import environment.Playground;
 import javafx.scene.Group;
 import javafx.scene.control.*;
@@ -15,7 +15,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -106,13 +105,13 @@ public class PlaygroundUI {
         );
 
         detailedViewButton.setOnAction(event -> {
-            SimState.setSimState("Menu");
+            SimState.setSimState("DetailedView");
             Playground.setPlayground("DetailedView");
             controlGroup.setDisable(true);
         });
 
         storyViewButton.setOnAction(event ->  {
-            SimState.setSimState("Menu");
+            SimState.setSimState("StoryView");
             Playground.setPlayground("StoryView");
             controlGroup.setDisable(true);
         });
@@ -153,13 +152,11 @@ public class PlaygroundUI {
      */
     public static Hyperlink cowCreationEvent(String cowId) {
         Hyperlink cowLink;
-        ArrayList<Hyperlink> cowLinkList = new ArrayList<>();
 
         cowLink = new Hyperlink("Cow: " + cowId);
         cowLink.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
         cowLink.setTextFill(Color.BLACK);
 
-        cowLinkList.add(cowLink);
         cowLinkBox.getChildren().add(cowLink);
 
         //When the link is clicked, center the camera around that cow. Done by parsing the cow's id.
@@ -176,13 +173,14 @@ public class PlaygroundUI {
         updateIdText();
         updateActionText();
         initControlButtons();
+        updatePopulationText();
     }
 
     /**
      * Centers the camera around the animal in the clicked hyperlink, updates the corresponding UI, and opens up that
      * cow's menu.
      */
-    private static void cowLinkClickEvent(@NotNull String clickedCowLinkId) {
+    private static void cowLinkClickEvent(@org.jetbrains.annotations.NotNull @NotNull String clickedCowLinkId) {
         Cow cowFromId = Cow.findCow(clickedCowLinkId.substring(5));
         Objects.requireNonNull(cowFromId).openMenu();
 

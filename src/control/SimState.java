@@ -1,6 +1,7 @@
 package control;
 
-import environment.Cow;
+import cowParts.Cow;
+import cowParts.Movement;
 import environment.Food;
 import environment.Playground;
 import javafx.animation.AnimationTimer;
@@ -57,7 +58,10 @@ public class SimState extends Application {
             case "Playing":
                 simLoop.start();
                 break;
-            case "Menu":
+            case "DetailedView":
+                simLoop.stop();
+                break;
+            case "StoryView":
                 simLoop.stop();
                 break;
         }
@@ -84,7 +88,7 @@ public class SimState extends Application {
 
         root.getChildren().addAll(Playground.playground, PlaygroundUI.playgroundUI);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 50; i++)
             Cow.cowList.add(new Cow());
 
         PlaygroundUI.createUI();
@@ -118,12 +122,12 @@ public class SimState extends Application {
         for (int i = 0; i < Cow.cowList.size(); i++) {
             //TODO: Move movement to AI
             if (Cow.cowList.get(i).getHunger() < 10)
-                Cow.cowList.get(i).step("toFood");
+                Movement.step("toFood", Cow.cowList.get(i));
             else
-                Cow.cowList.get(i).step("Random");
+                Movement.step("random", Cow.cowList.get(i));
 
             Cow.cowList.get(i).updateVitals();
-            Cow.cowList.get(i).checkForCollisions();
+            Movement.checkForCollisions(Cow.cowList.get(i));
         }
         timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
         PlaygroundUI.updateTimeOfDayText();
