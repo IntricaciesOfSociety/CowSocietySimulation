@@ -23,12 +23,12 @@ public class EventLogger {
      * @param event The event to be logged as a string.
      * @param importance A scale of 0 - 2 in order of least to greatest importance used for if the event is to be logged
      *                   to the city-wide log or not.
-     * @param emotionEffecting The emotion that is being affected by the event if any.
+     * @param cognitiveEffecting The emotion that is being affected by the event if any.
      */
-    public static void createLoggedEvent(@NotNull Cow cowToLogTo, String event, int importance, String emotionEffecting, int effectAmount) {
+    public static void createLoggedEvent(@NotNull Cow cowToLogTo, String event, int importance, String cognitiveEffecting, int effectAmount) {
         cowToLogTo.logger.nameLength = cowToLogTo.getId().length();
-        cowToLogTo.logger.eventLog.add(cowToLogTo.getId() + " " + event + ": " + emotionEffecting + effectAmount + "\n");
-        cowToLogTo.logger.effectedEmotions.add(emotionEffecting);
+        cowToLogTo.logger.eventLog.add(cowToLogTo.getId() + " " + event + ": " + cognitiveEffecting + effectAmount + "\n");
+        cowToLogTo.logger.effectedEmotions.add(cognitiveEffecting);
         cowToLogTo.logger.logEvent(importance);
     }
 

@@ -1,10 +1,8 @@
 package cowParts;
 
 import environment.EventLogger;
-import environment.Food;
 import environment.Playground;
 import javafx.animation.AnimationTimer;
-import javafx.animation.TranslateTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
@@ -18,7 +16,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -124,7 +121,7 @@ public class Cow extends ImageView {
      */
     private void createAnimal() {
         try { //res\\moo.png <--- correct path
-            sprite = new Image(new FileInputStream("res/Cow01.png"));
+            sprite = new Image(new FileInputStream("res/Cow01.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
@@ -135,7 +132,7 @@ public class Cow extends ImageView {
         this.setEffect(color);
         this.setScaleX(3);
         this.setScaleY(3);
-
+        this.setSmooth(false);
         cowLink = PlaygroundUI.cowCreationEvent(this.getId());
         EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
 
@@ -155,14 +152,15 @@ public class Cow extends ImageView {
     }
 
     /**
-     * Updates the time sensitive vital attributes in the cow from the counter.
+     * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
+     * increases about 60 times a second.
      */
     public void updateVitals() {
         counter++;
-        if (counter % 80 == 0)
+        if (counter % 1000 == 0)
             counter = 0;
 
-        if (counter == 0)
+        if (counter % 80 == 0)
             setHunger(getHunger() - 1);
     }
 
@@ -410,7 +408,7 @@ public class Cow extends ImageView {
         return hunger;
     }
 
-    public void setHunger(int hunger) {
+    void setHunger(int hunger) {
         this.hunger = hunger;
     }
 

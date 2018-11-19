@@ -132,11 +132,18 @@ public class Movement extends Cow {
      */
     private static void checkForCowCollision(Cow cowToMove) {
         boolean collision = false;
-        for (int i = 0; i < cowList.size(); i++) {
-            if (cowToMove.getBoundsInParent().intersects(cowList.get(i).getBoundsInParent()) && cowList.get(i) != cowToMove) {
+        for (Cow possibleCollide : cowList) {
+            if (cowToMove.getBoundsInParent().intersects(possibleCollide.getBoundsInParent()) && possibleCollide != cowToMove) {
                 collision = true;
-                if (!Social.relationExists(cowToMove, cowList.get(i)))
-                    Social.newRelation(cowToMove, cowList.get(i));
+                if (!Social.relationExists(cowToMove, possibleCollide)) {
+                    Social.newRelation(cowToMove, possibleCollide);
+                    cowToMove.setCompanionship(cowToMove.getCompanionship() + 5);
+                    EventLogger.createLoggedEvent(cowToMove, "new relationship", 1, "companionship", 5);
+                }
+                else {
+                    if (random.nextInt(1000) == 1)
+                        Social.modifyRelationValue(cowToMove, possibleCollide, random.nextInt(2));
+                }
             }
         }
         if (collision) {

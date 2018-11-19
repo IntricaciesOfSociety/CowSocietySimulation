@@ -116,49 +116,6 @@ public class MenuCreation {
     }
 
     /**
-     * Creates both the links and the link structures for the socialView. The links within the view are dependant on the
-     * cow(s) selected.
-     * @param cowsPreviouslySelected The cows that were selected when the detailedView button was clicked.
-     */
-    private void createSocialLinks(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        VBox socialRelationsView = new VBox();
-        ScrollPane socialRelationsScrollPane = new ScrollPane();
-
-        if (cowsPreviouslySelected.size() == 1) {
-            ArrayList<String> relations = Social.getAllRelations(cowsPreviouslySelected.get(0));
-            for (String relation : relations) {
-                socialRelationsView.getChildren().add(createSocialLink(relation));
-            }
-        }
-        else {
-            for (int i = 1; i < cowsPreviouslySelected.size(); i++) {
-                if (Social.relationExists(cowsPreviouslySelected.get(0), cowsPreviouslySelected.get(i)))
-                    socialRelationsView.getChildren().add(createSocialLink(cowsPreviouslySelected.get(i).getId()));
-            }
-        }
-
-        socialRelationsScrollPane.setContent(socialRelationsView);
-        socialRelationsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        socialRelationsScrollPane.setPrefWidth(250);
-        socialRelationsScrollPane.setPrefHeight(150);
-
-        socialRelationsScrollPane.relocate(175, 350);
-
-        Playground.playground.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
-    }
-
-    /**
-     * Creates a hyperlink given a cow's id to be used in the socialView.
-     * @param cowIdToCreateLinkFrom The cow's id that the hyperlink is to be created from.
-     * @return The hyperlink that was created.
-     */
-    private Hyperlink createSocialLink(@NotNull String cowIdToCreateLinkFrom) {
-        Hyperlink hyperlink = new Hyperlink(cowIdToCreateLinkFrom);
-        hyperlink.setOnAction(event -> System.out.println("Clicked"));
-        return hyperlink;
-    }
-
-    /**
      * TODO: Implement storyView
      * @param cowsPreviouslySelected The cows selected when the story view was clicked to open.
      */
@@ -174,6 +131,50 @@ public class MenuCreation {
         });
 
         Playground.playground.getChildren().addAll(background, exitButton);
+    }
+
+    /**
+     * Creates both the links and the link structures for the socialView. The links within the view are dependant on the
+     * cow(s) selected.
+     * @param cowsPreviouslySelected The cows that were selected when the detailedView button was clicked.
+     */
+    private void createSocialLinks(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        VBox socialRelationsView = new VBox();
+        ScrollPane socialRelationsScrollPane = new ScrollPane();
+
+        if (cowsPreviouslySelected.size() == 1) {
+            ArrayList<String> relations = Social.getAllRelations(cowsPreviouslySelected.get(0));
+            for (String relation : relations) {
+                socialRelationsView.getChildren().add(createSocialLink(Cow.findCow(relation), cowsPreviouslySelected.get(0)));
+            }
+        }
+        else {
+            for (int i = 1; i < cowsPreviouslySelected.size(); i++) {
+                if (Social.relationExists(cowsPreviouslySelected.get(0), cowsPreviouslySelected.get(i)))
+                    socialRelationsView.getChildren().add(createSocialLink(cowsPreviouslySelected.get(i), cowsPreviouslySelected.get(0)));
+            }
+        }
+
+        socialRelationsScrollPane.setContent(socialRelationsView);
+        socialRelationsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        socialRelationsScrollPane.setPrefWidth(250);
+        socialRelationsScrollPane.setPrefHeight(150);
+
+        socialRelationsScrollPane.relocate(175, 350);
+
+        Playground.playground.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
+    }
+
+    /**
+     * Creates a hyperlink given a cow's id to be used in the socialView.
+     * @param cowToCreateLinkTo The cow that the hyperlink is to be created from.
+     * @param cowInMenu The cow whose detailed menu view is opened.
+     * @return The hyperlink that was created.
+     */
+    private Hyperlink createSocialLink(@NotNull Cow cowToCreateLinkTo, Cow cowInMenu) {
+        Hyperlink hyperlink = new Hyperlink(cowToCreateLinkTo.getId());
+        hyperlink.setOnAction(event -> switchSocialContent(Social.getRelationValue(cowInMenu, cowToCreateLinkTo.getId())));
+        return hyperlink;
     }
 
     /**
@@ -300,6 +301,10 @@ public class MenuCreation {
             bottomContent.setText(topContent.getText());
         if (events.length() != 0)
             topContent.setText(events);
+    }
+
+    private void switchSocialContent(int socialValue) {
+        socialViewContent.setText(Integer.toString(socialValue));
     }
 
     /**

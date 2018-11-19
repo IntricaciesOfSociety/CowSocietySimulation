@@ -10,8 +10,6 @@ import menus.MenuHandler;
 import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-
 /**
  * Creates and handles the switching of the panes within the main window (the playground).
  */
