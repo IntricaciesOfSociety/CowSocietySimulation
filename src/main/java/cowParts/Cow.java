@@ -121,7 +121,7 @@ public class Cow extends ImageView {
      */
     private void createAnimal() {
         try { //res\\moo.png <--- correct path
-            sprite = new Image(new FileInputStream("src/main/resourcesManagement/Cow01.png"),0, 0, true, false);
+            sprite = new Image(new FileInputStream("src/main/resources/Cow01.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
