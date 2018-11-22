@@ -1,9 +1,9 @@
 package menus;
 
-import control.SimState;
+import metaControl.SimState;
 import cowParts.Cow;
 import cowParts.Social;
-import environment.Playground;
+import metaEnvironment.Playground;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;

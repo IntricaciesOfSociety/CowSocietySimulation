@@ -1,7 +1,7 @@
 package cowParts;
 
-import environment.EventLogger;
-import environment.Playground;
+import metaEnvironment.EventLogger;
+import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Hyperlink;
@@ -400,7 +400,7 @@ public class Cow extends ImageView {
         return companionship;
     }
 
-    public void setCompanionship(int companionship) {
+    void setCompanionship(int companionship) {
         this.companionship = companionship;
     }
 
@@ -464,6 +464,10 @@ public class Cow extends ImageView {
         this.job = job;
     }
 
+    Social getSocialRelations() {
+        return socialRelations;
+    }
+
     /**
      * @return The sum of the emotions as a string over 700, as a string.
      */
@@ -504,9 +508,5 @@ public class Cow extends ImageView {
      */
     public String getAcademicAggregate() {
         return Integer.toString((intelligence)) + "/100";
-    }
-
-    public Social getSocialRelations() {
-        return socialRelations;
     }
 }

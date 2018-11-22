@@ -1,8 +1,8 @@
-package control;
+package metaControl;
 
 import cowParts.Cow;
-import environment.Food;
-import environment.Playground;
+import resources.Food;
+import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

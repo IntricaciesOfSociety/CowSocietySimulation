@@ -1,7 +1,8 @@
-package environment;
+package resources;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.Playground;
 
 import java.util.Random;
 

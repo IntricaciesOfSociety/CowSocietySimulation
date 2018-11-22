@@ -1,11 +1,11 @@
 package menus;
 
 import com.sun.istack.internal.NotNull;
-import control.CameraControl;
-import control.Input;
-import control.SimState;
+import metaControl.CameraControl;
+import metaControl.Input;
+import metaControl.SimState;
 import cowParts.Cow;
-import environment.Playground;
+import metaEnvironment.Playground;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;

@@ -1,8 +1,8 @@
-package environment;
+package metaEnvironment;
 
-import control.CameraControl;
-import control.Input;
-import control.SimState;
+import metaControl.CameraControl;
+import metaControl.Input;
+import metaControl.SimState;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;

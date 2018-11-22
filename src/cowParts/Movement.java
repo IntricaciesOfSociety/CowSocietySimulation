@@ -1,7 +1,7 @@
 package cowParts;
 
-import environment.EventLogger;
-import environment.Food;
+import metaEnvironment.EventLogger;
+import resources.Food;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;

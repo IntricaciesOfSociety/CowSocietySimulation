@@ -1,7 +1,7 @@
-package control;
+package metaControl;
 
 import cowParts.Cow;
-import environment.Playground;
+import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

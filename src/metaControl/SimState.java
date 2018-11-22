@@ -1,9 +1,9 @@
-package control;
+package metaControl;
 
 import cowParts.Cow;
 import cowParts.Movement;
-import environment.Food;
-import environment.Playground;
+import resources.Food;
+import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;

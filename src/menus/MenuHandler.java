@@ -1,7 +1,7 @@
 package menus;
 
 import cowParts.Cow;
-import environment.Playground;
+import metaEnvironment.Playground;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import org.jetbrains.annotations.*;
