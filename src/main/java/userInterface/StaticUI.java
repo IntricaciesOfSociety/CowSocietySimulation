@@ -1,29 +1,27 @@
-package menus;
+package userInterface;
 
 import com.sun.istack.internal.NotNull;
-import metaControl.CameraControl;
-import metaControl.Input;
-import metaControl.SimState;
 import cowParts.Cow;
-import metaEnvironment.Playground;
 import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import metaControl.CameraControl;
+import metaControl.Input;
+import metaControl.SimState;
+import metaEnvironment.Playground;
+
 import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 /**
- * Creates and handles the UI for the left side of the scene.
+ * Handles the creation and updating of all staticUI elements that are needed during a 'playing' simState.
  */
-public class PlaygroundUI {
-    //The root for all of the UI elements
-    public static Pane playgroundUI = new Pane();
-
+public class StaticUI {
     //UI text and container
     private static Group UIText = new Group();
     private static Text idText = new Text("Cow: N/A");
@@ -46,10 +44,15 @@ public class PlaygroundUI {
     private static Button detailedViewButton = new Button("Detailed View");
     private static Button storyViewButton = new Button("Story View");
 
+    //Structure for buttons that open the other UIs
+    private static Group differentUIGroup = new Group();
+    private static Button buildingUIButton = new Button("TileUI");
+    private static Button resourcesUIButton = new Button("ResourcesUI");
+
     /**
-     * Handles the creation of all static elements within the playgroundUI. Buttons, text, and containers.
+     * Handles the creation of all static elements within the playgroundStaticUI. Buttons, text, and containers.
      */
-    public static void createUI() {
+    static void init() {
         createSpeedButtons();
         Rectangle background = new Rectangle(150, 600, Color.DARKGOLDENROD);
 
@@ -93,15 +96,22 @@ public class PlaygroundUI {
         accommodationsText.setLayoutX(5);
         accommodationsText.setLayoutY(360);
 
+        buildingUIButton.setLayoutX(5);
+        buildingUIButton.setLayoutY(400);
+
+        resourcesUIButton.setLayoutX(5);
+        resourcesUIButton.setLayoutY(430);
+
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setLayoutX(20);
         timeOfDay.setLayoutY(590);
 
         controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
+        differentUIGroup.getChildren().addAll(buildingUIButton, resourcesUIButton);
 
-        PlaygroundUI.playgroundUI.getChildren().addAll(
-                background, simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup
+        PlaygroundUI.staticUI.getChildren().addAll(
+                background, simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
         );
 
         detailedViewButton.setOnAction(event -> {
@@ -115,6 +125,13 @@ public class PlaygroundUI {
             Playground.setPlayground("StoryView");
             controlGroup.setDisable(true);
         });
+
+        buildingUIButton.setOnAction(event -> {
+            SimState.setSimState("TileView");
+            PlaygroundUI.toggleTileUI();
+        });
+
+        resourcesUIButton.setOnAction(event -> PlaygroundUI.toggleResourcesUI());
 
         updatePopulationText();
     }
@@ -147,7 +164,7 @@ public class PlaygroundUI {
     }
 
     /**
-     * Updates the population text then creates text objects for every drawn cow then adds them to the playgroundUI node.
+     * Updates the population text then creates text objects for every drawn cow then adds them to the playgroundStaticUI node.
      * The text objects display the animal's X and Y coordinates. Attached to 1 unique cow.
      */
     public static Hyperlink cowCreationEvent(String cowId) {
@@ -230,7 +247,7 @@ public class PlaygroundUI {
     }
 
     /**
-     * Updates the populationText based off the size of Cow.cowList.
+     * Updates the populationText based off the size of Cow.cowList
      */
     private static void updatePopulationText() {
         populationText.setText("Population : " + Cow.cowList.size());

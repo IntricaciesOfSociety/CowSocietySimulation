@@ -1,5 +1,6 @@
 package menus;
 
+import buildings.Building;
 import metaControl.SimState;
 import cowParts.Cow;
 import cowParts.Social;
@@ -22,6 +23,9 @@ import java.util.ArrayList;
 public class MenuCreation {
 
     private Cow clickedCow;
+    private Building clickedBuilding;
+
+    private Text numberOfInhabitants;
 
     //Statistics texts
     private VBox cognitiveAggregates = new VBox();
@@ -49,6 +53,10 @@ public class MenuCreation {
             createDetailedViewMenu(cowsPreviouslySelected);
         else if (SimState.getSimState().equals("StoryView"))
             createStoryViewMenu(cowsPreviouslySelected);
+    }
+
+    MenuCreation(Building buildingToCreateMenuFrom) {
+        createInhabitantsMenu(buildingToCreateMenuFrom);
     }
 
     /**
@@ -131,6 +139,20 @@ public class MenuCreation {
         });
 
         Playground.playground.getChildren().addAll(background, exitButton);
+    }
+
+    private void createInhabitantsMenu(@NotNull Building buildingToCreateMenuFrom) {
+        Rectangle background = new Rectangle(50, 50, Color.BLACK);
+        numberOfInhabitants = new Text(Integer.toString(buildingToCreateMenuFrom.getCurrentInhabitants().size()));
+        stack = new Pane();
+
+        numberOfInhabitants.setFill(Color.RED);
+        clickedBuilding = buildingToCreateMenuFrom;
+
+        stack.relocate(clickedBuilding.getLayoutX(), clickedBuilding.getLayoutY());
+
+        stack.getChildren().addAll(background, numberOfInhabitants);
+        Playground.playground.getChildren().add(stack);
     }
 
     /**
@@ -303,6 +325,10 @@ public class MenuCreation {
             topContent.setText(events);
     }
 
+    /**
+     * Switches the socialView content to the given value.
+     * @param socialValue The value to display to the socialView
+     */
     private void switchSocialContent(int socialValue) {
         socialViewContent.setText(Integer.toString(socialValue));
     }
@@ -366,9 +392,18 @@ public class MenuCreation {
     }
 
     /**
+     * Updates the text containing the amount of inhabitants in the given building's inhabitants menu.
+     */
+    void updateInhabitantMenu() {
+        numberOfInhabitants.setText(Integer.toString(clickedBuilding.getCurrentInhabitants().size()));
+    }
+
+    /**
      * @return The id of the cow who this menu belongs to
      */
     Cow getCowFromMenu() {
         return clickedCow;
     }
+
+
 }

@@ -3,16 +3,15 @@ package cowParts;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
-import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
-import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import userInterface.StaticUI;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -107,10 +106,10 @@ public class Cow extends ImageView {
     private boolean diseased = false;
 
     /**
-     * Calls createAnimal and adds the resulting cow body to the playground node
+     * Calls createCow and adds the resulting cow body to the playground node
      */
     public Cow() {
-        createAnimal();
+        createCow();
         Playground.playground.getChildren().add(this);
     }
 
@@ -119,36 +118,23 @@ public class Cow extends ImageView {
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
      * for the cow to be used in PlaygroundUI.
      */
-    private void createAnimal() {
-        try { //res\\moo.png <--- correct path
-            sprite = new Image(new FileInputStream("src/main/resources/Cow01.png"),0, 0, true, false);
+    private void createCow() {
+        try {
+            sprite = new Image(new FileInputStream("src/main/resources/Cows/Cow01.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
         }
         this.setImage(sprite);
         this.setId("Big Beefy" + new Random().nextInt(100));
-        this.relocate(random.nextInt(2000), random.nextInt(2000));
+        this.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
         this.setEffect(color);
         this.setScaleX(3);
         this.setScaleY(3);
         this.setSmooth(false);
-        cowLink = PlaygroundUI.cowCreationEvent(this.getId());
+
+        cowLink = StaticUI.cowCreationEvent(this.getId());
         EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
-
-        addListeners();
-    }
-
-    /**
-     * Creates and applies the various listeners that the cows need to respond to.
-     */
-    private void addListeners() {
-        MenuHandler.allCowMenusOpen.addListener(allMenusOpen -> {
-            if (((BooleanProperty) allMenusOpen).getValue())
-                openMenu();
-            else
-                closeMenu();
-        });
     }
 
     /**
@@ -169,9 +155,9 @@ public class Cow extends ImageView {
      * cow's link from PlaygroundUI.
      */
     public void kill() {
-        closeMenu();
+        MenuHandler.closeMenu(this.cowMenu);
         cowList.remove(this);
-        PlaygroundUI.cowDeathEventUpdate(cowLink);
+        StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
     }
 
@@ -241,19 +227,11 @@ public class Cow extends ImageView {
     /**
      * Calls for the closing of the stats menu for this cow, if the menu is already opened.
      */
-    private void closeMenu() {
+    public void closeMenu() {
         if (menuIsOpened) {
             MenuHandler.closeMenu(this.cowMenu);
             menuIsOpened = false;
         }
-    }
-
-    /**
-     * If the menu for the current cow is opened.
-     * @return True if the menu is opened, false if the menu is closed.
-     */
-    public boolean isMenuOpened() {
-        return menuIsOpened;
     }
 
     /**

@@ -12,9 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menus.MenuHandler;
-import menus.PlaygroundUI;
+import terrain.Tile;
+import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import userInterface.StaticUI;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,7 +30,7 @@ public class SimState extends Application {
 
     /*Scene elements
     Root: The root node that is the parent of the scene and everything within the scene
-    InitialScene: The scene that the simulation starts out in. Holds the playground and playgroundUI
+    InitialScene: The scene that the simulation starts out in. Holds the playground and playgroundStaticUI
     */
     public static Group root = new Group();
     private static Scene initialScene = new Scene(root, 800, 600, Color.GREEN);
@@ -45,7 +47,7 @@ public class SimState extends Application {
     public static int timeOfDay = new Random().nextInt(2400);
 
     /**
-     * Sets the state that the simulation can be in. For example" paused, playing, etc.
+     * Sets the state that the simulation is in. SimState is referenced from outside of this method.
      * @param newState The new state the sim will switch to
      */
     public static void setSimState(@NotNull String newState) {
@@ -63,6 +65,8 @@ public class SimState extends Application {
                 break;
             case "StoryView":
                 simLoop.stop();
+                break;
+            case "TileView":
                 break;
         }
     }
@@ -82,17 +86,20 @@ public class SimState extends Application {
      */
     private static void simInit() {
         Playground.init();
-
+        PlaygroundUI.init();
         Food.initFood();
-        Input.enableInput(initialScene);
 
-        root.getChildren().addAll(Playground.playground, PlaygroundUI.playgroundUI);
+        Input.enableInput(initialScene);
+        root.getChildren().addAll(Playground.playground,
+                PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
+        );
 
         for (int i = 0; i < 50; i++)
             Cow.cowList.add(new Cow());
 
-        PlaygroundUI.createUI();
+        PlaygroundUI.createStaticUI();
         simLoop();
+        Tile.createTiles();
     }
 
     /**
@@ -130,7 +137,7 @@ public class SimState extends Application {
             Movement.checkForCollisions(Cow.cowList.get(i));
         }
         timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
-        PlaygroundUI.updateTimeOfDayText();
+        StaticUI.updateTimeOfDayText();
         MenuHandler.updateOpenMenus();
     }
 
