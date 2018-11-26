@@ -1,7 +1,10 @@
-package control;
+package metaControl;
 
 import cowParts.Cow;
-import environment.Playground;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.transform.Scale;
+import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -14,6 +17,8 @@ public class CameraControl {
     private static final int MOVEMENTOFFSET = 10;
     private static boolean cameraDisable = false;
 
+    private static Scale scaleTransformation = new Scale();
+
     /**
      * Moves the camera's layout position according to the given direction
      * @param direction The direction that the camera was told to move in
@@ -22,16 +27,20 @@ public class CameraControl {
         if (!cameraDisable) {
             switch (direction) {
                 case "North":
-                    Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
+                    if (Playground.playground.getLayoutY() + MOVEMENTOFFSET <= 0)
+                        Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
                     break;
                 case "East":
-                    Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
+                    if (Playground.playground.getLayoutX() - MOVEMENTOFFSET >= -Playground.playground.getBoundsInParent().getMaxX())
+                        Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
                     break;
                 case "South":
-                    Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
+                    if (Playground.playground.getLayoutY() - MOVEMENTOFFSET >= -Playground.playground.getBoundsInParent().getMaxY())
+                        Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
                     break;
                 case "West":
-                    Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
+                    if ((Playground.playground.getLayoutX()) + MOVEMENTOFFSET < 160)
+                        Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
                     break;
                 default:
                     break;
@@ -44,28 +53,29 @@ public class CameraControl {
      * @param xCoord The x coordinate to move to
      * @param yCoord The y coordinate to move to
      */
-    public static void moveCamera(double xCoord, double yCoord) {
+    static void moveCamera(double xCoord, double yCoord) {
         Playground.playground.relocate(-xCoord + 400, -yCoord + 300);
     }
 
-    /**
+    /**TODO: Fix zooming
      * Zooms the camera in/out depending on the direction given by input.
      * @param direction The direction that the camera is to move in
      */
     static void zoomCamera(boolean direction) {
-        double desiredScale = Playground.playground.getScaleX();
+        scaleTransformation.setPivotX(0);
+        scaleTransformation.setPivotY(0);
+
+        Playground.playground.getTransforms().add(scaleTransformation);
 
         if (!cameraDisable) {
             if (direction) {
-                if (Playground.playground.getScaleX() < 4.8)
-                    desiredScale += 0.2;
+                scaleTransformation.setX(scaleTransformation.getX() + 0.01);
+                scaleTransformation.setY(scaleTransformation.getY() + 0.01);
             }
             else {
-                if (Playground.playground.getScaleX() > 0.4)
-                    desiredScale -= 0.2;
+                scaleTransformation.setX(scaleTransformation.getX() - 0.01);
+                scaleTransformation.setY(scaleTransformation.getY() - 0.01);
             }
-            Playground.playground.setScaleX(desiredScale);
-            Playground.playground.setScaleY(desiredScale);
         }
     }
 
@@ -73,8 +83,8 @@ public class CameraControl {
      * Sets the zoom scale back to the default value of one.
      */
     static void resetZoom() {
-        Playground.playground.setScaleX(1);
-        Playground.playground.setScaleY(1);
+        scaleTransformation.setX(1.0);
+        scaleTransformation.setY(1.0);
     }
 
     /**

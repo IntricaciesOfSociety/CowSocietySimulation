@@ -1,14 +1,14 @@
-package environment;
+package metaEnvironment;
 
-import control.CameraControl;
-import control.Input;
-import control.SimState;
+import metaControl.CameraControl;
+import metaControl.Input;
+import metaControl.SimState;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import menus.MenuHandler;
-import menus.PlaygroundUI;
 import org.jetbrains.annotations.NotNull;
+import userInterface.StaticUI;
 
 /**
  * Creates and handles the switching of the panes within the main window (the playground).
@@ -31,16 +31,20 @@ public class Playground {
      */
     public static void init() {
         playground = motion;
-        motion.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        playground.setMinSize(8000, 6000);
+        playground.setPrefSize(8000, 6000);
+        playground.autosize();
+        motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        createBorders();
     }
 
     /**
      * Creates the black border outline for the playground node. Is bound to the bounds of the playground, and is resized
      * accordingly. Automatically updates.
      */
-    public static void createBorders() {
-       // playground.setBorder(new Border(new BorderStroke(Color.BLACK,
-        // BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+    private static void createBorders() {
+       playground.setBorder(new Border(new BorderStroke(Color.BLACK,
+                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     }
 
     /**
@@ -53,7 +57,7 @@ public class Playground {
                 SimState.root.getChildren().remove(playground);
                 playground = detailedView;
 
-                PlaygroundUI.disableUI();
+                StaticUI.disableUI();
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
@@ -64,7 +68,7 @@ public class Playground {
                 SimState.root.getChildren().remove(playground);
                 playground = storyView;
 
-                PlaygroundUI.disableUI();
+                StaticUI.disableUI();
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
@@ -75,10 +79,9 @@ public class Playground {
                 SimState.root.getChildren().remove(playground);
                 playground = motion;
 
-                PlaygroundUI.enableUI();
+                StaticUI.enableUI();
                 SimState.addPlayground(playground);
                 CameraControl.enableCamera();
-
                 break;
         }
     }

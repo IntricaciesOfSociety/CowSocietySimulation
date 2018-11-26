@@ -1,12 +1,16 @@
 package cowParts;
 
-import environment.EventLogger;
-import environment.Food;
+import buildings.Building;
+import javafx.scene.Node;
+import metaEnvironment.EventLogger;
+import metaEnvironment.Playground;
+import resourcesManagement.Food;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 /**
@@ -22,25 +26,8 @@ public class Movement extends Cow {
      * @param movementType The movement that the cow will be performing
      */
     public static void step(String movementType, @NotNull Cow cowToMove) {
-        int randomNumber = random.nextInt(1 + 1 + 5) - 5;
-
         if (!cowToMove.alreadyMoving) {
             switch (movementType) {
-                case "North":
-                    cowToMove.setRotate(270);
-                    cowToMove.setLayoutY(cowToMove.getLayoutY() + Math.sin(Math.toRadians(cowToMove.getRotate())) * randomNumber);
-                    break;
-                case "East":
-                    cowToMove.setLayoutX(cowToMove.getLayoutX() - Math.cos(Math.toRadians(cowToMove.getRotate())) * randomNumber);
-                    break;
-                case "South":
-                    cowToMove.setRotate(90);
-                    cowToMove.setLayoutY(cowToMove.getLayoutY() - Math.sin(Math.toRadians(cowToMove.getRotate())) * randomNumber);
-                    break;
-                case "West":
-                    cowToMove.setRotate(180);
-                    cowToMove.setLayoutX(cowToMove.getLayoutX() - Math.cos(Math.toRadians(cowToMove.getRotate())) * randomNumber);
-                    break;
 
             /*TODO: Switch to timeline implementation? Animation has to be stopped.
             Creates an animation to move the cow to the food
@@ -57,6 +44,7 @@ public class Movement extends Cow {
 
                     final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), cowToMove);
 
+                    cowToMove.setRotate(Math.toDegrees(Math.atan2(distanceY, distanceX)));
                     transition.setOnFinished(event -> openAnimation(100, cowToMove));
 
                     transition.setToX(Food.getX() - cowToMove.getLayoutX());
@@ -64,7 +52,6 @@ public class Movement extends Cow {
                     transition.play();
 
                     cowToMove.setHunger(100);
-
                     EventLogger.createLoggedEvent(cowToMove, "Getting food", 0, "hunger", 100);
 
                     break;
@@ -123,37 +110,66 @@ public class Movement extends Cow {
      * Calls any collision check to be executed during a normal tick.
      */
     public static void checkForCollisions(Cow cowToMove) {
-        checkForCowCollision(cowToMove);
+        checkForCollision(cowToMove);
     }
 
     /**
-     * Checks for cow to cow collision by comparing the current cow to the rest of the cows.
+     * Checks for collision by comparing the current cow to the rest of the nodes in the playground. If playground's root
+     * list is currently being modified, then try again (Yay recursion).
      * @param cowToMove The cow that is being check for collisions
      */
-    private static void checkForCowCollision(Cow cowToMove) {
-        boolean collision = false;
-        for (Cow possibleCollide : cowList) {
-            if (cowToMove.getBoundsInParent().intersects(possibleCollide.getBoundsInParent()) && possibleCollide != cowToMove) {
-                collision = true;
-                if (!Social.relationExists(cowToMove, possibleCollide)) {
-                    Social.newRelation(cowToMove, possibleCollide);
-                    cowToMove.setCompanionship(cowToMove.getCompanionship() + 5);
-                    EventLogger.createLoggedEvent(cowToMove, "new relationship", 1, "companionship", 5);
-                }
-                else {
-                    if (random.nextInt(1000) == 1)
-                        Social.modifyRelationValue(cowToMove, possibleCollide, random.nextInt(2));
+    private static void checkForCollision(Cow cowToMove) {
+        try {
+            for (Node possibleCollide : Playground.playground.getChildren()) {
+                if (possibleCollide != cowToMove && cowToMove.getBoundsInParent().intersects(possibleCollide.getBoundsInParent())) {
+                    if (possibleCollide instanceof Cow)
+                        cowToCowCollision(cowToMove, (Cow) possibleCollide);
+                    else if (possibleCollide instanceof Building)
+                        cowToBuildingCollision(cowToMove, (Building) possibleCollide);
                 }
             }
         }
-        if (collision) {
+        catch (ConcurrentModificationException e) {
+            checkForCollisions(cowToMove);
+        }
+    }
+
+    /**
+     * Handles a cow to cow collision. If a collision has occurred create a child, if one hasn't been created already.
+     * Increase companionship if applicable.
+     * @param cowToMove The first cow to collide
+     * @param intersectingCow The other cow to collide
+     */
+    private static void cowToCowCollision(Cow cowToMove, Cow intersectingCow) {
+        if (Social.relationExists(cowToMove, intersectingCow)) {
             if (!cowToMove.parent) {
                 cowToMove.parent = true;
+
                 Cow newCow = new Cow();
                 newCow.parent = true;
+
                 newCow.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
                 cowList.add(newCow);
             }
+
+            if (random.nextInt(1000) == 1)
+                Social.modifyRelationValue(cowToMove, intersectingCow, random.nextInt(2));
         }
+        else {
+            Social.newRelation(cowToMove, intersectingCow);
+            cowToMove.setCompanionship(cowToMove.getCompanionship() + 5);
+            EventLogger.createLoggedEvent(cowToMove, "new relationship", 1, "companionship", 5);
+        }
+    }
+
+    /**
+     * Handles a collision between the given building and cow. Moves the cow into the building as an inhabitant.
+     * @param cowToMove The cow that is colliding
+     * @param intersectingBuilding The building that is colliding
+     */
+    private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Building intersectingBuilding) {
+        Playground.playground.getChildren().remove(cowToMove);
+        if (!intersectingBuilding.getCurrentInhabitants().contains(cowToMove))
+            intersectingBuilding.addInhabitant(cowToMove);
     }
 }

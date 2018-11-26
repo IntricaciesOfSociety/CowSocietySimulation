@@ -1,8 +1,9 @@
-package control;
+package metaControl;
 
+import buildings.Building;
 import cowParts.Cow;
-import environment.Food;
-import environment.Playground;
+import resourcesManagement.Food;
+import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -11,8 +12,10 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import menus.MenuHandler;
-import menus.PlaygroundUI;
+import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
+import userInterface.StaticUI;
+import userInterface.TileUI;
 
 import java.util.ArrayList;
 
@@ -59,7 +62,7 @@ public class Input {
 
                 //Toggles all cow menus
                 case N:
-                    if(SimState.getSimState().equals("Playing"))
+                    if(SimState.getSimState().equals("Playing") || SimState.getSimState().equals("TileView"))
                         toggleAllCowMenus();
                     break;
 
@@ -69,16 +72,17 @@ public class Input {
                         SimState.setSimState("Paused");
                     else
                         SimState.setSimState("Playing");
+                    break;
             }
         });
 
         /*
          * Saves the mouse drag point's coords anytime that the mouse is pressed based on the mouse's current coords
-         * within the scene.
+         * within the playground.
          */
-        scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-            startXDrag = mouseEvent.getX() - Playground.playground.getLayoutX();
-            startYDrag = mouseEvent.getY() - Playground.playground.getLayoutY();
+        Playground.playground.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+            startXDrag = mouseEvent.getX();
+            startYDrag = mouseEvent.getY();
         });
 
         /*
@@ -103,7 +107,19 @@ public class Input {
         Playground.playground.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             if (mouseEvent.getTarget() instanceof Cow) {
                 ((Cow) mouseEvent.getTarget()).switchMenuState();
-                PlaygroundUI.cowClickEvent();
+                StaticUI.cowClickEvent();
+            }
+            else if (mouseEvent.getTarget() instanceof Building) {
+                ((Building) mouseEvent.getTarget()).toggleInhabitantsMenu();
+
+                if (SimState.getSimState().equals("TileView")) {
+                    TileUI.setSelectedTile((Building) mouseEvent.getTarget());
+                    TileUI.updateUI();
+                }
+            }
+            else if (mouseEvent.getTarget() instanceof Tile && SimState.getSimState().equals("TileView")) {
+                TileUI.setSelectedTile((Tile) mouseEvent.getTarget());
+                TileUI.updateUI();
             }
         });
 
@@ -141,7 +157,7 @@ public class Input {
             if (Cow.cowList.get(i).getAnimatedX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getAnimatedX() < dragBox.getBoundsInParent().getMaxX()
                 && Cow.cowList.get(i).getAnimatedY() > dragBox.getBoundsInParent().getMinY() && Cow.cowList.get(i).getAnimatedY() < dragBox.getBoundsInParent().getMaxY()) {
                 Cow.cowList.get(i).openMenu();
-                PlaygroundUI.cowClickEvent();
+                StaticUI.cowClickEvent();
             }
 
         }
@@ -151,12 +167,21 @@ public class Input {
      * Sets all cow menus to open or closed based off of the value of allCowMenusOpen.
      */
     private static void toggleAllCowMenus() {
-        if (MenuHandler.allCowMenusOpen.getValue())
-                MenuHandler.allCowMenusOpen.set(false);
-        else
-                MenuHandler.allCowMenusOpen.set(true);
+        if (MenuHandler.allCowMenusOpen) {
+            MenuHandler.allCowMenusOpen = false;
+            for (Cow cow : Cow.cowList) {
+                cow.closeMenu();
+            }
+        }
+        else {
+            MenuHandler.allCowMenusOpen = true;
+            for (Cow cow : Cow.cowList) {
+                cow.openMenu();
+            }
+        }
 
-        PlaygroundUI.cowClickEvent();
+
+        StaticUI.cowClickEvent();
     }
 
     /**

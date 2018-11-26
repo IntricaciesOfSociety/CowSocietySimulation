@@ -1,9 +1,8 @@
 package menus;
 
+import buildings.Building;
 import cowParts.Cow;
-import environment.Playground;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import metaEnvironment.Playground;
 import org.jetbrains.annotations.*;
 
 import java.util.ArrayList;
@@ -13,10 +12,12 @@ import java.util.ArrayList;
  */
 public class MenuHandler {
 
-    //Stores every open menu
+    //Stores every open cow menu
     private static ArrayList<MenuCreation> openCowMenus = new ArrayList<>();
 
-    public static BooleanProperty allCowMenusOpen = new SimpleBooleanProperty(false);
+    private static ArrayList<MenuCreation> openInhabitantMenus = new ArrayList<>();
+
+    public static boolean allCowMenusOpen = false;
 
     /**
      * Calls for the creation of a menu based on the given selected cows.
@@ -40,12 +41,36 @@ public class MenuHandler {
     }
 
     /**
+     * Calls the creation of a inhabitants menu that shows what cows are in a building.
+     * @param buildingToCreateMenuFrom The building whos inhabitants are going to be contained in the menu
+     * @return The inhabitants menu that was created.
+     */
+    @NotNull
+    @Contract(value = "_ -> new", pure = true)
+    public static MenuCreation createInhabitantsMenu(Building buildingToCreateMenuFrom) {
+        MenuCreation inhabitantsMenu = new MenuCreation(buildingToCreateMenuFrom);
+        openInhabitantMenus.add(inhabitantsMenu);
+        return inhabitantsMenu;
+    }
+
+    /**TODO: Implement
+     * Creates a menu that only contains an error message. Caused by the player trying to do something within the sim
+     * that doesn't make sense such as making a large building on a small space.
+     */
+    public static void createErrorMenu() {
+
+    }
+
+    /**
      * Closes the given menu by removing it from its parent node
      * @param menu the menu to be closed
      */
     public static void closeMenu(@NotNull MenuCreation menu) {
         menu.stack.getChildren().clear();
-        openCowMenus.remove(menu);
+
+        if (openCowMenus.contains(menu))
+            openCowMenus.remove(menu);
+
         Playground.playground.getChildren().remove(menu.stack);
     }
 
@@ -55,6 +80,10 @@ public class MenuHandler {
     public static void updateOpenMenus() {
         for (MenuCreation openMenu : openCowMenus) {
             openMenu.updateCowMenu();
+        }
+
+        for (MenuCreation openMenu : openInhabitantMenus) {
+            openMenu.updateInhabitantMenu();
         }
     }
 

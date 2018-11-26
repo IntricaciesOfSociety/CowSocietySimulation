@@ -1,12 +1,13 @@
-package environment;
+package resourcesManagement;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.Playground;
 
 import java.util.Random;
 
 /**
- * TODO: Implement proper food
+ * TODO: Implement proper food object
  * TEST ONLY, TEMPORARY.
  * Creates a rectangle that cows move to when their hunger is 0.
  */
@@ -21,8 +22,8 @@ public class Food {
         foodObject.setWidth(50);
         foodObject.setHeight(50);
         foodObject.setFill(Color.BLUE);
-        foodObject.setX(random.nextInt(800));
-        foodObject.setY(random.nextInt(600));
+        foodObject.setX(random.nextInt((int) Playground.playground.getPrefWidth()));
+        foodObject.setY(random.nextInt((int) Playground.playground.getPrefHeight()));
         Playground.playground.getChildren().add(foodObject);
     }
 
