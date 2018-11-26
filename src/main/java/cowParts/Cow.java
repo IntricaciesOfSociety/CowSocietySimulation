@@ -1,5 +1,7 @@
 package cowParts;
 
+import buildings.Building;
+import buildings.BuildingHandler;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -28,16 +30,21 @@ public class Cow extends ImageView {
     //List that holds every created cow
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
+    //The list that holds every hidden cow
+    public static ArrayList<Cow> hiddenCows = new ArrayList<>();
+
     Social socialRelations = new Social();
 
     /* Control flags
     alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)
     delayTimer: The animation timer that is created to delay movement
     counter: A counter that updates based of the main loop ticks
+    hidden: If the cow is to be updated from the cowList or not
      */
     boolean alreadyMoving = false;
     AnimationTimer delayTimer;
     private int counter = 0;
+    private boolean hidden = false;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
@@ -105,6 +112,9 @@ public class Cow extends ImageView {
     //Statuses
     private boolean diseased = false;
 
+    //Where the cow currently resides
+    private Building livingSpace;
+
     /**
      * Calls createCow and adds the resulting cow body to the playground node
      */
@@ -133,6 +143,8 @@ public class Cow extends ImageView {
         this.setScaleY(3);
         this.setSmooth(false);
 
+        setLivingSpace(BuildingHandler.getBuildingAssignment(this.getId()));
+
         cowLink = StaticUI.cowCreationEvent(this.getId());
         EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
     }
@@ -141,7 +153,7 @@ public class Cow extends ImageView {
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
      * increases about 60 times a second.
      */
-    public void updateVitals() {
+    void updateVitals() {
         counter++;
         if (counter % 1000 == 0)
             counter = 0;
@@ -155,7 +167,9 @@ public class Cow extends ImageView {
      * cow's link from PlaygroundUI.
      */
     public void kill() {
-        MenuHandler.closeMenu(this.cowMenu);
+        if (menuIsOpened)
+            MenuHandler.closeMenu(this.cowMenu);
+
         cowList.remove(this);
         StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
@@ -168,6 +182,37 @@ public class Cow extends ImageView {
     public static void killAll(@NotNull ArrayList<Cow> killList) {
         for (Cow cowToKill : killList)
             cowToKill.kill();
+    }
+
+    /**
+     * Closes the cows menu if applicable then stops the cow from being updated by removing it from the cowList and
+     * playground node. This cow cannot be directly selected while its hidden value is true.
+     */
+    void hide() {
+        if (menuIsOpened)
+            MenuHandler.closeMenu(this.cowMenu);
+
+        hidden = true;
+        cowList.remove(this);
+        hiddenCows.add(this);
+        Playground.playground.getChildren().remove(this);
+    }
+
+    /**
+     * Allows the cow to be updated again by adding it back into the cowList and setting hidden to false.
+     */
+    public void show() {
+        hidden = false;
+        cowList.add(this);
+        Playground.playground.getChildren().add(this);
+        hiddenCows.remove(this);
+    }
+
+    /**
+     * @return If the cow is hidden or not
+     */
+    public boolean isHidden() {
+        return hidden;
     }
 
     /**
@@ -486,5 +531,13 @@ public class Cow extends ImageView {
      */
     public String getAcademicAggregate() {
         return Integer.toString((intelligence)) + "/100";
+    }
+
+    public Building getLivingSpace() {
+        return livingSpace;
+    }
+
+    public void setLivingSpace(Building livingSpace) {
+        this.livingSpace = livingSpace;
     }
 }

@@ -1,5 +1,7 @@
 package metaControl;
 
+import buildings.Building;
+import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.Movement;
 import resourcesManagement.Food;
@@ -91,6 +93,7 @@ public class SimState extends Application {
         simLoop();
         Tile.createTiles();
         Food.initFood();
+        BuildingHandler.init();
 
         Input.enableInput(initialScene);
         root.getChildren().addAll(Playground.playground,
@@ -126,14 +129,7 @@ public class SimState extends Application {
      */
     private static void updateTick() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
-            //TODO: Move movement to AI
-            if (Cow.cowList.get(i).getHunger() < 10)
-                Movement.step("toFood", Cow.cowList.get(i));
-            else
-                Movement.step("random", Cow.cowList.get(i));
-
-            Cow.cowList.get(i).updateVitals();
-            Movement.checkForCollisions(Cow.cowList.get(i));
+            Movement.decideAction(Cow.cowList.get(i));
         }
         timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
         StaticUI.updateTimeOfDayText();
@@ -180,7 +176,7 @@ public class SimState extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Prototype03");
+        primaryStage.setTitle("Prototype05");
         primaryStage.setScene(initialScene);
         primaryStage.show();
 

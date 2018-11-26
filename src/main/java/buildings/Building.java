@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
+import metaControl.SimState;
+import metaEnvironment.Playground;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
 
 import java.util.ArrayList;
@@ -17,25 +21,36 @@ public class Building extends ImageView {
     private boolean inhabitantsMenuOpened = false;
     private MenuCreation inhabitantsMenu;
 
+    private String streetAddress;
+
+    // TODO:Implement
+    private int maximumCapacity = 10;
+
     private ArrayList<Cow> currentInhabitants = new ArrayList<>();
 
     /**
      * Calls for the creation of a building given an image.
      * @param buildingSprite The image to create a building from
+     * @param tileToBuildOn The tile that the building will be built on
      */
-    Building(Image buildingSprite) {
-        constructBuilding(buildingSprite);
+    Building(Image buildingSprite, ImageView tileToBuildOn) {
+        constructBuilding(buildingSprite, tileToBuildOn);
     }
 
     /**
      * Creates a Building with the given image and ties that Building to a tile.
      * @param buildingSprite The image to be used for an ImageView relation to a tile.
+     * @param tileToBuildOn The tile that the building will be built on
      */
-    private void constructBuilding(Image buildingSprite) {
+    private void constructBuilding(Image buildingSprite, ImageView tileToBuildOn) {
         this.setImage(buildingSprite);
-        this.setOpacity(0.5);
-        int tileSize = (buildingSprite.getWidth() > 10) ? 1 : 4;
-        Tile.tieToBuilding(this, tileSize);
+
+        int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
+        streetAddress = Tile.tieToBuilding(this, tileToBuildOn, tileSize);
+        Playground.playground.getChildren().add(this);
+
+        if (SimState.getSimState().equals("TileView"))
+            this.setOpacity(0.5);
     }
 
     /**
@@ -67,5 +82,16 @@ public class Building extends ImageView {
             inhabitantsMenu = MenuHandler.createInhabitantsMenu(this);
             inhabitantsMenuOpened = true;
         }
+    }
+
+    /**TODO: Implement
+     * Returns the street address of the given building.
+     * @param buildingToFindAddress The building whose address is being found
+     * @return The address found
+     */
+    @Contract(pure = true)
+    public static String getStreetAddress(@NotNull Building buildingToFindAddress) {
+        System.out.println(buildingToFindAddress);
+        return buildingToFindAddress.streetAddress;
     }
 }

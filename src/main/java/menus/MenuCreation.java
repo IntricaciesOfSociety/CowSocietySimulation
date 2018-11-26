@@ -147,9 +147,11 @@ public class MenuCreation {
         stack = new Pane();
 
         numberOfInhabitants.setFill(Color.RED);
+        numberOfInhabitants.relocate(10, 30);
+        numberOfInhabitants.setFont(Font.font("Verdana", FontWeight.BOLD, 48));
         clickedBuilding = buildingToCreateMenuFrom;
 
-        stack.relocate(clickedBuilding.getLayoutX(), clickedBuilding.getLayoutY());
+        stack.relocate(clickedBuilding.getLayoutX() + 175, clickedBuilding.getLayoutY() + 175);
 
         stack.getChildren().addAll(background, numberOfInhabitants);
         Playground.playground.getChildren().add(stack);

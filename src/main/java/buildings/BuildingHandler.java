@@ -1,7 +1,10 @@
 package buildings;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import menus.MenuHandler;
+import org.jetbrains.annotations.Contract;
+import terrain.Tile;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,10 +19,18 @@ public class BuildingHandler {
     private static ArrayList<Building> constructedBuildings = new ArrayList<>();
 
     /**
-     * Finds the image corresponding to the given string.
-     * @param imageName The name of the image to have a building created from.
+     * Creates the necessary buildings based off the situation chosen for the sim.
      */
-    public static void createBuilding(String imageName) {
+    public static void init() {
+        createBuilding("CowShack", Tile.getRandomTile());
+    }
+
+    /**
+     * Finds the image corresponding to the given string.
+     * @param imageName The name of the image to have a building created from
+     * @return The new building
+     */
+    public static Building createBuilding(String imageName, ImageView tileToBuildOn) {
         Image buildingSprite = null;
         try {
             buildingSprite = new Image(new FileInputStream("src/main/resources/Buildings/" + imageName + ".png"),0, 0, true, false);
@@ -27,7 +38,9 @@ public class BuildingHandler {
         catch (FileNotFoundException error) {
             MenuHandler.createErrorMenu();
         }
-        constructedBuildings.add(new Building(buildingSprite));
+        Building newBuilding = new Building(buildingSprite, tileToBuildOn);
+        constructedBuildings.add(newBuilding);
+        return newBuilding;
     }
 
     /**TODO: Implement
@@ -52,5 +65,15 @@ public class BuildingHandler {
         for (Building building : constructedBuildings) {
             building.setOpacity(1);
         }
+    }
+
+    /**TODO: Implement
+     * Assigns the given cow to it's building.
+     * @param cowIDToAssign The cow's ID to find the building assignment from
+     * @return The building that is being assigned
+     */
+    @Contract(pure = true)
+    public static Building getBuildingAssignment(String cowIDToAssign) {
+        return constructedBuildings.get(0);
     }
 }
