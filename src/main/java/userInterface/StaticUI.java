@@ -1,5 +1,6 @@
 package userInterface;
 
+import buildings.Building;
 import com.sun.istack.internal.NotNull;
 import cowParts.Cow;
 import javafx.scene.Group;
@@ -27,7 +28,7 @@ public class StaticUI {
     private static Text idText = new Text("Cow: N/A");
     private static Text populationText = new Text("Population : " + Cow.cowList.size());
     private static Label actionText = new Label();
-    private static Label accommodationsText = new Label("Lives at 939 Drive \n with BigBeefy");
+    private static Label accommodationsText = new Label();
     private static Text timeOfDay = new Text();
 
     //Structure for the cowLinks
@@ -189,6 +190,7 @@ public class StaticUI {
     public static void cowClickEvent() {
         updateIdText();
         updateActionText();
+        updateAccommodationsText();
         initControlButtons();
         updatePopulationText();
     }
@@ -237,6 +239,9 @@ public class StaticUI {
             idText.setText("No cow selected");
     }
 
+    /**
+     * Updates the action text within the staticUI based off the cows selected
+     */
     private static void updateActionText() {
         if (Input.selectedCows.size() > 1)
             actionText.setText("Many actions");
@@ -247,10 +252,25 @@ public class StaticUI {
     }
 
     /**
+     * Updates the accommodations text within the staticUI based off the cows selected
+     */
+    private static void updateAccommodationsText() {
+        if (Input.selectedCows.size() > 1)
+            accommodationsText.setText("Many residences");
+        else if (Input.selectedCows.size() == 1) {
+            StringBuilder residence = new StringBuilder(Building.getStreetAddress(Input.selectedCows.get(0).getLivingSpace()));
+            residence.insert(19, '\n');
+            accommodationsText.setText(residence.toString());
+        }
+        else
+            accommodationsText.setText("");
+    }
+
+    /**
      * Updates the populationText based off the size of Cow.cowList
      */
     private static void updatePopulationText() {
-        populationText.setText("Population : " + Cow.cowList.size());
+        populationText.setText("Population : " + (Cow.cowList.size() + Cow.hiddenCows.size()));
     }
 
     /**

@@ -6,7 +6,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import metaControl.SimState;
 import org.jetbrains.annotations.Contract;
+import terrain.Tile;
 
 /**
  * Creates handles tiles within the simulation. A tile is a space of land that can hold either plain terrain, or
@@ -36,8 +38,8 @@ public class TileUI {
 
         BuildingHandler.highlightBuildings();
 
-        buildButton.setOnAction(event -> BuildingHandler.createBuilding("CityCenter"));
-        buildButton2.setOnAction(event -> BuildingHandler.createBuilding("CowShack"));
+        buildButton.setOnAction(event -> BuildingHandler.createBuilding("CityCenter", selectedTile));
+        buildButton2.setOnAction(event -> BuildingHandler.createBuilding("CowShack", selectedTile));
     }
 
     /**
@@ -70,6 +72,7 @@ public class TileUI {
     static void close() {
         opened = false;
         BuildingHandler.dehighlightBuildings();
+        SimState.setSimState("Playing");
         PlaygroundUI.buildingUI.getChildren().clear();
     }
 

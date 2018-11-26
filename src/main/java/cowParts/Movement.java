@@ -1,14 +1,19 @@
 package cowParts;
 
 import buildings.Building;
+import buildings.BuildingHandler;
 import javafx.scene.Node;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
+import org.jetbrains.annotations.Contract;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import resourcesManagement.Food;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import terrain.Tile;
+import userInterface.TileUI;
 
 import java.util.ConcurrentModificationException;
 import java.util.Random;
@@ -19,6 +24,8 @@ import java.util.Random;
 public class Movement extends Cow {
 
     private static Random random = new Random();
+
+    private static Tile tileStandingOn;
 
     /**
      * TODO: Put into the AI
@@ -126,6 +133,8 @@ public class Movement extends Cow {
                         cowToCowCollision(cowToMove, (Cow) possibleCollide);
                     else if (possibleCollide instanceof Building)
                         cowToBuildingCollision(cowToMove, (Building) possibleCollide);
+                    else if (possibleCollide instanceof  Tile)
+                        cowToTileCollision((Tile) possibleCollide);
                 }
             }
         }
@@ -168,8 +177,41 @@ public class Movement extends Cow {
      * @param intersectingBuilding The building that is colliding
      */
     private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Building intersectingBuilding) {
-        Playground.playground.getChildren().remove(cowToMove);
+        cowToMove.hide();
         if (!intersectingBuilding.getCurrentInhabitants().contains(cowToMove))
             intersectingBuilding.addInhabitant(cowToMove);
+    }
+
+    /**
+     * Handles a collision between the given tile and cow. Sets the tile that the cow is on to this tile.
+     * @param possibleCollide The tile that is colliding
+     */
+    private static void cowToTileCollision(Tile possibleCollide) {
+        tileStandingOn = possibleCollide;
+    }
+
+    public static void decideAction(@NotNull Cow cowToCheck) {
+        //TODO: Move movement to AI
+        if (cowToCheck.getHunger() <= 10)
+            step("toFood", cowToCheck);
+        else
+            step("random", cowToCheck);
+
+        cowToCheck.updateVitals();
+        Movement.checkForCollisions(cowToCheck);
+
+        if (cowToCheck.getDebt() <= 10) {
+            cowToCheck.setLivingSpace(BuildingHandler.createBuilding("CowShack", tileStandingOn));
+            cowToCheck.setDebt(100);
+        }
+    }
+
+    /**
+     * Gets the tile that the last cow checked is standing on.
+     * @return The tile that the cow is standing on
+     */
+    @Contract(pure = true)
+    public static Tile getStandingTile() {
+        return tileStandingOn;
     }
 }

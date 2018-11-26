@@ -38,7 +38,7 @@ public class EventLogger {
      *                   to the city-wide log or not.
      */
     private void logEvent(int importance) {
-        System.out.println("Logged" + importance);
+        
     }
 
     /**

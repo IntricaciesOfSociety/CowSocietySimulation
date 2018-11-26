@@ -155,7 +155,8 @@ public class Input {
     private static void checkDragBox() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
             if (Cow.cowList.get(i).getAnimatedX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getAnimatedX() < dragBox.getBoundsInParent().getMaxX()
-                && Cow.cowList.get(i).getAnimatedY() > dragBox.getBoundsInParent().getMinY() && Cow.cowList.get(i).getAnimatedY() < dragBox.getBoundsInParent().getMaxY()) {
+                && Cow.cowList.get(i).getAnimatedY() > dragBox.getBoundsInParent().getMinY() && Cow.cowList.get(i).getAnimatedY() < dragBox.getBoundsInParent().getMaxY()
+                && !Cow.cowList.get(i).isHidden()) {
                 Cow.cowList.get(i).openMenu();
                 StaticUI.cowClickEvent();
             }
