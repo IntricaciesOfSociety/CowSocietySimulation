@@ -31,11 +31,11 @@ public class CameraControl {
                         Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
                     break;
                 case "East":
-                    if (Playground.playground.getLayoutX() - MOVEMENTOFFSET >= -Playground.playground.getWidth() + 800)
+                    if (Playground.playground.getLayoutX() - MOVEMENTOFFSET >= -Playground.playground.getBoundsInParent().getMaxX())
                         Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
                     break;
                 case "South":
-                    if (Playground.playground.getLayoutY() - MOVEMENTOFFSET >= -Playground.playground.getHeight() + 600)
+                    if (Playground.playground.getLayoutY() - MOVEMENTOFFSET >= -Playground.playground.getBoundsInParent().getMaxY())
                         Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
                     break;
                 case "West":
@@ -62,11 +62,8 @@ public class CameraControl {
      * @param direction The direction that the camera is to move in
      */
     static void zoomCamera(boolean direction) {
-
-        Bounds bounds = Playground.playground.getBoundsInLocal();
-        Point2D point = Playground.playground.sceneToLocal(new Point2D(bounds.getMinX() + 450, bounds.getMinY() + 300));
-        scaleTransformation.setPivotX(point.getX());
-        scaleTransformation.setPivotY(point.getY());
+        scaleTransformation.setPivotX(0);
+        scaleTransformation.setPivotY(0);
 
         Playground.playground.getTransforms().add(scaleTransformation);
 

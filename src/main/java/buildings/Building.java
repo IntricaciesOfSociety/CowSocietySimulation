@@ -33,8 +33,7 @@ public class Building extends ImageView {
      */
     private void constructBuilding(Image buildingSprite) {
         this.setImage(buildingSprite);
-        this.setScaleX(20);
-        this.setScaleY(40);
+        this.setOpacity(0.5);
         int tileSize = (buildingSprite.getWidth() > 10) ? 1 : 4;
         Tile.tieToBuilding(this, tileSize);
     }

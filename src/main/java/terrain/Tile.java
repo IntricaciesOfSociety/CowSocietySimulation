@@ -26,8 +26,6 @@ public class Tile extends ImageView {
 
         this.setLayoutX(xCoord);
         this.setLayoutY(yCoord);
-        this.setScaleX(20);
-        this.setScaleY(40);
         Playground.playground.getChildren().add(this);
     }
 
@@ -39,24 +37,26 @@ public class Tile extends ImageView {
     public static void tieToBuilding(ImageView building, int numberOfSpaces) {
         if (getIsRoom(numberOfSpaces)) {
             building.setLayoutX(TileUI.getSelectedTile().getLayoutX());
-            building.setLayoutY(TileUI.getSelectedTile().getLayoutX());
+            building.setLayoutY(TileUI.getSelectedTile().getLayoutY());
             Playground.playground.getChildren().add(building);
         }
         else
             MenuHandler.createErrorMenu();
     }
 
-    /**TODO: Implement
+    /**
      * Creates the perfect amount of tiles based on the size of the playground.
      */
     public static void createTiles() {
-        try {
-            new Tile(500, 500, new Image(new FileInputStream("src/main/resources/Buildings/EmptyTile.png"),0, 0, true, false));
-            new Tile(1000, 1000, new Image(new FileInputStream("src/main/resources/Buildings/EmptyTile.png"),0, 0, true, false));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        for (int i = 0; i < Playground.playground.getPrefHeight() / 400; i++) {
+            for (int j = 0; j < Playground.playground.getPrefWidth() / 400; j++) {
+                try {
+                    new Tile(400 * j, i * 400, new Image(new FileInputStream("src/main/resources/Buildings/EmptyTile.png"),0, 0, true, false));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
     }
 
     /**TODO: Implement

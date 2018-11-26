@@ -87,6 +87,9 @@ public class SimState extends Application {
     private static void simInit() {
         Playground.init();
         PlaygroundUI.init();
+        PlaygroundUI.createStaticUI();
+        simLoop();
+        Tile.createTiles();
         Food.initFood();
 
         Input.enableInput(initialScene);
@@ -96,10 +99,6 @@ public class SimState extends Application {
 
         for (int i = 0; i < 50; i++)
             Cow.cowList.add(new Cow());
-
-        PlaygroundUI.createStaticUI();
-        simLoop();
-        Tile.createTiles();
     }
 
     /**

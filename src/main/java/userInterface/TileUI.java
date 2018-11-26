@@ -20,21 +20,24 @@ public class TileUI {
     private static Text tileText;
 
     /**
-     * Creates the UI components for the TileUI.
+     * Creates the UI components for the TileUI. Layout is temp.
      */
     private static void init() {
         Rectangle background = new Rectangle(225, 0, 500, 50);
         tileText = new Text(250, 25, "TILE UI        " + selectedTile);
-        Button buildButton = new Button("Build");
+        Button buildButton = new Button("Build City Center");
+        Button buildButton2 = new Button("Build Cow Shack");
 
         tileText.setFill(Color.RED);
-        buildButton.relocate(625, 25);
+        buildButton.relocate(615, 0);
+        buildButton2.relocate(615, 25);
 
-        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, buildButton);
+        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, buildButton, buildButton2);
 
         BuildingHandler.highlightBuildings();
 
         buildButton.setOnAction(event -> BuildingHandler.createBuilding("CityCenter"));
+        buildButton2.setOnAction(event -> BuildingHandler.createBuilding("CowShack"));
     }
 
     /**

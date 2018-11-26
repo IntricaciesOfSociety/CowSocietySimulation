@@ -62,7 +62,7 @@ public class Input {
 
                 //Toggles all cow menus
                 case N:
-                    if(SimState.getSimState().equals("Playing"))
+                    if(SimState.getSimState().equals("Playing") || SimState.getSimState().equals("TileView"))
                         toggleAllCowMenus();
                     break;
 
