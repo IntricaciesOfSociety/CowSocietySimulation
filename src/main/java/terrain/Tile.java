@@ -1,6 +1,5 @@
 package terrain;
 
-import cowParts.Movement;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -90,7 +89,7 @@ public class Tile extends ImageView {
             for (int j = 0; j < ROWTILES; j++) {
                 try {
                     tileList.add(new Tile(400 * j, i * 400, new Image(
-                            new FileInputStream("src/main/resources/Buildings/EmptyTile.png"),
+                            new FileInputStream("src/main/resources/Environment/EmptyTile.png"),
                             0, 0, true, false)));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

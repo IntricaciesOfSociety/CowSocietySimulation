@@ -6,14 +6,12 @@ import javafx.scene.Node;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-import resourcesManagement.Food;
+import resourcesManagement.Water;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
-import userInterface.TileUI;
 
 import java.util.ConcurrentModificationException;
 import java.util.Random;
@@ -32,7 +30,7 @@ public class Movement extends Cow {
      * Moves the cow in a specified direction. Used for testing while AI is not implemented.
      * @param movementType The movement that the cow will be performing
      */
-    public static void step(String movementType, @NotNull Cow cowToMove) {
+    private static void step(String movementType, @NotNull Cow cowToMove) {
         if (!cowToMove.alreadyMoving) {
             switch (movementType) {
 
@@ -40,13 +38,13 @@ public class Movement extends Cow {
             Creates an animation to move the cow to the food
              */
                 case "toFood":
-                    cowToMove.currentAction = "Getting Food";
+                    cowToMove.currentAction = "Getting Water";
                     cowToMove.setRotate(random.nextInt(360 + 1 + 360) - 360);
 
                     cowToMove.alreadyMoving = true;
 
-                    double distanceX = Food.getX() - cowToMove.getLayoutX();
-                    double distanceY = Food.getY() - cowToMove.getLayoutY();
+                    double distanceX = Water.getX() - cowToMove.getLayoutX();
+                    double distanceY = Water.getY() - cowToMove.getLayoutY();
                     double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
                     final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), cowToMove);
@@ -54,8 +52,8 @@ public class Movement extends Cow {
                     cowToMove.setRotate(Math.toDegrees(Math.atan2(distanceY, distanceX)));
                     transition.setOnFinished(event -> openAnimation(100, cowToMove));
 
-                    transition.setToX(Food.getX() - cowToMove.getLayoutX());
-                    transition.setToY(Food.getY() - cowToMove.getLayoutY());
+                    transition.setToX(Water.getX() - cowToMove.getLayoutX());
+                    transition.setToY(Water.getY() - cowToMove.getLayoutY());
                     transition.play();
 
                     cowToMove.setHunger(100);
@@ -71,7 +69,6 @@ public class Movement extends Cow {
                     break;
             }
         }
-
     }
 
     /**
@@ -116,7 +113,7 @@ public class Movement extends Cow {
     /**
      * Calls any collision check to be executed during a normal tick.
      */
-    public static void checkForCollisions(Cow cowToMove) {
+    private static void checkForCollisions(Cow cowToMove) {
         checkForCollision(cowToMove);
     }
 
@@ -190,7 +187,17 @@ public class Movement extends Cow {
         tileStandingOn = possibleCollide;
     }
 
+    /**
+     * Handles where the given cow is going to move.
+     * @param cowToCheck The how whose movements are being decided
+     */
     public static void decideAction(@NotNull Cow cowToCheck) {
+        //Stop the cow from moving normally if the cow is hidden
+        if (cowToCheck.isHidden()) {
+            cowToCheck.updateVitals();
+            return;
+        }
+
         //TODO: Move movement to AI
         if (cowToCheck.getHunger() <= 10)
             step("toFood", cowToCheck);

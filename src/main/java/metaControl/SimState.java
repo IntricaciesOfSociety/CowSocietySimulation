@@ -1,10 +1,9 @@
 package metaControl;
 
-import buildings.Building;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.Movement;
-import resourcesManagement.Food;
+import resourcesManagement.Water;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -92,7 +91,7 @@ public class SimState extends Application {
         PlaygroundUI.createStaticUI();
         simLoop();
         Tile.createTiles();
-        Food.initFood();
+        Water.initFood();
         BuildingHandler.init();
 
         Input.enableInput(initialScene);

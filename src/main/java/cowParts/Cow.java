@@ -130,7 +130,7 @@ public class Cow extends ImageView {
      */
     private void createCow() {
         try {
-            sprite = new Image(new FileInputStream("src/main/resources/Cows/Cow01.png"),0, 0, true, false);
+            sprite = new Image(new FileInputStream("src/main/resources/Cows/GayCow.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
@@ -201,11 +201,13 @@ public class Cow extends ImageView {
     /**
      * Allows the cow to be updated again by adding it back into the cowList and setting hidden to false.
      */
-    public void show() {
-        hidden = false;
-        cowList.add(this);
-        Playground.playground.getChildren().add(this);
-        hiddenCows.remove(this);
+    void show() {
+        if (hidden) {
+            hidden = false;
+            hiddenCows.remove(this);
+            cowList.add(this);
+            Playground.playground.getChildren().add(this);
+        }
     }
 
     /**
@@ -537,7 +539,7 @@ public class Cow extends ImageView {
         return livingSpace;
     }
 
-    public void setLivingSpace(Building livingSpace) {
+    void setLivingSpace(Building livingSpace) {
         this.livingSpace = livingSpace;
     }
 }
