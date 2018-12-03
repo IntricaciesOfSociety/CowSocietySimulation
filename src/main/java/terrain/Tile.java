@@ -1,5 +1,7 @@
 package terrain;
 
+import buildings.Building;
+import buildings.BuildingHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,13 +48,18 @@ public class Tile extends ImageView {
      * @param numberOfSpaces The number of spaces that the proposed building takes up
      */
     @Nullable
-    public static String tieToBuilding(ImageView building, ImageView tileToBuildOn, int numberOfSpaces) {
-        if (getIsRoom(numberOfSpaces)) {
+    public static String tieToBuilding(Building building, ImageView tileToBuildOn, int numberOfSpaces) {
+        if (getIsRoom(tileToBuildOn)) {
             building.setLayoutX(tileToBuildOn.getLayoutX());
             building.setLayoutY(tileToBuildOn.getLayoutY());
+
+            BuildingHandler.constructedBuildings.add(building);
+            Playground.playground.getChildren().add(building);
+
             return tileToBuildOn.toString();
         }
         else
+            BuildingHandler.constructedBuildings.remove(building);
             MenuHandler.createErrorMenu();
             return null;
     }
@@ -114,7 +121,12 @@ public class Tile extends ImageView {
      * @return If the selected tile is okay to build the proposed tile upon.
      */
     @Contract(pure = true)
-    private static boolean getIsRoom(int proposedNumberOfSpaces) {
+    private static boolean getIsRoom(ImageView tileToCheck) {
+        for (int i = 0; i < BuildingHandler.constructedBuildings.size(); i++) {
+            if (BuildingHandler.constructedBuildings.get(i).getLayoutX() == tileToCheck.getLayoutX() &&
+                    BuildingHandler.constructedBuildings.get(i).getLayoutY() == tileToCheck.getLayoutY() )
+                return false;
+        }
         return true;
     }
 }

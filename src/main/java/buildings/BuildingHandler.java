@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
 
 import java.io.FileInputStream;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  */
 public class BuildingHandler {
 
-    private static ArrayList<Building> constructedBuildings = new ArrayList<>();
+    public static ArrayList<Building> constructedBuildings = new ArrayList<>();
 
     /**
      * Creates the necessary buildings based off the situation chosen for the sim.
@@ -30,6 +31,8 @@ public class BuildingHandler {
      * @param imageName The name of the image to have a building created from
      * @return The new building
      */
+    @NotNull
+    @Contract("_, _ -> new")
     public static Building createBuilding(String imageName, ImageView tileToBuildOn) {
         Image buildingSprite = null;
         try {
@@ -38,9 +41,7 @@ public class BuildingHandler {
         catch (FileNotFoundException error) {
             MenuHandler.createErrorMenu();
         }
-        Building newBuilding = new Building(buildingSprite, tileToBuildOn);
-        constructedBuildings.add(newBuilding);
-        return newBuilding;
+        return new Building(buildingSprite, tileToBuildOn);
     }
 
     /**TODO: Implement

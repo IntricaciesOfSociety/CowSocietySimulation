@@ -100,6 +100,7 @@ public class Cow extends ImageView {
     private int hunger = random.nextInt(100);
     private int age = random.nextInt(100);
     private int physicalHealth = random.nextInt(100);
+    private int sleepiness = random.nextInt(100);
 
     //Mental 0 is low 100 is high
     private int faith = random.nextInt(100);
@@ -548,5 +549,13 @@ public class Cow extends ImageView {
 
     void setLivingSpace(Building livingSpace) {
         this.livingSpace = livingSpace;
+    }
+
+    int getSleepiness() {
+        return this.sleepiness;
+    }
+
+    void setSleepiness(int sleepiness) {
+        this.sleepiness = sleepiness;
     }
 }

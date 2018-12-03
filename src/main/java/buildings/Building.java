@@ -53,7 +53,6 @@ public class Building extends ImageView {
 
         int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
         streetAddress = Tile.tieToBuilding(this, tileToBuildOn, tileSize);
-        Playground.playground.getChildren().add(this);
 
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
@@ -73,14 +72,6 @@ public class Building extends ImageView {
      */
     public void removeInhabitant(Cow inhabitant) {
         currentInhabitants.remove(inhabitant);
-    }
-
-
-    /**
-     * Stops the delay loop from executing further. If the loop
-     */
-    private void stopDelayLoop() {
-        delayTimer.stop();
     }
 
     /**
@@ -113,7 +104,6 @@ public class Building extends ImageView {
      */
     @Contract(pure = true)
     public static String getStreetAddress(@NotNull Building buildingToFindAddress) {
-        System.out.println(buildingToFindAddress);
         return buildingToFindAddress.streetAddress;
     }
 }
