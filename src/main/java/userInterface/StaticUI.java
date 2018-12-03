@@ -270,14 +270,14 @@ public class StaticUI {
      * Updates the populationText based off the size of Cow.cowList
      */
     private static void updatePopulationText() {
-        populationText.setText("Population : " + (Cow.cowList.size() + Cow.hiddenCows.size()));
+        populationText.setText("Population : " + (Cow.cowList.size()));
     }
 
     /**
-     * Updates the timeOfDay text equal to the time given by SimState.getTime.
+     * Updates the timeOfDay text equal to the time given by SimState.getDate.
      */
     public static void updateTimeOfDayText() {
-        timeOfDay.setText(new SimpleDateFormat("hh:mm").format(SimState.getTime())
+        timeOfDay.setText(new SimpleDateFormat("hh:mm").format(SimState.getDate())
                 + ((SimState.timeOfDay <= 1200) ? " AM" : " PM"));
     }
 

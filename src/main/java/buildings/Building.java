@@ -1,6 +1,8 @@
 package buildings;
 
 import cowParts.Cow;
+import javafx.animation.AnimationTimer;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
@@ -21,11 +23,15 @@ public class Building extends ImageView {
     private boolean inhabitantsMenuOpened = false;
     private MenuCreation inhabitantsMenu;
 
-    private String streetAddress;
+    //TODO: Implement
+    Point2D buildingEntrance;
 
     // TODO:Implement
     private int maximumCapacity = 10;
 
+    private String streetAddress;
+
+    private AnimationTimer delayTimer;
     private ArrayList<Cow> currentInhabitants = new ArrayList<>();
 
     /**
@@ -54,11 +60,27 @@ public class Building extends ImageView {
     }
 
     /**
-     * Adds the given cow to the inhabitants list
+     * Adds as an inhabitant by adding the cow to the inhabitants list. Removes the cow when its stay is up.
      * @param inhabitant The cow to be added as an inhabitant
      */
     public void addInhabitant(Cow inhabitant) {
         currentInhabitants.add(inhabitant);
+    }
+
+    /**
+     * Adds as an inhabitant by adding the cow to the inhabitants list. Removes the cow when its stay is up.
+     * @param inhabitant The cow to be added as an inhabitant
+     */
+    public void removeInhabitant(Cow inhabitant) {
+        currentInhabitants.remove(inhabitant);
+    }
+
+
+    /**
+     * Stops the delay loop from executing further. If the loop
+     */
+    private void stopDelayLoop() {
+        delayTimer.stop();
     }
 
     /**

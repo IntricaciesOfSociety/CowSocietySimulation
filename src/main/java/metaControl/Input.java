@@ -2,7 +2,7 @@ package metaControl;
 
 import buildings.Building;
 import cowParts.Cow;
-import resourcesManagement.Food;
+import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -56,7 +56,7 @@ public class Input {
                 case Z: CameraControl.zoomCamera(true); break;
                 case X: CameraControl.zoomCamera(false); break;
                 case C:
-                    CameraControl.moveCamera(Food.getX(), Food.getY());
+                    CameraControl.moveCamera(WaterSource.getWateringHole().getLayoutX(), WaterSource.getWateringHole().getLayoutY());
                     CameraControl.resetZoom();
                     break;
 

@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+.DS_Store
+.idea
+CowSocietySimulation.iml
+README.md
+docs
+=======
 # IntellijJ files
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -18,3 +25,4 @@
 
 # GitHub files
 README.md
+>>>>>>> 34d92d11c65ec3c1b8b8efb76860b8934f739df8

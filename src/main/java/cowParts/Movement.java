@@ -3,17 +3,16 @@ package cowParts;
 import buildings.Building;
 import buildings.BuildingHandler;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import metaControl.SimState;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
-import org.jetbrains.annotations.Contract;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-import resourcesManagement.Food;
+import resourcesManagement.WaterSource;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
-import userInterface.TileUI;
 
 import java.util.ConcurrentModificationException;
 import java.util.Random;
@@ -32,35 +31,25 @@ public class Movement extends Cow {
      * Moves the cow in a specified direction. Used for testing while AI is not implemented.
      * @param movementType The movement that the cow will be performing
      */
-    public static void step(String movementType, @NotNull Cow cowToMove) {
+    private static void step(String movementType, @NotNull Cow cowToMove) {
         if (!cowToMove.alreadyMoving) {
             switch (movementType) {
 
             /*TODO: Switch to timeline implementation? Animation has to be stopped.
             Creates an animation to move the cow to the food
              */
-                case "toFood":
-                    cowToMove.currentAction = "Getting Food";
-                    cowToMove.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                case "toWaterSource":
+                    cowToMove.currentAction = "Going to WaterSource";
 
-                    cowToMove.alreadyMoving = true;
-
-                    double distanceX = Food.getX() - cowToMove.getLayoutX();
-                    double distanceY = Food.getY() - cowToMove.getLayoutY();
-                    double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-
-                    final TranslateTransition transition = new TranslateTransition(new Duration((distanceTotal / 10) * 100), cowToMove);
-
-                    cowToMove.setRotate(Math.toDegrees(Math.atan2(distanceY, distanceX)));
-                    transition.setOnFinished(event -> openAnimation(100, cowToMove));
-
-                    transition.setToX(Food.getX() - cowToMove.getLayoutX());
-                    transition.setToY(Food.getY() - cowToMove.getLayoutY());
-                    transition.play();
-
+                    animateTowardsDestination(cowToMove, WaterSource.getWateringHole(), 100);
                     cowToMove.setHunger(100);
-                    EventLogger.createLoggedEvent(cowToMove, "Getting food", 0, "hunger", 100);
+                    EventLogger.createLoggedEvent(cowToMove, "Getting water", 0, "hunger", 100);
 
+                    break;
+
+                case "toHome":
+                    cowToMove.currentAction = "Going home";
+                    animateTowardsDestination(cowToMove, cowToMove.getLivingSpace(), 0);
                     break;
 
                 case "random":
@@ -71,15 +60,31 @@ public class Movement extends Cow {
                     break;
             }
         }
+    }
 
+    private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination, long taskDuration) {
+        cowToMove.alreadyMoving = true;
+
+        double distanceX =  destination.getLayoutX() - cowToMove.getLayoutX();
+        double distanceY = destination.getLayoutY() - cowToMove.getLayoutY();
+        double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        cowToMove.animation = new TranslateTransition(new Duration((distanceTotal / 10) * 100), cowToMove);
+
+        cowToMove.setRotate(Math.toDegrees(Math.atan2(distanceY, distanceX)));
+        cowToMove.animation.setOnFinished(event -> openAnimation(taskDuration, cowToMove));
+
+        cowToMove.animation.setToX(destination.getLayoutX() - cowToMove.getLayoutX());
+        cowToMove.animation.setToY(destination.getLayoutY() - cowToMove.getLayoutY());
+        cowToMove.animation.play();
     }
 
     /**
-     * 'Pauses' the movement of the current cow by setting an animation for however long was given.
+     * 'Pauses' the movement of the current cow by setting an animation for however long was given. Used for staying within
+     * buildings along with making tasks take time.
      * @param centisecondDuration The duration that the 'empty' animation lasts. 0.01 of a second.
      */
     private static void pauseMovement(long centisecondDuration, @NotNull Cow cowToMove) {
-
         cowToMove.delayTimer = new AnimationTimer() {
             private long lastUpdate = 0;
 
@@ -97,7 +102,7 @@ public class Movement extends Cow {
     }
 
     /**
-     * Stops the delay loop from executing further.
+     * Stops the delay loop from executing further. If the loop
      */
     private static void stopDelayLoop(@NotNull Cow cowToMove) {
         cowToMove.delayTimer.stop();
@@ -110,13 +115,12 @@ public class Movement extends Cow {
      */
     private static void openAnimation(long centisecondsDuration, Cow cowToMove) {
         pauseMovement(centisecondsDuration, cowToMove);
-        cowToMove.alreadyMoving = false;
     }
 
     /**
      * Calls any collision check to be executed during a normal tick.
      */
-    public static void checkForCollisions(Cow cowToMove) {
+    private static void checkForCollisions(Cow cowToMove) {
         checkForCollision(cowToMove);
     }
 
@@ -177,9 +181,20 @@ public class Movement extends Cow {
      * @param intersectingBuilding The building that is colliding
      */
     private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Building intersectingBuilding) {
-        cowToMove.hide();
-        if (!intersectingBuilding.getCurrentInhabitants().contains(cowToMove))
+        if (!intersectingBuilding.getCurrentInhabitants().contains(cowToMove)) {
             intersectingBuilding.addInhabitant(cowToMove);
+            pauseMovement(cowToMove.getBuildingTime(), cowToMove);
+            cowToMove.hide();
+
+            if(cowToMove.animation != null)
+                cowToMove.animation.stop();
+        }
+        else if (!cowToMove.isHidden()) {
+            cowToMove.setTranslateX(0);
+            cowToMove.setTranslateY(0);
+            cowToMove.relocate(intersectingBuilding.getLayoutX() + 100, intersectingBuilding.getLayoutY() + 350);
+            intersectingBuilding.removeInhabitant(cowToMove);
+        }
     }
 
     /**
@@ -190,28 +205,43 @@ public class Movement extends Cow {
         tileStandingOn = possibleCollide;
     }
 
+    /**
+     * Handles where the given cow is going to move.
+     * @param cowToCheck The how whose movements are being decided
+     */
     public static void decideAction(@NotNull Cow cowToCheck) {
+        //Stop the cow from moving normally if the cow is hidden
+        if (cowToCheck.isHidden() && cowToCheck.alreadyMoving) {
+            cowToCheck.updateVitals();
+            return;
+        }
+        else if (cowToCheck.isHidden() && !cowToCheck.alreadyMoving) {
+            cowToCheck.show();
+        }
+
+        /*
+         * Time sensitive stats based movement.
+         */
         //TODO: Move movement to AI
-        if (cowToCheck.getHunger() <= 10)
-            step("toFood", cowToCheck);
-        else
-            step("random", cowToCheck);
+        if (!cowToCheck.alreadyMoving) {
+            //Roughly if between 10PM and 8AM
+            if (SimState.getDate().getTime() > 100860000 || SimState.getDate().getTime() < 50400000)
+                step("toHome", cowToCheck);
+            else if (cowToCheck.getHunger() <= 10)
+                step("toWaterSource", cowToCheck);
+            else
+                step("random", cowToCheck);
+        }
 
         cowToCheck.updateVitals();
         Movement.checkForCollisions(cowToCheck);
 
+        /*
+         * Static (for now) stats based movement.
+         */
         if (cowToCheck.getDebt() <= 10) {
             cowToCheck.setLivingSpace(BuildingHandler.createBuilding("CowShack", tileStandingOn));
             cowToCheck.setDebt(100);
         }
-    }
-
-    /**
-     * Gets the tile that the last cow checked is standing on.
-     * @return The tile that the cow is standing on
-     */
-    @Contract(pure = true)
-    public static Tile getStandingTile() {
-        return tileStandingOn;
     }
 }

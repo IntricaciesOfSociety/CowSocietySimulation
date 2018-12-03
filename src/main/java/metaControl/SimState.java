@@ -1,10 +1,9 @@
 package metaControl;
 
-import buildings.Building;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.Movement;
-import resourcesManagement.Food;
+import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -92,7 +91,7 @@ public class SimState extends Application {
         PlaygroundUI.createStaticUI();
         simLoop();
         Tile.createTiles();
-        Food.initFood();
+        new WaterSource().createWateringHole();
         BuildingHandler.init();
 
         Input.enableInput(initialScene);
@@ -156,7 +155,7 @@ public class SimState extends Application {
      * Converts the int representation of the time into a readable 24-hour date object.
      * @return The date object that contains the current time of day
      */
-    public static Date getTime() {
+    public static Date getDate() {
         StringBuilder timeAsString = new StringBuilder(Integer.toString(timeOfDay));
         while (timeAsString.length() != 4)
             timeAsString.insert(0, "0");
@@ -176,7 +175,7 @@ public class SimState extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Prototype05");
+        primaryStage.setTitle("Prototype06");
         primaryStage.setScene(initialScene);
         primaryStage.show();
 

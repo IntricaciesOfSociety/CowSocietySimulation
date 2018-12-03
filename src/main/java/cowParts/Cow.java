@@ -2,6 +2,7 @@ package cowParts;
 
 import buildings.Building;
 import buildings.BuildingHandler;
+import javafx.animation.TranslateTransition;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -30,9 +31,6 @@ public class Cow extends ImageView {
     //List that holds every created cow
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
-    //The list that holds every hidden cow
-    public static ArrayList<Cow> hiddenCows = new ArrayList<>();
-
     Social socialRelations = new Social();
 
     /* Control flags
@@ -45,6 +43,7 @@ public class Cow extends ImageView {
     AnimationTimer delayTimer;
     private int counter = 0;
     private boolean hidden = false;
+    TranslateTransition animation;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
@@ -112,8 +111,12 @@ public class Cow extends ImageView {
     //Statuses
     private boolean diseased = false;
 
-    //Where the cow currently resides
+    /* Building Control variables
+    livingSpace: Where the cow currently resides
+    buildingTime: How long to stay in the next building
+     */
     private Building livingSpace;
+    private long buildingTime = 100;
 
     /**
      * Calls createCow and adds the resulting cow body to the playground node
@@ -130,7 +133,7 @@ public class Cow extends ImageView {
      */
     private void createCow() {
         try {
-            sprite = new Image(new FileInputStream("src/main/resources/Cows/Cow01.png"),0, 0, true, false);
+            sprite = new Image(new FileInputStream("src/main/resources/Cows/NormalCow.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
@@ -193,19 +196,17 @@ public class Cow extends ImageView {
             MenuHandler.closeMenu(this.cowMenu);
 
         hidden = true;
-        cowList.remove(this);
-        hiddenCows.add(this);
         Playground.playground.getChildren().remove(this);
     }
 
     /**
      * Allows the cow to be updated again by adding it back into the cowList and setting hidden to false.
      */
-    public void show() {
-        hidden = false;
-        cowList.add(this);
-        Playground.playground.getChildren().add(this);
-        hiddenCows.remove(this);
+    void show() {
+        if (hidden) {
+            hidden = false;
+            Playground.playground.getChildren().add(this);
+        }
     }
 
     /**
@@ -407,7 +408,7 @@ public class Cow extends ImageView {
         return debt;
     }
 
-    public void setDebt(int debt) {
+    void setDebt(int debt) {
         this.debt = debt;
     }
 
@@ -491,6 +492,14 @@ public class Cow extends ImageView {
         return socialRelations;
     }
 
+    long getBuildingTime() {
+        return buildingTime;
+    }
+
+    public void setBuildingTime(long buildingTime) {
+        this.buildingTime = buildingTime;
+    }
+
     /**
      * @return The sum of the emotions as a string over 700, as a string.
      */
@@ -537,7 +546,7 @@ public class Cow extends ImageView {
         return livingSpace;
     }
 
-    public void setLivingSpace(Building livingSpace) {
+    void setLivingSpace(Building livingSpace) {
         this.livingSpace = livingSpace;
     }
 }

@@ -14,7 +14,6 @@ public class MenuHandler {
 
     //Stores every open cow menu
     private static ArrayList<MenuCreation> openCowMenus = new ArrayList<>();
-
     private static ArrayList<MenuCreation> openInhabitantMenus = new ArrayList<>();
 
     public static boolean allCowMenusOpen = false;
@@ -68,8 +67,7 @@ public class MenuHandler {
     public static void closeMenu(@NotNull MenuCreation menu) {
         menu.stack.getChildren().clear();
 
-        if (openCowMenus.contains(menu))
-            openCowMenus.remove(menu);
+        openCowMenus.remove(menu);
 
         Playground.playground.getChildren().remove(menu.stack);
     }

@@ -1,13 +1,14 @@
 package terrain;
 
-import cowParts.Movement;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import resourcesManagement.WaterSource;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,7 +34,6 @@ public class Tile extends ImageView {
      */
     private Tile(double xCoord, double yCoord, Image sprite) {
         this.setImage(sprite);
-
         this.setLayoutX(xCoord);
         this.setLayoutY(yCoord);
         Playground.playground.getChildren().add(this);
@@ -55,6 +55,16 @@ public class Tile extends ImageView {
         else
             MenuHandler.createErrorMenu();
             return null;
+    }
+
+    /**
+     * Ties the given water source to a tile
+     * @param waterSource The waterSource to tie to the given tile
+     * @param tileToBuildOn The tile that the waterSource will be built on
+     */
+    public static void tieToWaterSource(@NotNull WaterSource waterSource, @NotNull Tile tileToBuildOn) {
+        waterSource.setLayoutX(tileToBuildOn.getLayoutX());
+        waterSource.setLayoutY(tileToBuildOn.getLayoutY());
     }
 
     /**
@@ -90,7 +100,7 @@ public class Tile extends ImageView {
             for (int j = 0; j < ROWTILES; j++) {
                 try {
                     tileList.add(new Tile(400 * j, i * 400, new Image(
-                            new FileInputStream("src/main/resources/Buildings/EmptyTile.png"),
+                            new FileInputStream("src/main/resources/Environment/FlatTerrain.png"),
                             0, 0, true, false)));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
