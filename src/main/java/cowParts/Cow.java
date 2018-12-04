@@ -2,7 +2,6 @@ package cowParts;
 
 import buildings.Building;
 import buildings.BuildingHandler;
-import javafx.animation.TranslateTransition;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -20,6 +19,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -30,6 +31,9 @@ public class Cow extends ImageView {
 
     //List that holds every created cow
     public static ArrayList<Cow> cowList = new ArrayList<>();
+
+    //The list that holds every hidden cow
+    public static ArrayList<Cow> hiddenCows = new ArrayList<>();
 
     Social socialRelations = new Social();
 
@@ -43,7 +47,6 @@ public class Cow extends ImageView {
     AnimationTimer delayTimer;
     private int counter = 0;
     private boolean hidden = false;
-    TranslateTransition animation;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
@@ -111,12 +114,8 @@ public class Cow extends ImageView {
     //Statuses
     private boolean diseased = false;
 
-    /* Building Control variables
-    livingSpace: Where the cow currently resides
-    buildingTime: How long to stay in the next building
-     */
+    //Where the cow currently resides
     private Building livingSpace;
-    private long buildingTime = 100;
 
     /**
      * Calls createCow and adds the resulting cow body to the playground node
@@ -133,13 +132,24 @@ public class Cow extends ImageView {
      */
     private void createCow() {
         try {
-            sprite = new Image(new FileInputStream("src/main/resources/Cows/NormalCow.png"),0, 0, true, false);
+             // creates a URL for a random cow from the resources
+            ArrayList<String> cowFiles= new ArrayList<String>();
+            Collections.addAll(cowFiles, "BlackRedGradientCow.png","BlueCheeseCow.png", "BrownBull.png","BlueCheeseCow.png","BrownCow.png","ChickenMaskCow.png","ZackCow.png","ThanosCow.png");// adds several cow names from the file to cowFiles
+
+            int randCow = (int)(Math.random() * cowFiles.size());
+            String cowURL = ("src/main/resources/Cows/" + cowFiles.get(randCow)); // picks a random cow name from the cowName list and poperly concatenates it to cowURl
+
+            sprite = new Image(new FileInputStream(cowURL),0, 0, true, false); // creates a sprite, using cowURL as the cow texture to use
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
         }
+
+        ArrayList<String> cowIDs= new ArrayList<String>();
+        Collections.addAll(cowIDs, "Jeremy","Bob", "Hubert", "Cassandra", "Sandy", "Bartholomew", "Sarah");
+
         this.setImage(sprite);
-        this.setId("Big Beefy" + new Random().nextInt(100));
+        this.setId(cowIDs.get(new Random().nextInt(cowIDs.size() - 1)) + new Random().nextInt(100));
         this.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
         this.setEffect(color);
         this.setScaleX(3);
@@ -196,17 +206,19 @@ public class Cow extends ImageView {
             MenuHandler.closeMenu(this.cowMenu);
 
         hidden = true;
+        cowList.remove(this);
+        hiddenCows.add(this);
         Playground.playground.getChildren().remove(this);
     }
 
     /**
      * Allows the cow to be updated again by adding it back into the cowList and setting hidden to false.
      */
-    void show() {
-        if (hidden) {
-            hidden = false;
-            Playground.playground.getChildren().add(this);
-        }
+    public void show() {
+        hidden = false;
+        cowList.add(this);
+        Playground.playground.getChildren().add(this);
+        hiddenCows.remove(this);
     }
 
     /**
@@ -408,7 +420,7 @@ public class Cow extends ImageView {
         return debt;
     }
 
-    void setDebt(int debt) {
+    public void setDebt(int debt) {
         this.debt = debt;
     }
 
@@ -492,14 +504,6 @@ public class Cow extends ImageView {
         return socialRelations;
     }
 
-    long getBuildingTime() {
-        return buildingTime;
-    }
-
-    public void setBuildingTime(long buildingTime) {
-        this.buildingTime = buildingTime;
-    }
-
     /**
      * @return The sum of the emotions as a string over 700, as a string.
      */
@@ -546,7 +550,7 @@ public class Cow extends ImageView {
         return livingSpace;
     }
 
-    void setLivingSpace(Building livingSpace) {
+    public void setLivingSpace(Building livingSpace) {
         this.livingSpace = livingSpace;
     }
 }
