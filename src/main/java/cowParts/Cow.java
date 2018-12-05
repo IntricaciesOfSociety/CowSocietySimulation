@@ -14,6 +14,7 @@ import menus.MenuCreation;
 import menus.MenuHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import terrain.Tile;
 import userInterface.StaticUI;
 
 import java.io.FileInputStream;
@@ -112,12 +113,16 @@ public class Cow extends ImageView {
     //Statuses
     private boolean diseased = false;
 
-    /* Building Control variables
+    /* Tile Control variables
     livingSpace: Where the cow currently resides
     buildingTime: How long to stay in the next building
      */
     private Building livingSpace;
+    private Building buildingIn;
     private long buildingTime = 100;
+
+    //TODO: Implement
+    private Tile tileOn;
 
     /**
      * Calls createCow and adds the resulting cow body to the playground node
@@ -167,10 +172,12 @@ public class Cow extends ImageView {
         if (counter % 80 == 0)
             setHunger(getHunger() - 1);
 
-        //Updated vitals specifically if cow is in a building
+        /*//Updated vitals specifically if cow is in a building
         if (this.isHidden()) {
-            
-        }
+            for (int i = 0; i < buildingIn.getCurrentInhabitants().size(); i++) {
+                buildingIn.getCurrentInhabitants()
+            }
+        }*/
     }
 
     /**
@@ -564,5 +571,13 @@ public class Cow extends ImageView {
 
     void setSleepiness(int sleepiness) {
         this.sleepiness = sleepiness;
+    }
+
+    public Building getBuildingIn() {
+        return buildingIn;
+    }
+
+    public void setBuildingIn(Building buildingIn) {
+        this.buildingIn = buildingIn;
     }
 }

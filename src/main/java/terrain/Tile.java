@@ -28,6 +28,9 @@ public class Tile extends ImageView {
     private static final int COLTILES = (int) Playground.playground.getPrefHeight() / 400;
     private static ArrayList<Tile> tileList = new ArrayList<>();
 
+    Tile() {
+
+    }
     /**
      * Tile creation
      * @param xCoord The x coordinate where the tile will be created

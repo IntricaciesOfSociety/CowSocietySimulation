@@ -187,6 +187,8 @@ public class Movement extends Cow {
         //Called as the cow first enters the building
         if (!intersectingBuilding.getCurrentInhabitants().contains(cowToMove)) {
             cowToMove.hide();
+            cowToMove.setBuildingIn(intersectingBuilding);
+
             intersectingBuilding.addInhabitant(cowToMove);
 
             if(cowToMove.animation != null)
@@ -202,6 +204,8 @@ public class Movement extends Cow {
         }
         //Called as the cow is ready to exit the building indirectly from the cowToMove.show in decideMovement()
         else if (!cowToMove.isHidden()) {
+            cowToMove.setBuildingIn(null);
+
             cowToMove.relocate(intersectingBuilding.getLayoutX() + intersectingBuilding.getImage().getWidth() / 2,
                     intersectingBuilding.getLayoutY() + intersectingBuilding.getImage().getHeight() + 75);
             intersectingBuilding.removeInhabitant(cowToMove);
