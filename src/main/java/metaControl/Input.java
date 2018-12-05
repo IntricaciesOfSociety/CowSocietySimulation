@@ -177,7 +177,8 @@ public class Input {
         else {
             MenuHandler.allCowMenusOpen = true;
             for (Cow cow : Cow.cowList) {
-                cow.openMenu();
+                if (!cow.isHidden())
+                    cow.openMenu();
             }
         }
 

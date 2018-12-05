@@ -1,8 +1,6 @@
 package metaControl;
 
 import cowParts.Cow;
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
 import javafx.scene.transform.Scale;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;

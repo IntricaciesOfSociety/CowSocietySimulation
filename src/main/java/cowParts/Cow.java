@@ -140,7 +140,7 @@ public class Cow extends ImageView {
             error.printStackTrace();
         }
         this.setImage(sprite);
-        this.setId("Big Beefy" + new Random().nextInt(100));
+        this.setId("Big Beefy" + new Random().nextInt(1000));
         this.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
         this.setEffect(color);
         this.setScaleX(3);
@@ -158,12 +158,19 @@ public class Cow extends ImageView {
      * increases about 60 times a second.
      */
     void updateVitals() {
+        //Counter increase and reset
         counter++;
         if (counter % 1000 == 0)
             counter = 0;
 
+        //Constantly updated vitals
         if (counter % 80 == 0)
             setHunger(getHunger() - 1);
+
+        //Updated vitals specifically if cow is in a building
+        if (this.isHidden()) {
+            
+        }
     }
 
     /**
