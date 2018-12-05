@@ -2,8 +2,6 @@ package metaControl;
 
 import cowParts.Cow;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.scene.transform.Scale;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,8 +14,6 @@ public class CameraControl {
 
     private static final int MOVEMENTOFFSET = 10;
     private static boolean cameraDisable = false;
-
-    private static Scale scaleTransformation = new Scale();
 
     /**
      * Moves the camera's layout position according to the given direction
@@ -54,7 +50,8 @@ public class CameraControl {
      * @param yCoord The y coordinate to move to
      */
     static void moveCamera(double xCoord, double yCoord) {
-        Playground.playground.relocate(-xCoord + 400, -yCoord + 300);
+        Playground.playground.setTranslateX(-xCoord);
+        Playground.playground.setTranslateY(-yCoord);
     }
 
     /**TODO: Fix zooming
@@ -62,29 +59,39 @@ public class CameraControl {
      * @param direction The direction that the camera is to move in
      */
     static void zoomCamera(boolean direction) {
-        scaleTransformation.setPivotX(0);
-        scaleTransformation.setPivotY(0);
 
-        Playground.playground.getTransforms().add(scaleTransformation);
+        double delta = 1.2;
+        double scale = Playground.playground.getScaleY();
+        double oldScale = scale;
 
-        if (!cameraDisable) {
-            if (direction) {
-                scaleTransformation.setX(scaleTransformation.getX() + 0.01);
-                scaleTransformation.setY(scaleTransformation.getY() + 0.01);
-            }
-            else {
-                scaleTransformation.setX(scaleTransformation.getX() - 0.01);
-                scaleTransformation.setY(scaleTransformation.getY() - 0.01);
-            }
+        if (direction) {
+            scale *= delta;
+        } else {
+            scale /= delta;
         }
+
+        double f = (scale / oldScale)-1;
+
+        //Determining the shift in position of the camera as it zooms in on the center of the screen
+        Bounds bounds = Playground.playground.localToScene(Playground.playground.getBoundsInLocal());
+        double dx = (SimState.initialScene.getWidth()/2.0 - (bounds.getWidth() / 2 + bounds.getMinX()));
+        double dy = (SimState.initialScene.getHeight()/2.0 - (bounds.getHeight() / 2 + bounds.getMinY()));
+
+        //Applying the new scale
+        Playground.playground.setScaleX(scale);
+        Playground.playground.setScaleY(scale);
+
+        //Applying the new translation
+        Playground.playground.setTranslateX(Playground.playground.getTranslateX() - f*dx);
+        Playground.playground.setTranslateY(Playground.playground.getTranslateY() - f*dy);
     }
 
     /**
      * Sets the zoom scale back to the default value of one.
      */
     static void resetZoom() {
-        scaleTransformation.setX(1.0);
-        scaleTransformation.setY(1.0);
+        Playground.playground.setScaleX(1.0);
+        Playground.playground.setScaleY(1.0);
     }
 
     /**
