@@ -44,6 +44,7 @@ public class Input {
         initDragBox();
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            /*
             KeyCode keyPressed = key.getCode();
             switch (keyPressed) {
                 //WASD camera controls
@@ -74,6 +75,51 @@ public class Input {
                         SimState.setSimState("Playing");
                     break;
             }
+            */
+            KeyCode keyPressed = key.getCode();
+
+            //Movement
+            if (keyPressed.equals(KeyCode.W)) CameraControl.setNorth(true);
+            if (keyPressed.equals(KeyCode.A)) CameraControl.setWest(true);
+            if (keyPressed.equals(KeyCode.S)) CameraControl.setSouth(true);
+            if (keyPressed.equals(KeyCode.D)) CameraControl.setEast(true);
+
+            //Zooming
+            if (keyPressed.equals(KeyCode.Z)) CameraControl.setZoomIn(true);
+            if (keyPressed.equals(KeyCode.X)) CameraControl.setZoomOut(true);
+            if (keyPressed.equals(KeyCode.C)) {
+                CameraControl.resetZoom();
+                double waterSize = WaterSource.getWateringHole().getBoundsInParent().getMaxX() - WaterSource.getWateringHole().getBoundsInParent().getMinX();
+                CameraControl.moveCamera(WaterSource.getWateringHole().getLayoutX() + waterSize/2.0, WaterSource.getWateringHole().getLayoutY() + waterSize/2.0);
+            }
+
+            //Toggles all cow menus
+            if (keyPressed.equals(KeyCode.N)) {
+                toggleAllCowMenus();
+            }
+
+            //Pause/UnPause simulation
+            if (keyPressed.equals(KeyCode.P)) {
+                if (!SimState.getSimState().equals("Paused"))
+                    SimState.setSimState("Paused");
+                else
+                    SimState.setSimState("Playing");
+            }
+        });
+
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
+            KeyCode keyReleased = key.getCode();
+
+            //Movement
+            if (keyReleased.equals(KeyCode.W)) CameraControl.setNorth(false);
+            if (keyReleased.equals(KeyCode.A)) CameraControl.setWest(false);
+            if (keyReleased.equals(KeyCode.S)) CameraControl.setSouth(false);
+            if (keyReleased.equals(KeyCode.D)) CameraControl.setEast(false);
+
+            //Zooming
+            if (keyReleased.equals(KeyCode.Z)) CameraControl.setZoomIn(false);
+            if (keyReleased.equals(KeyCode.X)) CameraControl.setZoomOut(false);
+
         });
 
         /*
