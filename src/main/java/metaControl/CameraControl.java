@@ -23,26 +23,10 @@ public class CameraControl {
 
     static void updateCamera() {
         //Movement
-        if (north) {
-            if (Playground.playground.getBoundsInParent().getMinY() + MOVEMENTOFFSET < 0) {
-                Playground.playground.setTranslateY(Playground.playground.getTranslateY() + MOVEMENTOFFSET);
-            }
-        }
-        if (east) {
-            if (Playground.playground.getBoundsInParent().getMaxX() - MOVEMENTOFFSET > 200) {
-                Playground.playground.setTranslateX(Playground.playground.getTranslateX() - MOVEMENTOFFSET);
-            }
-        }
-        if (south) {
-            if (Playground.playground.getBoundsInParent().getMaxY() - MOVEMENTOFFSET > 200) {
-                Playground.playground.setTranslateY(Playground.playground.getTranslateY() - MOVEMENTOFFSET);
-            }
-        }
-        if (west) {
-            if (Playground.playground.getBoundsInParent().getMinX() + MOVEMENTOFFSET < 0) {
-                Playground.playground.setTranslateX(Playground.playground.getTranslateX() + MOVEMENTOFFSET);
-            }
-        }
+        if (north) Playground.playground.setTranslateY(Playground.playground.getTranslateY() + MOVEMENTOFFSET);
+        if (east) Playground.playground.setTranslateX(Playground.playground.getTranslateX() - MOVEMENTOFFSET);
+        if (south) Playground.playground.setTranslateY(Playground.playground.getTranslateY() - MOVEMENTOFFSET);
+        if (west) Playground.playground.setTranslateX(Playground.playground.getTranslateX() + MOVEMENTOFFSET);
 
         //Zooming
         if (zoomIn) {

@@ -88,14 +88,14 @@ public class Input {
             if (keyPressed.equals(KeyCode.Z)) CameraControl.setZoomIn(true);
             if (keyPressed.equals(KeyCode.X)) CameraControl.setZoomOut(true);
             if (keyPressed.equals(KeyCode.C)) {
-                CameraControl.moveCamera(WaterSource.getWateringHole().getLayoutX(), WaterSource.getWateringHole().getLayoutY());
                 CameraControl.resetZoom();
+                double waterSize = WaterSource.getWateringHole().getBoundsInParent().getMaxX() - WaterSource.getWateringHole().getBoundsInParent().getMinX();
+                CameraControl.moveCamera(WaterSource.getWateringHole().getLayoutX() + waterSize/2.0, WaterSource.getWateringHole().getLayoutY() + waterSize/2.0);
             }
 
             //Toggles all cow menus
             if (keyPressed.equals(KeyCode.N)) {
-                if (SimState.getSimState().equals("Playing") || SimState.getSimState().equals("TileView"))
-                    toggleAllCowMenus();
+                toggleAllCowMenus();
             }
 
             //Pause/UnPause simulation
