@@ -3,7 +3,6 @@ package metaControl;
 import cowParts.Cow;
 import javafx.geometry.Bounds;
 import metaEnvironment.Playground;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -15,33 +14,44 @@ public class CameraControl {
     private static final int MOVEMENTOFFSET = 10;
     private static boolean cameraDisable = false;
 
-    /**
-     * Moves the camera's layout position according to the given direction
-     * @param direction The direction that the camera was told to move in
-     */
-    static void moveCamera(@NotNull String direction) {
-        if (!cameraDisable) {
-            switch (direction) {
-                case "North":
-                    if (Playground.playground.getLayoutY() + MOVEMENTOFFSET <= 0)
-                        Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
-                    break;
-                case "East":
-                    if (Playground.playground.getLayoutX() - MOVEMENTOFFSET >= -Playground.playground.getBoundsInParent().getMaxX())
-                        Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
-                    break;
-                case "South":
-                    if (Playground.playground.getLayoutY() - MOVEMENTOFFSET >= -Playground.playground.getBoundsInParent().getMaxY())
-                        Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
-                    break;
-                case "West":
-                    if ((Playground.playground.getLayoutX()) + MOVEMENTOFFSET < 160)
-                        Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
-                    break;
-                default:
-                    break;
+    private static boolean north = false,
+            south = false,
+            east = false,
+            west = false,
+            zoomIn = false,
+            zoomOut = false;
+
+    static void updateCamera() {
+        //Movement
+        if (north) {
+            if (Playground.playground.getBoundsInParent().getMinY() + MOVEMENTOFFSET < 0) {
+                Playground.playground.setTranslateY(Playground.playground.getTranslateY() + MOVEMENTOFFSET);
             }
         }
+        if (east) {
+            if (Playground.playground.getBoundsInParent().getMaxX() - MOVEMENTOFFSET > 200) {
+                Playground.playground.setTranslateX(Playground.playground.getTranslateX() - MOVEMENTOFFSET);
+            }
+        }
+        if (south) {
+            if (Playground.playground.getBoundsInParent().getMaxY() - MOVEMENTOFFSET > 200) {
+                Playground.playground.setTranslateY(Playground.playground.getTranslateY() - MOVEMENTOFFSET);
+            }
+        }
+        if (west) {
+            if (Playground.playground.getBoundsInParent().getMinX() + MOVEMENTOFFSET < 0) {
+                Playground.playground.setTranslateX(Playground.playground.getTranslateX() + MOVEMENTOFFSET);
+            }
+        }
+
+        //Zooming
+        if (zoomIn) {
+            zoomCamera(true);
+        }
+        if (zoomOut) {
+            zoomCamera(false);
+        }
+
     }
 
     /**
@@ -114,5 +124,29 @@ public class CameraControl {
      */
     public static void enableCamera() {
         cameraDisable = false;
+    }
+
+    static void setNorth(boolean moving) {
+        north = moving;
+    }
+
+    static void setEast(boolean moving) {
+        east = moving;
+    }
+
+    static void setSouth(boolean moving) {
+        south = moving;
+    }
+
+    static void setWest(boolean moving) {
+        west = moving;
+    }
+
+    static void setZoomIn(boolean zooming) {
+        zoomIn = zooming;
+    }
+
+    static void setZoomOut(boolean zooming) {
+        zoomOut = zooming;
     }
 }
