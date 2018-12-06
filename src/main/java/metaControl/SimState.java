@@ -133,6 +133,7 @@ public class SimState extends Application {
         timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
         StaticUI.updateTimeOfDayText();
         MenuHandler.updateOpenMenus();
+        CameraControl.updateCamera();
     }
 
     /**
