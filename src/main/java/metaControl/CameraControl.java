@@ -1,11 +1,7 @@
 package metaControl;
 
 import cowParts.Cow;
-<<<<<<< HEAD
-import javafx.scene.transform.Scale;
-=======
 import javafx.geometry.Bounds;
->>>>>>> develop
 import metaEnvironment.Playground;
 
 import java.util.Objects;
