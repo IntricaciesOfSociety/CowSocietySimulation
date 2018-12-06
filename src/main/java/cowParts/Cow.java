@@ -194,6 +194,9 @@ public class Cow extends ImageView {
                     Movement.decideAction(newCow);
                     newCow.relocate(this.getAnimatedX(), this.getAnimatedY());
                     cowList.add(newCow);
+
+                    if (random.nextInt(2000) == 1)
+                        this.kill();
                 }
 
                 if (random.nextInt(500) == 1)
