@@ -20,6 +20,7 @@ import userInterface.StaticUI;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -172,12 +173,38 @@ public class Cow extends ImageView {
         if (counter % 80 == 0)
             setHunger(getHunger() - 1);
 
-        /*//Updated vitals specifically if cow is in a building
-        if (this.isHidden()) {
-            for (int i = 0; i < buildingIn.getCurrentInhabitants().size(); i++) {
-                buildingIn.getCurrentInhabitants()
+        if (this.isHidden())
+            updateBuildingVitals();
+
+    }
+
+    /**
+     * Updates the necessary vitals while the cow is within a building such as building relationships faster and having
+     * children.
+     */
+    private void updateBuildingVitals() {
+        //Updated vitals specifically if cow is in a building
+        for (int i = 0; i < buildingIn.getCurrentInhabitants().size(); i++) {
+            if (Social.relationExists(this, buildingIn.getCurrentInhabitants().get(i))) {
+                if (!this.parent) {
+                    this.parent = true;
+
+                    Cow newCow = new Cow();
+                    newCow.parent = true;
+                    Movement.decideAction(newCow);
+                    newCow.relocate(this.getAnimatedX(), this.getAnimatedY());
+                    cowList.add(newCow);
+                }
+
+                if (random.nextInt(500) == 1)
+                    Social.modifyRelationValue(this, buildingIn.getCurrentInhabitants().get(i), random.nextInt(2));
             }
-        }*/
+            else {
+                Social.newRelation(this, buildingIn.getCurrentInhabitants().get(i));
+                this.setCompanionship(this.getCompanionship() + 5);
+                EventLogger.createLoggedEvent(this, "new relationship", 1, "companionship", 5);
+            }
+        }
     }
 
     /**

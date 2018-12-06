@@ -155,20 +155,9 @@ public class Movement extends Cow {
      * @param intersectingCow The other cow to collide
      */
     private static void cowToCowCollision(Cow cowToMove, Cow intersectingCow) {
-        if (Social.relationExists(cowToMove, intersectingCow)) {
-            if (!cowToMove.parent) {
-                cowToMove.parent = true;
-
-                Cow newCow = new Cow();
-                newCow.parent = true;
-
-                newCow.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
-                cowList.add(newCow);
-            }
-
+        if (Social.relationExists(cowToMove, intersectingCow))
             if (random.nextInt(1000) == 1)
                 Social.modifyRelationValue(cowToMove, intersectingCow, random.nextInt(2));
-        }
         else {
             Social.newRelation(cowToMove, intersectingCow);
             cowToMove.setCompanionship(cowToMove.getCompanionship() + 5);
@@ -202,6 +191,7 @@ public class Movement extends Cow {
 
             pauseMovement(cowToMove.getBuildingTime(), cowToMove);
         }
+
         //Called as the cow is ready to exit the building indirectly from the cowToMove.show in decideMovement()
         else if (!cowToMove.isHidden()) {
             cowToMove.setBuildingIn(null);
