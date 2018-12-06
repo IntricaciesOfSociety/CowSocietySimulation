@@ -60,8 +60,8 @@ public class CameraControl {
      * @param yCoord The y coordinate to move to
      */
     static void moveCamera(double xCoord, double yCoord) {
-        Playground.playground.setTranslateX(-xCoord);
-        Playground.playground.setTranslateY(-yCoord);
+        Playground.playground.setTranslateX(-xCoord + SimState.initialScene.getWidth() / 2.0);
+        Playground.playground.setTranslateY(-yCoord + SimState.initialScene.getHeight() / 2.0);
     }
 
     /**TODO: Fix zooming
@@ -109,6 +109,7 @@ public class CameraControl {
      * @param cowToMoveTo The cow to move the camera to
      */
     public static void moveCameraToCow(Cow cowToMoveTo) {
+        resetZoom();
         moveCamera(Objects.requireNonNull(cowToMoveTo).getAnimatedX(), cowToMoveTo.getAnimatedY());
     }
 
