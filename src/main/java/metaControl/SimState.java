@@ -99,8 +99,10 @@ public class SimState extends Application {
                 PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
         );
 
-        for (int i = 0; i < 50; i++)
+        for (int i = 0; i < 50; i++) {
             Cow.cowList.add(new Cow());
+        }
+
     }
 
     /**

@@ -31,38 +31,40 @@ public class Movement extends Cow {
      * Moves the cow in a specified direction. Used for testing while AI is not implemented.
      * @param movementType The movement that the cow will be performing
      */
-    private static void step(String movementType, @NotNull Cow cowToMove) {
-        if (!cowToMove.alreadyMoving) {
-            switch (movementType) {
+    private static void step(@NotNull String movementType, @NotNull Cow cowToMove) {
+        switch (movementType) {
 
-            /*TODO: Switch to timeline implementation? Animation has to be stopped.
-            Creates an animation to move the cow to the food
-             */
-                case "toWaterSource":
-                    cowToMove.currentAction = "Going to WaterSource";
+        /*TODO: Switch to timeline implementation? Animation has to be stopped.
+        Creates an animation to move the cow to the food
+         */
+            case "toWaterSource":
+                cowToMove.currentAction = "Going to WaterSource";
 
-                    animateTowardsDestination(cowToMove, WaterSource.getWateringHole(), 100);
-                    cowToMove.setHunger(100);
-                    EventLogger.createLoggedEvent(cowToMove, "Getting water", 0, "hunger", 100);
+                animateTowardsDestination(cowToMove, WaterSource.getWateringHole(), 100);
+                cowToMove.setHunger(100);
+                EventLogger.createLoggedEvent(cowToMove, "Getting water", 0, "hunger", 100);
 
-                    break;
+                break;
 
-                case "toHome":
-                    cowToMove.currentAction = "Going home";
-                    animateTowardsDestination(cowToMove, cowToMove.getLivingSpace(), 0);
-                    break;
+            case "toHome":
+                cowToMove.currentAction = "Going home";
 
-                case "random":
-                    cowToMove.currentAction = "Spinning";
-                    cowToMove.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                    cowToMove.setLayoutX(cowToMove.getLayoutX() + Math.cos(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
-                    cowToMove.setLayoutY(cowToMove.getLayoutY() + Math.sin(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
-                    break;
-            }
+                animateTowardsDestination(cowToMove, cowToMove.getLivingSpace(), 0);
+                cowToMove.setSleepiness(100);
+                break;
+
+            case "random":
+                cowToMove.currentAction = "Spinning";
+                cowToMove.setRotate(random.nextInt(360 + 1 + 360) - 360);
+                cowToMove.setLayoutX(cowToMove.getLayoutX() + Math.cos(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
+                cowToMove.setLayoutY(cowToMove.getLayoutY() + Math.sin(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
+                break;
         }
     }
 
     private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination, long taskDuration) {
+        cowToMove.setTranslateX(0);
+        cowToMove.setTranslateY(0);
         cowToMove.alreadyMoving = true;
 
         double distanceX =  destination.getLayoutX() - cowToMove.getLayoutX();
@@ -93,7 +95,6 @@ public class Movement extends Cow {
                 cowToMove.alreadyMoving = true;
                 if (lastUpdate == 0)
                     lastUpdate = frameTime;
-
                 if (frameTime - lastUpdate >= centisecondDuration * 16_666_666L)
                     stopDelayLoop(cowToMove);
             }
@@ -154,20 +155,9 @@ public class Movement extends Cow {
      * @param intersectingCow The other cow to collide
      */
     private static void cowToCowCollision(Cow cowToMove, Cow intersectingCow) {
-        if (Social.relationExists(cowToMove, intersectingCow)) {
-            if (!cowToMove.parent) {
-                cowToMove.parent = true;
-
-                Cow newCow = new Cow();
-                newCow.parent = true;
-
-                newCow.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
-                cowList.add(newCow);
-            }
-
+        if (Social.relationExists(cowToMove, intersectingCow))
             if (random.nextInt(1000) == 1)
                 Social.modifyRelationValue(cowToMove, intersectingCow, random.nextInt(2));
-        }
         else {
             Social.newRelation(cowToMove, intersectingCow);
             cowToMove.setCompanionship(cowToMove.getCompanionship() + 5);
@@ -176,24 +166,41 @@ public class Movement extends Cow {
     }
 
     /**
-     * Handles a collision between the given building and cow. Moves the cow into the building as an inhabitant.
+     * Handles a collision between the given building and cow. Moves the cow into the building as an inhabitant for an
+     * anmout of time equal to the cow's buildingTime variable. Stops and resets all animation upon entry, and relocates
+     * the cow to the entrance of the building after exiting.
      * @param cowToMove The cow that is colliding
      * @param intersectingBuilding The building that is colliding
      */
     private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Building intersectingBuilding) {
+        //Called as the cow first enters the building
         if (!intersectingBuilding.getCurrentInhabitants().contains(cowToMove)) {
-            intersectingBuilding.addInhabitant(cowToMove);
-            pauseMovement(cowToMove.getBuildingTime(), cowToMove);
             cowToMove.hide();
+            cowToMove.setBuildingIn(intersectingBuilding);
+
+            intersectingBuilding.addInhabitant(cowToMove);
 
             if(cowToMove.animation != null)
                 cowToMove.animation.stop();
-        }
-        else if (!cowToMove.isHidden()) {
+
             cowToMove.setTranslateX(0);
             cowToMove.setTranslateY(0);
-            cowToMove.relocate(intersectingBuilding.getLayoutX() + 100, intersectingBuilding.getLayoutY() + 350);
+            cowToMove.setLayoutX(intersectingBuilding.getLayoutX());
+            cowToMove.setLayoutY(intersectingBuilding.getLayoutY());
+            cowToMove.relocate(intersectingBuilding.getLayoutX(), intersectingBuilding.getLayoutY());
+
+            pauseMovement(cowToMove.getBuildingTime(), cowToMove);
+        }
+
+        //Called as the cow is ready to exit the building indirectly from the cowToMove.show in decideMovement()
+        else if (!cowToMove.isHidden()) {
+            cowToMove.setBuildingIn(null);
+
+            cowToMove.relocate(intersectingBuilding.getLayoutX() + intersectingBuilding.getImage().getWidth() / 2,
+                    intersectingBuilding.getLayoutY() + intersectingBuilding.getImage().getHeight() + 75);
             intersectingBuilding.removeInhabitant(cowToMove);
+            cowToMove.setTranslateX(0);
+            cowToMove.setTranslateY(0);
         }
     }
 
@@ -211,13 +218,19 @@ public class Movement extends Cow {
      */
     public static void decideAction(@NotNull Cow cowToCheck) {
         //Stop the cow from moving normally if the cow is hidden
-        if (cowToCheck.isHidden() && cowToCheck.alreadyMoving) {
-            cowToCheck.updateVitals();
+        if (cowToCheck.isHidden()) {
+            if (cowToCheck.alreadyMoving) {
+                cowToCheck.updateVitals();
+            }
+            else {
+                cowToCheck.show();
+                Movement.checkForCollisions(cowToCheck);
+            }
             return;
         }
-        else if (cowToCheck.isHidden() && !cowToCheck.alreadyMoving) {
-            cowToCheck.show();
-        }
+
+        cowToCheck.updateVitals();
+        Movement.checkForCollisions(cowToCheck);
 
         /*
          * Time sensitive stats based movement.
@@ -225,7 +238,8 @@ public class Movement extends Cow {
         //TODO: Move movement to AI
         if (!cowToCheck.alreadyMoving) {
             //Roughly if between 10PM and 8AM
-            if (SimState.getDate().getTime() > 100860000 || SimState.getDate().getTime() < 50400000)
+            if ((SimState.getDate().getTime() > 100860000 || SimState.getDate().getTime() < 50400000)
+                    && cowToCheck.getSleepiness() < 100)
                 step("toHome", cowToCheck);
             else if (cowToCheck.getHunger() <= 10)
                 step("toWaterSource", cowToCheck);
@@ -233,11 +247,8 @@ public class Movement extends Cow {
                 step("random", cowToCheck);
         }
 
-        cowToCheck.updateVitals();
-        Movement.checkForCollisions(cowToCheck);
-
         /*
-         * Static (for now) stats based movement.
+         * Static (for now) stats based decisions.
          */
         if (cowToCheck.getDebt() <= 10) {
             cowToCheck.setLivingSpace(BuildingHandler.createBuilding("CowShack", tileStandingOn));

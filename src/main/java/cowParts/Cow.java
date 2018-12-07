@@ -14,11 +14,13 @@ import menus.MenuCreation;
 import menus.MenuHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import terrain.Tile;
 import userInterface.StaticUI;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -100,6 +102,7 @@ public class Cow extends ImageView {
     private int hunger = random.nextInt(100);
     private int age = random.nextInt(100);
     private int physicalHealth = random.nextInt(100);
+    private int sleepiness = random.nextInt(100);
 
     //Mental 0 is low 100 is high
     private int faith = random.nextInt(100);
@@ -111,12 +114,16 @@ public class Cow extends ImageView {
     //Statuses
     private boolean diseased = false;
 
-    /* Building Control variables
+    /* Tile Control variables
     livingSpace: Where the cow currently resides
     buildingTime: How long to stay in the next building
      */
     private Building livingSpace;
+    private Building buildingIn;
     private long buildingTime = 100;
+
+    //TODO: Implement
+    private Tile tileOn;
 
     /**
      * Calls createCow and adds the resulting cow body to the playground node
@@ -139,7 +146,7 @@ public class Cow extends ImageView {
             error.printStackTrace();
         }
         this.setImage(sprite);
-        this.setId("Big Beefy" + new Random().nextInt(100));
+        this.setId("Big Beefy" + new Random().nextInt(1000));
         this.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
         this.setEffect(color);
         this.setScaleX(3);
@@ -157,12 +164,50 @@ public class Cow extends ImageView {
      * increases about 60 times a second.
      */
     void updateVitals() {
+        //Counter increase and reset
         counter++;
         if (counter % 1000 == 0)
             counter = 0;
 
+        //Constantly updated vitals
         if (counter % 80 == 0)
             setHunger(getHunger() - 1);
+
+        if (this.isHidden())
+            updateBuildingVitals();
+
+    }
+
+    /**
+     * Updates the necessary vitals while the cow is within a building such as building relationships faster and having
+     * children.
+     */
+    private void updateBuildingVitals() {
+        //Updated vitals specifically if cow is in a building
+        for (int i = 0; i < buildingIn.getCurrentInhabitants().size(); i++) {
+            if (Social.relationExists(this, buildingIn.getCurrentInhabitants().get(i))) {
+                if (!this.parent) {
+                    this.parent = true;
+
+                    Cow newCow = new Cow();
+                    newCow.parent = true;
+                    Movement.decideAction(newCow);
+                    newCow.relocate(this.getAnimatedX(), this.getAnimatedY());
+                    cowList.add(newCow);
+
+                    if (random.nextInt(2000) == 1)
+                        this.kill();
+                }
+
+                if (random.nextInt(500) == 1)
+                    Social.modifyRelationValue(this, buildingIn.getCurrentInhabitants().get(i), random.nextInt(2));
+            }
+            else {
+                Social.newRelation(this, buildingIn.getCurrentInhabitants().get(i));
+                this.setCompanionship(this.getCompanionship() + 5);
+                EventLogger.createLoggedEvent(this, "new relationship", 1, "companionship", 5);
+            }
+        }
     }
 
     /**
@@ -548,5 +593,21 @@ public class Cow extends ImageView {
 
     void setLivingSpace(Building livingSpace) {
         this.livingSpace = livingSpace;
+    }
+
+    int getSleepiness() {
+        return this.sleepiness;
+    }
+
+    void setSleepiness(int sleepiness) {
+        this.sleepiness = sleepiness;
+    }
+
+    public Building getBuildingIn() {
+        return buildingIn;
+    }
+
+    public void setBuildingIn(Building buildingIn) {
+        this.buildingIn = buildingIn;
     }
 }
