@@ -2,16 +2,20 @@ package cowParts;
 
 import buildings.Building;
 import buildings.BuildingHandler;
+import buildings.SmallDwelling;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaControl.SimState;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
+import resourcesManagement.RockSource;
 import resourcesManagement.WaterSource;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import resourcesManagement.WoodSource;
 import terrain.Tile;
 
 import java.util.ConcurrentModificationException;
@@ -25,6 +29,12 @@ public class Movement extends Cow {
     private static Random random = new Random();
 
     private static Tile tileStandingOn;
+
+    public static double findDistanceBetweenCowAndObject(@NotNull Cow cowToCheck, @NotNull ImageView objectToCheck) {
+        double distanceX =  objectToCheck.getLayoutX() - cowToCheck.getAnimatedX();
+        double distanceY = objectToCheck.getLayoutY() - cowToCheck.getAnimatedY();
+        return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+    }
 
     /**
      * TODO: Put into the AI
@@ -49,11 +59,23 @@ public class Movement extends Cow {
             case "toHome":
                 cowToMove.currentAction = "Going home";
 
-                animateTowardsDestination(cowToMove, cowToMove.getLivingSpace(), 0);
+                animateTowardsDestination(cowToMove, (Tile) cowToMove.getLivingSpace(), 0);
                 cowToMove.setSleepiness(100);
                 break;
 
-            case "random":
+            case "choppingWood":
+                cowToMove.currentAction = "Chopping Wood";
+
+                animateTowardsDestination(cowToMove, WoodSource.getClosestResource(cowToMove), 0);
+                break;
+
+            case "miningRock":
+                cowToMove.currentAction = "Mining Rock";
+
+                animateTowardsDestination(cowToMove, RockSource.getClosestResource(cowToMove), 0);
+                break;
+
+            case "spinning":
                 cowToMove.currentAction = "Spinning";
                 cowToMove.setRotate(random.nextInt(360 + 1 + 360) - 360);
                 cowToMove.setLayoutX(cowToMove.getLayoutX() + Math.cos(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
@@ -138,7 +160,7 @@ public class Movement extends Cow {
                     if (possibleCollide instanceof Cow)
                         cowToCowCollision(cowToMove, (Cow) possibleCollide);
                     else if (possibleCollide instanceof Building)
-                        cowToBuildingCollision(cowToMove, (Building) possibleCollide);
+                        cowToBuildingCollision(cowToMove, (Tile) possibleCollide);
                     else if (possibleCollide instanceof  Tile)
                         cowToTileCollision((Tile) possibleCollide);
                 }
@@ -174,13 +196,13 @@ public class Movement extends Cow {
      * @param cowToMove The cow that is colliding
      * @param intersectingBuilding The building that is colliding
      */
-    private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Building intersectingBuilding) {
+    private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Tile intersectingBuilding) {
         //Called as the cow first enters the building
-        if (!intersectingBuilding.getCurrentInhabitants().contains(cowToMove)) {
+        if (!((Building)intersectingBuilding).getCurrentInhabitants().contains(cowToMove)) {
             cowToMove.hide();
-            cowToMove.setBuildingIn(intersectingBuilding);
+            cowToMove.setBuildingIn((Building) intersectingBuilding);
 
-            intersectingBuilding.addInhabitant(cowToMove);
+            ((Building)intersectingBuilding).addInhabitant(cowToMove);
 
             if(cowToMove.animation != null)
                 cowToMove.animation.stop();
@@ -200,7 +222,7 @@ public class Movement extends Cow {
 
             cowToMove.relocate(intersectingBuilding.getLayoutX() + intersectingBuilding.getImage().getWidth() / 2,
                     intersectingBuilding.getLayoutY() + intersectingBuilding.getImage().getHeight() + 75);
-            intersectingBuilding.removeInhabitant(cowToMove);
+            ((Building)intersectingBuilding).removeInhabitant(cowToMove);
             cowToMove.setTranslateX(0);
             cowToMove.setTranslateY(0);
         }
@@ -246,14 +268,14 @@ public class Movement extends Cow {
             else if (cowToCheck.getHunger() <= 10)
                 step("toWaterSource", cowToCheck);
             else
-                step("random", cowToCheck);
+                step(cowToCheck.getJob(), cowToCheck);
         }
 
         /*
          * Static (for now) stats based decisions.
          */
         if (cowToCheck.getDebt() <= 10) {
-            cowToCheck.setLivingSpace(BuildingHandler.createBuilding("CowShack", tileStandingOn));
+            cowToCheck.setLivingSpace(new SmallDwelling(BuildingHandler.loadSprite("CowShack"), tileStandingOn));
             cowToCheck.setDebt(100);
         }
     }

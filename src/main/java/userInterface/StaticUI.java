@@ -258,9 +258,7 @@ public class StaticUI {
         if (Input.selectedCows.size() > 1)
             accommodationsText.setText("Many residences");
         else if (Input.selectedCows.size() == 1) {
-            StringBuilder residence = new StringBuilder(Building.getStreetAddress(Input.selectedCows.get(0).getLivingSpace()));
-            residence.insert(19, '\n');
-            accommodationsText.setText(residence.toString());
+            accommodationsText.setText(Input.selectedCows.get(0).getLivingSpace().getStreetAddress());
         }
         else
             accommodationsText.setText("");

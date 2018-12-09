@@ -159,7 +159,7 @@ public class Input {
                 ((Building) mouseEvent.getTarget()).toggleInhabitantsMenu();
 
                 if (SimState.getSimState().equals("TileView")) {
-                    TileUI.setSelectedTile((Building) mouseEvent.getTarget());
+                    TileUI.setSelectedTile((Tile) mouseEvent.getTarget());
                     TileUI.updateUI();
                 }
             }

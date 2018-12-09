@@ -3,6 +3,7 @@ package metaControl;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.Movement;
+import resourcesManagement.ResourcesHandler;
 import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -89,9 +90,11 @@ public class SimState extends Application {
         Playground.init();
         PlaygroundUI.init();
         PlaygroundUI.createStaticUI();
+
         simLoop();
+
         Tile.createTiles();
-        new WaterSource().createWateringHole();
+        ResourcesHandler.init();
         BuildingHandler.init();
 
         Input.enableInput(initialScene);

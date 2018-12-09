@@ -1,10 +1,8 @@
 package buildings;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import menus.MenuHandler;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
 
 import java.io.FileInputStream;
@@ -17,13 +15,20 @@ import java.util.ArrayList;
  */
 public class BuildingHandler {
 
-    public static ArrayList<Building> constructedBuildings = new ArrayList<>();
+    static Image constructionSprite;
+
+    static ArrayList<Building> constructedBuildings = new ArrayList<>();
 
     /**
      * Creates the necessary buildings based off the situation chosen for the sim.
      */
     public static void init() {
-        createBuilding("CowShack", Tile.getRandomTile());
+        loadConstructionSprite();
+        new SmallDwelling(loadSprite("CowShack"), Tile.getRandomTile());
+    }
+
+    private static void loadConstructionSprite() {
+        constructionSprite = loadSprite("UnderConstruction");
     }
 
     /**
@@ -31,9 +36,7 @@ public class BuildingHandler {
      * @param imageName The name of the image to have a building created from
      * @return The new building
      */
-    @NotNull
-    @Contract("_, _ -> new")
-    public static Building createBuilding(String imageName, ImageView tileToBuildOn) {
+    public static Image loadSprite(String imageName) {
         Image buildingSprite = null;
         try {
             buildingSprite = new Image(new FileInputStream("src/main/resources/Buildings/" + imageName + ".png"),0, 0, true, false);
@@ -41,7 +44,7 @@ public class BuildingHandler {
         catch (FileNotFoundException error) {
             MenuHandler.createErrorMenu();
         }
-        return new Building(buildingSprite, tileToBuildOn);
+        return buildingSprite;
     }
 
     /**TODO: Implement
@@ -55,7 +58,7 @@ public class BuildingHandler {
      */
     public static void highlightBuildings() {
         for (Building building : constructedBuildings) {
-            building.setOpacity(0.5);
+            building.getBuildingAsBuildingTile().setOpacity(0.5);
         }
     }
 
@@ -64,7 +67,7 @@ public class BuildingHandler {
      */
     public static void dehighlightBuildings() {
         for (Building building : constructedBuildings) {
-            building.setOpacity(1);
+            building.getBuildingAsBuildingTile().setOpacity(1);
         }
     }
 
