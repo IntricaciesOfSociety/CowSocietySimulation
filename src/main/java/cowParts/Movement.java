@@ -67,8 +67,8 @@ public class Movement extends Cow {
         cowToMove.setTranslateY(0);
         cowToMove.alreadyMoving = true;
 
-        double distanceX =  destination.getLayoutX() - cowToMove.getLayoutX();
-        double distanceY = destination.getLayoutY() - cowToMove.getLayoutY();
+        double distanceX =  destination.getLayoutX() - cowToMove.getAnimatedX();
+        double distanceY = destination.getLayoutY() - cowToMove.getAnimatedY();
         double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
         cowToMove.animation = new TranslateTransition(new Duration((distanceTotal / 10) * 100), cowToMove);
@@ -76,8 +76,8 @@ public class Movement extends Cow {
         cowToMove.setRotate(Math.toDegrees(Math.atan2(distanceY, distanceX)));
         cowToMove.animation.setOnFinished(event -> openAnimation(taskDuration, cowToMove));
 
-        cowToMove.animation.setToX(destination.getLayoutX() - cowToMove.getLayoutX());
-        cowToMove.animation.setToY(destination.getLayoutY() - cowToMove.getLayoutY());
+        cowToMove.animation.setToX(destination.getLayoutX() - cowToMove.getAnimatedX());
+        cowToMove.animation.setToY(destination.getLayoutY() - cowToMove.getAnimatedY());
         cowToMove.animation.play();
     }
 
@@ -103,11 +103,12 @@ public class Movement extends Cow {
     }
 
     /**
-     * Stops the delay loop from executing further. If the loop
+     * Stops the delay loop from executing further and assures that any animation has been finalized by setting the
+     * x and y of the cow to the animateX and animateY.
      */
     private static void stopDelayLoop(@NotNull Cow cowToMove) {
-        cowToMove.delayTimer.stop();
         cowToMove.alreadyMoving = false;
+        cowToMove.delayTimer.stop();
     }
 
     /**
@@ -155,9 +156,10 @@ public class Movement extends Cow {
      * @param intersectingCow The other cow to collide
      */
     private static void cowToCowCollision(Cow cowToMove, Cow intersectingCow) {
-        if (Social.relationExists(cowToMove, intersectingCow))
+        if (Social.relationExists(cowToMove, intersectingCow)) {
             if (random.nextInt(1000) == 1)
                 Social.modifyRelationValue(cowToMove, intersectingCow, random.nextInt(2));
+        }
         else {
             Social.newRelation(cowToMove, intersectingCow);
             cowToMove.setCompanionship(cowToMove.getCompanionship() + 5);
