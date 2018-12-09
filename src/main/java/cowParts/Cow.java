@@ -199,7 +199,7 @@ public class Cow extends ImageView {
                         this.kill();
                 }
 
-                if (random.nextInt(500) == 1)
+                if (random.nextInt(50) == 1)
                     Social.modifyRelationValue(this, buildingIn.getCurrentInhabitants().get(i), random.nextInt(2));
             }
             else {
@@ -212,7 +212,7 @@ public class Cow extends ImageView {
 
     /**
      * Removes the cow and any mention of the cow from the simulation by deleting the cow from the playground and the
-     * cow's link from PlaygroundUI.
+     * cow's link from PlaygroundUI. Logs the death event as a city-wide important event.
      */
     public void kill() {
         if (menuIsOpened)
@@ -221,6 +221,8 @@ public class Cow extends ImageView {
         cowList.remove(this);
         StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
+
+        EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
     }
 
     /**
