@@ -14,6 +14,7 @@ import menus.MenuCreation;
 import menus.MenuHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import societalProductivity.Role;
 import terrain.Tile;
 import userInterface.StaticUI;
 
@@ -74,8 +75,11 @@ public class Cow extends ImageView {
     private static Image sprite;
 
     //The job that this cow has
-    private String job = "Spinning";
-    boolean parent = false;
+    private String job = "spinning";
+
+    //TODO: Implement amount of work cow can do
+    private int workForce = 10;
+    private boolean parent = false;
 
     //Emotions: 0 is low 100 is high
     private int anger = random.nextInt(100);
@@ -121,6 +125,7 @@ public class Cow extends ImageView {
     private Building livingSpace;
     private Building buildingIn;
     private long buildingTime = 100;
+    private Object destination;
 
     //TODO: Implement
     private Tile tileOn;
@@ -154,6 +159,8 @@ public class Cow extends ImageView {
         this.setSmooth(false);
 
         setLivingSpace(BuildingHandler.getBuildingAssignment(this.getId()));
+
+        new Role(this);
 
         cowLink = StaticUI.cowCreationEvent(this.getId());
         EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
@@ -597,7 +604,7 @@ public class Cow extends ImageView {
         this.livingSpace = livingSpace;
     }
 
-    int getSleepiness() {
+    public int getSleepiness() {
         return this.sleepiness;
     }
 
@@ -611,5 +618,13 @@ public class Cow extends ImageView {
 
     public void setBuildingIn(Building buildingIn) {
         this.buildingIn = buildingIn;
+    }
+
+    public Object getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Object destination) {
+        this.destination = destination;
     }
 }

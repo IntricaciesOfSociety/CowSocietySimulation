@@ -1,7 +1,5 @@
 package terrain;
 
-import buildings.Building;
-import buildings.BuildingHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +8,6 @@ import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import resourcesManagement.WaterSource;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,15 +19,23 @@ import java.util.Random;
  */
 public class Tile extends ImageView {
 
+    private boolean isTerrain = true;
+    private boolean isBulitUpon = false;
+
     private static Random random = new Random();
 
     private static final int ROWTILES = (int) Playground.playground.getPrefWidth() / 400;
     private static final int COLTILES = (int) Playground.playground.getPrefHeight() / 400;
+
+    //The list that contains every tile
     private static ArrayList<Tile> tileList = new ArrayList<>();
 
-    Tile() {
-
+    /**
+     * Default constructor so classes that extend tile can have their own constructor.
+     */
+    protected Tile() {
     }
+
     /**
      * Tile creation
      * @param xCoord The x coordinate where the tile will be created
@@ -44,59 +49,64 @@ public class Tile extends ImageView {
         Playground.playground.getChildren().add(this);
     }
 
-    /**TEMP: When no tile is selected and no cows are present, creates the building at a random tile.
-     * Given a building, attempts to place the building on the current tile. Only works if there is adequate space.
-     * @param building The building to be tried and placed
-     * @param tileToBuildOn The tile that the building will be built on
-     * @param numberOfSpaces The number of spaces that the proposed building takes up
+    /**
+     * Given a proposedConstruction, attempts to place the proposedConstruction on the current tile. Only works if there is adequate space.
+     * @param proposedConstruction The proposedConstruction to be tried and placed
+     * @param numberOfSpaces The number of spaces that the proposed proposedConstruction takes up
+     * @return If the construction is possible or not
      */
-    @Nullable
-    public static String tieToBuilding(Building building, ImageView tileToBuildOn, int numberOfSpaces) {
-        if (getIsRoom(tileToBuildOn)) {
-            building.setLayoutX(tileToBuildOn.getLayoutX());
-            building.setLayoutY(tileToBuildOn.getLayoutY());
+    public boolean tieToObject(Tile proposedConstruction, int numberOfSpaces) {
+        if (getIsRoom(this)) {
+            proposedConstruction.setLayoutX(this.getLayoutX());
+            proposedConstruction.setLayoutY(this.getLayoutY());
 
-            BuildingHandler.constructedBuildings.add(building);
-            Playground.playground.getChildren().add(building);
+            this.isBulitUpon = true;
+            proposedConstruction.isTerrain = false;
 
-            return tileToBuildOn.toString();
+            tileList.add(proposedConstruction);
+
+            Playground.playground.getChildren().add(proposedConstruction);
+            return true;
         }
-        else
-            BuildingHandler.constructedBuildings.remove(building);
+        else {
             MenuHandler.createErrorMenu();
-            return null;
+            return false;
+        }
     }
 
-    /**
-     * Ties the given water source to a tile
-     * @param waterSource The waterSource to tie to the given tile
-     * @param tileToBuildOn The tile that the waterSource will be built on
+    /** TODO: Implement
+     * @return If the tile can me assigned to a terrain
      */
-    public static void tieToWaterSource(@NotNull WaterSource waterSource, @NotNull Tile tileToBuildOn) {
-        waterSource.setLayoutX(tileToBuildOn.getLayoutX());
-        waterSource.setLayoutY(tileToBuildOn.getLayoutY());
+    public boolean tieToTerrain() {
+        return false;
     }
 
     /**
-     * Creates a random point where a tile is, then calls the search for the tile at that point.
+     * Creates a random point where a tile is, then calls the search for the tile at that point. If that tile is not
+     * terrain then recurse and try again.
      * @return The random tile found
      */
     @Contract(" -> new")
-    public static Tile getRandomTile() {
+    public static Tile getRandomTerrainTile() {
         Point2D randomTileCoords = new Point2D(random.nextInt(ROWTILES) * 400, random.nextInt(COLTILES) * 400);
-        return tileAt(randomTileCoords);
+        Tile randomTile = tileAt(randomTileCoords);
+
+        if (!randomTile.isBulitUpon)
+            return randomTile;
+        else
+            return getRandomTerrainTile();
     }
 
-    /**TODO: Implement
+    /**
      * Finds the tile at the given point
-     * @param randomTileCoords The point to find the coordinate at
+     * @param tileCoords The point to find the coordinate at
      * @return The tile that was at the given point
      */
     @Nullable
     @Contract(pure = true)
-    private static Tile tileAt(Point2D randomTileCoords) {
+    private static Tile tileAt(Point2D tileCoords) {
         for (Tile tile : tileList) {
-            if(tile.getLayoutX() == randomTileCoords.getX() && tile.getLayoutY() == randomTileCoords.getY())
+            if(tile.getLayoutX() == tileCoords.getX() && tile.getLayoutY() == tileCoords.getY())
                 return tile;
         }
         return null;
@@ -110,7 +120,7 @@ public class Tile extends ImageView {
             for (int j = 0; j < ROWTILES; j++) {
                 try {
                     tileList.add(new Tile(400 * j, i * 400, new Image(
-                            new FileInputStream("src/main/resources/Environment/FlatTerrain.png"),
+                            new FileInputStream("src/main/resources/Terrain/FlatTerrain.png"),
                             0, 0, true, false)));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -119,17 +129,11 @@ public class Tile extends ImageView {
         }
     }
 
-    /**TODO: Implement
-     * Returns if there is space to build the proposed tile upon.
+    /**TODO: Implement partial terrain
      * @return If the selected tile is okay to build the proposed tile upon.
      */
     @Contract(pure = true)
-    private static boolean getIsRoom(ImageView tileToCheck) {
-        for (int i = 0; i < BuildingHandler.constructedBuildings.size(); i++) {
-            if (BuildingHandler.constructedBuildings.get(i).getLayoutX() == tileToCheck.getLayoutX() &&
-                    BuildingHandler.constructedBuildings.get(i).getLayoutY() == tileToCheck.getLayoutY() )
-                return false;
-        }
-        return true;
+    private static boolean getIsRoom(@NotNull Tile tileToCheck) {
+        return tileToCheck.isTerrain && !tileToCheck.isBulitUpon;
     }
 }

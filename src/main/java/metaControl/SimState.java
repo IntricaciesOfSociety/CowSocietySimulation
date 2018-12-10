@@ -3,6 +3,7 @@ package metaControl;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.Movement;
+import resourcesManagement.ResourcesHandler;
 import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -17,6 +18,7 @@ import terrain.Tile;
 import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import userInterface.ResourcesUI;
 import userInterface.StaticUI;
 
 import java.text.ParseException;
@@ -89,10 +91,12 @@ public class SimState extends Application {
         Playground.init();
         PlaygroundUI.init();
         PlaygroundUI.createStaticUI();
+
         simLoop();
+
         Tile.createTiles();
-        new WaterSource().createWateringHole();
         BuildingHandler.init();
+        ResourcesHandler.init();
 
         Input.enableInput(initialScene);
         root.getChildren().addAll(Playground.playground,
@@ -102,7 +106,6 @@ public class SimState extends Application {
         for (int i = 0; i < 50; i++) {
             Cow.cowList.add(new Cow());
         }
-
     }
 
     /**
@@ -136,6 +139,9 @@ public class SimState extends Application {
         StaticUI.updateTimeOfDayText();
         MenuHandler.updateOpenMenus();
         CameraControl.updateCamera();
+
+        if (ResourcesUI.isOpened())
+            ResourcesUI.updateUI();
     }
 
     /**
@@ -178,7 +184,7 @@ public class SimState extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Prototype06");
+        primaryStage.setTitle("Release01");
         primaryStage.setScene(initialScene);
         primaryStage.show();
 

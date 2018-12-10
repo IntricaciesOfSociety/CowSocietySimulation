@@ -1,6 +1,5 @@
 package userInterface;
 
-import buildings.Building;
 import com.sun.istack.internal.NotNull;
 import cowParts.Cow;
 import javafx.scene.Group;
@@ -15,6 +14,7 @@ import metaControl.CameraControl;
 import metaControl.Input;
 import metaControl.SimState;
 import metaEnvironment.Playground;
+import resourcesManagement.ResourcesHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Objects;
@@ -181,6 +181,7 @@ public class StaticUI {
         cowLink.setOnAction(event -> cowLinkClickEvent(((Hyperlink) event.getTarget()).getText()));
 
         updatePopulationText();
+        ResourcesHandler.updatePower();
         return cowLink;
     }
 
@@ -258,9 +259,7 @@ public class StaticUI {
         if (Input.selectedCows.size() > 1)
             accommodationsText.setText("Many residences");
         else if (Input.selectedCows.size() == 1) {
-            StringBuilder residence = new StringBuilder(Building.getStreetAddress(Input.selectedCows.get(0).getLivingSpace()));
-            residence.insert(19, '\n');
-            accommodationsText.setText(residence.toString());
+            accommodationsText.setText(Input.selectedCows.get(0).getLivingSpace().getStreetAddress());
         }
         else
             accommodationsText.setText("");
