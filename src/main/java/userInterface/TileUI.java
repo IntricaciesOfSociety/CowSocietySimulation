@@ -41,8 +41,8 @@ public class TileUI {
 
         BuildingHandler.highlightBuildings();
 
-        buildButton.setOnAction(event -> new CityCenter(BuildingHandler.loadSprite("CityCenter"), selectedTile));
-        buildButton2.setOnAction(event -> new SmallDwelling(BuildingHandler.loadSprite("CowShack"), selectedTile));
+        buildButton.setOnAction(event -> {if(selectedTile != null) new CityCenter(BuildingHandler.loadSprite("CityCenter"), selectedTile);});
+        buildButton2.setOnAction(event -> {if(selectedTile != null) new SmallDwelling(BuildingHandler.loadSprite("CowShack"), selectedTile);});
     }
 
     /**
