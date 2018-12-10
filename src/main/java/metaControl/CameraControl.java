@@ -52,7 +52,7 @@ public class CameraControl {
         Playground.playground.setTranslateY(-yCoord + SimState.initialScene.getHeight() / 2.0);
     }
 
-    /**TODO: Fix zooming
+    /**
      * Zooms the camera in/out depending on the direction given by input.
      * @param direction The direction that the camera is to move in
      */

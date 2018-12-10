@@ -3,6 +3,7 @@ package metaControl;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.Movement;
+import javafx.scene.shape.Rectangle;
 import resourcesManagement.ResourcesHandler;
 import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
@@ -132,14 +133,25 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
+        Rectangle drawBounds = new Rectangle(0,0,initialScene.getWidth(),initialScene.getHeight());
+        CameraControl.updateCamera();
+
+        //Decides what action each cow should be doing
         for (int i = 0; i < Cow.cowList.size(); i++) {
             Movement.decideAction(Cow.cowList.get(i));
+        }
+
+        //Checks whether or not any node is on the screen, and draws it accordingly
+        for (int i = 0; i < Playground.playground.getChildren().size(); i++) {
+            if (Playground.playground.getChildren().get(i).localToScene(Playground.playground.getChildren().get(i).getBoundsInLocal()).intersects(drawBounds.getBoundsInLocal())) {
+                Playground.playground.getChildren().get(i).setVisible(true);
+            } else {
+                Playground.playground.getChildren().get(i).setVisible(false);
+            }
         }
         timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
         StaticUI.updateTimeOfDayText();
         MenuHandler.updateOpenMenus();
-        CameraControl.updateCamera();
-
         if (ResourcesUI.isOpened())
             ResourcesUI.updateUI();
     }

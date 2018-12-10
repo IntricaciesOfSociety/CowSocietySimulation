@@ -46,6 +46,7 @@ public class Input {
         initDragBox();
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+
             KeyCode keyPressed = key.getCode();
 
             //Movement
