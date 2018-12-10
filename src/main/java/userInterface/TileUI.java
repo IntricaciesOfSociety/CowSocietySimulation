@@ -38,8 +38,8 @@ public class TileUI {
 
         BuildingHandler.highlightBuildings();
 
-        buildButton.setOnAction(event -> BuildingHandler.createBuilding("CityCenter", selectedTile));
-        buildButton2.setOnAction(event -> BuildingHandler.createBuilding("CowShack", selectedTile));
+        buildButton.setOnAction(event -> {if(selectedTile != null) BuildingHandler.createBuilding("CityCenter", selectedTile);});
+        buildButton2.setOnAction(event -> {if(selectedTile != null) BuildingHandler.createBuilding("CowShack", selectedTile);});
     }
 
     /**
