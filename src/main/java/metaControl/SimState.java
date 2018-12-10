@@ -48,8 +48,6 @@ public class SimState extends Application {
 
     public static int timeOfDay = new Random().nextInt(2400);
 
-    static Rectangle drawBounds;
-
     /**
      * Sets the state that the simulation is in. SimState is referenced from outside of this method.
      * @param newState The new state the sim will switch to
@@ -132,7 +130,7 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
-        drawBounds = new Rectangle(0,0,initialScene.getWidth(),initialScene.getHeight());
+        Rectangle drawBounds = new Rectangle(0,0,initialScene.getWidth(),initialScene.getHeight());
         CameraControl.updateCamera();
 
         //Decides what action each cow should be doing
