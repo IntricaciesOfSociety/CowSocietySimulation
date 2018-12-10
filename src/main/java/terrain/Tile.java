@@ -34,7 +34,6 @@ public class Tile extends ImageView {
      * Default constructor so classes that extend tile can have their own constructor.
      */
     protected Tile() {
-
     }
 
     /**

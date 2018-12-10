@@ -131,6 +131,11 @@ public class Movement extends Cow {
         }
     }
 
+    /**
+     * Creates and executes an animation that moves the given cow to the given destination.
+     * @param cowToMove The given cow to move towards the destination
+     * @param destination The destination that the cow is to move to
+     */
     private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination) {
         cowToMove.setTranslateX(0);
         cowToMove.setTranslateY(0);
@@ -229,6 +234,11 @@ public class Movement extends Cow {
         }
     }
 
+    /**
+     * Handles any cow to resource collision event.
+     * @param cowToMove The cow colliding with a resource
+     * @param possibleCollide The resource that the cow is colliding with
+     */
     private static void cowToResourceCollision(@NotNull Cow cowToMove, Tile possibleCollide) {
         if (cowToMove.getDestination().equals(possibleCollide)) {
             return;
@@ -272,6 +282,11 @@ public class Movement extends Cow {
         }
     }
 
+    /**
+     * Adds the given cow to the given building and updates that cow's animation accordingly.
+     * @param cowToMove The cow to be added into the building
+     * @param buildingToMoveInto The building to add the cow into
+     */
     private static void enterBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToMoveInto) {
         cowToMove.hide();
         cowToMove.setBuildingIn((Building) buildingToMoveInto);
@@ -292,6 +307,11 @@ public class Movement extends Cow {
         pauseMovement(cowToMove.getBuildingTime(), cowToMove);
     }
 
+    /**
+     * Removes the cow from the building that it is in.
+     * @param cowToMove The cow to remove from the building
+     * @param buildingToExitFrom The building to remove the given cow from
+     */
     private static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
         cowToMove.setBuildingIn(null);
 

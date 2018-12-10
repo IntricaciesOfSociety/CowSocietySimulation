@@ -1,7 +1,5 @@
 package userInterface;
 
-import buildings.Building;
-import buildings.BuildingHandler;
 import com.sun.istack.internal.NotNull;
 import cowParts.Cow;
 import javafx.scene.Group;

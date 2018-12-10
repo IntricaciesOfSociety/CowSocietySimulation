@@ -10,14 +10,25 @@ import terrain.Tile;
 
 import java.util.ArrayList;
 
+/**
+ * Creates and handles any waterSource resource.
+ */
 public class WaterSource extends Tile implements Resource {
 
     private static ArrayList<WaterSource> wateringHoles = new ArrayList<>();
 
+    /**
+     * Calls for the creation of a woodSource
+     * @param resourceSprite The sprite to create the waterSource from
+     * @param tileToBuildOn The tile to build the source upon
+     */
     WaterSource(Image resourceSprite, Tile tileToBuildOn) {
         constructSource(resourceSprite, tileToBuildOn);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void constructSource(Image waterSourceSprite, @NotNull Tile tileToBuildOn) {
         this.setImage(waterSourceSprite);
@@ -26,7 +37,12 @@ public class WaterSource extends Tile implements Resource {
             addWaterSource(this);
     }
 
-    public static ImageView getClosestResource(Cow cowToCheck) {
+    /**
+     * Finds the closest resource to the given cow
+     * @param cowToCheck The cow to find the closest resource from
+     * @return The closest resource to the given cow
+     */
+    public ImageView getClosestResource(Cow cowToCheck) {
         double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(0));
         ImageView closestRockSource = wateringHoles.get(0);
 
@@ -37,6 +53,10 @@ public class WaterSource extends Tile implements Resource {
         return closestRockSource;
     }
 
+    /**
+     * Adds the waterSource to the waterSource list.
+     * @param waterHoleResource The resource to add
+     */
     private static void addWaterSource(Resource waterHoleResource) {
         wateringHoles.add((WaterSource) waterHoleResource);
     }

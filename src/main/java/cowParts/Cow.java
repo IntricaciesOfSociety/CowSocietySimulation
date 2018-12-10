@@ -604,7 +604,7 @@ public class Cow extends ImageView {
         this.livingSpace = livingSpace;
     }
 
-    int getSleepiness() {
+    public int getSleepiness() {
         return this.sleepiness;
     }
 

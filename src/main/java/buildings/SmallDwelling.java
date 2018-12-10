@@ -66,6 +66,9 @@ public class SmallDwelling extends Tile implements Building {
             BuildingHandler.buildingsList.add(this);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void contributeResource(String resourceContribution, int amountToBeUsed) {
         ResourcesHandler.repurposeResource(buildingRequirement, resourceContribution, amountToBeUsed);
@@ -74,6 +77,9 @@ public class SmallDwelling extends Tile implements Building {
             finishConstruction();
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void finishConstruction() {
         this.setImage(buildingSprite);
@@ -128,16 +134,25 @@ public class SmallDwelling extends Tile implements Building {
         return this.streetAddress;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public Tile getBuildingAsBuildingTile() {
         return this;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public ResourceRequirement getResourceRequirement() {
         return buildingRequirement;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public boolean isConstructed() {
         return isConstructed;

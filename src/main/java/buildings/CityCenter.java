@@ -11,6 +11,9 @@ import terrain.Tile;
 
 import java.util.ArrayList;
 
+/**
+ * TODO: Implement
+ */
 public class CityCenter extends Tile implements Building {
 
     //TODO: Implement
@@ -30,6 +33,9 @@ public class CityCenter extends Tile implements Building {
         constructBuilding(buildingSprite, tileToBuildOn);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn) {
         this.setImage(buildingSprite);
@@ -44,51 +50,81 @@ public class CityCenter extends Tile implements Building {
             BuildingHandler.buildingsList.add(this);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void contributeResource(String resourceContribution, int amountToBeUsed) {
 
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void finishConstruction() {
 
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void addInhabitant(Cow inhabitant) {
 
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void removeInhabitant(Cow inhabitant) {
 
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public ArrayList<Cow> getCurrentInhabitants() {
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void toggleInhabitantsMenu() {
 
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public String getStreetAddress() {
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public Tile getBuildingAsBuildingTile() {
         return this;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public ResourceRequirement getResourceRequirement() {
         return null;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public boolean isConstructed() {
         return false;

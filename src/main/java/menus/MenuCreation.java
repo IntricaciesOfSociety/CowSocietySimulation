@@ -294,6 +294,10 @@ public class MenuCreation {
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("physicalHealth")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
+        hyperlink = new Hyperlink("SLEEPINESS: " + firstCow.getSleepiness());
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("sleepiness")));
+        physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
+
         //Mental links
         hyperlink = new Hyperlink("FAITH: " + firstCow.getFaith());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("faith")));
