@@ -24,7 +24,7 @@ public class BuildingHandler {
      */
     public static void init() {
         loadConstructionSprite();
-        new SmallDwelling(loadSprite("CowShack"), Tile.getRandomTile());
+        new SmallDwelling(loadSprite("CowShack"), Tile.getRandomTerrainTile());
     }
 
     private static void loadConstructionSprite() {

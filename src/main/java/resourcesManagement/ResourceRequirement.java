@@ -2,9 +2,9 @@ package resourcesManagement;
 
 public class ResourceRequirement {
 
-    int rock;
-    int wood;
-    int power;
+    private int rock;
+    private int wood;
+    private int power;
 
     public ResourceRequirement(int rock, int wood, int power) {
         this.rock = rock;

@@ -15,11 +15,11 @@ public class ResourcesHandler {
     private static int wood = 0;
 
     public static void init() {
-        new WaterSource(loadSprite("WateringHole"), Tile.getRandomTile());
+        new WaterSource(loadSprite("WateringHole"), Tile.getRandomTerrainTile());
 
         for (int i = 0; i < 5; i++) {
-            new RockSource(loadSprite("Rock"), Tile.getRandomTile());
-            new WoodSource(loadSprite("Tree"), Tile.getRandomTile());
+            new RockSource(loadSprite("Rock"), Tile.getRandomTerrainTile());
+            new WoodSource(loadSprite("Tree"), Tile.getRandomTerrainTile());
         }
     }
 

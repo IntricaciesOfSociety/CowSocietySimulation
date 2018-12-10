@@ -59,20 +59,20 @@ public class Movement extends Cow {
             case "toHome":
                 cowToMove.currentAction = "Going home";
 
-                animateTowardsDestination(cowToMove, (Tile) cowToMove.getLivingSpace(), 0);
+                animateTowardsDestination(cowToMove, (Tile) cowToMove.getLivingSpace(), 1);
                 cowToMove.setSleepiness(100);
                 break;
 
             case "choppingWood":
                 cowToMove.currentAction = "Chopping Wood";
 
-                animateTowardsDestination(cowToMove, WoodSource.getClosestResource(cowToMove), 0);
+                animateTowardsDestination(cowToMove, WoodSource.getClosestResource(cowToMove), 500);
                 break;
 
             case "miningRock":
                 cowToMove.currentAction = "Mining Rock";
 
-                animateTowardsDestination(cowToMove, RockSource.getClosestResource(cowToMove), 0);
+                animateTowardsDestination(cowToMove, RockSource.getClosestResource(cowToMove), 500);
                 break;
 
             case "spinning":
@@ -115,29 +115,38 @@ public class Movement extends Cow {
             @Override
             public void handle(long frameTime) {
                 cowToMove.alreadyMoving = true;
-                if (lastUpdate == 0)
+                if (lastUpdate == 0) {
                     lastUpdate = frameTime;
-                if (frameTime - lastUpdate >= centisecondDuration * 16_666_666L)
+                }
+                if (frameTime - lastUpdate >= centisecondDuration * 16_666_666L) {
                     stopDelayLoop(cowToMove);
+                }
             }
         };
         cowToMove.delayTimer.start();
     }
 
     /**
-     * Stops the delay loop from executing further and assures that any animation has been finalized by setting the
-     * x and y of the cow to the animateX and animateY.
+     * Stops the delay loop from executing further and assures that any animation has been finalized by setting proper
+     * animate/layout X and Y.
      */
     private static void stopDelayLoop(@NotNull Cow cowToMove) {
-        cowToMove.alreadyMoving = false;
         cowToMove.delayTimer.stop();
+        cowToMove.alreadyMoving = false;
+
+        cowToMove.setLayoutX(cowToMove.getAnimatedX());
+        cowToMove.setLayoutY(cowToMove.getAnimatedY());
+        cowToMove.setTranslateX(0);
+        cowToMove.setTranslateY(0);
+        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
     }
 
     /**
      * Sets the alreadyMoving flag to allow for the playing of an animation to happen. Stops animations from being
      * constantly called. Passes through an animation allowance delay to pauseMovement.
      */
-    private static void openAnimation(long centisecondsDuration, Cow cowToMove) {
+    private static void openAnimation(long centisecondsDuration, @NotNull Cow cowToMove) {
+
         pauseMovement(centisecondsDuration, cowToMove);
     }
 

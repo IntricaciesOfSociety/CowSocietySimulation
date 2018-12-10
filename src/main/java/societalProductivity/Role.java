@@ -11,14 +11,12 @@ public class Role {
 
     Random random = new Random();
 
-    String job;
-
     /**
      * TEMP
      */
     public Role(Cow cowToCheck) {
         if (random.nextInt(100) < 10)
-            cowToCheck.setJob("miningRocks");
+            cowToCheck.setJob("miningRock");
         else if (random.nextInt(100) < 10)
             cowToCheck.setJob("choppingWood");
     }

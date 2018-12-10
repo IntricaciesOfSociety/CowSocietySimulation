@@ -105,7 +105,6 @@ public class SimState extends Application {
         for (int i = 0; i < 50; i++) {
             Cow.cowList.add(new Cow());
         }
-
     }
 
     /**

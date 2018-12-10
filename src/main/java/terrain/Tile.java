@@ -83,13 +83,19 @@ public class Tile extends ImageView {
     }
 
     /**
-     * Creates a random point where a tile is, then calls the search for the tile at that point.
+     * Creates a random point where a tile is, then calls the search for the tile at that point. If that tile is not
+     * terrain then recurse and try again.
      * @return The random tile found
      */
     @Contract(" -> new")
-    public static Tile getRandomTile() {
+    public static Tile getRandomTerrainTile() {
         Point2D randomTileCoords = new Point2D(random.nextInt(ROWTILES) * 400, random.nextInt(COLTILES) * 400);
-        return tileAt(randomTileCoords);
+        Tile randomTile = tileAt(randomTileCoords);
+
+        if (!randomTile.isBulitUpon)
+            return randomTile;
+        else
+            return getRandomTerrainTile();
     }
 
     /**
