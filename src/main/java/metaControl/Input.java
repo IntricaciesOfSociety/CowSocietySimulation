@@ -44,38 +44,7 @@ public class Input {
         initDragBox();
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-            /*
-            KeyCode keyPressed = key.getCode();
-            switch (keyPressed) {
-                //WASD camera controls
-                case W: CameraControl.moveCamera("North"); break;
-                case A: CameraControl.moveCamera("West"); break;
-                case S: CameraControl.moveCamera("South"); break;
-                case D: CameraControl.moveCamera("East"); break;
 
-                //XC camera zoom controls. C to center the playground
-                case Z: CameraControl.zoomCamera(true); break;
-                case X: CameraControl.zoomCamera(false); break;
-                case C:
-                    CameraControl.moveCamera(WaterSource.getWateringHole().getLayoutX(), WaterSource.getWateringHole().getLayoutY());
-                    CameraControl.resetZoom();
-                    break;
-
-                //Toggles all cow menus
-                case N:
-                    if(SimState.getSimState().equals("Playing") || SimState.getSimState().equals("TileView"))
-                        toggleAllCowMenus();
-                    break;
-
-                //Pause/UnPause simulation
-                case P:
-                    if (!SimState.getSimState().equals("Paused"))
-                        SimState.setSimState("Paused");
-                    else
-                        SimState.setSimState("Playing");
-                    break;
-            }
-            */
             KeyCode keyPressed = key.getCode();
 
             //Movement

@@ -3,6 +3,7 @@ package metaControl;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.Movement;
+import javafx.scene.shape.Rectangle;
 import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -46,6 +47,8 @@ public class SimState extends Application {
     private static long simSpeed = 16_666_666;
 
     public static int timeOfDay = new Random().nextInt(2400);
+
+    static Rectangle drawBounds;
 
     /**
      * Sets the state that the simulation is in. SimState is referenced from outside of this method.
@@ -129,13 +132,25 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
+        drawBounds = new Rectangle(0,0,initialScene.getWidth(),initialScene.getHeight());
+        CameraControl.updateCamera();
+
+        //Decides what action each cow should be doing
         for (int i = 0; i < Cow.cowList.size(); i++) {
             Movement.decideAction(Cow.cowList.get(i));
+        }
+
+        //Checks whether or not any node is on the screen, and draws it accordingly
+        for (int i = 0; i < Playground.playground.getChildren().size(); i++) {
+            if (Playground.playground.getChildren().get(i).localToScene(Playground.playground.getChildren().get(i).getBoundsInLocal()).intersects(drawBounds.getBoundsInLocal())) {
+                Playground.playground.getChildren().get(i).setVisible(true);
+            } else {
+                Playground.playground.getChildren().get(i).setVisible(false);
+            }
         }
         timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
         StaticUI.updateTimeOfDayText();
         MenuHandler.updateOpenMenus();
-        CameraControl.updateCamera();
     }
 
     /**
