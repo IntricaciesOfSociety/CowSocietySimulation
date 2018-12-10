@@ -35,6 +35,7 @@ public class SmallDwelling extends Tile implements Building {
     private ArrayList<Cow> currentInhabitants = new ArrayList<>();
 
     private ResourceRequirement buildingRequirement;
+    private boolean isConstructed = false;
 
     /**
      * Calls for the creation of a building given an image.
@@ -51,7 +52,7 @@ public class SmallDwelling extends Tile implements Building {
     @Override
     public void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn) {
         this.buildingSprite = buildingSprite;
-        this.setImage(BuildingHandler.constructionSprite);
+        this.setImage(BuildingHandler.smallUnderConstructionSprite);
 
         int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
         streetAddress = random.nextInt(500) + " Cow Drive";
@@ -62,17 +63,21 @@ public class SmallDwelling extends Tile implements Building {
             this.setOpacity(0.5);
 
         if (tileToBuildOn.tieToObject(this, tileSize))
-            BuildingHandler.constructedBuildings.add(this);
+            BuildingHandler.buildingsList.add(this);
     }
 
     @Override
     public void contributeResource(String resourceContribution, int amountToBeUsed) {
         ResourcesHandler.repurposeResource(buildingRequirement, resourceContribution, amountToBeUsed);
+
+        if (this.buildingRequirement.passesRequirements())
+            finishConstruction();
     }
 
     @Override
     public void finishConstruction() {
         this.setImage(buildingSprite);
+        isConstructed = true;
     }
 
     /**
@@ -131,5 +136,10 @@ public class SmallDwelling extends Tile implements Building {
     @Override
     public ResourceRequirement getResourceRequirement() {
         return buildingRequirement;
+    }
+
+    @Override
+    public boolean isConstructed() {
+        return isConstructed;
     }
 }

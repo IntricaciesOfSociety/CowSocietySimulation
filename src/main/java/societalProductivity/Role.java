@@ -19,5 +19,9 @@ public class Role {
             cowToCheck.setJob("miningRock");
         else if (random.nextInt(100) < 10)
             cowToCheck.setJob("choppingWood");
+        else if (random.nextInt(100) < 10)
+            cowToCheck.setJob("woodworking");
+        /*else if (!Government.hasLeader())
+            Government.setLeader(cowToCheck);*/
     }
 }

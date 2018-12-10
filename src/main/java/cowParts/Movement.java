@@ -4,18 +4,16 @@ import buildings.Building;
 import buildings.BuildingHandler;
 import buildings.SmallDwelling;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaControl.SimState;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
-import resourcesManagement.RockSource;
-import resourcesManagement.WaterSource;
+import resourcesManagement.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import resourcesManagement.WoodSource;
+import societalProductivity.Role;
 import terrain.Tile;
 
 import java.util.ConcurrentModificationException;
@@ -49,30 +47,79 @@ public class Movement extends Cow {
          */
             case "toWaterSource":
                 cowToMove.currentAction = "Going to WaterSource";
+                cowToMove.setDestination(WaterSource.getWateringHole());
 
-                animateTowardsDestination(cowToMove, WaterSource.getWateringHole(), 100);
-                cowToMove.setHunger(100);
-                EventLogger.createLoggedEvent(cowToMove, "Getting water", 0, "hunger", 100);
+                animateTowardsDestination(cowToMove, (WaterSource) cowToMove.getDestination());
+                cowToMove.animation.setOnFinished(event -> {
+                    cowToMove.setHunger(100);
+                    EventLogger.createLoggedEvent(cowToMove, "Getting water", 0, "hunger", 100);
 
+                    openAnimation(100, cowToMove);
+                });
                 break;
 
             case "toHome":
                 cowToMove.currentAction = "Going home";
+                cowToMove.setDestination(cowToMove.getLivingSpace());
 
-                animateTowardsDestination(cowToMove, (Tile) cowToMove.getLivingSpace(), 1);
                 cowToMove.setSleepiness(100);
+                animateTowardsDestination(cowToMove, (Tile) cowToMove.getDestination());
+                cowToMove.animation.setOnFinished(event -> {
+
+                    EventLogger.createLoggedEvent(cowToMove, "Going home", 0, "sleepiness", 100);
+
+                    openAnimation(1, cowToMove);
+                });
+                break;
+
+            case "woodworking":
+                cowToMove.currentAction = "Wood Constructing";
+
+                if (BuildingHandler.nextHouseToConstruct() != null) {
+                    cowToMove.setDestination(BuildingHandler.nextHouseToConstruct());
+
+                    //TODO: Handle null house construct issue
+                    animateTowardsDestination(cowToMove, (Tile) cowToMove.getDestination());
+                    cowToMove.animation.setOnFinished(event -> {
+                        BuildingHandler.nextHouseToConstruct().contributeResource("wood", 5);
+                        BuildingHandler.nextHouseToConstruct().contributeResource("power", 1);
+                        cowToMove.setSleepiness(cowToMove.getSleepiness() - 5);
+                        EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+
+                        openAnimation(1000, cowToMove);
+                    });
+                }
+                else
+                    new Role(cowToMove);
+
                 break;
 
             case "choppingWood":
                 cowToMove.currentAction = "Chopping Wood";
+                cowToMove.setDestination(WoodSource.getClosestResource(cowToMove));
 
-                animateTowardsDestination(cowToMove, WoodSource.getClosestResource(cowToMove), 500);
+                animateTowardsDestination(cowToMove, (WoodSource) cowToMove.getDestination());
+                cowToMove.animation.setOnFinished(event -> {
+                    ResourcesHandler.modifyResource("wood", 5);
+                    cowToMove.setSleepiness(cowToMove.getSleepiness() - 5);
+                    EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+
+                    openAnimation(500, cowToMove);
+                });
                 break;
 
             case "miningRock":
                 cowToMove.currentAction = "Mining Rock";
+                cowToMove.setDestination(RockSource.getClosestResource(cowToMove));
 
-                animateTowardsDestination(cowToMove, RockSource.getClosestResource(cowToMove), 500);
+                animateTowardsDestination(cowToMove, (RockSource) cowToMove.getDestination());
+                cowToMove.animation.setOnFinished(event -> {
+                    ResourcesHandler.modifyResource("rock", 5);
+                    cowToMove.setSleepiness(cowToMove.getSleepiness() - 5);
+                    EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+
+                    openAnimation(500, cowToMove);
+                });
                 break;
 
             case "spinning":
@@ -84,9 +131,10 @@ public class Movement extends Cow {
         }
     }
 
-    private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination, long taskDuration) {
+    private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination) {
         cowToMove.setTranslateX(0);
         cowToMove.setTranslateY(0);
+        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
         cowToMove.alreadyMoving = true;
 
         double distanceX =  destination.getLayoutX() - cowToMove.getAnimatedX();
@@ -96,7 +144,6 @@ public class Movement extends Cow {
         cowToMove.animation = new TranslateTransition(new Duration((distanceTotal / 10) * 100), cowToMove);
 
         cowToMove.setRotate(Math.toDegrees(Math.atan2(distanceY, distanceX)));
-        cowToMove.animation.setOnFinished(event -> openAnimation(taskDuration, cowToMove));
 
         cowToMove.animation.setToX(destination.getLayoutX() - cowToMove.getAnimatedX());
         cowToMove.animation.setToY(destination.getLayoutY() - cowToMove.getAnimatedY());
@@ -133,6 +180,7 @@ public class Movement extends Cow {
     private static void stopDelayLoop(@NotNull Cow cowToMove) {
         cowToMove.delayTimer.stop();
         cowToMove.alreadyMoving = false;
+        cowToMove.animation = null;
 
         cowToMove.setLayoutX(cowToMove.getAnimatedX());
         cowToMove.setLayoutY(cowToMove.getAnimatedY());
@@ -146,7 +194,6 @@ public class Movement extends Cow {
      * constantly called. Passes through an animation allowance delay to pauseMovement.
      */
     private static void openAnimation(long centisecondsDuration, @NotNull Cow cowToMove) {
-
         pauseMovement(centisecondsDuration, cowToMove);
     }
 
@@ -172,11 +219,19 @@ public class Movement extends Cow {
                         cowToBuildingCollision(cowToMove, (Tile) possibleCollide);
                     else if (possibleCollide instanceof  Tile)
                         cowToTileCollision((Tile) possibleCollide);
+                    else if (possibleCollide instanceof Resource)
+                        cowToResourceCollision(cowToMove, (Tile) possibleCollide);
                 }
             }
         }
         catch (ConcurrentModificationException e) {
             checkForCollisions(cowToMove);
+        }
+    }
+
+    private static void cowToResourceCollision(@NotNull Cow cowToMove, Tile possibleCollide) {
+        if (cowToMove.getDestination().equals(possibleCollide)) {
+            return;
         }
     }
 
@@ -206,35 +261,45 @@ public class Movement extends Cow {
      * @param intersectingBuilding The building that is colliding
      */
     private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Tile intersectingBuilding) {
-        //Called as the cow first enters the building
-        if (!((Building)intersectingBuilding).getCurrentInhabitants().contains(cowToMove)) {
-            cowToMove.hide();
-            cowToMove.setBuildingIn((Building) intersectingBuilding);
+        if (cowToMove.getDestination() == intersectingBuilding && cowToMove.currentAction.equals("Going home")) {
+            //Called as the cow first enters the building
+            if (!((Building)intersectingBuilding).getCurrentInhabitants().contains(cowToMove))
+                enterBuilding(cowToMove, intersectingBuilding);
 
-            ((Building)intersectingBuilding).addInhabitant(cowToMove);
+            //Called as the cow is ready to exit the building indirectly from the cowToMove.show in decideMovement()
+            else if (!cowToMove.isHidden())
+                exitBuilding(cowToMove, intersectingBuilding);
+        }
+    }
 
-            if(cowToMove.animation != null)
-                cowToMove.animation.stop();
+    private static void enterBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToMoveInto) {
+        cowToMove.hide();
+        cowToMove.setBuildingIn((Building) buildingToMoveInto);
 
-            cowToMove.setTranslateX(0);
-            cowToMove.setTranslateY(0);
-            cowToMove.setLayoutX(intersectingBuilding.getLayoutX());
-            cowToMove.setLayoutY(intersectingBuilding.getLayoutY());
-            cowToMove.relocate(intersectingBuilding.getLayoutX(), intersectingBuilding.getLayoutY());
+        ((Building) buildingToMoveInto).addInhabitant(cowToMove);
 
-            pauseMovement(cowToMove.getBuildingTime(), cowToMove);
+        if(cowToMove.animation != null) {
+            cowToMove.animation.stop();
         }
 
-        //Called as the cow is ready to exit the building indirectly from the cowToMove.show in decideMovement()
-        else if (!cowToMove.isHidden()) {
-            cowToMove.setBuildingIn(null);
 
-            cowToMove.relocate(intersectingBuilding.getLayoutX() + intersectingBuilding.getImage().getWidth() / 2,
-                    intersectingBuilding.getLayoutY() + intersectingBuilding.getImage().getHeight() + 75);
-            ((Building)intersectingBuilding).removeInhabitant(cowToMove);
-            cowToMove.setTranslateX(0);
-            cowToMove.setTranslateY(0);
-        }
+        cowToMove.setTranslateX(0);
+        cowToMove.setTranslateY(0);
+        cowToMove.setLayoutX(buildingToMoveInto.getLayoutX());
+        cowToMove.setLayoutY(buildingToMoveInto.getLayoutY());
+        cowToMove.relocate(buildingToMoveInto.getLayoutX(), buildingToMoveInto.getLayoutY());
+
+        pauseMovement(cowToMove.getBuildingTime(), cowToMove);
+    }
+
+    private static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
+        cowToMove.setBuildingIn(null);
+
+        cowToMove.relocate(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2,
+                buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
+        ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
+        cowToMove.setTranslateX(0);
+        cowToMove.setTranslateY(0);
     }
 
     /**

@@ -125,6 +125,7 @@ public class Cow extends ImageView {
     private Building livingSpace;
     private Building buildingIn;
     private long buildingTime = 100;
+    private Object destination;
 
     //TODO: Implement
     private Tile tileOn;
@@ -617,5 +618,13 @@ public class Cow extends ImageView {
 
     public void setBuildingIn(Building buildingIn) {
         this.buildingIn = buildingIn;
+    }
+
+    public Object getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Object destination) {
+        this.destination = destination;
     }
 }

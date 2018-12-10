@@ -1,5 +1,7 @@
 package resourcesManagement;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ResourceRequirement {
 
     private int rock;
@@ -12,7 +14,7 @@ public class ResourceRequirement {
         this.power = power;
     }
 
-    void modifyRequirement(String resourceToModify, int modificationAmount) {
+    void modifyRequirement(@NotNull String resourceToModify, int modificationAmount) {
         switch (resourceToModify) {
             case "rock":
                 rock += (rock + modificationAmount >= 0) ? modificationAmount : -rock; break;
@@ -28,7 +30,7 @@ public class ResourceRequirement {
      * @return
      */
     public boolean passesRequirements() {
-        return true;
+        return rock == 0 && wood == 0 && power == 0;
     }
 
     @Override

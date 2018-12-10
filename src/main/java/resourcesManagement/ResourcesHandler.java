@@ -1,5 +1,6 @@
 package resourcesManagement;
 
+import cowParts.Cow;
 import javafx.scene.image.Image;
 import menus.MenuHandler;
 import org.jetbrains.annotations.Contract;
@@ -13,6 +14,7 @@ public class ResourcesHandler {
 
     private static int rock = 0;
     private static int wood = 0;
+    private static int power = 0;
 
     public static void init() {
         new WaterSource(loadSprite("WateringHole"), Tile.getRandomTerrainTile());
@@ -39,7 +41,7 @@ public class ResourcesHandler {
         return resourceSprite;
     }
 
-    private static void modifyResource(@NotNull String resourceType, int amountToModify) {
+    public static void modifyResource(@NotNull String resourceType, int amountToModify) {
         switch (resourceType) {
             case ("rock"):
                 rock += amountToModify; break;
@@ -58,8 +60,23 @@ public class ResourcesHandler {
         return wood;
     }
 
+    @Contract(pure = true)
+    public static int getPowerAmount() {
+        return power;
+    }
+
     public static void repurposeResource(@NotNull ResourceRequirement buildingRequirement, String resourceContribution, int repurposeAmount) {
         modifyResource(resourceContribution, -repurposeAmount);
-        buildingRequirement.modifyRequirement(resourceContribution, repurposeAmount);
+        buildingRequirement.modifyRequirement(resourceContribution, -repurposeAmount);
+    }
+
+    @NotNull
+    @Contract(pure = true)
+    public static String getResourcesAsString() {
+        return "Rock:" + rock + " Wood:" + wood + " Power:" + power;
+    }
+
+    public static void updatePower() {
+        power = Cow.cowList.size() * 10;
     }
 }

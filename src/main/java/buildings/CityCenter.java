@@ -41,7 +41,7 @@ public class CityCenter extends Tile implements Building {
             this.setOpacity(0.5);
 
         if (tileToBuildOn.tieToObject(this, tileSize))
-            BuildingHandler.constructedBuildings.add(this);
+            BuildingHandler.buildingsList.add(this);
     }
 
     @Override
@@ -81,11 +81,16 @@ public class CityCenter extends Tile implements Building {
 
     @Override
     public Tile getBuildingAsBuildingTile() {
-        return null;
+        return this;
     }
 
     @Override
     public ResourceRequirement getResourceRequirement() {
         return null;
+    }
+
+    @Override
+    public boolean isConstructed() {
+        return false;
     }
 }

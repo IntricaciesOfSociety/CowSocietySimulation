@@ -57,7 +57,7 @@ public class TileUI {
      * @return The current selectedTile
      */
     @Contract(pure = true)
-    public static ImageView getSelectedTile() {
+    static ImageView getSelectedTile() {
         return selectedTile;
     }
 
@@ -94,7 +94,7 @@ public class TileUI {
         tileText.setText("TILE UI        " + selectedTile);
 
         if (selectedTile instanceof Building) {
-            tileText.setText(selectedTile.getClass().getSimpleName() + " " + ((Building) selectedTile).getResourceRequirement().toString());
+            tileText.setText(selectedTile.getClass().getSimpleName() + " " + ((Building) selectedTile).getStreetAddress());
         }
     }
 

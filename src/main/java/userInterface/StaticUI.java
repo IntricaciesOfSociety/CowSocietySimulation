@@ -1,6 +1,7 @@
 package userInterface;
 
 import buildings.Building;
+import buildings.BuildingHandler;
 import com.sun.istack.internal.NotNull;
 import cowParts.Cow;
 import javafx.scene.Group;
@@ -15,6 +16,7 @@ import metaControl.CameraControl;
 import metaControl.Input;
 import metaControl.SimState;
 import metaEnvironment.Playground;
+import resourcesManagement.ResourcesHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Objects;
@@ -181,6 +183,7 @@ public class StaticUI {
         cowLink.setOnAction(event -> cowLinkClickEvent(((Hyperlink) event.getTarget()).getText()));
 
         updatePopulationText();
+        ResourcesHandler.updatePower();
         return cowLink;
     }
 

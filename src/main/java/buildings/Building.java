@@ -65,4 +65,6 @@ public interface Building {
     Tile getBuildingAsBuildingTile();
 
     ResourceRequirement getResourceRequirement();
+
+    boolean isConstructed();
 }

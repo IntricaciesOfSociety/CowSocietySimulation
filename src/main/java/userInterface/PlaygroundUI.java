@@ -1,6 +1,6 @@
 package userInterface;
 
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.Group;
 
 /**
  * Creates and handles the UI for the playground.
@@ -9,17 +9,17 @@ public class PlaygroundUI {
 
     //The root nodes for all UI elements
     //TODO: Change scope to getters
-    public static AnchorPane staticUI;
-    public static AnchorPane buildingUI;
-    public static AnchorPane resourcesUI;
+    public static Group staticUI;
+    public static Group buildingUI;
+    public static Group resourcesUI;
 
     /**
      * Creates the panes for the various UIs that have access to the root node.
      */
     public static void init() {
-        staticUI = new AnchorPane();
-        buildingUI = new AnchorPane();
-        resourcesUI = new AnchorPane();
+        staticUI = new Group();
+        buildingUI = new Group();
+        resourcesUI = new Group();
     }
 
     /**
