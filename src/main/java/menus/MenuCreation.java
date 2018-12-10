@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
+import terrain.Tile;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class MenuCreation {
 
     private Cow clickedCow;
-    private Building clickedBuilding;
+    private Tile clickedBuilding;
 
     private Text numberOfInhabitants;
 
@@ -56,7 +57,7 @@ public class MenuCreation {
     }
 
     MenuCreation(Building buildingToCreateMenuFrom) {
-        createInhabitantsMenu(buildingToCreateMenuFrom);
+        createInhabitantsMenu((Tile) buildingToCreateMenuFrom);
     }
 
     /**
@@ -141,9 +142,9 @@ public class MenuCreation {
         Playground.playground.getChildren().addAll(background, exitButton);
     }
 
-    private void createInhabitantsMenu(@NotNull Building buildingToCreateMenuFrom) {
+    private void createInhabitantsMenu(@NotNull Tile buildingToCreateMenuFrom) {
         Rectangle background = new Rectangle(50, 50, Color.BLACK);
-        numberOfInhabitants = new Text(Integer.toString(buildingToCreateMenuFrom.getCurrentInhabitants().size()));
+        numberOfInhabitants = new Text(Integer.toString(((Building) buildingToCreateMenuFrom).getCurrentInhabitants().size()));
         stack = new Pane();
 
         numberOfInhabitants.setFill(Color.RED);
@@ -293,6 +294,10 @@ public class MenuCreation {
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("physicalHealth")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
+        hyperlink = new Hyperlink("SLEEPINESS: " + firstCow.getSleepiness());
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("sleepiness")));
+        physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
+
         //Mental links
         hyperlink = new Hyperlink("FAITH: " + firstCow.getFaith());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("faith")));
@@ -397,7 +402,7 @@ public class MenuCreation {
      * Updates the text containing the amount of inhabitants in the given building's inhabitants menu.
      */
     void updateInhabitantMenu() {
-        numberOfInhabitants.setText(Integer.toString(clickedBuilding.getCurrentInhabitants().size()));
+        numberOfInhabitants.setText(Integer.toString(((Building) clickedBuilding).getCurrentInhabitants().size()));
     }
 
     /**

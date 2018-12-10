@@ -14,13 +14,17 @@ public class CameraControl {
     private static final int MOVEMENTOFFSET = 10;
     private static boolean cameraDisable = false;
 
-    private static boolean north = false,
+    private static boolean
+            north = false,
             south = false,
             east = false,
             west = false,
             zoomIn = false,
             zoomOut = false;
 
+    /**
+     * Updates the camera movement based off of the direction set to true.
+     */
     static void updateCamera() {
         //Movement
         if (north) Playground.playground.setTranslateY(Playground.playground.getTranslateY() + MOVEMENTOFFSET);

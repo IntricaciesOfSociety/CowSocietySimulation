@@ -14,6 +14,7 @@ import menus.MenuCreation;
 import menus.MenuHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import societalProductivity.Role;
 import terrain.Tile;
 import userInterface.StaticUI;
 
@@ -74,8 +75,11 @@ public class Cow extends ImageView {
     private static Image sprite;
 
     //The job that this cow has
-    private String job = "Spinning";
-    boolean parent = false;
+    private String job = "spinning";
+
+    //TODO: Implement amount of work cow can do
+    private int workForce = 10;
+    private boolean parent = false;
 
     //Emotions: 0 is low 100 is high
     private int anger = random.nextInt(100);
@@ -121,6 +125,7 @@ public class Cow extends ImageView {
     private Building livingSpace;
     private Building buildingIn;
     private long buildingTime = 100;
+    private Object destination;
 
     //TODO: Implement
     private Tile tileOn;
@@ -154,6 +159,8 @@ public class Cow extends ImageView {
         this.setSmooth(false);
 
         setLivingSpace(BuildingHandler.getBuildingAssignment(this.getId()));
+
+        new Role(this);
 
         cowLink = StaticUI.cowCreationEvent(this.getId());
         EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
@@ -199,7 +206,7 @@ public class Cow extends ImageView {
                         this.kill();
                 }
 
-                if (random.nextInt(500) == 1)
+                if (random.nextInt(50) == 1)
                     Social.modifyRelationValue(this, buildingIn.getCurrentInhabitants().get(i), random.nextInt(2));
             }
             else {
@@ -212,7 +219,7 @@ public class Cow extends ImageView {
 
     /**
      * Removes the cow and any mention of the cow from the simulation by deleting the cow from the playground and the
-     * cow's link from PlaygroundUI.
+     * cow's link from PlaygroundUI. Logs the death event as a city-wide important event.
      */
     public void kill() {
         if (menuIsOpened)
@@ -221,6 +228,8 @@ public class Cow extends ImageView {
         cowList.remove(this);
         StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
+
+        EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
     }
 
     /**
@@ -595,7 +604,7 @@ public class Cow extends ImageView {
         this.livingSpace = livingSpace;
     }
 
-    int getSleepiness() {
+    public int getSleepiness() {
         return this.sleepiness;
     }
 
@@ -609,5 +618,13 @@ public class Cow extends ImageView {
 
     public void setBuildingIn(Building buildingIn) {
         this.buildingIn = buildingIn;
+    }
+
+    public Object getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Object destination) {
+        this.destination = destination;
     }
 }

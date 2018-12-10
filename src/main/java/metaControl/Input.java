@@ -2,6 +2,7 @@ package metaControl;
 
 import buildings.Building;
 import cowParts.Cow;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import menus.MenuHandler;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
+import userInterface.ResourcesUI;
 import userInterface.StaticUI;
 import userInterface.TileUI;
 
@@ -88,7 +90,6 @@ public class Input {
             //Zooming
             if (keyReleased.equals(KeyCode.Z)) CameraControl.setZoomIn(false);
             if (keyReleased.equals(KeyCode.X)) CameraControl.setZoomOut(false);
-
         });
 
         /*
@@ -119,22 +120,22 @@ public class Input {
          * Handles any click event that happens within the playground (a complete mouse pressed then a mouse released
          * event) by checking the object that was clicked, then calling the corresponding method.
          */
-        Playground.playground.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+        scene.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             if (mouseEvent.getTarget() instanceof Cow) {
                 ((Cow) mouseEvent.getTarget()).switchMenuState();
                 StaticUI.cowClickEvent();
             }
-            else if (mouseEvent.getTarget() instanceof Building) {
-                ((Building) mouseEvent.getTarget()).toggleInhabitantsMenu();
+            else if (mouseEvent.getTarget() instanceof Tile) {
+                if (mouseEvent.getTarget() instanceof Building)
+                    ((Building) mouseEvent.getTarget()).toggleInhabitantsMenu();
 
                 if (SimState.getSimState().equals("TileView")) {
-                    TileUI.setSelectedTile((Building) mouseEvent.getTarget());
+                    TileUI.setSelectedTile((Tile) mouseEvent.getTarget());
                     TileUI.updateUI();
+
+                    if (ResourcesUI.isOpened())
+                        ResourcesUI.updateUI();
                 }
-            }
-            else if (mouseEvent.getTarget() instanceof Tile && SimState.getSimState().equals("TileView")) {
-                TileUI.setSelectedTile((Tile) mouseEvent.getTarget());
-                TileUI.updateUI();
             }
         });
 

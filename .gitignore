@@ -11,6 +11,7 @@
 .idea/modules.xml
 .idea/*.iml
 .idea/modules
+.idea/vcs.xml
 
 .gradle/
 /build/

@@ -1,6 +1,9 @@
 package userInterface;
 
+import buildings.Building;
 import buildings.BuildingHandler;
+import buildings.CityCenter;
+import buildings.SmallDwelling;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -16,7 +19,7 @@ import terrain.Tile;
  */
 public class TileUI {
 
-    private static ImageView selectedTile;
+    private static Tile selectedTile;
     private static boolean opened = false;
 
     private static Text tileText;
@@ -38,15 +41,15 @@ public class TileUI {
 
         BuildingHandler.highlightBuildings();
 
-        buildButton.setOnAction(event -> BuildingHandler.createBuilding("CityCenter", selectedTile));
-        buildButton2.setOnAction(event -> BuildingHandler.createBuilding("CowShack", selectedTile));
+        buildButton.setOnAction(event -> {if(selectedTile != null) new CityCenter(BuildingHandler.loadSprite("CityCenter"), selectedTile);});
+        buildButton2.setOnAction(event -> {if(selectedTile != null) new SmallDwelling(BuildingHandler.loadSprite("CowShack"), selectedTile);});
     }
 
     /**
      * Sets the tile that is currently selected within the UI. Set from Input.java.
      * @param target The selected tile
      */
-    public static void setSelectedTile(ImageView target) {
+    public static void setSelectedTile(Tile target) {
         selectedTile = target;
     }
 
@@ -54,7 +57,7 @@ public class TileUI {
      * @return The current selectedTile
      */
     @Contract(pure = true)
-    public static ImageView getSelectedTile() {
+    static ImageView getSelectedTile() {
         return selectedTile;
     }
 
@@ -88,7 +91,11 @@ public class TileUI {
      * Updates the various elements of the tileUI that need to be updated such as the tileText.
      */
     public static void updateUI() {
-        tileText.setText("BUILDING UI        " + selectedTile);
+        tileText.setText("TILE UI        " + selectedTile);
+
+        if (selectedTile instanceof Building) {
+            tileText.setText(selectedTile.getClass().getSimpleName() + " " + ((Building) selectedTile).getStreetAddress());
+        }
     }
 
 }

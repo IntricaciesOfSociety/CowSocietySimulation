@@ -1,10 +1,9 @@
 package buildings;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import menus.MenuHandler;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
 import java.io.FileInputStream;
@@ -17,13 +16,26 @@ import java.util.ArrayList;
  */
 public class BuildingHandler {
 
-    public static ArrayList<Building> constructedBuildings = new ArrayList<>();
+    static Image smallUnderConstructionSprite;
+    static Image largeUnderConstructionSprite;
+
+    static ArrayList<Building> buildingsList = new ArrayList<>();
 
     /**
      * Creates the necessary buildings based off the situation chosen for the sim.
      */
     public static void init() {
-        createBuilding("CowShack", Tile.getRandomTile());
+        loadSmallUnderConstructionSprite();
+        loadLargeUnderConstructionSprite();
+        new SmallDwelling(loadSprite("CowShack"), Tile.getRandomTerrainTile());
+    }
+
+    private static void loadLargeUnderConstructionSprite() {
+        largeUnderConstructionSprite = loadSprite("largeUnderConstruction");
+    }
+
+    private static void loadSmallUnderConstructionSprite() {
+        smallUnderConstructionSprite = loadSprite("SmallUnderConstruction");
     }
 
     /**
@@ -31,9 +43,7 @@ public class BuildingHandler {
      * @param imageName The name of the image to have a building created from
      * @return The new building
      */
-    @NotNull
-    @Contract("_, _ -> new")
-    public static Building createBuilding(String imageName, ImageView tileToBuildOn) {
+    public static Image loadSprite(String imageName) {
         Image buildingSprite = null;
         try {
             buildingSprite = new Image(new FileInputStream("src/main/resources/Buildings/" + imageName + ".png"),0, 0, true, false);
@@ -41,7 +51,7 @@ public class BuildingHandler {
         catch (FileNotFoundException error) {
             MenuHandler.createErrorMenu();
         }
-        return new Building(buildingSprite, tileToBuildOn);
+        return buildingSprite;
     }
 
     /**TODO: Implement
@@ -54,8 +64,8 @@ public class BuildingHandler {
      * Sets the opacity of all drawn buildings to low.
      */
     public static void highlightBuildings() {
-        for (Building building : constructedBuildings) {
-            building.setOpacity(0.5);
+        for (Building building : buildingsList) {
+            building.getBuildingAsBuildingTile().setOpacity(0.5);
         }
     }
 
@@ -63,8 +73,8 @@ public class BuildingHandler {
      * Sets the opacity of all drawn buildings back to normal.
      */
     public static void dehighlightBuildings() {
-        for (Building building : constructedBuildings) {
-            building.setOpacity(1);
+        for (Building building : buildingsList) {
+            building.getBuildingAsBuildingTile().setOpacity(1);
         }
     }
 
@@ -75,6 +85,15 @@ public class BuildingHandler {
      */
     @Contract(pure = true)
     public static Building getBuildingAssignment(String cowIDToAssign) {
-        return constructedBuildings.get(0);
+        return buildingsList.get(0);
+    }
+
+    @Nullable
+    public static Building nextHouseToConstruct() {
+        for (int i = 0; i < buildingsList.size(); i++) {
+            if (!buildingsList.get(i).isConstructed())
+                return buildingsList.get(i);
+        }
+        return null;
     }
 }
