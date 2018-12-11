@@ -2,10 +2,9 @@ package metaControl;
 
 import buildings.BuildingHandler;
 import cowParts.Cow;
-import cowParts.Movement;
+import cowMovement.Movement;
 import javafx.scene.shape.Rectangle;
 import resourcesManagement.ResourcesHandler;
-import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -48,7 +47,7 @@ public class SimState extends Application {
     private static String playState = "Playing";
     private static long simSpeed = 16_666_666;
 
-    public static int timeOfDay = new Random().nextInt(2400);
+    public static Integer timeOfDay = new Random().nextInt(2400);
 
     /**
      * Sets the state that the simulation is in. SimState is referenced from outside of this method.
@@ -59,15 +58,19 @@ public class SimState extends Application {
 
         switch (newState) {
             case "Paused":
+                Movement.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "Playing":
+                Movement.startAllAnimation();
                 simLoop.start();
                 break;
             case "DetailedView":
+                Movement.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "StoryView":
+                Movement.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "TileView":
@@ -177,10 +180,18 @@ public class SimState extends Application {
      * @return The date object that contains the current time of day
      */
     public static Date getDate() {
+
+        // Assures that minute only goes to 59
+        if ((timeOfDay - ((timeOfDay / 100) * 100)) != 0 && ((timeOfDay - ((timeOfDay / 100) * 100)) % 59) == 0)
+            timeOfDay += 41;
+
         StringBuilder timeAsString = new StringBuilder(Integer.toString(timeOfDay));
+
         while (timeAsString.length() != 4)
             timeAsString.insert(0, "0");
+
         timeAsString.insert(2, ':');
+
         Date date = null;
         try {
             date = new SimpleDateFormat("HH:mm").parse(timeAsString.toString());

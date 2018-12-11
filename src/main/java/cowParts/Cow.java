@@ -2,6 +2,7 @@ package cowParts;
 
 import buildings.Building;
 import buildings.BuildingHandler;
+import cowMovement.Movement;
 import javafx.animation.TranslateTransition;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
@@ -21,7 +22,6 @@ import userInterface.StaticUI;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -34,6 +34,7 @@ public class Cow extends ImageView {
     //List that holds every created cow
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
+    public Cognition self = new Cognition();
     Social socialRelations = new Social();
 
     /* Control flags
@@ -42,11 +43,11 @@ public class Cow extends ImageView {
     counter: A counter that updates based of the main loop ticks
     hidden: If the cow is to be updated from the cowList or not
      */
-    boolean alreadyMoving = false;
-    AnimationTimer delayTimer;
+    public boolean alreadyMoving = false;
+    public AnimationTimer delayTimer;
     private int counter = 0;
     private boolean hidden = false;
-    TranslateTransition animation;
+    public TranslateTransition animation;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
@@ -64,7 +65,7 @@ public class Cow extends ImageView {
     currentAction: What the cow is currently doing within the sim
     logger: The instance of EventLogger that holds this cow's unique log
      */
-    String currentAction = "";
+    public String currentAction = "";
     public final EventLogger logger = new EventLogger();
 
     /* What makes a cow
@@ -80,40 +81,6 @@ public class Cow extends ImageView {
     //TODO: Implement amount of work cow can do
     private int workForce = 10;
     private boolean parent = false;
-
-    //Emotions: 0 is low 100 is high
-    private int anger = random.nextInt(100);
-    private int anticipation = random.nextInt(100);
-    private int disgust = random.nextInt(100);
-    private int fear = random.nextInt(100);
-    private int happiness = random.nextInt(100);
-    private int surprise = random.nextInt(100);
-    private int trust = random.nextInt(100);
-
-    //Finances 0 is low 100 is high
-    private int income = random.nextInt(100);
-    private int bills = random.nextInt(100);
-    private int food = random.nextInt(100);
-    private int taxes = random.nextInt(100);
-    private int savings = random.nextInt(100);
-    private int debt = random.nextInt(100);
-
-    //Social 0 is low 100 is high
-    private int boredom = random.nextInt(100);
-    private int companionship = random.nextInt(100);
-
-    //Physical 0 is low 100 is high
-    private int hunger = random.nextInt(100);
-    private int age = random.nextInt(100);
-    private int physicalHealth = random.nextInt(100);
-    private int sleepiness = random.nextInt(100);
-
-    //Mental 0 is low 100 is high
-    private int faith = random.nextInt(100);
-    private int mentalHealth = random.nextInt(100);
-
-    //Academic 0 is low 100 is high
-    private int intelligence = random.nextInt(100);
 
     //Statuses
     private boolean diseased = false;
@@ -170,7 +137,7 @@ public class Cow extends ImageView {
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
      * increases about 60 times a second.
      */
-    void updateVitals() {
+    public void updateVitals() {
         //Counter increase and reset
         counter++;
         if (counter % 1000 == 0)
@@ -178,7 +145,7 @@ public class Cow extends ImageView {
 
         //Constantly updated vitals
         if (counter % 80 == 0)
-            setHunger(getHunger() - 1);
+            self.setHunger(self.getHunger() - 1);
 
         if (this.isHidden())
             updateBuildingVitals();
@@ -211,7 +178,7 @@ public class Cow extends ImageView {
             }
             else {
                 Social.newRelation(this, buildingIn.getCurrentInhabitants().get(i));
-                this.setCompanionship(this.getCompanionship() + 5);
+                self.setCompanionship(self.getCompanionship() + 5);
                 EventLogger.createLoggedEvent(this, "new relationship", 1, "companionship", 5);
             }
         }
@@ -245,7 +212,7 @@ public class Cow extends ImageView {
      * Closes the cows menu if applicable then stops the cow from being updated by removing it from the cowList and
      * playground node. This cow cannot be directly selected while its hidden value is true.
      */
-    void hide() {
+    public void hide() {
         if (menuIsOpened)
             MenuHandler.closeMenu(this.cowMenu);
 
@@ -256,7 +223,7 @@ public class Cow extends ImageView {
     /**
      * Allows the cow to be updated again by adding it back into the cowList and setting hidden to false.
      */
-    void show() {
+    public void show() {
         if (hidden) {
             hidden = false;
             Playground.playground.getChildren().add(this);
@@ -275,7 +242,7 @@ public class Cow extends ImageView {
      */
     public void disease() {
         diseased = true;
-        setHunger(0);
+        self.setHunger(0);
         color.setBrightness(-1.0);
     }
 
@@ -287,7 +254,7 @@ public class Cow extends ImageView {
         for (Cow cowToDisease : diseaseList) {
             cowToDisease.diseased = true;
             cowToDisease.color.setBrightness(-1.0);
-            cowToDisease.setHunger(0);
+            cowToDisease.self.setHunger(0);
         }
     }
 
@@ -362,173 +329,7 @@ public class Cow extends ImageView {
         return diseased;
     }
 
-    public int getAnger() {
-        return anger;
-    }
 
-    public void setAnger(int anger) {
-        this.anger = anger;
-    }
-
-    public int getAnticipation() {
-        return anticipation;
-    }
-
-    public void setAnticipation(int anticipation) {
-        this.anticipation = anticipation;
-    }
-
-    public int getDisgust() {
-        return disgust;
-    }
-
-    public void setDisgust(int disgust) {
-        this.disgust = disgust;
-    }
-
-    public int getFear() {
-        return fear;
-    }
-
-    public void setFear(int fear) {
-        this.fear = fear;
-    }
-
-    public int getHappiness() {
-        return happiness;
-    }
-
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
-    }
-
-    public int getSurprise() {
-        return surprise;
-    }
-
-    public void setSurprise(int surprise) {
-        this.surprise = surprise;
-    }
-
-    public int getTrust() {
-        return trust;
-    }
-
-    public void setTrust(int trust) {
-        this.trust = trust;
-    }
-
-    public int getIncome() {
-        return income;
-    }
-
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
-    public int getBills() {
-        return bills;
-    }
-
-    public void setBills(int bills) {
-        this.bills = bills;
-    }
-
-    public int getFood() {
-        return food;
-    }
-
-    public void setFood(int food) {
-        this.food = food;
-    }
-
-    public int getTaxes() {
-        return taxes;
-    }
-
-    public void setTaxes(int taxes) {
-        this.taxes = taxes;
-    }
-
-    public int getSavings() {
-        return savings;
-    }
-
-    public void setSavings(int savings) {
-        this.savings = savings;
-    }
-
-    public int getDebt() {
-        return debt;
-    }
-
-    void setDebt(int debt) {
-        this.debt = debt;
-    }
-
-    public int getBoredom() {
-        return boredom;
-    }
-
-    public void setBoredom(int boredom) {
-        this.boredom = boredom;
-    }
-
-    public int getCompanionship() {
-        return companionship;
-    }
-
-    void setCompanionship(int companionship) {
-        this.companionship = companionship;
-    }
-
-    public int getHunger() {
-        return hunger;
-    }
-
-    void setHunger(int hunger) {
-        this.hunger = hunger;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getPhysicalHealth() {
-        return physicalHealth;
-    }
-
-    public void setPhysicalHealth(int physicalHealth) {
-        this.physicalHealth = physicalHealth;
-    }
-
-    public int getFaith() {
-        return faith;
-    }
-
-    public void setFaith(int faith) {
-        this.faith = faith;
-    }
-
-    public int getMentalHealth() {
-        return mentalHealth;
-    }
-
-    public void setMentalHealth(int mentalHealth) {
-        this.mentalHealth = mentalHealth;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
-    }
 
     public EventLogger getLogger() {
         return logger;
@@ -546,7 +347,7 @@ public class Cow extends ImageView {
         return socialRelations;
     }
 
-    long getBuildingTime() {
+    public long getBuildingTime() {
         return buildingTime;
     }
 
@@ -554,62 +355,12 @@ public class Cow extends ImageView {
         this.buildingTime = buildingTime;
     }
 
-    /**
-     * @return The sum of the emotions as a string over 700, as a string.
-     */
-    public String getEmotionAggregate() {
-        return Integer.toString((anger + anticipation + disgust + fear + happiness + surprise + trust)) + "/700";
-    }
-
-    /**
-     * @return The sum of finances as a string over 600, as a string.
-     */
-    public String getFinanceAggregate() {
-        return Integer.toString((income + bills + food + taxes + savings + debt)) + "/600";
-    }
-
-    /**
-     * @return The sum of socials as a string over 200, as a string.
-     */
-    public String getSocialAggregate() {
-        return Integer.toString((boredom + companionship)) + "/200";
-    }
-
-    /**
-     * @return The sum of physicals as a string over 300, as a string.
-     */
-    public String getPhysicalAggregate() {
-        return Integer.toString((hunger + age + physicalHealth)) + "/300";
-    }
-
-    /**
-     * @return The sum of mentals as a string over 200, as a string.
-     */
-    public String getMentalAggregate() {
-        return Integer.toString((faith + mentalHealth)) + "/200";
-    }
-
-    /**
-     * @return The sum of the emotions as a string over 100, as a string.
-     */
-    public String getAcademicAggregate() {
-        return Integer.toString((intelligence)) + "/100";
-    }
-
     public Building getLivingSpace() {
         return livingSpace;
     }
 
-    void setLivingSpace(Building livingSpace) {
+    public void setLivingSpace(Building livingSpace) {
         this.livingSpace = livingSpace;
-    }
-
-    public int getSleepiness() {
-        return this.sleepiness;
-    }
-
-    void setSleepiness(int sleepiness) {
-        this.sleepiness = sleepiness;
     }
 
     public Building getBuildingIn() {

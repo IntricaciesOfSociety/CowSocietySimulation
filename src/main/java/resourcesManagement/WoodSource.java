@@ -1,7 +1,7 @@
 package resourcesManagement;
 
 import cowParts.Cow;
-import cowParts.Movement;
+import cowMovement.Movement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.jetbrains.annotations.NotNull;

@@ -1,13 +1,12 @@
-package cowParts;
+package cowMovement;
 
-import buildings.Building;
 import buildings.BuildingHandler;
 import buildings.SmallDwelling;
-import javafx.scene.Node;
+import cowParts.Cow;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 import metaControl.SimState;
 import metaEnvironment.EventLogger;
-import metaEnvironment.Playground;
 import resourcesManagement.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -15,8 +14,7 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import societalProductivity.Role;
 import terrain.Tile;
-
-import java.util.ConcurrentModificationException;
+import userInterface.StaticUI;
 import java.util.Random;
 
 /**
@@ -26,7 +24,7 @@ public class Movement extends Cow {
 
     private static Random random = new Random();
 
-    private static Tile tileStandingOn;
+    static Tile tileStandingOn;
 
     public static double findDistanceBetweenCowAndObject(@NotNull Cow cowToCheck, @NotNull ImageView objectToCheck) {
         double distanceX =  objectToCheck.getLayoutX() - cowToCheck.getAnimatedX();
@@ -51,7 +49,7 @@ public class Movement extends Cow {
 
                 animateTowardsDestination(cowToMove, (WaterSource) cowToMove.getDestination());
                 cowToMove.animation.setOnFinished(event -> {
-                    cowToMove.setHunger(100);
+                    cowToMove.self.setHunger(100);
                     EventLogger.createLoggedEvent(cowToMove, "Getting water", 0, "hunger", 100);
 
                     openAnimation(100, cowToMove);
@@ -62,7 +60,7 @@ public class Movement extends Cow {
                 cowToMove.currentAction = "Going home";
                 cowToMove.setDestination(cowToMove.getLivingSpace());
 
-                cowToMove.setSleepiness(100);
+                cowToMove.self.setSleepiness(100);
                 animateTowardsDestination(cowToMove, (Tile) cowToMove.getDestination());
                 cowToMove.animation.setOnFinished(event -> {
 
@@ -83,7 +81,7 @@ public class Movement extends Cow {
                     cowToMove.animation.setOnFinished(event -> {
                         BuildingHandler.nextHouseToConstruct().contributeResource("wood", 5);
                         BuildingHandler.nextHouseToConstruct().contributeResource("power", 1);
-                        cowToMove.setSleepiness(cowToMove.getSleepiness() - 5);
+                        cowToMove.self.setSleepiness(cowToMove.self.getSleepiness() - 5);
                         EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
 
                         openAnimation(1000, cowToMove);
@@ -91,7 +89,6 @@ public class Movement extends Cow {
                 }
                 else
                     new Role(cowToMove);
-
                 break;
 
             case "choppingWood":
@@ -101,7 +98,7 @@ public class Movement extends Cow {
                 animateTowardsDestination(cowToMove, (WoodSource) cowToMove.getDestination());
                 cowToMove.animation.setOnFinished(event -> {
                     ResourcesHandler.modifyResource("wood", 5);
-                    cowToMove.setSleepiness(cowToMove.getSleepiness() - 5);
+                    cowToMove.self.setSleepiness(cowToMove.self.getSleepiness() - 5);
                     EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
 
                     openAnimation(500, cowToMove);
@@ -115,7 +112,7 @@ public class Movement extends Cow {
                 animateTowardsDestination(cowToMove, (RockSource) cowToMove.getDestination());
                 cowToMove.animation.setOnFinished(event -> {
                     ResourcesHandler.modifyResource("rock", 5);
-                    cowToMove.setSleepiness(cowToMove.getSleepiness() - 5);
+                    cowToMove.self.setSleepiness(cowToMove.self.getSleepiness() - 5);
                     EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
 
                     openAnimation(500, cowToMove);
@@ -160,7 +157,7 @@ public class Movement extends Cow {
      * buildings along with making tasks take time.
      * @param centisecondDuration The duration that the 'empty' animation lasts. 0.01 of a second.
      */
-    private static void pauseMovement(long centisecondDuration, @NotNull Cow cowToMove) {
+    public static void pauseMovement(long centisecondDuration, @NotNull Cow cowToMove) {
         cowToMove.delayTimer = new AnimationTimer() {
             private long lastUpdate = 0;
 
@@ -203,134 +200,6 @@ public class Movement extends Cow {
     }
 
     /**
-     * Calls any collision check to be executed during a normal tick.
-     */
-    private static void checkForCollisions(Cow cowToMove) {
-        checkForCollision(cowToMove);
-    }
-
-    /**
-     * Checks for collision by comparing the current cow to the rest of the nodes in the playground. If playground's root
-     * list is currently being modified, then try again (Yay recursion).
-     * @param cowToMove The cow that is being check for collisions
-     */
-    private static void checkForCollision(Cow cowToMove) {
-        try {
-            for (Node possibleCollide : Playground.playground.getChildren()) {
-                if (possibleCollide != cowToMove && cowToMove.getBoundsInParent().intersects(possibleCollide.getBoundsInParent())) {
-                    if (possibleCollide instanceof Cow)
-                        cowToCowCollision(cowToMove, (Cow) possibleCollide);
-                    else if (possibleCollide instanceof Building)
-                        cowToBuildingCollision(cowToMove, (Tile) possibleCollide);
-                    else if (possibleCollide instanceof  Tile)
-                        cowToTileCollision((Tile) possibleCollide);
-                    else if (possibleCollide instanceof Resource)
-                        cowToResourceCollision(cowToMove, (Tile) possibleCollide);
-                }
-            }
-        }
-        catch (ConcurrentModificationException e) {
-            checkForCollisions(cowToMove);
-        }
-    }
-
-    /**
-     * Handles any cow to resource collision event.
-     * @param cowToMove The cow colliding with a resource
-     * @param possibleCollide The resource that the cow is colliding with
-     */
-    private static void cowToResourceCollision(@NotNull Cow cowToMove, Tile possibleCollide) {
-        if (cowToMove.getDestination().equals(possibleCollide)) {
-            return;
-        }
-    }
-
-    /**
-     * Handles a cow to cow collision. If a collision has occurred create a child, if one hasn't been created already.
-     * Increase companionship if applicable.
-     * @param cowToMove The first cow to collide
-     * @param intersectingCow The other cow to collide
-     */
-    private static void cowToCowCollision(Cow cowToMove, Cow intersectingCow) {
-        if (Social.relationExists(cowToMove, intersectingCow)) {
-            if (random.nextInt(1000) == 1)
-                Social.modifyRelationValue(cowToMove, intersectingCow, random.nextInt(2));
-        }
-        else {
-            Social.newRelation(cowToMove, intersectingCow);
-            cowToMove.setCompanionship(cowToMove.getCompanionship() + 5);
-            EventLogger.createLoggedEvent(cowToMove, "new relationship", 1, "companionship", 5);
-        }
-    }
-
-    /**
-     * Handles a collision between the given building and cow. Moves the cow into the building as an inhabitant for an
-     * anmout of time equal to the cow's buildingTime variable. Stops and resets all animation upon entry, and relocates
-     * the cow to the entrance of the building after exiting.
-     * @param cowToMove The cow that is colliding
-     * @param intersectingBuilding The building that is colliding
-     */
-    private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Tile intersectingBuilding) {
-        if (cowToMove.getDestination() == intersectingBuilding && cowToMove.currentAction.equals("Going home")) {
-            //Called as the cow first enters the building
-            if (!((Building)intersectingBuilding).getCurrentInhabitants().contains(cowToMove))
-                enterBuilding(cowToMove, intersectingBuilding);
-
-            //Called as the cow is ready to exit the building indirectly from the cowToMove.show in decideMovement()
-            else if (!cowToMove.isHidden())
-                exitBuilding(cowToMove, intersectingBuilding);
-        }
-    }
-
-    /**
-     * Adds the given cow to the given building and updates that cow's animation accordingly.
-     * @param cowToMove The cow to be added into the building
-     * @param buildingToMoveInto The building to add the cow into
-     */
-    private static void enterBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToMoveInto) {
-        cowToMove.hide();
-        cowToMove.setBuildingIn((Building) buildingToMoveInto);
-
-        ((Building) buildingToMoveInto).addInhabitant(cowToMove);
-
-        if(cowToMove.animation != null) {
-            cowToMove.animation.stop();
-        }
-
-
-        cowToMove.setTranslateX(0);
-        cowToMove.setTranslateY(0);
-        cowToMove.setLayoutX(buildingToMoveInto.getLayoutX());
-        cowToMove.setLayoutY(buildingToMoveInto.getLayoutY());
-        cowToMove.relocate(buildingToMoveInto.getLayoutX(), buildingToMoveInto.getLayoutY());
-
-        pauseMovement(cowToMove.getBuildingTime(), cowToMove);
-    }
-
-    /**
-     * Removes the cow from the building that it is in.
-     * @param cowToMove The cow to remove from the building
-     * @param buildingToExitFrom The building to remove the given cow from
-     */
-    private static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
-        cowToMove.setBuildingIn(null);
-
-        cowToMove.relocate(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2,
-                buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
-        ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
-        cowToMove.setTranslateX(0);
-        cowToMove.setTranslateY(0);
-    }
-
-    /**
-     * Handles a collision between the given tile and cow. Sets the tile that the cow is on to this tile.
-     * @param possibleCollide The tile that is colliding
-     */
-    private static void cowToTileCollision(Tile possibleCollide) {
-        tileStandingOn = possibleCollide;
-    }
-
-    /**
      * Handles where the given cow is going to move.
      * @param cowToCheck The how whose movements are being decided
      */
@@ -342,13 +211,12 @@ public class Movement extends Cow {
             }
             else {
                 cowToCheck.show();
-                Movement.checkForCollisions(cowToCheck);
+                Collision.checkForCollision(cowToCheck);
             }
             return;
         }
-
         cowToCheck.updateVitals();
-        Movement.checkForCollisions(cowToCheck);
+        Collision.checkForCollision(cowToCheck);
 
         /*
          * Time sensitive stats based movement.
@@ -357,9 +225,9 @@ public class Movement extends Cow {
         if (!cowToCheck.alreadyMoving) {
             //Roughly if between 10PM and 8AM
             if ((SimState.getDate().getTime() > 100860000 || SimState.getDate().getTime() < 50400000)
-                    && cowToCheck.getSleepiness() < 100)
+                    && cowToCheck.self.getSleepiness() < 100)
                 step("toHome", cowToCheck);
-            else if (cowToCheck.getHunger() <= 10)
+            else if (cowToCheck.self.getHunger() <= 10)
                 step("toWaterSource", cowToCheck);
             else
                 step(cowToCheck.getJob(), cowToCheck);
@@ -368,9 +236,44 @@ public class Movement extends Cow {
         /*
          * Static (for now) stats based decisions.
          */
-        if (cowToCheck.getDebt() <= 10) {
+        if (cowToCheck.self.getDebt() <= 10) {
             cowToCheck.setLivingSpace(new SmallDwelling(BuildingHandler.loadSprite("CowShack"), tileStandingOn));
-            cowToCheck.setDebt(100);
+            cowToCheck.self.setDebt(100);
+        }
+    }
+
+    /**
+     * Checks for collision between all cows and the given dragBox
+     * @param dragBox The dragBox to check for collisions against
+     */
+    public static void dragBoxSelectionUpdate(Rectangle dragBox) {
+        Cow possibleCollide;
+        for (int i = 0; i < Cow.cowList.size(); i++) {
+            possibleCollide = cowList.get(i);
+            if (possibleCollide.getBoundsInParent().intersects(dragBox.getBoundsInParent())) {
+                possibleCollide.openMenu();
+                StaticUI.cowClickEvent();
+            }
+        }
+
+    }
+
+    public static void pauseAllAnimation() {
+        for (int i = 0; i < Cow.cowList.size(); i++) {
+            try {
+                Cow.cowList.get(i).animation.pause();
+            }
+            catch (NullPointerException ignored){}
+        }
+
+    }
+
+    public static void startAllAnimation() {
+        for (int i = 0; i < Cow.cowList.size(); i++) {
+            try {
+                Cow.cowList.get(i).animation.play();
+            }
+            catch (NullPointerException ignored) {}
         }
     }
 }
