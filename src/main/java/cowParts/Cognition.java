@@ -29,7 +29,8 @@ public class Cognition {
 
     //Physical 0 is low 100 is high
     private int hunger = random.nextInt(100);
-    private int age = random.nextInt(100);
+    private int thirst = random.nextInt(100);
+    private int age = random.nextInt(100) * 360;
     private int physicalHealth = random.nextInt(100);
     private int sleepiness = random.nextInt(100);
 
@@ -169,11 +170,11 @@ public class Cognition {
     }
 
     public int getAge() {
-        return age;
+        return (age / 360);
     }
 
     public void setAge(int age) {
-        this.age = age;
+        this.age = age * 360;
     }
 
     public int getPhysicalHealth() {
@@ -256,5 +257,12 @@ public class Cognition {
      */
     public String getAcademicAggregate() {
         return Integer.toString((intelligence)) + "/100";
+    }
+
+    public void setThirst(int thirst) {
+        this.thirst = thirst;
+    }
+    public int getThirst() {
+        return this.thirst;
     }
 }

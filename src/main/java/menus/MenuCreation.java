@@ -286,6 +286,10 @@ public class MenuCreation {
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("hunger")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
+        hyperlink = new Hyperlink("THIRST: " + firstCow.self.getThirst());
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("thirst")));
+        physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
+
         hyperlink = new Hyperlink("AGE: " + firstCow.self.getAge());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("age")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));

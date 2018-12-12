@@ -4,6 +4,7 @@ import cowParts.Cow;
 import cowMovement.Movement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class WaterSource extends Tile implements Resource {
 
     private static ArrayList<WaterSource> wateringHoles = new ArrayList<>();
+    private int resourceHealth = 10000;
 
     /**
      * Calls for the creation of a woodSource
@@ -59,6 +61,16 @@ public class WaterSource extends Tile implements Resource {
      */
     private static void addWaterSource(Resource waterHoleResource) {
         wateringHoles.add((WaterSource) waterHoleResource);
+    }
+
+    @Override
+    public void deplete(int depleteDelta) {
+        resourceHealth -= depleteDelta;
+
+        if (resourceHealth <= 0) {
+            wateringHoles.remove(this);
+            Playground.playground.getChildren().remove(this);
+        }
     }
 
     /**

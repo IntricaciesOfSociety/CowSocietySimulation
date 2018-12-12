@@ -2,8 +2,8 @@ package cowParts;
 
 import buildings.Building;
 import buildings.BuildingHandler;
-import cowMovement.Movement;
 import javafx.animation.TranslateTransition;
+import metaControl.Time;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -35,6 +35,7 @@ public class Cow extends ImageView {
     public static ArrayList<Cow> cowList = new ArrayList<>();
 
     public Cognition self = new Cognition();
+    public BirthEvent birth = new BirthEvent();
     Social socialRelations = new Social();
 
     /* Control flags
@@ -80,7 +81,7 @@ public class Cow extends ImageView {
 
     //TODO: Implement amount of work cow can do
     private int workForce = 10;
-    private boolean parent = false;
+    boolean parent = false;
 
     //Statuses
     private boolean diseased = false;
@@ -91,7 +92,7 @@ public class Cow extends ImageView {
      */
     private Building livingSpace;
     private Building buildingIn;
-    private long buildingTime = 100;
+    private long buildingTime = 500;
     private Object destination;
 
     //TODO: Implement
@@ -124,6 +125,8 @@ public class Cow extends ImageView {
         this.setScaleX(3);
         this.setScaleY(3);
         this.setSmooth(false);
+        //TODO: Switch to an actual date
+        this.birth.setBirthday(Time.getTime());
 
         setLivingSpace(BuildingHandler.getBuildingAssignment(this.getId()));
 
@@ -144,8 +147,11 @@ public class Cow extends ImageView {
             counter = 0;
 
         //Constantly updated vitals
-        if (counter % 80 == 0)
-            self.setHunger(self.getHunger() - 1);
+        if (counter % 100 == 0) {
+            self.setHunger(self.getThirst() - 1);
+            self.setSleepiness(self.getSleepiness() - 2);
+        }
+
 
         if (this.isHidden())
             updateBuildingVitals();
@@ -157,29 +163,22 @@ public class Cow extends ImageView {
      * children.
      */
     private void updateBuildingVitals() {
+        Cow otherCow;
         //Updated vitals specifically if cow is in a building
         for (int i = 0; i < buildingIn.getCurrentInhabitants().size(); i++) {
-            if (Social.relationExists(this, buildingIn.getCurrentInhabitants().get(i))) {
-                if (!this.parent) {
-                    this.parent = true;
+            otherCow = buildingIn.getCurrentInhabitants().get(i);
 
-                    Cow newCow = new Cow();
-                    newCow.parent = true;
-                    Movement.decideAction(newCow);
-                    newCow.relocate(this.getAnimatedX(), this.getAnimatedY());
-                    cowList.add(newCow);
-
-                    if (random.nextInt(2000) == 1)
-                        this.kill();
-                }
+            if (Social.relationExists(this, otherCow)) {
+                if (!this.parent && this.birth.isFertile() && otherCow.birth.isFertile())
+                    BirthEvent.createChild(this, otherCow);
 
                 if (random.nextInt(50) == 1)
-                    Social.modifyRelationValue(this, buildingIn.getCurrentInhabitants().get(i), random.nextInt(2));
+                    Social.modifyRelationValue(this, otherCow, random.nextInt(5 + 1 -5) + -5);
             }
             else {
-                Social.newRelation(this, buildingIn.getCurrentInhabitants().get(i));
-                self.setCompanionship(self.getCompanionship() + 5);
-                EventLogger.createLoggedEvent(this, "new relationship", 1, "companionship", 5);
+                Social.newRelation(this, otherCow);
+                self.setCompanionship(self.getCompanionship() + 1);
+                EventLogger.createLoggedEvent(this, "new relationship", 1, "companionship", 1);
             }
         }
     }

@@ -13,6 +13,7 @@ import javafx.scene.text.Text;
 import metaControl.CameraControl;
 import metaControl.Input;
 import metaControl.SimState;
+import metaControl.Time;
 import metaEnvironment.Playground;
 import resourcesManagement.ResourcesHandler;
 
@@ -243,7 +244,7 @@ public class StaticUI {
     /**
      * Updates the action text within the staticUI based off the cows selected
      */
-    private static void updateActionText() {
+    public static void updateActionText() {
         if (Input.selectedCows.size() > 1)
             actionText.setText("Many actions");
         else if (Input.selectedCows.size() == 1)
@@ -275,9 +276,9 @@ public class StaticUI {
     /**
      * Updates the timeOfDay text equal to the time given by SimState.getDate.
      */
-    public static void updateTimeOfDayText() {
-        timeOfDay.setText(new SimpleDateFormat("hh:mm").format(SimState.getDate())
-                + ((SimState.timeOfDay <= 1200) ? " AM" : " PM"));
+    public static void updateTimeOfDayText(int timeInDay) {
+        timeOfDay.setText(new SimpleDateFormat("hh:mm").format(Time.getTime())
+                + ((timeInDay <= 1200) ? " AM" : " PM"));
     }
 
     /**

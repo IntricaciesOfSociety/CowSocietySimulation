@@ -4,6 +4,7 @@ import cowParts.Cow;
 import cowMovement.Movement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
 
@@ -13,6 +14,9 @@ import java.util.ArrayList;
  * Creates and handles any rockSource resource.
  */
 public class RockSource extends Tile implements Resource {
+
+    //How much the resource can be mined.
+    private int resourceHealth = 100;
 
     private static ArrayList<RockSource> rockSources = new ArrayList<>();
 
@@ -34,6 +38,16 @@ public class RockSource extends Tile implements Resource {
 
         if (tileToBuildOn.tieToObject(this, 1))
            addRockSource(this);
+    }
+
+    @Override
+    public void deplete(int depleteDelta) {
+        resourceHealth -= depleteDelta;
+
+        if (resourceHealth <= 0) {
+            rockSources.remove(this);
+            Playground.playground.getChildren().remove(this);
+        }
     }
 
     /**
