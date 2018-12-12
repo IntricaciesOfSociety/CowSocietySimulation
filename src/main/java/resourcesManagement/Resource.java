@@ -16,4 +16,10 @@ public interface Resource {
      */
     void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn);
 
+    void deplete(int depleteDelta);
+
+    static void depleteResource(@NotNull Resource resourceToDeplete, int depleteDelta) {
+        resourceToDeplete.deplete(depleteDelta);
+    }
+
 }

@@ -31,8 +31,8 @@ public class Playground {
      */
     public static void init() {
         playground = motion;
-        playground.setMinSize(8000, 6000);
-        playground.setPrefSize(8000, 6000);
+        playground.setMinSize(8000, 8000);
+        playground.setPrefSize(8000, 8000);
         playground.autosize();
         motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();

@@ -21,7 +21,7 @@ public class Social {
      * @param secondCow One of the cows who's relation with the other given cow is being changed.
      * @param modificationDelta The change amount that the relationValue is to change by.
      */
-    static void modifyRelationValue(@NotNull Cow firstCow, @NotNull Cow secondCow, int modificationDelta) {
+    public static void modifyRelationValue(@NotNull Cow firstCow, @NotNull Cow secondCow, int modificationDelta) {
         Social cow1Socials = firstCow.socialRelations;
         Social cow2Socials = secondCow.socialRelations;
 
@@ -41,7 +41,7 @@ public class Social {
      * @param firstCow The first cow to create a relationship for
      * @param secondCow The second cow to create a relationship for
      */
-    static void newRelation(@NotNull Cow firstCow, @NotNull Cow secondCow) {
+    public static void newRelation(@NotNull Cow firstCow, @NotNull Cow secondCow) {
         firstCow.socialRelations.relations.add(secondCow.getId());
         secondCow.socialRelations.relations.add(firstCow.getId());
         firstCow.socialRelations.relationsValues.add(100);

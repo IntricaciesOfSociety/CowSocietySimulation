@@ -219,96 +219,100 @@ public class MenuCreation {
         Hyperlink hyperlink;
 
         //Emotion links
-        hyperlink = new Hyperlink("ANGER: " + firstCow.getAnger());
+        hyperlink = new Hyperlink("ANGER: " + firstCow.self.getAnger());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("anger")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("ANTICIPATION: " + firstCow.getAnticipation());
+        hyperlink = new Hyperlink("ANTICIPATION: " + firstCow.self.getAnticipation());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("anticipation")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("DISGUST: " + firstCow.getDisgust());
+        hyperlink = new Hyperlink("DISGUST: " + firstCow.self.getDisgust());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("disgust")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("FEAR: " + firstCow.getFear());
+        hyperlink = new Hyperlink("FEAR: " + firstCow.self.getFear());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("fear")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("HAPPINESS: " + firstCow.getHappiness());
+        hyperlink = new Hyperlink("HAPPINESS: " + firstCow.self.getHappiness());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("happiness")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("SURPRISE: " + firstCow.getSurprise());
+        hyperlink = new Hyperlink("SURPRISE: " + firstCow.self.getSurprise());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("surprise")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("TRUST: " + firstCow.getTrust());
+        hyperlink = new Hyperlink("TRUST: " + firstCow.self.getTrust());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("trust")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Finance Links
-        hyperlink = new Hyperlink("INCOME: " + firstCow.getIncome());
+        hyperlink = new Hyperlink("INCOME: " + firstCow.self.getIncome());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("income")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("BILLS: " + firstCow.getBills());
+        hyperlink = new Hyperlink("BILLS: " + firstCow.self.getBills());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("bills")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("FOOD: " + firstCow.getFood());
+        hyperlink = new Hyperlink("FOOD: " + firstCow.self.getFood());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("food")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("TAXES: " + firstCow.getTaxes());
+        hyperlink = new Hyperlink("TAXES: " + firstCow.self.getTaxes());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("taxes")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("SAVINGS: " + firstCow.getSavings());
+        hyperlink = new Hyperlink("SAVINGS: " + firstCow.self.getSavings());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("savings")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("DEBT: " + firstCow.getDebt());
+        hyperlink = new Hyperlink("DEBT: " + firstCow.self.getDebt());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("debt")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Social links
-        hyperlink = new Hyperlink("BOREDOM: " + firstCow.getBoredom());
+        hyperlink = new Hyperlink("BOREDOM: " + firstCow.self.getBoredom());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("boredom")));
         socialLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("COMPANIONSHIP: " + firstCow.getCompanionship());
+        hyperlink = new Hyperlink("COMPANIONSHIP: " + firstCow.self.getCompanionship());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("companionship")));
         socialLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Physical
-        hyperlink = new Hyperlink("HUNGER: " + firstCow.getHunger());
+        hyperlink = new Hyperlink("HUNGER: " + firstCow.self.getHunger());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("hunger")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("AGE: " + firstCow.getAge());
+        hyperlink = new Hyperlink("THIRST: " + firstCow.self.getThirst());
+        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("thirst")));
+        physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
+
+        hyperlink = new Hyperlink("AGE: " + firstCow.self.getAge());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("age")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("HEALTH: " + firstCow.getPhysicalHealth());
+        hyperlink = new Hyperlink("HEALTH: " + firstCow.self.getPhysicalHealth());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("physicalHealth")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("SLEEPINESS: " + firstCow.getSleepiness());
+        hyperlink = new Hyperlink("SLEEPINESS: " + firstCow.self.getSleepiness());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("sleepiness")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Mental links
-        hyperlink = new Hyperlink("FAITH: " + firstCow.getFaith());
+        hyperlink = new Hyperlink("FAITH: " + firstCow.self.getFaith());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("faith")));
         mentalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
-        hyperlink = new Hyperlink("HEALTH: " + firstCow.getMentalHealth());
+        hyperlink = new Hyperlink("HEALTH: " + firstCow.self.getMentalHealth());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("mentalHealth")));
         mentalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Academic links
-        hyperlink = new Hyperlink("INTELLIGENCE: " + firstCow.getAge());
+        hyperlink = new Hyperlink("INTELLIGENCE: " + firstCow.self.getAge());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("intelligence")));
         academicLinks.getChildren().add(new TreeItem<>(hyperlink));
 
@@ -354,12 +358,12 @@ public class MenuCreation {
         cognitiveAggregates.setLayoutX(5);
         cognitiveAggregates.setLayoutY(20);
 
-        overallEmotion = new Text(5, 30, "Emotion: " + cow.getEmotionAggregate());
-        overallFinance = new Text(5, 30, "Finance: " + cow.getFinanceAggregate());
-        overallSocial = new Text(5, 30, "Social: " + cow.getSocialAggregate());
-        overallPhysical = new Text(5, 30, "Physical: " + cow.getPhysicalAggregate());
-        overallMental = new Text(5, 30, "Mental: " + cow.getMentalAggregate());
-        overallAcademic = new Text(5, 30, "Academic: " + cow.getAcademicAggregate());
+        overallEmotion = new Text(5, 30, "Emotion: " + cow.self.getEmotionAggregate());
+        overallFinance = new Text(5, 30, "Finance: " + cow.self.getFinanceAggregate());
+        overallSocial = new Text(5, 30, "Social: " + cow.self.getSocialAggregate());
+        overallPhysical = new Text(5, 30, "Physical: " + cow.self.getPhysicalAggregate());
+        overallMental = new Text(5, 30, "Mental: " + cow.self.getMentalAggregate());
+        overallAcademic = new Text(5, 30, "Academic: " + cow.self.getAcademicAggregate());
 
         Text idText = new Text(5,15, cow.getId());
         stack = new Pane();

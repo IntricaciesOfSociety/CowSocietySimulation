@@ -2,10 +2,9 @@ package metaControl;
 
 import buildings.BuildingHandler;
 import cowParts.Cow;
-import cowParts.Movement;
+import cowMovement.Movement;
 import javafx.scene.shape.Rectangle;
 import resourcesManagement.ResourcesHandler;
-import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -48,8 +47,6 @@ public class SimState extends Application {
     private static String playState = "Playing";
     private static long simSpeed = 16_666_666;
 
-    public static int timeOfDay = new Random().nextInt(2400);
-
     /**
      * Sets the state that the simulation is in. SimState is referenced from outside of this method.
      * @param newState The new state the sim will switch to
@@ -59,15 +56,19 @@ public class SimState extends Application {
 
         switch (newState) {
             case "Paused":
+                Movement.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "Playing":
+                Movement.startAllAnimation();
                 simLoop.start();
                 break;
             case "DetailedView":
+                Movement.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "StoryView":
+                Movement.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "TileView":
@@ -149,8 +150,8 @@ public class SimState extends Application {
                 Playground.playground.getChildren().get(i).setVisible(false);
             }
         }
-        timeOfDay += ((timeOfDay <= 2400) ? 1 : -timeOfDay);
-        StaticUI.updateTimeOfDayText();
+        Time.updateTime();
+
         MenuHandler.updateOpenMenus();
         if (ResourcesUI.isOpened())
             ResourcesUI.updateUI();
@@ -170,24 +171,6 @@ public class SimState extends Application {
      */
     public static void addPlayground(Pane playground) {
         root.getChildren().add(0, playground);
-    }
-
-    /**
-     * Converts the int representation of the time into a readable 24-hour date object.
-     * @return The date object that contains the current time of day
-     */
-    public static Date getDate() {
-        StringBuilder timeAsString = new StringBuilder(Integer.toString(timeOfDay));
-        while (timeAsString.length() != 4)
-            timeAsString.insert(0, "0");
-        timeAsString.insert(2, ':');
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("HH:mm").parse(timeAsString.toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
     }
 
     /**

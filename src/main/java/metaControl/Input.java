@@ -2,7 +2,7 @@ package metaControl;
 
 import buildings.Building;
 import cowParts.Cow;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import cowMovement.Movement;
 import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
@@ -26,6 +26,7 @@ import java.util.ArrayList;
  */
 public class Input {
 
+    //Drag Box
     private static Rectangle dragBox = new Rectangle(0,0,0,0);
 
     //Directions relating to the direction that the dragBox is being created in.
@@ -60,21 +61,20 @@ public class Input {
             if (keyPressed.equals(KeyCode.X)) CameraControl.setZoomOut(true);
             if (keyPressed.equals(KeyCode.C)) {
                 CameraControl.resetZoom();
-                double waterSize = WaterSource.getWateringHole().getBoundsInParent().getMaxX() - WaterSource.getWateringHole().getBoundsInParent().getMinX();
-                CameraControl.moveCamera(WaterSource.getWateringHole().getLayoutX() + waterSize/2.0, WaterSource.getWateringHole().getLayoutY() + waterSize/2.0);
+
+                WaterSource waterHole = WaterSource.getWateringHole();
+                CameraControl.moveCamera(
+                        waterHole.getLayoutX() + waterHole.getBoundsInParent().getWidth() / 2,
+                        waterHole.getLayoutY() + waterHole.getBoundsInParent().getHeight() / 2);
             }
 
             //Toggles all cow menus
-            if (keyPressed.equals(KeyCode.N)) {
-                toggleAllCowMenus();
-            }
+            if (keyPressed.equals(KeyCode.N)) toggleAllCowMenus();
 
             //Pause/UnPause simulation
             if (keyPressed.equals(KeyCode.P)) {
-                if (!SimState.getSimState().equals("Paused"))
-                    SimState.setSimState("Paused");
-                else
-                    SimState.setSimState("Playing");
+                if (!SimState.getSimState().equals("Paused")) SimState.setSimState("Paused");
+                else SimState.setSimState("Playing");
             }
         });
 
@@ -111,9 +111,9 @@ public class Input {
          * the way; all on the mouse released event in the playground.
          */
         Playground.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
-            checkDragBox();
-            dragBox.setWidth(0);
+            Movement.dragBoxSelectionUpdate(dragBox);
             dragBox.setHeight(0);
+            dragBox.setWidth(0);
         });
 
         /*
@@ -164,22 +164,6 @@ public class Input {
         Playground.playground.getChildren().add(dragBox);
     }
 
-
-    /**TODO: Switch implementation to collision. Yikes
-     * Checks to see what cows are within the bounds of the dragBox. Opens those cow's menus.
-     */
-    private static void checkDragBox() {
-        for (int i = 0; i < Cow.cowList.size(); i++) {
-            if (Cow.cowList.get(i).getAnimatedX() > dragBox.getBoundsInParent().getMinX() && Cow.cowList.get(i).getAnimatedX() < dragBox.getBoundsInParent().getMaxX()
-                && Cow.cowList.get(i).getAnimatedY() > dragBox.getBoundsInParent().getMinY() && Cow.cowList.get(i).getAnimatedY() < dragBox.getBoundsInParent().getMaxY()
-                && !Cow.cowList.get(i).isHidden()) {
-                Cow.cowList.get(i).openMenu();
-                StaticUI.cowClickEvent();
-            }
-
-        }
-    }
-
     /**
      * Sets all cow menus to open or closed based off of the value of allCowMenusOpen.
      */
@@ -197,8 +181,6 @@ public class Input {
                     cow.openMenu();
             }
         }
-
-
         StaticUI.cowClickEvent();
     }
 

@@ -1,6 +1,7 @@
 package buildings;
 
 import cowParts.Cow;
+import cowMovement.Movement;
 import javafx.scene.image.Image;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -67,4 +68,43 @@ public interface Building {
     ResourceRequirement getResourceRequirement();
 
     boolean isConstructed();
+
+    /**
+     * Adds the given cow to the given building and updates that cow's animation accordingly.
+     * @param cowToMove The cow to be added into the building
+     * @param buildingToMoveInto The building to add the cow into
+     */
+    static void enterBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToMoveInto) {
+        cowToMove.hide();
+        cowToMove.setBuildingIn((Building) buildingToMoveInto);
+
+        ((Building) buildingToMoveInto).addInhabitant(cowToMove);
+
+        if(cowToMove.animation != null) {
+            cowToMove.animation.stop();
+        }
+
+        cowToMove.setTranslateX(0);
+        cowToMove.setTranslateY(0);
+        cowToMove.setLayoutX(buildingToMoveInto.getLayoutX());
+        cowToMove.setLayoutY(buildingToMoveInto.getLayoutY());
+        cowToMove.relocate(buildingToMoveInto.getLayoutX(), buildingToMoveInto.getLayoutY());
+
+        Movement.pauseMovement(cowToMove.getBuildingTime(), cowToMove);
+    }
+
+    /**
+     * Removes the cow from the building that it is in.
+     * @param cowToMove The cow to remove from the building
+     * @param buildingToExitFrom The building to remove the given cow from
+     */
+    static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
+        cowToMove.setBuildingIn(null);
+
+        cowToMove.relocate(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2,
+                buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
+        ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
+        cowToMove.setTranslateX(0);
+        cowToMove.setTranslateY(0);
+    }
 }
