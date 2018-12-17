@@ -106,5 +106,6 @@ public interface Building {
         ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
         cowToMove.setTranslateX(0);
         cowToMove.setTranslateY(0);
+        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
     }
 }

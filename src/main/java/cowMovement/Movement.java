@@ -146,13 +146,18 @@ public class Movement extends Cow {
      * @param destination The destination that the cow is to move to
      */
     private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination) {
+        cowToMove.alreadyMoving = true;
         cowToMove.setTranslateX(0);
         cowToMove.setTranslateY(0);
-        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
-        cowToMove.alreadyMoving = true;
 
-        double distanceX =  destination.getLayoutX() - cowToMove.getAnimatedX();
-        double distanceY = destination.getLayoutY() - cowToMove.getAnimatedY();
+        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
+
+        if (cowToMove.getAnimatedX() < 0 || cowToMove.getAnimatedX() > 8000
+            || cowToMove.getAnimatedY() < 0 || cowToMove.getAnimatedY() > 8000)
+            System.out.println();
+
+        double distanceX =  destination.getLayoutX() - cowToMove.getLayoutX();
+        double distanceY = destination.getLayoutY() - cowToMove.getLayoutY();
         double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
         cowToMove.animation = new TranslateTransition(new Duration((distanceTotal * 10)), cowToMove);
@@ -272,6 +277,9 @@ public class Movement extends Cow {
 
     }
 
+    /**
+     * Pauses any running cow animation.
+     */
     public static void pauseAllAnimation() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
             try {
@@ -282,6 +290,9 @@ public class Movement extends Cow {
 
     }
 
+    /**
+     * Resumes any running cow animation.
+     */
     public static void startAllAnimation() {
         for (int i = 0; i < Cow.cowList.size(); i++) {
             try {
