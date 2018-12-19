@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Handles the creation of buildings. Called only if building prerequisites have been fulfilled (resources and technology).
  */
-public class SmallDwelling extends Building {
+public class Hotel extends Building {
 
     //TODO: Implement
     Point2D buildingEntrance;
@@ -42,7 +42,7 @@ public class SmallDwelling extends Building {
      * @param buildingSprite The image to create a building from
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public SmallDwelling(Image buildingSprite, Tile tileToBuildOn) {
+    public Hotel(Image buildingSprite, Tile tileToBuildOn) {
         constructBuilding(buildingSprite, tileToBuildOn);
     }
 
@@ -52,7 +52,7 @@ public class SmallDwelling extends Building {
     @Override
     public void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn) {
         this.buildingSprite = buildingSprite;
-        this.setImage(BuildingHandler.smallUnderConstructionSprite);
+        this.setImage(BuildingHandler.largeUnderConstructionSprite);
 
         int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
         streetAddress = random.nextInt(500) + " Cow Drive";

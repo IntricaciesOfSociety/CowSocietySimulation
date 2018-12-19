@@ -28,6 +28,8 @@ public class BirthEvent {
 
         Cow newCow = new Cow();
         newCow.self.setAge(1);
+        newCow.setScaleX(1.5);
+        newCow.setScaleY(1.5);
 
         Movement.decideAction(newCow);
         newCow.relocate(parent1.getAnimatedX(), parent1.getAnimatedY());

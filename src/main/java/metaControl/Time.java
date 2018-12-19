@@ -23,13 +23,24 @@ public class Time {
     }
 
     private static void newDayEvent() {
+        Cow cowLife;
         for (int i = 0; i < Cow.cowList.size(); i++) {
-            Cow.cowList.get(i).self.setAge(Cow.cowList.get(i).self.getAge() + 1);
-            Cow.cowList.get(i).birth.updateFertility();
+            cowLife = Cow.cowList.get(i);
+            cowLife.self.setAge(cowLife.self.getAge() + 1);
+            cowLife.birth.updateFertility();
 
-            if (Cow.cowList.get(i).self.getAge() > random.nextInt((100 - 50) + 1) + 50) {
+            if (cowLife.self.getAge() == 5) {
+                cowLife.setScaleX(2.25);
+                cowLife.setScaleY(2.25);
+            }
+            else if (cowLife.self.getAge() == 10) {
+                cowLife.setScaleX(3);
+                cowLife.setScaleY(3);
+            }
+
+            if (cowLife.self.getAge() > random.nextInt((100 - 50) + 1) + 50) {
                 System.out.println(Cow.cowList.get(i).getId());
-                Cow.cowList.get(i).kill();
+                cowLife.kill();
             }
         }
     }

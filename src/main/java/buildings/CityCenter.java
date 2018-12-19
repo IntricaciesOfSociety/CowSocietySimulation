@@ -14,20 +14,7 @@ import java.util.ArrayList;
 /**
  * TODO: Implement
  */
-public class CityCenter extends Tile implements Building {
-
-    //TODO: Implement
-    Point2D buildingEntrance;
-
-    // TODO:Implement
-    private int maximumCapacity = 10;
-
-    private boolean inhabitantsMenuOpened = false;
-    private MenuCreation inhabitantsMenu;
-
-    private String streetAddress;
-
-    private ArrayList<Cow> currentInhabitants = new ArrayList<>();
+public class CityCenter extends Building {
 
     public CityCenter(Image buildingSprite, Tile tileToBuildOn) {
         constructBuilding(buildingSprite, tileToBuildOn);

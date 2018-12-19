@@ -1,6 +1,7 @@
 package metaControl;
 
 import buildings.Building;
+import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowMovement.Movement;
 import resourcesManagement.WaterSource;
@@ -62,10 +63,9 @@ public class Input {
             if (keyPressed.equals(KeyCode.C)) {
                 CameraControl.resetZoom();
 
-                WaterSource waterHole = WaterSource.getWateringHole();
+                Building defaultBuilding = BuildingHandler.getDefaultBuilding();
                 CameraControl.moveCamera(
-                        waterHole.getLayoutX() + waterHole.getBoundsInParent().getWidth() / 2,
-                        waterHole.getLayoutY() + waterHole.getBoundsInParent().getHeight() / 2);
+                        defaultBuilding.getLayoutX(), defaultBuilding.getLayoutY());
             }
 
             //Toggles all cow menus

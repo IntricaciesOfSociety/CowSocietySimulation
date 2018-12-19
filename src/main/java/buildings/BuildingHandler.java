@@ -27,11 +27,11 @@ public class BuildingHandler {
     public static void init() {
         loadSmallUnderConstructionSprite();
         loadLargeUnderConstructionSprite();
-        new SmallDwelling(loadSprite("CowShack"), Tile.getRandomTerrainTile());
+        new Hotel(loadSprite("CowHotel"), Tile.getRandomTerrainTile());
     }
 
     private static void loadLargeUnderConstructionSprite() {
-        largeUnderConstructionSprite = loadSprite("largeUnderConstruction");
+        largeUnderConstructionSprite = loadSprite("LargeUnderConstruction");
     }
 
     private static void loadSmallUnderConstructionSprite() {
@@ -95,5 +95,10 @@ public class BuildingHandler {
                 return buildingsList.get(i);
         }
         return null;
+    }
+
+    @Contract(pure = true)
+    public static Building getDefaultBuilding() {
+        return buildingsList.get(0);
     }
 }
