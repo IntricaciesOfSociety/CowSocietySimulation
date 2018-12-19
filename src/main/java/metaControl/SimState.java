@@ -3,7 +3,9 @@ package metaControl;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowMovement.Movement;
+import cowParts.CowHandler;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.AssetLoading;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -19,12 +21,6 @@ import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import userInterface.ResourcesUI;
-import userInterface.StaticUI;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -90,9 +86,10 @@ public class SimState extends Application {
      * into the root node.
      */
     private static void simInit() {
+        LoadConfiguration.loadConfigurationFile();
+        AssetLoading.loadBaseAssets();
         Playground.init();
         PlaygroundUI.init();
-        PlaygroundUI.createStaticUI();
 
         simLoop();
 
@@ -104,10 +101,7 @@ public class SimState extends Application {
         root.getChildren().addAll(Playground.playground,
                 PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
         );
-
-        for (int i = 0; i < 50; i++) {
-            Cow.cowList.add(new Cow());
-        }
+        CowHandler.init();
     }
 
     /**

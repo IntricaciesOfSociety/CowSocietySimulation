@@ -14,18 +14,13 @@ public class PlaygroundUI {
     public static Group resourcesUI;
 
     /**
-     * Creates the panes for the various UIs that have access to the root node.
+     * Creates the panes for the various UIs that have access to the root node. Also calls for creation of the staticUI.
      */
     public static void init() {
         staticUI = new Group();
         buildingUI = new Group();
         resourcesUI = new Group();
-    }
 
-    /**
-     * Handles the call for creation of the staticUI.
-     */
-    public static void createStaticUI() {
         StaticUI.init();
     }
 

@@ -40,6 +40,9 @@ public class RockSource extends Tile implements Resource {
            addRockSource(this);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void deplete(int depleteDelta) {
         resourceHealth -= depleteDelta;

@@ -54,6 +54,9 @@ public class WoodSource extends Tile implements Resource {
         return closestRockSource;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void deplete(int depleteDelta) {
         resourceHealth -= depleteDelta;

@@ -1,0 +1,65 @@
+package cowParts;
+
+import buildings.BuildingHandler;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import metaControl.LoadConfiguration;
+import metaControl.Time;
+import metaEnvironment.AssetLoading;
+import metaEnvironment.EventLogger;
+import metaEnvironment.Playground;
+import societalProductivity.Role;
+import userInterface.StaticUI;
+
+import java.util.Random;
+
+import static cowParts.BirthEvent.random;
+
+/**
+ * Handles the creation and initialization of cows.
+ */
+public class CowHandler {
+
+    /**
+     * Creates the amount of cows given by the configuration file.
+     */
+    public static void init() {
+        for (int i = 0; i < LoadConfiguration.getInitialPopulation(); i++) {
+            createCow();
+        }
+    }
+
+    /**
+     * TEMP
+     * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
+     * for the cow to be used in PlaygroundUI.
+     */
+    static Cow createCow() {
+        Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
+
+        Cow newCow = new Cow();
+        newCow.setImage(cowSprite);
+
+        newCow.setId("Big Beefy" + new Random().nextInt(1000));
+        newCow.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
+        newCow.setEffect(new ColorAdjust());
+        newCow.setScaleX(3);
+        newCow.setScaleY(3);
+        newCow.setSmooth(false);
+
+        //TODO: Switch to an actual date
+        newCow.birth.setBirthday(Time.getTime());
+
+        newCow.setLivingSpace(BuildingHandler.getBuildingAssignment(newCow.getId()));
+
+        new Role(newCow);
+
+        newCow.setCowLink(StaticUI.cowCreationEvent(newCow.getId()));
+        EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
+
+        Playground.playground.getChildren().add(newCow);
+        Cow.cowList.add(newCow);
+
+        return newCow;
+    }
+}

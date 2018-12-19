@@ -16,8 +16,17 @@ public interface Resource {
      */
     void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn);
 
+    /**
+     * Depletes the resource that this method was called on by the given amount.
+     * @param depleteDelta The amount to deplete the resource by
+     */
     void deplete(int depleteDelta);
 
+    /**
+     * Depletes the given resource by the given amount.
+     * @param resourceToDeplete The resource to deplete
+     * @param depleteDelta The amount to deplete the resource by
+     */
     static void depleteResource(@NotNull Resource resourceToDeplete, int depleteDelta) {
         resourceToDeplete.deplete(depleteDelta);
     }

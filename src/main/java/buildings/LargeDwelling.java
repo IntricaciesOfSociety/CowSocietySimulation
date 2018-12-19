@@ -15,9 +15,10 @@ import terrain.Tile;
 import java.util.ArrayList;
 
 /**
- * Handles the creation of buildings. Called only if building prerequisites have been fulfilled (resources and technology).
+ * Handles the creation of large dwelling buildings. Called only if building prerequisites have been fulfilled
+ * (resources and technology).
  */
-public class Hotel extends Building {
+public class LargeDwelling extends Building {
 
     //TODO: Implement
     Point2D buildingEntrance;
@@ -42,7 +43,7 @@ public class Hotel extends Building {
      * @param buildingSprite The image to create a building from
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public Hotel(Image buildingSprite, Tile tileToBuildOn) {
+    LargeDwelling(Image buildingSprite, Tile tileToBuildOn) {
         constructBuilding(buildingSprite, tileToBuildOn);
     }
 

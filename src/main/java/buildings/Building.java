@@ -13,6 +13,10 @@ import terrain.Tile;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Creates the blueprint for all buildings. Makes sure that all buildings have standard interactions and that all buildings
+ * are tracked properly.
+ */
 public abstract class Building extends Tile {
 
     //TODO: Implement
@@ -24,8 +28,10 @@ public abstract class Building extends Tile {
     boolean inhabitantsMenuOpened = false;
     MenuCreation inhabitantsMenu;
 
+    //The address of the current building.
     String streetAddress;
 
+    //Every cow that is in this building
     ArrayList<Cow> currentInhabitants = new ArrayList<>();
 
     /**
@@ -40,8 +46,16 @@ public abstract class Building extends Tile {
      */
     abstract void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn);
 
+    /**
+     * Calls the move of resources from the city pool to the building that this was called upon.
+     * @param resourceContribution The type of resource to contribute
+     * @param amountToBeUsed The amount of the given resource to contribute
+     */
     public abstract void contributeResource(String resourceContribution, int amountToBeUsed);
 
+    /**
+     * Handles the change of sprites and resource requirements whenever a building is finished.
+     */
     abstract void finishConstruction();
 
     /**
@@ -80,8 +94,14 @@ public abstract class Building extends Tile {
      */
     abstract Tile getBuildingAsBuildingTile();
 
+    /**
+     * @return The resource requirement for the building that this method is called on.
+     */
     public abstract ResourceRequirement getResourceRequirement();
 
+    /**
+     * @return If the building this method is called upon is constructed or not.
+     */
     public abstract boolean isConstructed();
 
     /**

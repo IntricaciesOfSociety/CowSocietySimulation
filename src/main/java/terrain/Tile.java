@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
+import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -118,13 +119,7 @@ public class Tile extends ImageView {
     public static void createTiles() {
         for (int i = 0; i < COLTILES; i++) {
             for (int j = 0; j < ROWTILES; j++) {
-                try {
-                    tileList.add(new Tile(400 * j, i * 400, new Image(
-                            new FileInputStream("src/main/resources/Terrain/FlatTerrain.png"),
-                            0, 0, true, false)));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                tileList.add(new Tile(400 * j, i * 400, AssetLoading.basicTile));
             }
         }
     }

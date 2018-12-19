@@ -8,12 +8,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * Handles the progression and reading of the sim time. Handles new day events.
+ */
 public class Time {
 
     private static Random random = new Random();
 
     private static Integer timeInDay = new Random().nextInt(2400);
 
+    /**
+     * Updates the sim time according to the main loop.
+     */
     static void updateTime() {
         timeInDay += ((timeInDay < 2401) ? 1 : -timeInDay);
         if (timeInDay == 2400)
@@ -22,6 +28,9 @@ public class Time {
         StaticUI.updateTimeOfDayText(timeInDay);
     }
 
+    /**
+     * Progresses the age and fertility of every cow on a new day event.
+     */
     private static void newDayEvent() {
         Cow cowLife;
         for (int i = 0; i < Cow.cowList.size(); i++) {

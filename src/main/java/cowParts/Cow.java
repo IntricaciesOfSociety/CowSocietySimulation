@@ -22,6 +22,9 @@ import userInterface.StaticUI;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -73,7 +76,7 @@ public class Cow extends ImageView {
     color: The color effects applied to the cow
     sprite: The image being displayed
      */
-    private ColorAdjust color = new ColorAdjust();
+    private ColorAdjust color;
     private static Image sprite;
 
     //The job that this cow has
@@ -99,44 +102,6 @@ public class Cow extends ImageView {
     private Tile tileOn;
 
     /**
-     * Calls createCow and adds the resulting cow body to the playground node
-     */
-    public Cow() {
-        createCow();
-        Playground.playground.getChildren().add(this);
-    }
-
-    /**
-     * TEMP
-     * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
-     * for the cow to be used in PlaygroundUI.
-     */
-    private void createCow() {
-        try {
-            sprite = new Image(new FileInputStream("src/main/resources/Cows/NormalCow.png"),0, 0, true, false);
-        }
-        catch (FileNotFoundException error) {
-            error.printStackTrace();
-        }
-        this.setImage(sprite);
-        this.setId("Big Beefy" + new Random().nextInt(1000));
-        this.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
-        this.setEffect(color);
-        this.setScaleX(3);
-        this.setScaleY(3);
-        this.setSmooth(false);
-        //TODO: Switch to an actual date
-        this.birth.setBirthday(Time.getTime());
-
-        setLivingSpace(BuildingHandler.getBuildingAssignment(this.getId()));
-
-        new Role(this);
-
-        cowLink = StaticUI.cowCreationEvent(this.getId());
-        EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
-    }
-
-    /**
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
      * increases about 60 times a second.
      */
@@ -152,10 +117,9 @@ public class Cow extends ImageView {
             self.setSleepiness(self.getSleepiness() - 2);
         }
 
-
+        //If cow is in a building
         if (this.isHidden())
             updateBuildingVitals();
-
     }
 
     /**
@@ -376,5 +340,9 @@ public class Cow extends ImageView {
 
     public void setDestination(Object destination) {
         this.destination = destination;
+    }
+
+    void setCowLink(Hyperlink cowCreationEvent) {
+        cowLink = cowCreationEvent;
     }
 }

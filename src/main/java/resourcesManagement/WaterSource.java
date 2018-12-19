@@ -63,6 +63,9 @@ public class WaterSource extends Tile implements Resource {
         wateringHoles.add((WaterSource) waterHoleResource);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void deplete(int depleteDelta) {
         resourceHealth -= depleteDelta;

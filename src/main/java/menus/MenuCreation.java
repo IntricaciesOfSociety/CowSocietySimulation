@@ -47,7 +47,7 @@ public class MenuCreation {
 
     /**
      * Creates a new menu (detailedView) from the cows selected when the menu was opened.
-     * @param cowsPreviouslySelected The cows that were previously selected.
+     * @param cowsPreviouslySelected The cows that were previously selected
      */
     MenuCreation(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         if (SimState.getSimState().equals("DetailedView"))
@@ -56,8 +56,12 @@ public class MenuCreation {
             createStoryViewMenu(cowsPreviouslySelected);
     }
 
+    /**
+     * Creates a new menu for the clicked on building showing the amount of inhabitants in the building.
+     * @param buildingToCreateMenuFrom The building to create a menu for
+     */
     MenuCreation(Building buildingToCreateMenuFrom) {
-        createInhabitantsMenu((Tile) buildingToCreateMenuFrom);
+        createInhabitantsMenu(buildingToCreateMenuFrom);
     }
 
     /**
@@ -142,6 +146,10 @@ public class MenuCreation {
         Playground.playground.getChildren().addAll(background, exitButton);
     }
 
+    /**
+     * Creates the menu for the given building that shows the number of inhabitants in that building.
+     * @param buildingToCreateMenuFrom The building to create an inhabitants menu for
+     */
     private void createInhabitantsMenu(@NotNull Tile buildingToCreateMenuFrom) {
         Rectangle background = new Rectangle(50, 50, Color.BLACK);
         numberOfInhabitants = new Text(Integer.toString(((Building) buildingToCreateMenuFrom).getCurrentInhabitants().size()));

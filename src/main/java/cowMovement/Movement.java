@@ -6,6 +6,7 @@ import cowParts.Cow;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import metaControl.Time;
+import metaEnvironment.AssetLoading;
 import metaEnvironment.EventLogger;
 import resourcesManagement.*;
 import javafx.animation.AnimationTimer;
@@ -18,7 +19,7 @@ import userInterface.StaticUI;
 import java.util.Random;
 
 /**
- * Handles all the movement and the collision for the cows.
+ * Handles all the movement decision and execution for all cows. Includes the handling of all animations.
  */
 public class Movement extends Cow {
 
@@ -256,7 +257,7 @@ public class Movement extends Cow {
          * Static (for now) stats based decisions.
          */
         if (cowToCheck.self.getDebt() <= 10) {
-            cowToCheck.setLivingSpace(new SmallDwelling(BuildingHandler.loadSprite("CowShack"), tileStandingOn));
+            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, tileStandingOn));
             cowToCheck.self.setDebt(100);
         }
     }

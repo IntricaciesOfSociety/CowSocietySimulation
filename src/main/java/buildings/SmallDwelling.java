@@ -15,7 +15,8 @@ import terrain.Tile;
 import java.util.ArrayList;
 
 /**
- * Handles the creation of buildings. Called only if building prerequisites have been fulfilled (resources and technology).
+ * Handles the creation of small dwelling buildings. Called only if building prerequisites have been fulfilled
+ * (resources and technology).
  */
 public class SmallDwelling extends Building {
 
