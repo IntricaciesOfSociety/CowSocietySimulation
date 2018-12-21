@@ -1,6 +1,8 @@
 package metaControl;
 
 import cowParts.Cow;
+import cowParts.CowHandler;
+import javafx.scene.effect.ColorAdjust;
 import userInterface.StaticUI;
 
 import java.text.ParseException;
@@ -17,6 +19,12 @@ public class Time {
 
     private static Integer timeInDay = new Random().nextInt(2400);
 
+    //The brightness of the whole sim.
+    public static ColorAdjust dayNightCycle = new ColorAdjust();
+
+    //0.2 max brightness, -0.7 max darkness
+    private static double brightnessValue = 0;
+
     /**
      * Updates the sim time according to the main loop.
      */
@@ -26,6 +34,20 @@ public class Time {
             newDayEvent();
 
         StaticUI.updateTimeOfDayText(timeInDay);
+
+        updateBrightness();
+        dayNightCycle.setBrightness(brightnessValue);
+    }
+
+    /**TODO: Implement
+     * Updates the brightness of the sim based off of the time of day.
+     */
+    private static void updateBrightness() {
+        if (timeInDay == 800)
+            brightnessValue = 0;
+
+        if (timeInDay == 2000)
+            brightnessValue = -0.7;
     }
 
     /**
@@ -33,8 +55,8 @@ public class Time {
      */
     private static void newDayEvent() {
         Cow cowLife;
-        for (int i = 0; i < Cow.cowList.size(); i++) {
-            cowLife = Cow.cowList.get(i);
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
+            cowLife = CowHandler.cowList.get(i);
             cowLife.self.setAge(cowLife.self.getAge() + 1);
             cowLife.birth.updateFertility();
 
@@ -48,7 +70,7 @@ public class Time {
             }
 
             if (cowLife.self.getAge() > random.nextInt((100 - 50) + 1) + 50) {
-                System.out.println(Cow.cowList.get(i).getId());
+                System.out.println(CowHandler.cowList.get(i).getId());
                 cowLife.kill();
             }
         }

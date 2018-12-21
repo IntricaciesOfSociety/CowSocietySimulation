@@ -1,16 +1,11 @@
 package resourcesManagement;
 
-import cowParts.Cow;
-import javafx.scene.image.Image;
-import menus.MenuHandler;
+import cowParts.CowHandler;
 import metaControl.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * Handles all the resource management for the city.
@@ -94,6 +89,6 @@ public class ResourcesHandler {
      * Updates the city's power resource.
      */
     public static void updatePower() {
-        power = Cow.cowList.size() * 10;
+        power = CowHandler.cowList.size() * 10;
     }
 }

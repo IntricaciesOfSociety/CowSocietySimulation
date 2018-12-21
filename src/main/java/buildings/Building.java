@@ -19,25 +19,28 @@ import java.util.Random;
  */
 public abstract class Building extends Tile {
 
+    //The random variable to be used to generate random street numbers.
+    Random random = new Random();
+
     //TODO: Implement
     Point2D buildingEntrance;
 
     // TODO:Implement
-    int maximumCapacity = 10;
+    private int maximumCapacity = 10;
+
+    // The sprite of the given building
+    Image buildingSprite;
 
     boolean inhabitantsMenuOpened = false;
     MenuCreation inhabitantsMenu;
 
-    //The address of the current building.
     String streetAddress;
 
-    //Every cow that is in this building
+    //The list that contains all of the cows that are in the given building
     ArrayList<Cow> currentInhabitants = new ArrayList<>();
 
-    /**
-     * The random variable to be used to generate random street numbers.
-     */
-    Random random = new Random();
+    ResourceRequirement buildingRequirement;
+    boolean isConstructed = false;
 
     /**
      * Creates a Building with the given image and ties that Building to a tile.

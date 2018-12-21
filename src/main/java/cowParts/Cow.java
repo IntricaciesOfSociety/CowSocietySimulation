@@ -1,31 +1,16 @@
 package cowParts;
 
 import buildings.Building;
-import buildings.BuildingHandler;
 import javafx.animation.TranslateTransition;
-import metaControl.Time;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import societalProductivity.Role;
-import terrain.Tile;
 import userInterface.StaticUI;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -33,9 +18,6 @@ import java.util.Random;
  * as a node.
  */
 public class Cow extends ImageView {
-
-    //List that holds every created cow
-    public static ArrayList<Cow> cowList = new ArrayList<>();
 
     public Cognition self = new Cognition();
     public BirthEvent birth = new BirthEvent();
@@ -51,6 +33,8 @@ public class Cow extends ImageView {
     public AnimationTimer delayTimer;
     private int counter = 0;
     private boolean hidden = false;
+
+    //Contains any animation that the cow is using
     public TranslateTransition animation;
 
     //TEMP: Used for random movement and stats.
@@ -76,18 +60,19 @@ public class Cow extends ImageView {
     color: The color effects applied to the cow
     sprite: The image being displayed
      */
-    private ColorAdjust color;
-    private static Image sprite;
+    ColorAdjust color;
 
     //The job that this cow has
     private String job = "spinning";
 
     //TODO: Implement amount of work cow can do
     private int workForce = 10;
+
+    //If the cow has had a child or not
     boolean parent = false;
 
     //Statuses
-    private boolean diseased = false;
+    boolean diseased = false;
 
     /* Tile Control variables
     livingSpace: Where the cow currently resides
@@ -97,9 +82,6 @@ public class Cow extends ImageView {
     private Building buildingIn;
     private long buildingTime = 500;
     private Object destination;
-
-    //TODO: Implement
-    private Tile tileOn;
 
     /**
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
@@ -155,20 +137,11 @@ public class Cow extends ImageView {
         if (menuIsOpened)
             MenuHandler.closeMenu(this.cowMenu);
 
-        cowList.remove(this);
+        CowHandler.cowList.remove(this);
         StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
 
         EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
-    }
-
-    /**
-     * Kills a whole list of cows
-     * @param killList The list of cows to kill
-     */
-    public static void killAll(@NotNull ArrayList<Cow> killList) {
-        for (Cow cowToKill : killList)
-            cowToKill.kill();
     }
 
     /**
@@ -207,31 +180,6 @@ public class Cow extends ImageView {
         diseased = true;
         self.setHunger(0);
         color.setBrightness(-1.0);
-    }
-
-    /**
-     * Diseases all cows from the list given.
-     * @param diseaseList The list of cows to disease
-     */
-    public static void diseaseAll(@NotNull ArrayList<Cow> diseaseList) {
-        for (Cow cowToDisease : diseaseList) {
-            cowToDisease.diseased = true;
-            cowToDisease.color.setBrightness(-1.0);
-            cowToDisease.self.setHunger(0);
-        }
-    }
-
-    /**
-     * Searches for the cow matching the given id and returns the match (null if there was no match).
-     * @param givenId The id of the cow that is being searched for
-     * @return The cow with id matching givenId if a cow is found. Else null
-     */
-    @Nullable
-    public static Cow findCow(String givenId) {
-        for (Cow aCowList : cowList)
-            if (aCowList.getId().equals(givenId))
-                return aCowList;
-        return null;
     }
 
     /**
@@ -291,8 +239,6 @@ public class Cow extends ImageView {
     public boolean getDiseased() {
         return diseased;
     }
-
-
 
     public EventLogger getLogger() {
         return logger;

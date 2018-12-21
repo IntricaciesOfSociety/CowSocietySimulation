@@ -2,6 +2,8 @@ package metaEnvironment;
 
 import javafx.scene.image.Image;
 import metaControl.LoadConfiguration;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -94,5 +96,21 @@ public class AssetLoading {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Handles the loading of a UI sprite.
+     * @param imageName The name of the UI sprite
+     * @return The image of the UI sprite whose name was given
+     */
+    @Nullable
+    @Contract("_ -> new")
+    public static Image loadUISprite(String imageName) {
+        try {
+            return new Image(new FileInputStream("src/main/resources/UI/" + imageName + ".png"), 0, 0, true, false);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

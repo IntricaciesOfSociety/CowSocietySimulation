@@ -89,19 +89,20 @@ public class SimState extends Application {
         LoadConfiguration.loadConfigurationFile();
         AssetLoading.loadBaseAssets();
         Playground.init();
-        PlaygroundUI.init();
-
-        simLoop();
 
         Tile.createTiles();
         BuildingHandler.init();
         ResourcesHandler.init();
 
-        Input.enableInput(initialScene);
+        CowHandler.init();
+        PlaygroundUI.init();
+
         root.getChildren().addAll(Playground.playground,
                 PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
         );
-        CowHandler.init();
+
+        Input.enableInput(initialScene);
+        simLoop();
     }
 
     /**
@@ -132,8 +133,8 @@ public class SimState extends Application {
         CameraControl.updateCamera();
 
         //Decides what action each cow should be doing
-        for (int i = 0; i < Cow.cowList.size(); i++) {
-            Movement.decideAction(Cow.cowList.get(i));
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
+            Movement.decideAction(CowHandler.cowList.get(i));
         }
 
         //Checks whether or not any node is on the screen, and draws it accordingly

@@ -1,9 +1,6 @@
 package userInterface;
 
-import buildings.Building;
-import buildings.BuildingHandler;
-import buildings.CityCenter;
-import buildings.SmallDwelling;
+import buildings.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -41,7 +38,7 @@ public class TileUI {
 
         BuildingHandler.highlightBuildings();
 
-        buildButton.setOnAction(event -> {if(selectedTile != null) new CityCenter(BuildingHandler.loadSprite("CityCenter"), selectedTile);});
+        buildButton.setOnAction(event -> {if(selectedTile != null) new LargeDwelling(BuildingHandler.loadSprite("CityCenter"), selectedTile);});
         buildButton2.setOnAction(event -> {if(selectedTile != null) new SmallDwelling(BuildingHandler.loadSprite("CowShack"), selectedTile);});
     }
 

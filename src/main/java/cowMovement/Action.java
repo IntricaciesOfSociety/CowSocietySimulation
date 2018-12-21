@@ -6,4 +6,5 @@ package cowMovement;
  * TODO: Implement. Move from Movement.java
  */
 public interface Action {
+
 }

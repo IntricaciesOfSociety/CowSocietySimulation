@@ -6,8 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Date;
 import java.util.Random;
 
-import static cowParts.Cow.cowList;
-
 /**
  * Handles the creation event and creation related values for all cows. Includes new cow creation and fertility tracking.
  */
@@ -47,7 +45,7 @@ public class BirthEvent {
 
         Movement.decideAction(newCow);
         newCow.relocate(parent1.getAnimatedX(), parent1.getAnimatedY());
-        cowList.add(newCow);
+        CowHandler.cowList.add(newCow);
 
         if (random.nextInt(2000) == 1)
             parent1.kill();

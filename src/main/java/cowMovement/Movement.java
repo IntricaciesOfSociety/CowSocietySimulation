@@ -3,6 +3,7 @@ package cowMovement;
 import buildings.BuildingHandler;
 import buildings.SmallDwelling;
 import cowParts.Cow;
+import cowParts.CowHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import metaControl.Time;
@@ -268,36 +269,34 @@ public class Movement extends Cow {
      */
     public static void dragBoxSelectionUpdate(Rectangle dragBox) {
         Cow possibleCollide;
-        for (int i = 0; i < Cow.cowList.size(); i++) {
-            possibleCollide = cowList.get(i);
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
+            possibleCollide = CowHandler.cowList.get(i);
             if (possibleCollide.getBoundsInParent().intersects(dragBox.getBoundsInParent())) {
                 possibleCollide.openMenu();
                 StaticUI.cowClickEvent();
             }
         }
-
     }
 
     /**
      * Pauses any running cow animation.
      */
     public static void pauseAllAnimation() {
-        for (int i = 0; i < Cow.cowList.size(); i++) {
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
             try {
-                Cow.cowList.get(i).animation.pause();
+                CowHandler.cowList.get(i).animation.pause();
             }
             catch (NullPointerException ignored){}
         }
-
     }
 
     /**
      * Resumes any running cow animation.
      */
     public static void startAllAnimation() {
-        for (int i = 0; i < Cow.cowList.size(); i++) {
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
             try {
-                Cow.cowList.get(i).animation.play();
+                CowHandler.cowList.get(i).animation.play();
             }
             catch (NullPointerException ignored) {}
         }

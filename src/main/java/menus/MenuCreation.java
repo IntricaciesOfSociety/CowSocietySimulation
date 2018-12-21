@@ -1,6 +1,7 @@
 package menus;
 
 import buildings.Building;
+import cowParts.CowHandler;
 import metaControl.SimState;
 import cowParts.Cow;
 import cowParts.Social;
@@ -178,7 +179,7 @@ public class MenuCreation {
         if (cowsPreviouslySelected.size() == 1) {
             ArrayList<String> relations = Social.getAllRelations(cowsPreviouslySelected.get(0));
             for (String relation : relations) {
-                socialRelationsView.getChildren().add(createSocialLink(Cow.findCow(relation), cowsPreviouslySelected.get(0)));
+                socialRelationsView.getChildren().add(createSocialLink(CowHandler.findCow(relation), cowsPreviouslySelected.get(0)));
             }
         }
         else {

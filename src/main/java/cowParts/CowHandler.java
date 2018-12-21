@@ -8,9 +8,12 @@ import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import societalProductivity.Role;
 import userInterface.StaticUI;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import static cowParts.BirthEvent.random;
@@ -19,6 +22,9 @@ import static cowParts.BirthEvent.random;
  * Handles the creation and initialization of cows.
  */
 public class CowHandler {
+
+    //List that holds every created cow
+    public static ArrayList<Cow> cowList = new ArrayList<>();
 
     /**
      * Creates the amount of cows given by the configuration file.
@@ -58,8 +64,42 @@ public class CowHandler {
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
         Playground.playground.getChildren().add(newCow);
-        Cow.cowList.add(newCow);
+        cowList.add(newCow);
 
         return newCow;
+    }
+
+    /**
+     * Searches for the cow matching the given id and returns the match (null if there was no match).
+     * @param givenId The id of the cow that is being searched for
+     * @return The cow with id matching givenId if a cow is found. Else null
+     */
+    @Nullable
+    public static Cow findCow(String givenId) {
+        for (Cow aCowList : cowList)
+            if (aCowList.getId().equals(givenId))
+                return aCowList;
+        return null;
+    }
+
+    /**
+     * Diseases all cows from the list given.
+     * @param diseaseList The list of cows to disease
+     */
+    public static void diseaseAll(@NotNull ArrayList<Cow> diseaseList) {
+        for (Cow cowToDisease : diseaseList) {
+            cowToDisease.diseased = true;
+            cowToDisease.color.setBrightness(-1.0);
+            cowToDisease.self.setHunger(0);
+        }
+    }
+
+    /**
+     * Kills a whole list of cows
+     * @param killList The list of cows to kill
+     */
+    public static void killAll(@NotNull ArrayList<Cow> killList) {
+        for (Cow cowToKill : killList)
+            cowToKill.kill();
     }
 }
