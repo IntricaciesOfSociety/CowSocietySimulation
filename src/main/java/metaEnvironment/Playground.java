@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import menus.MenuHandler;
+import metaControl.Time;
 import org.jetbrains.annotations.NotNull;
 import userInterface.StaticUI;
 
@@ -36,6 +37,8 @@ public class Playground {
         playground.autosize();
         motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();
+
+        Playground.playground.setEffect(Time.dayNightCycle);
     }
 
     /**

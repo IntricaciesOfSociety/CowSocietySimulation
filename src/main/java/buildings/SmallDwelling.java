@@ -15,27 +15,10 @@ import terrain.Tile;
 import java.util.ArrayList;
 
 /**
- * Handles the creation of buildings. Called only if building prerequisites have been fulfilled (resources and technology).
+ * Handles the creation of small dwelling buildings. Called only if building prerequisites have been fulfilled
+ * (resources and technology).
  */
-public class SmallDwelling extends Tile implements Building {
-
-    //TODO: Implement
-    Point2D buildingEntrance;
-
-    // TODO:Implement
-    private int maximumCapacity = 10;
-
-    Image buildingSprite;
-
-    private boolean inhabitantsMenuOpened = false;
-    private MenuCreation inhabitantsMenu;
-
-    private String streetAddress;
-
-    private ArrayList<Cow> currentInhabitants = new ArrayList<>();
-
-    private ResourceRequirement buildingRequirement;
-    private boolean isConstructed = false;
+public class SmallDwelling extends Building {
 
     /**
      * Calls for the creation of a building given an image.
@@ -55,9 +38,9 @@ public class SmallDwelling extends Tile implements Building {
         this.setImage(BuildingHandler.smallUnderConstructionSprite);
 
         int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
-        streetAddress = random.nextInt(500) + " Cow Drive";
+        this.streetAddress = random.nextInt(500) + " Cow Drive";
 
-        buildingRequirement = new ResourceRequirement(0, 5, 1);
+        this.buildingRequirement = new ResourceRequirement(0, 5, 1);
 
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
@@ -83,7 +66,7 @@ public class SmallDwelling extends Tile implements Building {
     @Override
     public void finishConstruction() {
         this.setImage(buildingSprite);
-        isConstructed = true;
+        this.isConstructed = true;
     }
 
     /**
@@ -91,7 +74,7 @@ public class SmallDwelling extends Tile implements Building {
      */
     @Override
     public void addInhabitant(Cow inhabitant) {
-        currentInhabitants.add(inhabitant);
+        this.currentInhabitants.add(inhabitant);
     }
 
     /**
@@ -99,7 +82,7 @@ public class SmallDwelling extends Tile implements Building {
      */
     @Override
     public void removeInhabitant(Cow inhabitant) {
-        currentInhabitants.remove(inhabitant);
+        this.currentInhabitants.remove(inhabitant);
     }
 
     /**
@@ -107,7 +90,7 @@ public class SmallDwelling extends Tile implements Building {
      */
     @Override
     public ArrayList<Cow> getCurrentInhabitants() {
-        return currentInhabitants;
+        return this.currentInhabitants;
     }
 
     /**
@@ -115,13 +98,13 @@ public class SmallDwelling extends Tile implements Building {
      */
     @Override
     public void toggleInhabitantsMenu() {
-        if (inhabitantsMenuOpened) {
-            MenuHandler.closeMenu(inhabitantsMenu);
-            inhabitantsMenuOpened = false;
+        if (this.inhabitantsMenuOpened) {
+            MenuHandler.closeMenu(this.inhabitantsMenu);
+            this.inhabitantsMenuOpened = false;
         }
         else {
-            inhabitantsMenu = MenuHandler.createInhabitantsMenu(this);
-            inhabitantsMenuOpened = true;
+            this.inhabitantsMenu = MenuHandler.createInhabitantsMenu(this);
+            this.inhabitantsMenuOpened = true;
         }
     }
 
@@ -147,7 +130,7 @@ public class SmallDwelling extends Tile implements Building {
      */
     @Override
     public ResourceRequirement getResourceRequirement() {
-        return buildingRequirement;
+        return this.buildingRequirement;
     }
 
     /**
@@ -155,6 +138,6 @@ public class SmallDwelling extends Tile implements Building {
      */
     @Override
     public boolean isConstructed() {
-        return isConstructed;
+        return this.isConstructed;
     }
 }

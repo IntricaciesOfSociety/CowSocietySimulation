@@ -2,6 +2,9 @@ package cowParts;
 
 import java.util.Random;
 
+/**
+ * Holds all the cognitive values for each cow. Also contains the getters and setters for each value.
+ */
 public class Cognition {
 
     private Random random = new Random();
@@ -32,7 +35,7 @@ public class Cognition {
     private int thirst = random.nextInt(100);
     private int age = random.nextInt(100) * 360;
     private int physicalHealth = random.nextInt(100);
-    private int sleepiness = random.nextInt(100);
+    private int sleepiness = 100;
 
     //Mental 0 is low 100 is high
     private int faith = random.nextInt(100);

@@ -17,11 +17,11 @@ public class Role {
      */
     public Role(Cow cowToCheck) {
         if (random.nextInt(100) < 10)
-            cowToCheck.setJob("miningRock");
+            cowToCheck.setJob("woodworking");
         else if (random.nextInt(100) < 10)
             cowToCheck.setJob("choppingWood");
         else if (random.nextInt(100) < 10)
-            cowToCheck.setJob("woodworking");
+            cowToCheck.setJob("miningRock");
         /*else if (!Government.hasLeader())
             Government.setLeader(cowToCheck);*/
     }

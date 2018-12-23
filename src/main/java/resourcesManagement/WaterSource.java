@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Creates and handles any waterSource resource.
  */
-public class WaterSource extends Tile implements Resource {
+public class WaterSource extends Resource {
 
     private static ArrayList<WaterSource> wateringHoles = new ArrayList<>();
     private int resourceHealth = 10000;
@@ -63,6 +63,9 @@ public class WaterSource extends Tile implements Resource {
         wateringHoles.add((WaterSource) waterHoleResource);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void deplete(int depleteDelta) {
         resourceHealth -= depleteDelta;

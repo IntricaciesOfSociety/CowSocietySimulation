@@ -4,32 +4,28 @@ import cowParts.Cow;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import menus.MenuCreation;
+import menus.MenuHandler;
 import metaControl.SimState;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
+import resourcesManagement.ResourcesHandler;
 import terrain.Tile;
 
 import java.util.ArrayList;
 
 /**
- * TODO: Implement
+ * Handles the creation of large dwelling buildings. Called only if building prerequisites have been fulfilled
+ * (resources and technology).
  */
-public class CityCenter extends Tile implements Building {
+public class LargeDwelling extends Building {
 
-    //TODO: Implement
-    Point2D buildingEntrance;
-
-    // TODO:Implement
-    private int maximumCapacity = 10;
-
-    private boolean inhabitantsMenuOpened = false;
-    private MenuCreation inhabitantsMenu;
-
-    private String streetAddress;
-
-    private ArrayList<Cow> currentInhabitants = new ArrayList<>();
-
-    public CityCenter(Image buildingSprite, Tile tileToBuildOn) {
+    /**
+     * Calls for the creation of a building given an image.
+     * @param buildingSprite The image to create a building from
+     * @param tileToBuildOn The tile that the building will be built on
+     */
+    public LargeDwelling(Image buildingSprite, Tile tileToBuildOn) {
         constructBuilding(buildingSprite, tileToBuildOn);
     }
 
@@ -38,10 +34,13 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn) {
-        this.setImage(buildingSprite);
+        this.buildingSprite = buildingSprite;
+        this.setImage(BuildingHandler.largeUnderConstructionSprite);
 
         int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
-        streetAddress = random.nextInt(500) + " Cow Drive";
+        this.streetAddress = random.nextInt(500) + " Cow Drive";
+
+        this.buildingRequirement = new ResourceRequirement(0, 5, 1);
 
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
@@ -55,7 +54,10 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public void contributeResource(String resourceContribution, int amountToBeUsed) {
+        ResourcesHandler.repurposeResource(this.buildingRequirement, resourceContribution, amountToBeUsed);
 
+        if (this.buildingRequirement.passesRequirements())
+            finishConstruction();
     }
 
     /**
@@ -63,7 +65,8 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public void finishConstruction() {
-
+        this.setImage(this.buildingSprite);
+        this.isConstructed = true;
     }
 
     /**
@@ -71,7 +74,7 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public void addInhabitant(Cow inhabitant) {
-
+        this.currentInhabitants.add(inhabitant);
     }
 
     /**
@@ -79,7 +82,7 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public void removeInhabitant(Cow inhabitant) {
-
+        this.currentInhabitants.remove(inhabitant);
     }
 
     /**
@@ -87,7 +90,7 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public ArrayList<Cow> getCurrentInhabitants() {
-        return null;
+        return this.currentInhabitants;
     }
 
     /**
@@ -95,15 +98,23 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public void toggleInhabitantsMenu() {
-
+        if (this.inhabitantsMenuOpened) {
+            MenuHandler.closeMenu(this.inhabitantsMenu);
+            this.inhabitantsMenuOpened = false;
+        }
+        else {
+            this.inhabitantsMenu = MenuHandler.createInhabitantsMenu(this);
+            this.inhabitantsMenuOpened = true;
+        }
     }
 
     /**
      * @inheritDoc
      */
+    @Contract(pure = true)
     @Override
     public String getStreetAddress() {
-        return null;
+        return this.streetAddress;
     }
 
     /**
@@ -119,7 +130,7 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public ResourceRequirement getResourceRequirement() {
-        return null;
+        return this.buildingRequirement;
     }
 
     /**
@@ -127,6 +138,6 @@ public class CityCenter extends Tile implements Building {
      */
     @Override
     public boolean isConstructed() {
-        return false;
+        return this.isConstructed;
     }
 }

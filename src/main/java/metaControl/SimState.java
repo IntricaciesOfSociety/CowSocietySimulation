@@ -3,7 +3,9 @@ package metaControl;
 import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowMovement.Movement;
+import cowParts.CowHandler;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.AssetLoading;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -19,12 +21,6 @@ import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import userInterface.ResourcesUI;
-import userInterface.StaticUI;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -90,24 +86,23 @@ public class SimState extends Application {
      * into the root node.
      */
     private static void simInit() {
+        LoadConfiguration.loadConfigurationFile();
+        AssetLoading.loadBaseAssets();
         Playground.init();
-        PlaygroundUI.init();
-        PlaygroundUI.createStaticUI();
-
-        simLoop();
 
         Tile.createTiles();
         BuildingHandler.init();
         ResourcesHandler.init();
 
-        Input.enableInput(initialScene);
+        CowHandler.init();
+        PlaygroundUI.init();
+
         root.getChildren().addAll(Playground.playground,
                 PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
         );
 
-        for (int i = 0; i < 50; i++) {
-            Cow.cowList.add(new Cow());
-        }
+        Input.enableInput(initialScene);
+        simLoop();
     }
 
     /**
@@ -138,8 +133,8 @@ public class SimState extends Application {
         CameraControl.updateCamera();
 
         //Decides what action each cow should be doing
-        for (int i = 0; i < Cow.cowList.size(); i++) {
-            Movement.decideAction(Cow.cowList.get(i));
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
+            Movement.decideAction(CowHandler.cowList.get(i));
         }
 
         //Checks whether or not any node is on the screen, and draws it accordingly

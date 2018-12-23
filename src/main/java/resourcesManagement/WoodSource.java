@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Creates and handles any woodSource resource.
  */
-public class WoodSource extends Tile implements Resource {
+public class WoodSource extends Resource {
 
     private static ArrayList<WoodSource> woodSources = new ArrayList<>();
     private int resourceHealth = 100;
@@ -54,6 +54,9 @@ public class WoodSource extends Tile implements Resource {
         return closestRockSource;
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void deplete(int depleteDelta) {
         resourceHealth -= depleteDelta;

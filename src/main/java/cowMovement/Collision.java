@@ -13,6 +13,9 @@ import terrain.Tile;
 import java.util.ConcurrentModificationException;
 import java.util.Random;
 
+/**
+ * Handles all handled collision events between objects. Collisions are mostly centered around cows.
+ */
 class Collision {
 
     private static Random random = new Random();

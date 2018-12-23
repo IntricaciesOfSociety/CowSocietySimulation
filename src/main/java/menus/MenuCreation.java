@@ -1,6 +1,7 @@
 package menus;
 
 import buildings.Building;
+import cowParts.CowHandler;
 import metaControl.SimState;
 import cowParts.Cow;
 import cowParts.Social;
@@ -47,7 +48,7 @@ public class MenuCreation {
 
     /**
      * Creates a new menu (detailedView) from the cows selected when the menu was opened.
-     * @param cowsPreviouslySelected The cows that were previously selected.
+     * @param cowsPreviouslySelected The cows that were previously selected
      */
     MenuCreation(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         if (SimState.getSimState().equals("DetailedView"))
@@ -56,8 +57,12 @@ public class MenuCreation {
             createStoryViewMenu(cowsPreviouslySelected);
     }
 
+    /**
+     * Creates a new menu for the clicked on building showing the amount of inhabitants in the building.
+     * @param buildingToCreateMenuFrom The building to create a menu for
+     */
     MenuCreation(Building buildingToCreateMenuFrom) {
-        createInhabitantsMenu((Tile) buildingToCreateMenuFrom);
+        createInhabitantsMenu(buildingToCreateMenuFrom);
     }
 
     /**
@@ -142,6 +147,10 @@ public class MenuCreation {
         Playground.playground.getChildren().addAll(background, exitButton);
     }
 
+    /**
+     * Creates the menu for the given building that shows the number of inhabitants in that building.
+     * @param buildingToCreateMenuFrom The building to create an inhabitants menu for
+     */
     private void createInhabitantsMenu(@NotNull Tile buildingToCreateMenuFrom) {
         Rectangle background = new Rectangle(50, 50, Color.BLACK);
         numberOfInhabitants = new Text(Integer.toString(((Building) buildingToCreateMenuFrom).getCurrentInhabitants().size()));
@@ -170,7 +179,7 @@ public class MenuCreation {
         if (cowsPreviouslySelected.size() == 1) {
             ArrayList<String> relations = Social.getAllRelations(cowsPreviouslySelected.get(0));
             for (String relation : relations) {
-                socialRelationsView.getChildren().add(createSocialLink(Cow.findCow(relation), cowsPreviouslySelected.get(0)));
+                socialRelationsView.getChildren().add(createSocialLink(CowHandler.findCow(relation), cowsPreviouslySelected.get(0)));
             }
         }
         else {

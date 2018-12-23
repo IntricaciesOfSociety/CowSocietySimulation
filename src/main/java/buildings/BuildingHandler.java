@@ -2,6 +2,7 @@ package buildings;
 
 import javafx.scene.image.Image;
 import menus.MenuHandler;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
@@ -19,6 +20,7 @@ public class BuildingHandler {
     static Image smallUnderConstructionSprite;
     static Image largeUnderConstructionSprite;
 
+    //A list of every building that is built or being constructed.
     static ArrayList<Building> buildingsList = new ArrayList<>();
 
     /**
@@ -27,13 +29,20 @@ public class BuildingHandler {
     public static void init() {
         loadSmallUnderConstructionSprite();
         loadLargeUnderConstructionSprite();
-        new SmallDwelling(loadSprite("CowShack"), Tile.getRandomTerrainTile());
+
+        new LargeDwelling(AssetLoading.basicLargeBuilding, Tile.getRandomTerrainTile());
     }
 
+    /**
+     * Loads the sprite for the large under construction sprite into the corresponding field
+     */
     private static void loadLargeUnderConstructionSprite() {
-        largeUnderConstructionSprite = loadSprite("largeUnderConstruction");
+        largeUnderConstructionSprite = loadSprite("LargeUnderConstruction");
     }
 
+    /**
+     * Loads the sprite for the small under construction sprite into the corresponding field
+     */
     private static void loadSmallUnderConstructionSprite() {
         smallUnderConstructionSprite = loadSprite("SmallUnderConstruction");
     }
@@ -88,6 +97,11 @@ public class BuildingHandler {
         return buildingsList.get(0);
     }
 
+    /**
+     * Finds and returns the next building that needs to be constructed. The last element in the list is the newest building
+     * and the first element is the oldest building.
+     * @return The newest not constructed building
+     */
     @Nullable
     public static Building nextHouseToConstruct() {
         for (int i = 0; i < buildingsList.size(); i++) {
@@ -95,5 +109,13 @@ public class BuildingHandler {
                 return buildingsList.get(i);
         }
         return null;
+    }
+
+    /**
+     * @return The oldest building (The first building constructed).
+     */
+    @Contract(pure = true)
+    public static Building getDefaultBuilding() {
+        return buildingsList.get(0);
     }
 }

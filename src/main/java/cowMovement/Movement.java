@@ -3,9 +3,11 @@ package cowMovement;
 import buildings.BuildingHandler;
 import buildings.SmallDwelling;
 import cowParts.Cow;
+import cowParts.CowHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import metaControl.Time;
+import metaEnvironment.AssetLoading;
 import metaEnvironment.EventLogger;
 import resourcesManagement.*;
 import javafx.animation.AnimationTimer;
@@ -18,7 +20,7 @@ import userInterface.StaticUI;
 import java.util.Random;
 
 /**
- * Handles all the movement and the collision for the cows.
+ * Handles all the movement decision and execution for all cows. Includes the handling of all animations.
  */
 public class Movement extends Cow {
 
@@ -146,13 +148,18 @@ public class Movement extends Cow {
      * @param destination The destination that the cow is to move to
      */
     private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination) {
+        cowToMove.alreadyMoving = true;
         cowToMove.setTranslateX(0);
         cowToMove.setTranslateY(0);
-        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
-        cowToMove.alreadyMoving = true;
 
-        double distanceX =  destination.getLayoutX() - cowToMove.getAnimatedX();
-        double distanceY = destination.getLayoutY() - cowToMove.getAnimatedY();
+        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
+
+        if (cowToMove.getAnimatedX() < 0 || cowToMove.getAnimatedX() > 8000
+            || cowToMove.getAnimatedY() < 0 || cowToMove.getAnimatedY() > 8000)
+            System.out.println();
+
+        double distanceX =  destination.getLayoutX() - cowToMove.getLayoutX();
+        double distanceY = destination.getLayoutY() - cowToMove.getLayoutY();
         double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
         cowToMove.animation = new TranslateTransition(new Duration((distanceTotal * 10)), cowToMove);
@@ -251,7 +258,7 @@ public class Movement extends Cow {
          * Static (for now) stats based decisions.
          */
         if (cowToCheck.self.getDebt() <= 10) {
-            cowToCheck.setLivingSpace(new SmallDwelling(BuildingHandler.loadSprite("CowShack"), tileStandingOn));
+            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, tileStandingOn));
             cowToCheck.self.setDebt(100);
         }
     }
@@ -262,30 +269,34 @@ public class Movement extends Cow {
      */
     public static void dragBoxSelectionUpdate(Rectangle dragBox) {
         Cow possibleCollide;
-        for (int i = 0; i < Cow.cowList.size(); i++) {
-            possibleCollide = cowList.get(i);
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
+            possibleCollide = CowHandler.cowList.get(i);
             if (possibleCollide.getBoundsInParent().intersects(dragBox.getBoundsInParent())) {
                 possibleCollide.openMenu();
                 StaticUI.cowClickEvent();
             }
         }
-
     }
 
+    /**
+     * Pauses any running cow animation.
+     */
     public static void pauseAllAnimation() {
-        for (int i = 0; i < Cow.cowList.size(); i++) {
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
             try {
-                Cow.cowList.get(i).animation.pause();
+                CowHandler.cowList.get(i).animation.pause();
             }
             catch (NullPointerException ignored){}
         }
-
     }
 
+    /**
+     * Resumes any running cow animation.
+     */
     public static void startAllAnimation() {
-        for (int i = 0; i < Cow.cowList.size(); i++) {
+        for (int i = 0; i < CowHandler.cowList.size(); i++) {
             try {
-                Cow.cowList.get(i).animation.play();
+                CowHandler.cowList.get(i).animation.play();
             }
             catch (NullPointerException ignored) {}
         }

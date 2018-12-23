@@ -1,28 +1,16 @@
 package cowParts;
 
 import buildings.Building;
-import buildings.BuildingHandler;
 import javafx.animation.TranslateTransition;
-import metaControl.Time;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import societalProductivity.Role;
-import terrain.Tile;
 import userInterface.StaticUI;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -30,9 +18,6 @@ import java.util.Random;
  * as a node.
  */
 public class Cow extends ImageView {
-
-    //List that holds every created cow
-    public static ArrayList<Cow> cowList = new ArrayList<>();
 
     public Cognition self = new Cognition();
     public BirthEvent birth = new BirthEvent();
@@ -48,6 +33,8 @@ public class Cow extends ImageView {
     public AnimationTimer delayTimer;
     private int counter = 0;
     private boolean hidden = false;
+
+    //Contains any animation that the cow is using
     public TranslateTransition animation;
 
     //TEMP: Used for random movement and stats.
@@ -73,18 +60,19 @@ public class Cow extends ImageView {
     color: The color effects applied to the cow
     sprite: The image being displayed
      */
-    private ColorAdjust color = new ColorAdjust();
-    private static Image sprite;
+    ColorAdjust color;
 
     //The job that this cow has
     private String job = "spinning";
 
     //TODO: Implement amount of work cow can do
     private int workForce = 10;
+
+    //If the cow has had a child or not
     boolean parent = false;
 
     //Statuses
-    private boolean diseased = false;
+    boolean diseased = false;
 
     /* Tile Control variables
     livingSpace: Where the cow currently resides
@@ -94,47 +82,6 @@ public class Cow extends ImageView {
     private Building buildingIn;
     private long buildingTime = 500;
     private Object destination;
-
-    //TODO: Implement
-    private Tile tileOn;
-
-    /**
-     * Calls createCow and adds the resulting cow body to the playground node
-     */
-    public Cow() {
-        createCow();
-        Playground.playground.getChildren().add(this);
-    }
-
-    /**
-     * TEMP
-     * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
-     * for the cow to be used in PlaygroundUI.
-     */
-    private void createCow() {
-        try {
-            sprite = new Image(new FileInputStream("src/main/resources/Cows/NormalCow.png"),0, 0, true, false);
-        }
-        catch (FileNotFoundException error) {
-            error.printStackTrace();
-        }
-        this.setImage(sprite);
-        this.setId("Big Beefy" + new Random().nextInt(1000));
-        this.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
-        this.setEffect(color);
-        this.setScaleX(3);
-        this.setScaleY(3);
-        this.setSmooth(false);
-        //TODO: Switch to an actual date
-        this.birth.setBirthday(Time.getTime());
-
-        setLivingSpace(BuildingHandler.getBuildingAssignment(this.getId()));
-
-        new Role(this);
-
-        cowLink = StaticUI.cowCreationEvent(this.getId());
-        EventLogger.createLoggedEvent(this, "creation", 2, "age", 0);
-    }
 
     /**
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
@@ -152,10 +99,9 @@ public class Cow extends ImageView {
             self.setSleepiness(self.getSleepiness() - 2);
         }
 
-
+        //If cow is in a building
         if (this.isHidden())
             updateBuildingVitals();
-
     }
 
     /**
@@ -191,20 +137,11 @@ public class Cow extends ImageView {
         if (menuIsOpened)
             MenuHandler.closeMenu(this.cowMenu);
 
-        cowList.remove(this);
+        CowHandler.cowList.remove(this);
         StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
 
         EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
-    }
-
-    /**
-     * Kills a whole list of cows
-     * @param killList The list of cows to kill
-     */
-    public static void killAll(@NotNull ArrayList<Cow> killList) {
-        for (Cow cowToKill : killList)
-            cowToKill.kill();
     }
 
     /**
@@ -243,31 +180,6 @@ public class Cow extends ImageView {
         diseased = true;
         self.setHunger(0);
         color.setBrightness(-1.0);
-    }
-
-    /**
-     * Diseases all cows from the list given.
-     * @param diseaseList The list of cows to disease
-     */
-    public static void diseaseAll(@NotNull ArrayList<Cow> diseaseList) {
-        for (Cow cowToDisease : diseaseList) {
-            cowToDisease.diseased = true;
-            cowToDisease.color.setBrightness(-1.0);
-            cowToDisease.self.setHunger(0);
-        }
-    }
-
-    /**
-     * Searches for the cow matching the given id and returns the match (null if there was no match).
-     * @param givenId The id of the cow that is being searched for
-     * @return The cow with id matching givenId if a cow is found. Else null
-     */
-    @Nullable
-    public static Cow findCow(String givenId) {
-        for (Cow aCowList : cowList)
-            if (aCowList.getId().equals(givenId))
-                return aCowList;
-        return null;
     }
 
     /**
@@ -328,8 +240,6 @@ public class Cow extends ImageView {
         return diseased;
     }
 
-
-
     public EventLogger getLogger() {
         return logger;
     }
@@ -376,5 +286,9 @@ public class Cow extends ImageView {
 
     public void setDestination(Object destination) {
         this.destination = destination;
+    }
+
+    void setCowLink(Hyperlink cowCreationEvent) {
+        cowLink = cowCreationEvent;
     }
 }

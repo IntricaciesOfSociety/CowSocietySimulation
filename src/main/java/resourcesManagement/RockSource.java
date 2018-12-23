@@ -13,10 +13,7 @@ import java.util.ArrayList;
 /**
  * Creates and handles any rockSource resource.
  */
-public class RockSource extends Tile implements Resource {
-
-    //How much the resource can be mined.
-    private int resourceHealth = 100;
+public class RockSource extends Resource {
 
     private static ArrayList<RockSource> rockSources = new ArrayList<>();
 
@@ -40,6 +37,9 @@ public class RockSource extends Tile implements Resource {
            addRockSource(this);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     public void deplete(int depleteDelta) {
         resourceHealth -= depleteDelta;

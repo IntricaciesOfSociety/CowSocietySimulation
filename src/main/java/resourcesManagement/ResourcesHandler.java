@@ -1,14 +1,11 @@
 package resourcesManagement;
 
-import cowParts.Cow;
-import javafx.scene.image.Image;
-import menus.MenuHandler;
+import cowParts.CowHandler;
+import metaControl.LoadConfiguration;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * Handles all the resource management for the city.
@@ -23,28 +20,18 @@ public class ResourcesHandler {
      * Creates the initial resources for the sim.
      */
     public static void init() {
-        new WaterSource(loadSprite("WateringHole"), Tile.getRandomTerrainTile());
+        for (int i = 0; i < LoadConfiguration.getInitialWaterSources(); i++) {
+            new WaterSource(AssetLoading.basicWatersource, Tile.getRandomTerrainTile());
+        }
 
-        for (int i = 0; i < 5; i++) {
-            new RockSource(loadSprite("Rock"), Tile.getRandomTerrainTile());
-            new WoodSource(loadSprite("Tree"), Tile.getRandomTerrainTile());
+        for (int j = 0; j < LoadConfiguration.getInitialRocks(); j++) {
+            new RockSource(AssetLoading.basicRock, Tile.getRandomTerrainTile());
         }
-    }
 
-    /**
-     * Finds the image corresponding to the given string.
-     * @param imageName The name of the image to have a resource created from
-     * @return The new resource
-     */
-    private static Image loadSprite(String imageName) {
-        Image resourceSprite = null;
-        try {
-            resourceSprite = new Image(new FileInputStream("src/main/resources/Environment/" + imageName + ".png"),0, 0, true, false);
+        for (int j = 0; j < LoadConfiguration.getInitialTrees(); j++) {
+            new WoodSource(AssetLoading.basicTree, Tile.getRandomTerrainTile());
         }
-        catch (FileNotFoundException error) {
-            MenuHandler.createErrorMenu();
-        }
-        return resourceSprite;
+
     }
 
     /**
@@ -102,6 +89,6 @@ public class ResourcesHandler {
      * Updates the city's power resource.
      */
     public static void updatePower() {
-        power = Cow.cowList.size() * 10;
+        power = CowHandler.cowList.size() * 10;
     }
 }

@@ -2,8 +2,10 @@ package userInterface;
 
 import com.sun.istack.internal.NotNull;
 import cowParts.Cow;
+import cowParts.CowHandler;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,6 +16,7 @@ import metaControl.CameraControl;
 import metaControl.Input;
 import metaControl.SimState;
 import metaControl.Time;
+import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
 import resourcesManagement.ResourcesHandler;
 
@@ -27,7 +30,7 @@ public class StaticUI {
     //UI text and container
     private static Group UIText = new Group();
     private static Text idText = new Text("Cow: N/A");
-    private static Text populationText = new Text("Population : " + Cow.cowList.size());
+    private static Text populationText = new Text("Population : " + CowHandler.cowList.size());
     private static Label actionText = new Label();
     private static Label accommodationsText = new Label();
     private static Text timeOfDay = new Text();
@@ -48,7 +51,7 @@ public class StaticUI {
 
     //Structure for buttons that open the other UIs
     private static Group differentUIGroup = new Group();
-    private static Button buildingUIButton = new Button("TileUI");
+    private static Button tileUIButton = new Button("TileUI");
     private static Button resourcesUIButton = new Button("ResourcesUI");
 
     /**
@@ -73,15 +76,18 @@ public class StaticUI {
 
         heartAttackButton.setLayoutX(5);
         heartAttackButton.setLayoutY(170);
+        //heartAttackButton.setGraphic(new ImageView(AssetLoading.loadUISprite("HeartAttackButton")));
 
         diseaseButton.setLayoutX(5);
         diseaseButton.setLayoutY(200);
 
         detailedViewButton.setLayoutX(5);
         detailedViewButton.setLayoutY(230);
+        detailedViewButton.setGraphic(new ImageView(AssetLoading.loadUISprite("DetailedView")));
 
         storyViewButton.setLayoutX(5);
         storyViewButton.setLayoutY(260);
+        storyViewButton.setGraphic(new ImageView(AssetLoading.loadUISprite("StoryView")));
 
         controlGroup.setDisable(true);
 
@@ -98,11 +104,14 @@ public class StaticUI {
         accommodationsText.setLayoutX(5);
         accommodationsText.setLayoutY(360);
 
-        buildingUIButton.setLayoutX(5);
-        buildingUIButton.setLayoutY(400);
+        tileUIButton.setLayoutX(5);
+        tileUIButton.setLayoutY(400);
+        tileUIButton.setGraphic(new ImageView(AssetLoading.loadUISprite("TileUI")));
+
 
         resourcesUIButton.setLayoutX(5);
         resourcesUIButton.setLayoutY(430);
+        resourcesUIButton.setGraphic(new ImageView(AssetLoading.loadUISprite("ResourcesUI")));
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setLayoutX(20);
@@ -110,7 +119,7 @@ public class StaticUI {
 
         controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
-        differentUIGroup.getChildren().addAll(buildingUIButton, resourcesUIButton);
+        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton);
 
         PlaygroundUI.staticUI.getChildren().addAll(
                 background, simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
@@ -128,7 +137,7 @@ public class StaticUI {
             controlGroup.setDisable(true);
         });
 
-        buildingUIButton.setOnAction(event -> {
+        tileUIButton.setOnAction(event -> {
             SimState.setSimState("TileView");
             PlaygroundUI.toggleTileUI();
         });
@@ -202,7 +211,7 @@ public class StaticUI {
      * cow's menu.
      */
     private static void cowLinkClickEvent(@org.jetbrains.annotations.NotNull @NotNull String clickedCowLinkId) {
-        Cow cowFromId = Cow.findCow(clickedCowLinkId.substring(5));
+        Cow cowFromId = CowHandler.findCow(clickedCowLinkId.substring(5));
         Objects.requireNonNull(cowFromId).openMenu();
 
         cowClickEvent();
@@ -216,8 +225,8 @@ public class StaticUI {
         controlGroup.setDisable(false);
 
         if (Input.selectedCows.size() > 1) {
-            heartAttackButton.setOnAction(event -> Cow.killAll(Input.selectedCows));
-            diseaseButton.setOnAction(event -> Cow.diseaseAll(Input.selectedCows));
+            heartAttackButton.setOnAction(event ->  CowHandler.killAll(Input.selectedCows));
+            diseaseButton.setOnAction(event -> CowHandler.diseaseAll(Input.selectedCows));
         }
         else if (Input.selectedCows.size() == 1) {
             heartAttackButton.setOnAction(event -> Input.selectedCows.get(0).kill());
@@ -270,7 +279,7 @@ public class StaticUI {
      * Updates the populationText based off the size of Cow.cowList
      */
     private static void updatePopulationText() {
-        populationText.setText("Population : " + (Cow.cowList.size()));
+        populationText.setText("Population : " + (CowHandler.cowList.size()));
     }
 
     /**
