@@ -89,6 +89,6 @@ public class ResourcesHandler {
      * Updates the city's power resource.
      */
     public static void updatePower() {
-        power = CowHandler.cowList.size() * 10;
+        power = CowHandler.liveCowList.size() * 10;
     }
 }

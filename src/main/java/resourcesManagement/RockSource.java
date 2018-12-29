@@ -51,6 +51,14 @@ public class RockSource extends Resource {
     }
 
     /**
+     * @inheritDoc
+     */
+    @Override
+    public boolean isDestroyed() {
+        return resourceHealth <= 0;
+    }
+
+    /**
      * Finds the closest resource to the given cow
      * @param cowToCheck The cow to find the closest resource from
      * @return The closest resource to the given cow
@@ -73,4 +81,6 @@ public class RockSource extends Resource {
     private static void addRockSource(Resource resource) {
         rockSources.add((RockSource) resource);
     }
+
+
 }

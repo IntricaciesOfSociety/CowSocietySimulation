@@ -55,9 +55,9 @@ public class Time {
      */
     private static void newDayEvent() {
         Cow cowLife;
-        for (int i = 0; i < CowHandler.cowList.size(); i++) {
-            cowLife = CowHandler.cowList.get(i);
-            cowLife.self.setAge(cowLife.self.getAge() + 1);
+        for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
+            cowLife = CowHandler.liveCowList.get(i);
+            cowLife.self.setAge(1);
             cowLife.birth.updateFertility();
 
             if (cowLife.self.getAge() == 5) {
@@ -70,7 +70,7 @@ public class Time {
             }
 
             if (cowLife.self.getAge() > random.nextInt((100 - 50) + 1) + 50) {
-                System.out.println(CowHandler.cowList.get(i).getId());
+                System.out.println(CowHandler.liveCowList.get(i).getId());
                 cowLife.kill();
             }
         }

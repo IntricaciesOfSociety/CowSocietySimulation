@@ -13,13 +13,13 @@ public class BirthEvent {
 
     static Random random = new Random();
 
-    private String parent1;
-    private String parent2;
-
     //TODO: Make an actual date (Not just a time)
     private Date birthDay;
 
     private int fertility = random.nextInt(100);
+
+    private Cow offspring;
+    private Cow spouse;
 
     /**
      * Sets the birth date of a new cow.
@@ -35,9 +35,6 @@ public class BirthEvent {
      * @param parent2 The second parent of the new cow
      */
     static void createChild(@NotNull Cow parent1, @NotNull Cow parent2) {
-        parent1.parent = true;
-        parent2.parent = true;
-
         Cow newCow = CowHandler.createCow();
         newCow.self.setAge(1);
         newCow.setScaleX(1.5);
@@ -45,7 +42,19 @@ public class BirthEvent {
 
         Movement.decideAction(newCow);
         newCow.relocate(parent1.getAnimatedX(), parent1.getAnimatedY());
-        CowHandler.cowList.add(newCow);
+        CowHandler.liveCowList.add(newCow);
+
+        parent2.setLivingSpace(parent1.getLivingSpace());
+        newCow.setLivingSpace(parent1.getLivingSpace());
+
+        parent1.parent = true;
+        parent2.parent = true;
+
+        parent1.birth.offspring = newCow;
+        parent2.birth.offspring = newCow;
+
+        parent1.birth.spouse = parent2;
+        parent2.birth.spouse = parent1;
 
         if (random.nextInt(2000) == 1)
             parent1.kill();
@@ -66,5 +75,13 @@ public class BirthEvent {
     public void updateFertility() {
         if (fertility <= 60)
             fertility += 5;
+    }
+
+    Cow getOffspring() {
+        return offspring;
+    }
+
+    Cow getSpouse() {
+        return spouse;
     }
 }

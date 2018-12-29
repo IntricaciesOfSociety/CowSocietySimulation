@@ -39,6 +39,14 @@ public class WoodSource extends Resource {
     }
 
     /**
+     * @inheritDoc
+     */
+    @Override
+    public boolean isDestroyed() {
+        return resourceHealth <= 0;
+    }
+
+    /**
      * Returns the closest woodSource to the given cow
      * @param cowToCheck The cow to check for closest woodSource to
      * @return The closest woodSource

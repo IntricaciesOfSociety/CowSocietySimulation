@@ -1,5 +1,6 @@
 package cowMovement;
 
+import buildings.Building;
 import buildings.BuildingHandler;
 import buildings.SmallDwelling;
 import cowParts.Cow;
@@ -14,6 +15,7 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
+import societalProductivity.Economy;
 import societalProductivity.Role;
 import terrain.Tile;
 import userInterface.StaticUI;
@@ -28,6 +30,12 @@ public class Movement extends Cow {
 
     static Tile tileStandingOn;
 
+    /**
+     * Finds the distance as one number between the given cow and the given object
+     * @param cowToCheck The cow to find distance to
+     * @param objectToCheck The object to find distance to
+     * @return The distance between the given cow and object as a single number
+     */
     public static double findDistanceBetweenCowAndObject(@NotNull Cow cowToCheck, @NotNull ImageView objectToCheck) {
         double distanceX =  objectToCheck.getLayoutX() - cowToCheck.getAnimatedX();
         double distanceY = objectToCheck.getLayoutY() - cowToCheck.getAnimatedY();
@@ -40,15 +48,16 @@ public class Movement extends Cow {
      * @param movementType The movement that the cow will be performing
      */
     private static void step(@NotNull String movementType, @NotNull Cow cowToMove) {
+        cowToMove.alreadyMoving = true;
         ImageView destination;
 
         switch (movementType) {
 
-        /*TODO: Switch to timeline implementation? Animation has to be stopped.
-        Creates an animation to move the cow to the food
-         */
+            /*TODO: Switch to timeline implementation? Animation has to be stopped.
+            Creates an animation to move the cow to the closest waterSource
+             */
             case "toWaterSource":
-                destination = WaterSource.getWateringHole();
+                destination = WaterSource.getClosestResource(cowToMove);
                 cowToMove.currentAction = "Going to WaterSource";
                 cowToMove.setDestination(destination);
 
@@ -61,45 +70,58 @@ public class Movement extends Cow {
                 });
                 break;
 
+            /*
+            Creates an animation to move the cow to their home
+             */
             case "toHome":
-                destination = (ImageView) cowToMove.getLivingSpace();
+                destination = cowToMove.getLivingSpace();
                 cowToMove.currentAction = "Going home";
                 cowToMove.setDestination(destination);
 
-                cowToMove.self.setSleepiness(100);
                 animateTowardsDestination(cowToMove, destination);
                 cowToMove.animation.setOnFinished(event -> {
-
-                    EventLogger.createLoggedEvent(cowToMove, "Going home", 0, "sleepiness", 100);
-
+                    EventLogger.createLoggedEvent(cowToMove, "Going home", 0, "sleepiness", 100 - cowToMove.self.getSleepiness());
+                    cowToMove.self.setSleepiness(100);
                     openAnimation(1, cowToMove);
                 });
                 break;
 
+            /*
+            Creates an animation to move the next building that needs constructing
+            */
             case "woodworking":
-                destination = (ImageView) BuildingHandler.nextHouseToConstruct();
+                destination = BuildingHandler.nextHouseToConstruct();
                 cowToMove.currentAction = "Wood Constructing";
 
                 if (destination != null) {
                     cowToMove.setDestination(destination);
 
-                    //TODO: Handle null house construct issue
                     animateTowardsDestination(cowToMove, destination);
                     cowToMove.animation.setOnFinished(event -> {
-                        try {
-                            BuildingHandler.nextHouseToConstruct().contributeResource("wood", 5);
-                            BuildingHandler.nextHouseToConstruct().contributeResource("power", 1);
-                            cowToMove.self.setSleepiness(cowToMove.self.getSleepiness() - 5);
+                        if (!((Building) cowToMove.getDestination()).isConstructed()) {
+                            ((Building) cowToMove.getDestination()).contributeResource("wood", 5);
+                            ((Building) cowToMove.getDestination()).contributeResource("power", 1);
+
+                            cowToMove.self.setSleepiness(-5);
+                            Economy.giveMoney(cowToMove, 10);
                             EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+
                             openAnimation(1000, cowToMove);
                         }
-                        catch (NullPointerException ignored){}
+                        //TODO: Redirect cow to new destination before the end of the current animation
+                        else {
+                            cowToMove.setDestination(null);
+                            openAnimation(1, cowToMove);
+                        }
                     });
                 }
                 else
                     new Role(cowToMove);
                 break;
 
+            /*
+            Creates an animation to move the cow to the closest tree
+             */
             case "choppingWood":
                 destination = WoodSource.getClosestResource(cowToMove);
                 cowToMove.currentAction = "Chopping Wood";
@@ -107,15 +129,27 @@ public class Movement extends Cow {
 
                 animateTowardsDestination(cowToMove, destination);
                 cowToMove.animation.setOnFinished(event -> {
-                    ResourcesHandler.modifyResource("wood", 5);
-                    Resource.depleteResource((WoodSource) destination, 5);
-                    cowToMove.self.setSleepiness(cowToMove.self.getSleepiness() - 5);
-                    EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+                    if (!((WoodSource) cowToMove.getDestination()).isDestroyed()) {
+                        ResourcesHandler.modifyResource("wood", 5);
+                        Resource.depleteResource((WoodSource) cowToMove.getDestination(), 5);
 
-                    openAnimation(500, cowToMove);
+                        cowToMove.self.setSleepiness(-5);
+                        Economy.giveMoney(cowToMove, 10);
+                        EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+
+                        openAnimation(500, cowToMove);
+                    }
+                    //TODO: Redirect cow to new destination before the end of the current animation
+                    else {
+                        cowToMove.setDestination(null);
+                        openAnimation(1, cowToMove);
+                    }
                 });
                 break;
 
+            /*
+            Creates an animation to move the cow to the closest rock
+            */
             case "miningRock":
                 destination = RockSource.getClosestResource(cowToMove);
                 cowToMove.currentAction = "Mining Rock";
@@ -123,20 +157,33 @@ public class Movement extends Cow {
 
                 animateTowardsDestination(cowToMove, destination);
                 cowToMove.animation.setOnFinished(event -> {
-                    ResourcesHandler.modifyResource("rock", 5);
-                    Resource.depleteResource((RockSource) destination, 5);
-                    cowToMove.self.setSleepiness(cowToMove.self.getSleepiness() - 5);
-                    EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+                    if (!((RockSource) cowToMove.getDestination()).isDestroyed()) {
+                        ResourcesHandler.modifyResource("rock", 5);
+                        Resource.depleteResource((RockSource) cowToMove.getDestination(), 5);
 
-                    openAnimation(500, cowToMove);
+                        cowToMove.self.setSleepiness(-5);
+                        Economy.giveMoney(cowToMove, 10);
+                        EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
+
+                        openAnimation(500, cowToMove);
+                    }
+                    //TODO: Redirect cow to new destination before the end of the current animation
+                    else {
+                        cowToMove.setDestination(null);
+                        openAnimation(1, cowToMove);
+                    }
                 });
                 break;
 
+            /*
+            Spins the cow around by a random degree
+             */
             case "spinning":
                 cowToMove.currentAction = "Spinning";
                 cowToMove.setRotate(random.nextInt(360 + 1 + 360) - 360);
                 cowToMove.setLayoutX(cowToMove.getLayoutX() + Math.cos(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
                 cowToMove.setLayoutY(cowToMove.getLayoutY() + Math.sin(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
+                cowToMove.alreadyMoving = false;
                 break;
         }
         StaticUI.updateActionText();
@@ -148,7 +195,6 @@ public class Movement extends Cow {
      * @param destination The destination that the cow is to move to
      */
     private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination) {
-        cowToMove.alreadyMoving = true;
         cowToMove.setTranslateX(0);
         cowToMove.setTranslateY(0);
 
@@ -246,7 +292,7 @@ public class Movement extends Cow {
             if ((Time.getTime().getTime() > 100860000 || Time.getTime().getTime() < 50400000
                     && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
                 step("toHome", cowToCheck);
-            else if (cowToCheck.self.getHunger() <= 10)
+            else if (cowToCheck.self.getThirst() <= 10)
                 step("toWaterSource", cowToCheck);
             else if (cowToCheck.self.getSleepiness() >= 90)
                 step(cowToCheck.getJob(), cowToCheck);
@@ -257,9 +303,22 @@ public class Movement extends Cow {
         /*
          * Static (for now) stats based decisions.
          */
-        if (cowToCheck.self.getDebt() <= 10) {
-            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, tileStandingOn));
+        if (cowToCheck.self.getDebt() <= 10 && cowToCheck.self.getSavings() > 30
+                && (BuildingHandler.getDefaultBuilding() == cowToCheck.getLivingSpace())) {
+
+            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, Tile.getRandomTerrainTile()));
+            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
+            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);
+            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "taxes", 0);
+            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "savings", cowToCheck.self.getSavings());
+            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "debt", 100 - cowToCheck.self.getSavings());
             cowToCheck.self.setDebt(100);
+            cowToCheck.self.setSavings(-100);
+
+            if (cowToCheck.hasOffspring()) {
+                cowToCheck.getOffspring().setLivingSpace(cowToCheck.getLivingSpace());
+                cowToCheck.getSpouse().setLivingSpace(cowToCheck.getLivingSpace());
+            }
         }
     }
 
@@ -269,8 +328,8 @@ public class Movement extends Cow {
      */
     public static void dragBoxSelectionUpdate(Rectangle dragBox) {
         Cow possibleCollide;
-        for (int i = 0; i < CowHandler.cowList.size(); i++) {
-            possibleCollide = CowHandler.cowList.get(i);
+        for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
+            possibleCollide = CowHandler.liveCowList.get(i);
             if (possibleCollide.getBoundsInParent().intersects(dragBox.getBoundsInParent())) {
                 possibleCollide.openMenu();
                 StaticUI.cowClickEvent();
@@ -282,9 +341,9 @@ public class Movement extends Cow {
      * Pauses any running cow animation.
      */
     public static void pauseAllAnimation() {
-        for (int i = 0; i < CowHandler.cowList.size(); i++) {
+        for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             try {
-                CowHandler.cowList.get(i).animation.pause();
+                CowHandler.liveCowList.get(i).animation.pause();
             }
             catch (NullPointerException ignored){}
         }
@@ -294,9 +353,9 @@ public class Movement extends Cow {
      * Resumes any running cow animation.
      */
     public static void startAllAnimation() {
-        for (int i = 0; i < CowHandler.cowList.size(); i++) {
+        for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             try {
-                CowHandler.cowList.get(i).animation.play();
+                CowHandler.liveCowList.get(i).animation.play();
             }
             catch (NullPointerException ignored) {}
         }

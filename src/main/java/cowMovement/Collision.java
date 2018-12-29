@@ -4,6 +4,7 @@ import buildings.Building;
 import cowParts.Cow;
 import cowParts.Social;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
@@ -29,12 +30,13 @@ class Collision {
         try {
             for (Node possibleCollide : Playground.playground.getChildren()) {
                 if (possibleCollide != cowToMove && cowToMove.getBoundsInParent().intersects(possibleCollide.getBoundsInParent())) {
+                    if (possibleCollide instanceof  Tile)
+                        cowToTileCollision((Tile) possibleCollide);
+
                     if (possibleCollide instanceof Cow)
                         cowToCowCollision(cowToMove, (Cow) possibleCollide);
                     else if (possibleCollide instanceof Building)
-                        cowToBuildingCollision(cowToMove, (Tile) possibleCollide);
-                    else if (possibleCollide instanceof  Tile)
-                        cowToTileCollision((Tile) possibleCollide);
+                        cowToBuildingCollision(cowToMove, (Building) possibleCollide);
                     else if (possibleCollide instanceof Resource)
                         cowToResourceCollision(cowToMove, (Tile) possibleCollide);
                 }
@@ -51,9 +53,8 @@ class Collision {
      * @param possibleCollide The resource that the cow is colliding with
      */
     private static void cowToResourceCollision(@NotNull Cow cowToMove, Tile possibleCollide) {
-        if (cowToMove.getDestination().equals(possibleCollide)) {
+        if (cowToMove.getDestination() != null && cowToMove.getDestination() == possibleCollide)
             return;
-        }
     }
 
     /**
@@ -77,7 +78,7 @@ class Collision {
         }
         else {
             Social.newRelation(cowToMove, intersectingCow);
-            cowToMove.self.setCompanionship(cowToMove.self.getCompanionship() + 5);
+            cowToMove.self.setCompanionship(5);
             EventLogger.createLoggedEvent(cowToMove, "new relationship", 1, "companionship", 5);
         }
     }

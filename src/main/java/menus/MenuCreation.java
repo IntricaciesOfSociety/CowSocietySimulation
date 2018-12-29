@@ -14,9 +14,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A MenuCreation object is a StackPane menu that holds information based off of the object given. Used currently for the
@@ -178,14 +180,17 @@ public class MenuCreation {
 
         if (cowsPreviouslySelected.size() == 1) {
             ArrayList<String> relations = Social.getAllRelations(cowsPreviouslySelected.get(0));
-            for (String relation : relations) {
-                socialRelationsView.getChildren().add(createSocialLink(CowHandler.findCow(relation), cowsPreviouslySelected.get(0)));
+            if (relations != null) {
+                for (String relation : relations) {
+                    socialRelationsView.getChildren().add( createSocialLink(relation, cowsPreviouslySelected.get(0)) );
+                }
             }
+
         }
         else {
             for (int i = 1; i < cowsPreviouslySelected.size(); i++) {
                 if (Social.relationExists(cowsPreviouslySelected.get(0), cowsPreviouslySelected.get(i)))
-                    socialRelationsView.getChildren().add(createSocialLink(cowsPreviouslySelected.get(i), cowsPreviouslySelected.get(0)));
+                    socialRelationsView.getChildren().add(createSocialLink(cowsPreviouslySelected.get(i).getId(), cowsPreviouslySelected.get(0)));
             }
         }
 
@@ -205,9 +210,15 @@ public class MenuCreation {
      * @param cowInMenu The cow whose detailed menu view is opened.
      * @return The hyperlink that was created.
      */
-    private Hyperlink createSocialLink(@NotNull Cow cowToCreateLinkTo, Cow cowInMenu) {
-        Hyperlink hyperlink = new Hyperlink(cowToCreateLinkTo.getId());
-        hyperlink.setOnAction(event -> switchSocialContent(Social.getRelationValue(cowInMenu, cowToCreateLinkTo.getId())));
+    private Hyperlink createSocialLink(String cowToCreateLinkTo, Cow cowInMenu) {
+        if (CowHandler.findCow(cowToCreateLinkTo) == null) {
+            Hyperlink hyperlink = new Hyperlink(cowToCreateLinkTo);
+            hyperlink.setOnAction(event -> switchSocialContent("Deceased"));
+            return hyperlink;
+        }
+
+        Hyperlink hyperlink = new Hyperlink(cowToCreateLinkTo);
+        hyperlink.setOnAction(event -> switchSocialContent(Social.getRelationValue(cowInMenu, cowToCreateLinkTo)));
         return hyperlink;
     }
 
@@ -263,10 +274,6 @@ public class MenuCreation {
 
         hyperlink = new Hyperlink("BILLS: " + firstCow.self.getBills());
         hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("bills")));
-        financeLinks.getChildren().add(new TreeItem<>(hyperlink));
-
-        hyperlink = new Hyperlink("FOOD: " + firstCow.self.getFood());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("food")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("TAXES: " + firstCow.self.getTaxes());
@@ -326,7 +333,7 @@ public class MenuCreation {
         academicLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         treeTier.getChildren().addAll(emotionLinks, financeLinks, socialLinks, physicalLinks, mentalLinks, academicLinks);
-        TreeView tree = new TreeView<>(treeTier);
+        TreeView<Object> tree = new TreeView<>(treeTier);
         tree.setShowRoot(false);
         tree.relocate(175, 50);
         tree.setPrefHeight(260);
@@ -346,11 +353,19 @@ public class MenuCreation {
     }
 
     /**
-     * Switches the socialView content to the given value.
+     * Switches the socialView content to the given int value.
      * @param socialValue The value to display to the socialView
      */
     private void switchSocialContent(int socialValue) {
         socialViewContent.setText(Integer.toString(socialValue));
+    }
+
+    /**
+     * Switches the socialView content to the given String value.
+     * @param socialValue The value to display to the socialView
+     */
+    private void switchSocialContent(String socialValue) {
+        socialViewContent.setText((socialValue));
     }
 
     /**

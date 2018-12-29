@@ -30,7 +30,7 @@ public class StaticUI {
     //UI text and container
     private static Group UIText = new Group();
     private static Text idText = new Text("Cow: N/A");
-    private static Text populationText = new Text("Population : " + CowHandler.cowList.size());
+    private static Text populationText = new Text("Population : " + CowHandler.liveCowList.size());
     private static Label actionText = new Label();
     private static Label accommodationsText = new Label();
     private static Text timeOfDay = new Text();
@@ -276,10 +276,10 @@ public class StaticUI {
     }
 
     /**
-     * Updates the populationText based off the size of Cow.cowList
+     * Updates the populationText based off the size of Cow.liveCowList
      */
     private static void updatePopulationText() {
-        populationText.setText("Population : " + (CowHandler.cowList.size()));
+        populationText.setText("Population : " + (CowHandler.liveCowList.size()));
     }
 
     /**

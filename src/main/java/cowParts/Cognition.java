@@ -1,5 +1,7 @@
 package cowParts;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.Random;
 
 /**
@@ -19,10 +21,9 @@ public class Cognition {
     private int trust = random.nextInt(100);
 
     //Finances 0 is low 100 is high
-    private int income = random.nextInt(100);
-    private int bills = random.nextInt(100);
-    private int food = random.nextInt(100);
-    private int taxes = random.nextInt(100);
+    private int income = 0;
+    private int bills = 0;
+    private int taxes = 0;
     private int savings = random.nextInt(100);
     private int debt = random.nextInt(100);
 
@@ -44,12 +45,29 @@ public class Cognition {
     //Academic 0 is low 100 is high
     private int intelligence = random.nextInt(100);
 
+    /**
+     * Tests the given modification delta against a given cognitive element to see if a limit would be met. If a limit
+     * is met, sets the cognitive element to the closest limit.
+     * @param cog The cognitive element to check against
+     * @param delta The modification delta to change the cognitive element by
+     * @return The properly limited new cognitive element value
+     */
+    @Contract(pure = true)
+    private int testLimit(int cog, int delta) {
+        if (cog + delta >= 0 && cog + delta <= 100)
+            return cog + delta;
+        else if (cog + delta < 0)
+            return 0;
+        else
+            return 100;
+    }
+
     public int getAnger() {
         return anger;
     }
 
     public void setAnger(int anger) {
-        this.anger = anger;
+        this.anger = testLimit(this.anger, anger);
     }
 
     public int getAnticipation() {
@@ -57,7 +75,7 @@ public class Cognition {
     }
 
     public void setAnticipation(int anticipation) {
-        this.anticipation = anticipation;
+        this.anticipation = testLimit(this.anticipation, anticipation);
     }
 
     public int getDisgust() {
@@ -65,7 +83,7 @@ public class Cognition {
     }
 
     public void setDisgust(int disgust) {
-        this.disgust = disgust;
+        this.disgust = testLimit(this.disgust, disgust);
     }
 
     public int getFear() {
@@ -73,7 +91,7 @@ public class Cognition {
     }
 
     public void setFear(int fear) {
-        this.fear = fear;
+        this.fear = testLimit(this.fear, fear);
     }
 
     public int getHappiness() {
@@ -81,7 +99,7 @@ public class Cognition {
     }
 
     public void setHappiness(int happiness) {
-        this.happiness = happiness;
+        this.happiness = testLimit(this.happiness, happiness);
     }
 
     public int getSurprise() {
@@ -89,7 +107,7 @@ public class Cognition {
     }
 
     public void setSurprise(int surprise) {
-        this.surprise = surprise;
+        this.surprise = testLimit(this.surprise, surprise);
     }
 
     public int getTrust() {
@@ -97,7 +115,7 @@ public class Cognition {
     }
 
     public void setTrust(int trust) {
-        this.trust = trust;
+        this.trust = testLimit(this.trust, trust);
     }
 
     public int getIncome() {
@@ -105,7 +123,7 @@ public class Cognition {
     }
 
     public void setIncome(int income) {
-        this.income = income;
+        this.income = testLimit(this.income, income);
     }
 
     public int getBills() {
@@ -113,15 +131,7 @@ public class Cognition {
     }
 
     public void setBills(int bills) {
-        this.bills = bills;
-    }
-
-    public int getFood() {
-        return food;
-    }
-
-    public void setFood(int food) {
-        this.food = food;
+        this.bills = testLimit(this.bills, bills);
     }
 
     public int getTaxes() {
@@ -129,7 +139,7 @@ public class Cognition {
     }
 
     public void setTaxes(int taxes) {
-        this.taxes = taxes;
+        this.taxes = testLimit(this.taxes, taxes);
     }
 
     public int getSavings() {
@@ -137,7 +147,7 @@ public class Cognition {
     }
 
     public void setSavings(int savings) {
-        this.savings = savings;
+        this.savings = testLimit(this.savings, savings);
     }
 
     public int getDebt() {
@@ -145,7 +155,7 @@ public class Cognition {
     }
 
     public void setDebt(int debt) {
-        this.debt = debt;
+        this.debt = testLimit(this.debt, debt);
     }
 
     public int getBoredom() {
@@ -153,7 +163,7 @@ public class Cognition {
     }
 
     public void setBoredom(int boredom) {
-        this.boredom = boredom;
+        this.boredom = testLimit(this.boredom, boredom);
     }
 
     public int getCompanionship() {
@@ -161,7 +171,7 @@ public class Cognition {
     }
 
     public void setCompanionship(int companionship) {
-        this.companionship = companionship;
+        this.companionship = testLimit(this.companionship, companionship);
     }
 
     public int getHunger() {
@@ -169,7 +179,15 @@ public class Cognition {
     }
 
     public void setHunger(int hunger) {
-        this.hunger = hunger;
+        this.hunger = testLimit(this.hunger, hunger);
+    }
+
+    public int getThirst() {
+        return this.thirst;
+    }
+
+    public void setThirst(int thirst) {
+        this.thirst = testLimit(this.thirst, thirst);
     }
 
     public int getAge() {
@@ -177,7 +195,7 @@ public class Cognition {
     }
 
     public void setAge(int age) {
-        this.age = age * 360;
+        this.age += age * 360;
     }
 
     public int getPhysicalHealth() {
@@ -185,7 +203,7 @@ public class Cognition {
     }
 
     public void setPhysicalHealth(int physicalHealth) {
-        this.physicalHealth = physicalHealth;
+        this.physicalHealth = testLimit(this.physicalHealth, physicalHealth);
     }
 
     public int getFaith() {
@@ -193,7 +211,7 @@ public class Cognition {
     }
 
     public void setFaith(int faith) {
-        this.faith = faith;
+        this.faith = testLimit(this.faith, faith);
     }
 
     public int getMentalHealth() {
@@ -201,7 +219,7 @@ public class Cognition {
     }
 
     public void setMentalHealth(int mentalHealth) {
-        this.mentalHealth = mentalHealth;
+        this.mentalHealth = testLimit(this.mentalHealth, mentalHealth);
     }
 
     public int getIntelligence() {
@@ -209,63 +227,56 @@ public class Cognition {
     }
 
     public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
+        this.intelligence = testLimit(this.intelligence, intelligence);
     }
 
     public int getSleepiness() {
-        return this.sleepiness;
+        return sleepiness;
     }
 
     public void setSleepiness(int sleepiness) {
-        this.sleepiness = sleepiness;
+        this.sleepiness = testLimit(this.sleepiness, sleepiness);
     }
 
     /**
      * @return The sum of the emotions as a string over 700, as a string.
      */
     public String getEmotionAggregate() {
-        return Integer.toString((anger + anticipation + disgust + fear + happiness + surprise + trust)) + "/700";
+        return (anger + anticipation + disgust + fear + happiness + surprise + trust) + "/700";
     }
 
     /**
-     * @return The sum of finances as a string over 600, as a string.
+     * @return The sum of finances as a string over 500, as a string.
      */
     public String getFinanceAggregate() {
-        return Integer.toString((income + bills + food + taxes + savings + debt)) + "/600";
+        return (income + bills + taxes + savings + debt) + "/500";
     }
 
     /**
      * @return The sum of socials as a string over 200, as a string.
      */
     public String getSocialAggregate() {
-        return Integer.toString((boredom + companionship)) + "/200";
+        return (boredom + companionship) + "/200";
     }
 
     /**
      * @return The sum of physicals as a string over 300, as a string.
      */
     public String getPhysicalAggregate() {
-        return Integer.toString((hunger + age + physicalHealth)) + "/300";
+        return (hunger + (age / 360) + physicalHealth) + "/300";
     }
 
     /**
      * @return The sum of mentals as a string over 200, as a string.
      */
     public String getMentalAggregate() {
-        return Integer.toString((faith + mentalHealth)) + "/200";
+        return (faith + mentalHealth) + "/200";
     }
 
     /**
      * @return The sum of the emotions as a string over 100, as a string.
      */
     public String getAcademicAggregate() {
-        return Integer.toString((intelligence)) + "/100";
-    }
-
-    public void setThirst(int thirst) {
-        this.thirst = thirst;
-    }
-    public int getThirst() {
-        return this.thirst;
+        return intelligence + "/100";
     }
 }

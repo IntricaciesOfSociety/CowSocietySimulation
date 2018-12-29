@@ -2,6 +2,7 @@ package cowParts;
 
 import buildings.Building;
 import javafx.animation.TranslateTransition;
+import javafx.scene.effect.Effect;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -27,7 +28,7 @@ public class Cow extends ImageView {
     alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)
     delayTimer: The animation timer that is created to delay movement
     counter: A counter that updates based of the main loop ticks
-    hidden: If the cow is to be updated from the cowList or not
+    hidden: If the cow is to be updated from the liveCowList or not
      */
     public boolean alreadyMoving = false;
     public AnimationTimer delayTimer;
@@ -60,7 +61,7 @@ public class Cow extends ImageView {
     color: The color effects applied to the cow
     sprite: The image being displayed
      */
-    ColorAdjust color;
+    ColorAdjust color = new ColorAdjust();
 
     //The job that this cow has
     private String job = "spinning";
@@ -95,8 +96,8 @@ public class Cow extends ImageView {
 
         //Constantly updated vitals
         if (counter % 100 == 0) {
-            self.setHunger(self.getThirst() - 1);
-            self.setSleepiness(self.getSleepiness() - 2);
+            self.setThirst(-1);
+            self.setSleepiness(-2);
         }
 
         //If cow is in a building
@@ -119,11 +120,11 @@ public class Cow extends ImageView {
                     BirthEvent.createChild(this, otherCow);
 
                 if (random.nextInt(50) == 1)
-                    Social.modifyRelationValue(this, otherCow, random.nextInt(5 + 1 -5) + -5);
+                    Social.modifyRelationValue(this, otherCow, random.nextInt(5 + 1 + 5) + -5);
             }
             else {
                 Social.newRelation(this, otherCow);
-                self.setCompanionship(self.getCompanionship() + 1);
+                self.setCompanionship(1);
                 EventLogger.createLoggedEvent(this, "new relationship", 1, "companionship", 1);
             }
         }
@@ -137,7 +138,7 @@ public class Cow extends ImageView {
         if (menuIsOpened)
             MenuHandler.closeMenu(this.cowMenu);
 
-        CowHandler.cowList.remove(this);
+        CowHandler.liveCowList.remove(this);
         StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
 
@@ -145,7 +146,7 @@ public class Cow extends ImageView {
     }
 
     /**
-     * Closes the cows menu if applicable then stops the cow from being updated by removing it from the cowList and
+     * Closes the cows menu if applicable then stops the cow from being updated by removing it from the liveCowList and
      * playground node. This cow cannot be directly selected while its hidden value is true.
      */
     public void hide() {
@@ -157,7 +158,7 @@ public class Cow extends ImageView {
     }
 
     /**
-     * Allows the cow to be updated again by adding it back into the cowList and setting hidden to false.
+     * Allows the cow to be updated again by adding it back into the liveCowList and setting hidden to false.
      */
     public void show() {
         if (hidden) {
@@ -178,7 +179,7 @@ public class Cow extends ImageView {
      */
     public void disease() {
         diseased = true;
-        self.setHunger(0);
+        self.setThirst(-100);
         color.setBrightness(-1.0);
     }
 
@@ -290,5 +291,25 @@ public class Cow extends ImageView {
 
     void setCowLink(Hyperlink cowCreationEvent) {
         cowLink = cowCreationEvent;
+    }
+
+    public boolean hasOffspring() {
+        return parent;
+    }
+
+    public Cow getOffspring() {
+        return birth.getOffspring();
+    }
+
+    public Cow getSpouse() {
+        return birth.getSpouse();
+    }
+
+    Effect getColor() {
+        return color;
+    }
+
+    void setColor(ColorAdjust colorAdjust) {
+        color = colorAdjust;
     }
 }

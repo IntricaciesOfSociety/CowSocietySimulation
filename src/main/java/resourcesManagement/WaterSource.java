@@ -40,11 +40,19 @@ public class WaterSource extends Resource {
     }
 
     /**
+     * @inheritDoc
+     */
+    @Override
+    public boolean isDestroyed() {
+        return resourceHealth <= 0;
+    }
+
+    /**
      * Finds the closest resource to the given cow
      * @param cowToCheck The cow to find the closest resource from
      * @return The closest resource to the given cow
      */
-    public ImageView getClosestResource(Cow cowToCheck) {
+    public static ImageView getClosestResource(Cow cowToCheck) {
         double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(0));
         ImageView closestRockSource = wateringHoles.get(0);
 

@@ -1,7 +1,6 @@
 package metaControl;
 
 import buildings.BuildingHandler;
-import cowParts.Cow;
 import cowMovement.Movement;
 import cowParts.CowHandler;
 import javafx.scene.shape.Rectangle;
@@ -133,8 +132,8 @@ public class SimState extends Application {
         CameraControl.updateCamera();
 
         //Decides what action each cow should be doing
-        for (int i = 0; i < CowHandler.cowList.size(); i++) {
-            Movement.decideAction(CowHandler.cowList.get(i));
+        for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
+            Movement.decideAction(CowHandler.liveCowList.get(i));
         }
 
         //Checks whether or not any node is on the screen, and draws it accordingly

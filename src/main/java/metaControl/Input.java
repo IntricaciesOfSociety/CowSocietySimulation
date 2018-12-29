@@ -5,7 +5,6 @@ import buildings.BuildingHandler;
 import cowParts.Cow;
 import cowMovement.Movement;
 import cowParts.CowHandler;
-import resourcesManagement.WaterSource;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -171,13 +170,13 @@ public class Input {
     private static void toggleAllCowMenus() {
         if (MenuHandler.allCowMenusOpen) {
             MenuHandler.allCowMenusOpen = false;
-            for (Cow cow : CowHandler.cowList) {
+            for (Cow cow : CowHandler.liveCowList) {
                 cow.closeMenu();
             }
         }
         else {
             MenuHandler.allCowMenusOpen = true;
-            for (Cow cow : CowHandler.cowList) {
+            for (Cow cow : CowHandler.liveCowList) {
                 if (!cow.isHidden())
                     cow.openMenu();
             }

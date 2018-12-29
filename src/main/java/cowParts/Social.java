@@ -2,6 +2,7 @@ package cowParts;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 
@@ -53,7 +54,8 @@ public class Social {
      * @return The list of cows that the given given cow has a relation with.
      */
     @Contract(pure = true)
-    public static ArrayList getAllRelations(@NotNull Cow cowToGetRelationships) {
+    @Nullable
+    public static ArrayList<String> getAllRelations(@NotNull Cow cowToGetRelationships) {
         return cowToGetRelationships.socialRelations.relations;
     }
 

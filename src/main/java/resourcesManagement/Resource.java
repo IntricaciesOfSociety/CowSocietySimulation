@@ -34,4 +34,9 @@ public abstract class Resource extends Tile {
         resourceToDeplete.deplete(depleteDelta);
     }
 
+    /**
+     * Whether or not the called upon resource is spent.
+     * @return If the resource is destroyed or not
+     */
+    public abstract boolean isDestroyed();
 }

@@ -24,7 +24,7 @@ import static cowParts.BirthEvent.random;
 public class CowHandler {
 
     //List that holds every created cow
-    public static ArrayList<Cow> cowList = new ArrayList<>();
+    public static ArrayList<Cow> liveCowList = new ArrayList<>();
 
     /**
      * Creates the amount of cows given by the configuration file.
@@ -45,10 +45,11 @@ public class CowHandler {
 
         Cow newCow = new Cow();
         newCow.setImage(cowSprite);
+        newCow.setColor(new ColorAdjust());
 
         newCow.setId("Big Beefy" + new Random().nextInt(1000));
         newCow.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
-        newCow.setEffect(new ColorAdjust());
+        newCow.setEffect(newCow.getColor());
         newCow.setScaleX(3);
         newCow.setScaleY(3);
         newCow.setSmooth(false);
@@ -64,7 +65,7 @@ public class CowHandler {
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
         Playground.playground.getChildren().add(newCow);
-        cowList.add(newCow);
+        liveCowList.add(newCow);
 
         return newCow;
     }
@@ -76,7 +77,7 @@ public class CowHandler {
      */
     @Nullable
     public static Cow findCow(String givenId) {
-        for (Cow aCowList : cowList)
+        for (Cow aCowList : liveCowList)
             if (aCowList.getId().equals(givenId))
                 return aCowList;
         return null;
@@ -90,7 +91,7 @@ public class CowHandler {
         for (Cow cowToDisease : diseaseList) {
             cowToDisease.diseased = true;
             cowToDisease.color.setBrightness(-1.0);
-            cowToDisease.self.setHunger(0);
+            cowToDisease.self.setThirst(0);
         }
     }
 
