@@ -11,6 +11,7 @@ import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import societalProductivity.Role;
+import userInterface.PlaygroundUI;
 import userInterface.StaticUI;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class CowHandler {
 
         Playground.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
+        StaticUI.cowCreationEvent(newCow.getId());
 
         return newCow;
     }

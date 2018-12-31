@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
 import java.util.ArrayList;
@@ -52,15 +53,20 @@ public class WaterSource extends Resource {
      * @param cowToCheck The cow to find the closest resource from
      * @return The closest resource to the given cow
      */
+    @Nullable
     public static ImageView getClosestResource(Cow cowToCheck) {
-        double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(0));
-        ImageView closestRockSource = wateringHoles.get(0);
+        if (wateringHoles.size() != 0) {
+            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(0));
+            ImageView closestWaterSource = wateringHoles.get(0);
 
-        for(int i = 0; i < wateringHoles.size(); i++) {
-            if (Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(i)) < smallestDistance)
-                closestRockSource = wateringHoles.get(i);
+            for(int i = 0; i < wateringHoles.size(); i++) {
+                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(i)) < smallestDistance)
+                    closestWaterSource = wateringHoles.get(i);
+            }
+            return closestWaterSource;
         }
-        return closestRockSource;
+        else
+            return null;
     }
 
     /**

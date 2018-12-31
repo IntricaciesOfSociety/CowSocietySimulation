@@ -15,6 +15,7 @@ public class LoadConfiguration {
     //[SituationConfig]
     private static String primaryEra = "";
     private static int initialPopulation;
+    private static int startingSize;
 
     //[Tiles]
     private static String basicTileName;
@@ -49,6 +50,7 @@ public class LoadConfiguration {
     private static void setConfiguration(@NotNull Ini ini) {
         primaryEra = ini.get("SituationConfig", "era");
         initialPopulation = Integer.parseInt(ini.get("SituationConfig", "population"));
+        startingSize = Integer.parseInt(ini.get("SituationConfig", "startingsize"));
 
         basicTileName = ini.get("Tiles", "basictile");
 
@@ -98,5 +100,10 @@ public class LoadConfiguration {
     @Contract(pure = true)
     public static String getBasicLargeDwelling() {
         return basicLargeDwelling;
+    }
+
+    @Contract(pure = true)
+    public static int getStartingSize() {
+        return startingSize;
     }
 }

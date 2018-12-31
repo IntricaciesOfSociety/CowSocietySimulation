@@ -113,4 +113,19 @@ public class AssetLoading {
         }
         return null;
     }
+
+    /**
+     * Handles the loading of a cow sprite within the Cows/Roles folder based off the given string
+     * @param imageName The name of the sprite file as a string, without the file extension
+     * @return The loaded image of the sprite
+     */
+    @Nullable
+    public static Image loadCowRole(String imageName) {
+        try {
+            return new Image(new FileInputStream("src/main/resources/Cows/Roles/" + imageName + ".png"), 0, 0, true, false);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

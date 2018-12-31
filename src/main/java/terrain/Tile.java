@@ -73,27 +73,27 @@ public class Tile extends ImageView {
         }
     }
 
-    /** TODO: Implement
-     * @return If the tile can me assigned to a terrain
-     */
-    public boolean tieToTerrain() {
-        return false;
-    }
-
     /**
      * Creates a random point where a tile is, then calls the search for the tile at that point. If that tile is not
      * terrain then recurse and try again.
      * @return The random tile found
      */
+    @Nullable
     @Contract(" -> new")
-    public static Tile getRandomTerrainTile() {
-        Point2D randomTileCoords = new Point2D(random.nextInt(ROWTILES) * 400, random.nextInt(COLTILES) * 400);
-        Tile randomTile = tileAt(randomTileCoords);
+    public static Tile getRandomNonBuiltUponTerrainTile() {
+        ArrayList<Tile> nonBuiltUponTiles = new ArrayList<>();
 
-        if (!randomTile.isBulitUpon)
-            return randomTile;
-        else
-            return getRandomTerrainTile();
+        for (int i = 0; i < tileList.size(); i++) {
+            if (!tileList.get(i).isBulitUpon)
+                nonBuiltUponTiles.add(tileList.get(i));
+        }
+
+        if (nonBuiltUponTiles.size() != 0)
+            return nonBuiltUponTiles.get(random.nextInt(nonBuiltUponTiles.size()));
+        else {
+            MenuHandler.createErrorMenu();
+            return null;
+        }
     }
 
     /**
@@ -105,7 +105,7 @@ public class Tile extends ImageView {
     @Contract(pure = true)
     private static Tile tileAt(Point2D tileCoords) {
         for (Tile tile : tileList) {
-            if(tile.getLayoutX() == tileCoords.getX() && tile.getLayoutY() == tileCoords.getY())
+            if (tile.getLayoutX() == tileCoords.getX() && tile.getLayoutY() == tileCoords.getY())
                 return tile;
         }
         return null;

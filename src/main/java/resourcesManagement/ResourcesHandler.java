@@ -21,15 +21,15 @@ public class ResourcesHandler {
      */
     public static void init() {
         for (int i = 0; i < LoadConfiguration.getInitialWaterSources(); i++) {
-            new WaterSource(AssetLoading.basicWatersource, Tile.getRandomTerrainTile());
+            new WaterSource(AssetLoading.basicWatersource, Tile.getRandomNonBuiltUponTerrainTile());
         }
 
         for (int j = 0; j < LoadConfiguration.getInitialRocks(); j++) {
-            new RockSource(AssetLoading.basicRock, Tile.getRandomTerrainTile());
+            new RockSource(AssetLoading.basicRock, Tile.getRandomNonBuiltUponTerrainTile());
         }
 
         for (int j = 0; j < LoadConfiguration.getInitialTrees(); j++) {
-            new WoodSource(AssetLoading.basicTree, Tile.getRandomTerrainTile());
+            new WoodSource(AssetLoading.basicTree, Tile.getRandomNonBuiltUponTerrainTile());
         }
 
     }

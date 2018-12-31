@@ -20,9 +20,11 @@ import java.util.Random;
  */
 public class Cow extends ImageView {
 
+    /* What makes a cow */
     public Cognition self = new Cognition();
     public BirthEvent birth = new BirthEvent();
     Social socialRelations = new Social();
+    public PersonalViews views = new PersonalViews();
 
     /* Control flags
     alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)

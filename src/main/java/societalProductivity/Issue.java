@@ -1,15 +1,15 @@
 package societalProductivity;
 
-import cowParts.Cow;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
-/**
- * 0-49 Doesn't support, 50 neutral, 51 - 100 support
+/** TODO: Implement me!
+ * Creates and handles political and social issues within the society.
  */
 public class Issue {
 
-    /*private static ArrayList<Issue> currentIssues = new ArrayList<>();
+    private static ArrayList<Issue> currentIssues = new ArrayList<>();
 
     Issue(String name, String ... biases) {
 
@@ -19,14 +19,8 @@ public class Issue {
 
     }
 
-    private static void getOpinion(Cow leader, Issue issue) {
+    @Contract(pure = true)
+    static ArrayList<Issue> getCurrentIssues() {
+        return currentIssues;
     }
-
-    public static ArrayList getCurrentIssueOpinions(Cow leader) {
-        for (int i = 0; i < currentIssues.size(); i++) {
-            getOpinion(leader, currentIssues.get(i));
-        }
-    }*/
-
-
 }

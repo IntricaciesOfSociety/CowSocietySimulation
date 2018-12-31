@@ -30,7 +30,7 @@ public class BuildingHandler {
         loadSmallUnderConstructionSprite();
         loadLargeUnderConstructionSprite();
 
-        new LargeDwelling(AssetLoading.basicLargeBuilding, Tile.getRandomTerrainTile());
+        new LargeDwelling(AssetLoading.basicLargeBuilding, Tile.getRandomNonBuiltUponTerrainTile());
     }
 
     /**

@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
 import java.util.ArrayList;
@@ -51,15 +52,21 @@ public class WoodSource extends Resource {
      * @param cowToCheck The cow to check for closest woodSource to
      * @return The closest woodSource
      */
+    @Nullable
     public static ImageView getClosestResource(Cow cowToCheck) {
-        double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(0));
-        ImageView closestRockSource = woodSources.get(0);
+        if (woodSources.size() != 0) {
+            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(0));
+            ImageView closestRockSource = woodSources.get(0);
 
-        for(int i = 0; i < woodSources.size(); i++) {
-            if (Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance)
-                closestRockSource = woodSources.get(i);
+            for(int i = 0; i < woodSources.size(); i++) {
+                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance)
+                    closestRockSource = woodSources.get(i);
+            }
+            return closestRockSource;
         }
-        return closestRockSource;
+        else {
+            return null;
+        }
     }
 
     /**

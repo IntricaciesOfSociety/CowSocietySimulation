@@ -1,13 +1,10 @@
 package metaEnvironment;
 
-import metaControl.CameraControl;
-import metaControl.Input;
-import metaControl.SimState;
+import metaControl.*;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import menus.MenuHandler;
-import metaControl.Time;
 import org.jetbrains.annotations.NotNull;
 import userInterface.StaticUI;
 
@@ -32,8 +29,8 @@ public class Playground {
      */
     public static void init() {
         playground = motion;
-        playground.setMinSize(8000, 8000);
-        playground.setPrefSize(8000, 8000);
+        playground.setMinSize(LoadConfiguration.getStartingSize(), LoadConfiguration.getStartingSize());
+        playground.setPrefSize(LoadConfiguration.getStartingSize(), LoadConfiguration.getStartingSize());
         playground.autosize();
         motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();

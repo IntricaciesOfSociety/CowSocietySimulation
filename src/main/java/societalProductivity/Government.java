@@ -1,26 +1,27 @@
 package societalProductivity;
 
 import cowParts.Cow;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 /**
  * TODO: Implement me!
+ * Creates and handles the structure for division and enforcement of political and economical power within the city.
  */
 public class Government {
 
-    /*private static Cow leader;
+    private static Cow leader;
 
-    private static Platform platform = new Platform();
+    private static Platform cityPlatform = new Platform();
 
-    public static void setPlatform() {
-        platform.addAllIssueOpinions(Issue.getCurrentIssueOpinions(leader));
+    private static void setNewPlatform() {
+        cityPlatform.addAllIssueOpinions(Opinion.getCurrentIssueOpinions(leader));
     }
 
-    public static ArrayList<String> getPlatforms() {
-
+    @Contract(pure = true)
+    public static Platform getCityPlatform() {
+        return cityPlatform;
     }
 
     @Contract(pure = true)
@@ -30,12 +31,12 @@ public class Government {
 
     public static void setLeader(@NotNull Cow cowToBeLeader) {
         leader = cowToBeLeader;
-        cowToBeLeader.setImage(Cow.loadSprite("Leader"));
-        setPlatform();
+        cowToBeLeader.setImage(AssetLoading.loadCowRole("SnowmanCow"));
+        setNewPlatform();
     }
 
     @Contract(pure = true)
     public static boolean hasLeader() {
         return leader != null;
-    }*/
+    }
 }
