@@ -20,6 +20,7 @@ public class TileUI {
     private static boolean opened = false;
 
     private static Text tileText;
+    private static Text coordsText;
 
     /**
      * Creates the UI components for the TileUI. Layout is temp.
@@ -27,14 +28,16 @@ public class TileUI {
     private static void init() {
         Rectangle background = new Rectangle(225, 0, 500, 50);
         tileText = new Text(250, 25, "TILE UI        " + selectedTile);
+        coordsText = new Text(300, 40, "");
         Button buildButton = new Button("Build City Center");
         Button buildButton2 = new Button("Build Cow Shack");
 
         tileText.setFill(Color.RED);
+        coordsText.setFill(Color.YELLOW);
         buildButton.relocate(615, 0);
         buildButton2.relocate(615, 25);
 
-        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, buildButton, buildButton2);
+        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText, buildButton, buildButton2);
 
         BuildingHandler.highlightBuildings();
 
@@ -90,9 +93,11 @@ public class TileUI {
     public static void updateUI() {
         tileText.setText("TILE UI        " + selectedTile);
 
-        if (selectedTile instanceof Building) {
+        if (selectedTile != null)
+            coordsText.setText("XCoord:" + selectedTile.getLayoutX() + " YCoord:" + selectedTile.getLayoutY());
+
+        if (selectedTile instanceof Building)
             tileText.setText(selectedTile.getClass().getSimpleName() + " " + ((Building) selectedTile).getStreetAddress());
-        }
     }
 
 }

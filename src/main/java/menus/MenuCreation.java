@@ -423,7 +423,7 @@ public class MenuCreation {
      * Updates the position of the open menu depending on the animal that has its menu opened's position.
      */
     void updateCowMenu() {
-        stack.relocate((clickedCow.getAnimatedX() + 55), (clickedCow.getAnimatedY() + 40));
+        stack.relocate((clickedCow.getTranslateX() + 55), (clickedCow.getTranslateY() + 40));
     }
 
     /**

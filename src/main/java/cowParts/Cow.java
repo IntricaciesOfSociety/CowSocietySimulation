@@ -1,7 +1,8 @@
 package cowParts;
 
 import buildings.Building;
-import javafx.animation.TranslateTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
@@ -33,12 +34,11 @@ public class Cow extends ImageView {
     hidden: If the cow is to be updated from the liveCowList or not
      */
     public boolean alreadyMoving = false;
-    public AnimationTimer delayTimer;
     private int counter = 0;
     private boolean hidden = false;
 
     //Contains any animation that the cow is using
-    public TranslateTransition animation;
+    public Transition animation;
 
     //TEMP: Used for random movement and stats.
     private Random random = new Random();
@@ -83,7 +83,7 @@ public class Cow extends ImageView {
      */
     private Building livingSpace;
     private Building buildingIn;
-    private long buildingTime = 500;
+    private int buildingTime = 5000;
     private Object destination;
 
     /**
@@ -141,8 +141,10 @@ public class Cow extends ImageView {
             MenuHandler.closeMenu(this.cowMenu);
 
         CowHandler.liveCowList.remove(this);
-        StaticUI.cowDeathEventUpdate(cowLink);
         Playground.playground.getChildren().remove(this);
+        this.animation = null;
+
+        StaticUI.cowDeathEventUpdate(cowLink);
 
         EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
     }
@@ -223,20 +225,6 @@ public class Cow extends ImageView {
     }
 
     /**
-     * @return The X layout coordinate of the cow plus the X translate coordinate of the cow.
-     */
-    public double getAnimatedX() {
-        return this.getLayoutX() + this.getTranslateX();
-    }
-
-    /**
-     * @return The Y layout coordinate of the cow plus the Y translate coordinate of the cow.
-     */
-    public double getAnimatedY() {
-        return this.getLayoutY() + this.getTranslateY();
-    }
-
-    /**
      * @return If the cow is diseased or not.
      */
     public boolean getDiseased() {
@@ -259,11 +247,11 @@ public class Cow extends ImageView {
         return socialRelations;
     }
 
-    public long getBuildingTime() {
+    public int getBuildingTime() {
         return buildingTime;
     }
 
-    public void setBuildingTime(long buildingTime) {
+    public void setBuildingTime(int buildingTime) {
         this.buildingTime = buildingTime;
     }
 

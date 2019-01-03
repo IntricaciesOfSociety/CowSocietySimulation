@@ -108,6 +108,10 @@ public class SimState extends Application {
      * Calls the update, then the draw methods for the whole system
      */
     private static void simLoop() {
+        /*for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
+            Movement.animateTowardsDestination(CowHandler.liveCowList.get(i), BuildingHandler.getDefaultBuilding());
+        }*/
+
         //timer runs constantly
         simLoop = new AnimationTimer() {
             private long lastUpdate = 0 ;

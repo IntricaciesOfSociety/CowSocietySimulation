@@ -1,7 +1,6 @@
 package buildings;
 
 import cowParts.Cow;
-import cowMovement.Movement;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import menus.MenuCreation;
@@ -117,18 +116,6 @@ public abstract class Building extends Tile {
         cowToMove.setBuildingIn((Building) buildingToMoveInto);
 
         ((Building) buildingToMoveInto).addInhabitant(cowToMove);
-
-        if(cowToMove.animation != null) {
-            cowToMove.animation.stop();
-        }
-
-        cowToMove.setTranslateX(0);
-        cowToMove.setTranslateY(0);
-        cowToMove.setLayoutX(buildingToMoveInto.getLayoutX());
-        cowToMove.setLayoutY(buildingToMoveInto.getLayoutY());
-        cowToMove.relocate(buildingToMoveInto.getLayoutX(), buildingToMoveInto.getLayoutY());
-
-        Movement.pauseMovement(cowToMove.getBuildingTime(), cowToMove);
     }
 
     /**
@@ -139,11 +126,9 @@ public abstract class Building extends Tile {
     public static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
         cowToMove.setBuildingIn(null);
 
-        cowToMove.relocate(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2,
-                buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
+        cowToMove.setTranslateX(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2);
+        cowToMove.setTranslateY(buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
+
         ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
-        cowToMove.setTranslateX(0);
-        cowToMove.setTranslateY(0);
-        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
     }
 }

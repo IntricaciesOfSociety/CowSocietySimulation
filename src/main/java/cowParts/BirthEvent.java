@@ -41,8 +41,8 @@ public class BirthEvent {
         newCow.setScaleY(1.5);
 
         Movement.decideAction(newCow);
-        newCow.relocate(parent1.getAnimatedX(), parent1.getAnimatedY());
-        CowHandler.liveCowList.add(newCow);
+        newCow.setTranslateX(parent1.getTranslateX());
+        newCow.setTranslateY(parent1.getTranslateY());
 
         parent2.setLivingSpace(parent1.getLivingSpace());
         newCow.setLivingSpace(parent1.getLivingSpace());

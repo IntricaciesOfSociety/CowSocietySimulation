@@ -49,7 +49,8 @@ public class CowHandler {
         newCow.setColor(new ColorAdjust());
 
         newCow.setId("Big Beefy" + new Random().nextInt(1000));
-        newCow.relocate(random.nextInt( (int) Playground.playground.getPrefWidth()), random.nextInt( (int) Playground.playground.getPrefHeight()));
+        newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
+        newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
         newCow.setEffect(newCow.getColor());
         newCow.setScaleX(3);
         newCow.setScaleY(3);
@@ -67,7 +68,6 @@ public class CowHandler {
 
         Playground.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
-        StaticUI.cowCreationEvent(newCow.getId());
 
         return newCow;
     }

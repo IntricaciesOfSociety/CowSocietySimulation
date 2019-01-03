@@ -5,20 +5,24 @@ import buildings.BuildingHandler;
 import buildings.SmallDwelling;
 import cowParts.Cow;
 import cowParts.CowHandler;
+import javafx.animation.*;
+import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.EventLogger;
 import resourcesManagement.*;
-import javafx.animation.AnimationTimer;
-import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import societalProductivity.Economy;
 import societalProductivity.Role;
 import terrain.Tile;
 import userInterface.StaticUI;
+
 import java.util.Random;
 
 /**
@@ -37,8 +41,8 @@ public class Movement extends Cow {
      * @return The distance between the given cow and object as a single number
      */
     public static double findDistanceBetweenCowAndObject(@NotNull Cow cowToCheck, @NotNull ImageView objectToCheck) {
-        double distanceX =  objectToCheck.getLayoutX() - cowToCheck.getAnimatedX();
-        double distanceY = objectToCheck.getLayoutY() - cowToCheck.getAnimatedY();
+        double distanceX =  objectToCheck.getLayoutX() - cowToCheck.getTranslateX();
+        double distanceY = objectToCheck.getLayoutY() - cowToCheck.getTranslateY();
         return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     }
 
@@ -63,12 +67,12 @@ public class Movement extends Cow {
                     cowToMove.currentAction = "Going to WaterSource";
                     cowToMove.setDestination(destination);
 
-                    animateTowardsDestination(cowToMove, destination);
+                    animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination));
                     cowToMove.animation.setOnFinished(event -> {
                         cowToMove.self.setThirst(100);
                         EventLogger.createLoggedEvent(cowToMove, "Getting water", 0, "thirst", 100);
 
-                        openAnimation(100, cowToMove);
+                        pauseMovement(100, cowToMove);
                     });
                     break;
                 }
@@ -83,11 +87,12 @@ public class Movement extends Cow {
                     cowToMove.currentAction = "Going home";
                     cowToMove.setDestination(destination);
 
-                    animateTowardsDestination(cowToMove, destination);
+                    animateTowardsDestination(cowToMove, Tile.getEntrance((Building) destination));
                     cowToMove.animation.setOnFinished(event -> {
                         EventLogger.createLoggedEvent(cowToMove, "Going home", 0, "sleepiness", 100 - cowToMove.self.getSleepiness());
                         cowToMove.self.setSleepiness(100);
-                        openAnimation(1, cowToMove);
+
+                        Movement.pauseMovement(cowToMove.getBuildingTime(), cowToMove);
                     });
                     break;
                 }
@@ -102,7 +107,7 @@ public class Movement extends Cow {
                     cowToMove.currentAction = "Wood Constructing";
                     cowToMove.setDestination(destination);
 
-                    animateTowardsDestination(cowToMove, destination);
+                    animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination));
                     cowToMove.animation.setOnFinished(event -> {
                         if (!((Building) cowToMove.getDestination()).isConstructed()) {
                             ((Building) cowToMove.getDestination()).contributeResource("wood", 5);
@@ -112,12 +117,12 @@ public class Movement extends Cow {
                             Economy.giveMoney(cowToMove, 10);
                             EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
 
-                            openAnimation(1000, cowToMove);
+                            pauseMovement(1000, cowToMove);
                         }
                         //TODO: Redirect cow to new destination before the end of the current animation
                         else {
                             cowToMove.setDestination(null);
-                            openAnimation(1, cowToMove);
+                            pauseMovement(1, cowToMove);
                         }
                     });
                 }
@@ -135,7 +140,7 @@ public class Movement extends Cow {
                     cowToMove.currentAction = "Chopping Wood";
                     cowToMove.setDestination(destination);
 
-                    animateTowardsDestination(cowToMove, destination);
+                    animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination));
                     cowToMove.animation.setOnFinished(event -> {
                         if (!((WoodSource) cowToMove.getDestination()).isDestroyed()) {
                             ResourcesHandler.modifyResource("wood", 5);
@@ -145,12 +150,12 @@ public class Movement extends Cow {
                             Economy.giveMoney(cowToMove, 10);
                             EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
 
-                            openAnimation(500, cowToMove);
+                            pauseMovement(500, cowToMove);
                         }
                         //TODO: Redirect cow to new destination before the end of the current animation
                         else {
                             cowToMove.setDestination(null);
-                            openAnimation(1, cowToMove);
+                            pauseMovement(500, cowToMove);
                         }
                     });
                 }
@@ -166,7 +171,7 @@ public class Movement extends Cow {
                     cowToMove.currentAction = "Mining Rock";
                     cowToMove.setDestination(destination);
 
-                    animateTowardsDestination(cowToMove, destination);
+                    animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination));
                     cowToMove.animation.setOnFinished(event -> {
                         if (!((RockSource) cowToMove.getDestination()).isDestroyed()) {
                             ResourcesHandler.modifyResource("rock", 5);
@@ -176,12 +181,12 @@ public class Movement extends Cow {
                             Economy.giveMoney(cowToMove, 10);
                             EventLogger.createLoggedEvent(cowToMove, "Working", 0, "sleepiness", -5);
 
-                            openAnimation(500, cowToMove);
+                            pauseMovement(500, cowToMove);
                         }
                         //TODO: Redirect cow to new destination before the end of the current animation
                         else {
                             cowToMove.setDestination(null);
-                            openAnimation(1, cowToMove);
+                            pauseMovement(1, cowToMove);
                         }
                     });
                 }
@@ -193,8 +198,6 @@ public class Movement extends Cow {
             case "spinning":
                 cowToMove.currentAction = "Spinning";
                 cowToMove.setRotate(random.nextInt(360 + 1 + 360) - 360);
-                cowToMove.setLayoutX(cowToMove.getLayoutX() + Math.cos(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
-                cowToMove.setLayoutY(cowToMove.getLayoutY() + Math.sin(Math.toRadians(cowToMove.getRotate())) * random.nextInt(10));
                 cowToMove.alreadyMoving = false;
                 break;
         }
@@ -206,74 +209,40 @@ public class Movement extends Cow {
      * @param cowToMove The given cow to move towards the destination
      * @param destination The destination that the cow is to move to
      */
-    private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull ImageView destination) {
-        cowToMove.setTranslateX(0);
-        cowToMove.setTranslateY(0);
-
-        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
-
-        if (cowToMove.getAnimatedX() < 0 || cowToMove.getAnimatedX() > 8000
-            || cowToMove.getAnimatedY() < 0 || cowToMove.getAnimatedY() > 8000)
-            System.out.println("OUT OF BOUNDS: " + cowToMove.getId());
-
-        double distanceX =  destination.getLayoutX() - cowToMove.getLayoutX();
-        double distanceY = destination.getLayoutY() - cowToMove.getLayoutY();
+    private static PathTransition animateTowardsDestination(@NotNull Cow cowToMove, @NotNull Point2D destination) {
+        double distanceX =  destination.getX() - cowToMove.getTranslateX();
+        double distanceY = destination.getY() - cowToMove.getTranslateY();
         double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-        cowToMove.animation = new TranslateTransition(new Duration((distanceTotal * 10)), cowToMove);
+        Path path = new Path();
+        MoveTo moveTo = new MoveTo(cowToMove.getTranslateX(), cowToMove.getTranslateY());
+        LineTo pathLine = new LineTo(destination.getX() , destination.getY());
+        path.getElements().add(moveTo);
+        path.getElements().add(pathLine);
+        PathTransition movementAnimation = new PathTransition();
+        movementAnimation.setDuration(Duration.millis(distanceTotal * 10));
+        movementAnimation.setNode(cowToMove);
+        movementAnimation.setPath(path);
+        movementAnimation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
 
-        cowToMove.setRotate(Math.toDegrees(Math.atan2(distanceY, distanceX)));
+        cowToMove.animation = movementAnimation;
 
-        cowToMove.animation.setToX(destination.getLayoutX() - cowToMove.getAnimatedX());
-        cowToMove.animation.setToY(destination.getLayoutY() - cowToMove.getAnimatedY());
-        cowToMove.animation.play();
+        movementAnimation.play();
+
+        return movementAnimation;
     }
 
     /**
      * 'Pauses' the movement of the current cow by setting an animation for however long was given. Used for staying within
      * buildings along with making tasks take time.
-     * @param centisecondDuration The duration that the 'empty' animation lasts. 0.01 of a second.
+     * @param stopDuration The duration that the 'empty' animation lasts. 0.01 of a second.
      */
-    public static void pauseMovement(long centisecondDuration, @NotNull Cow cowToMove) {
-        cowToMove.delayTimer = new AnimationTimer() {
-            private long lastUpdate = 0;
+    private static void pauseMovement(int stopDuration, @NotNull Cow cowToMove) {
+        PauseTransition pause = new PauseTransition(Duration.millis(stopDuration));
+        pause.setOnFinished(event -> cowToMove.alreadyMoving = false);
 
-            @Override
-            public void handle(long frameTime) {
-                cowToMove.alreadyMoving = true;
-                if (lastUpdate == 0) {
-                    lastUpdate = frameTime;
-                }
-                if (frameTime - lastUpdate >= centisecondDuration * 16_666_666L) {
-                    stopDelayLoop(cowToMove);
-                }
-            }
-        };
-        cowToMove.delayTimer.start();
-    }
-
-    /**
-     * Stops the delay loop from executing further and assures that any animation has been finalized by setting proper
-     * animate/layout X and Y.
-     */
-    private static void stopDelayLoop(@NotNull Cow cowToMove) {
-        cowToMove.delayTimer.stop();
-        cowToMove.alreadyMoving = false;
-        cowToMove.animation = null;
-
-        cowToMove.setLayoutX(cowToMove.getAnimatedX());
-        cowToMove.setLayoutY(cowToMove.getAnimatedY());
-        cowToMove.setTranslateX(0);
-        cowToMove.setTranslateY(0);
-        cowToMove.relocate(cowToMove.getAnimatedX(), cowToMove.getAnimatedY());
-    }
-
-    /**
-     * Sets the alreadyMoving flag to allow for the playing of an animation to happen. Stops animations from being
-     * constantly called. Passes through an animation allowance delay to pauseMovement.
-     */
-    private static void openAnimation(long centisecondsDuration, @NotNull Cow cowToMove) {
-        pauseMovement(centisecondsDuration, cowToMove);
+        cowToMove.animation = pause;
+        pause.play();
     }
 
     /**
@@ -281,17 +250,10 @@ public class Movement extends Cow {
      * @param cowToCheck The how whose movements are being decided
      */
     public static void decideAction(@NotNull Cow cowToCheck) {
-        //Stop the cow from moving normally if the cow is hidden
-        if (cowToCheck.isHidden()) {
-            if (cowToCheck.alreadyMoving) {
-                cowToCheck.updateVitals();
-            }
-            else {
-                cowToCheck.show();
-                Collision.checkForCollision(cowToCheck);
-            }
-            return;
+        if (cowToCheck.isHidden() && !cowToCheck.alreadyMoving) {
+            cowToCheck.show();
         }
+
         cowToCheck.updateVitals();
         Collision.checkForCollision(cowToCheck);
 

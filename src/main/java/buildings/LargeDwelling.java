@@ -45,8 +45,11 @@ public class LargeDwelling extends Building {
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
 
-        if (tileToBuildOn.tieToObject(this, tileSize))
+        if (tileToBuildOn.tieToObject(this, tileSize)) {
             BuildingHandler.buildingsList.add(this);
+            buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + buildingSprite.getHeight() / 2);
+        }
+
     }
 
     /**

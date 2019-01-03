@@ -28,6 +28,7 @@ public class Tile extends ImageView {
 
     //The list that contains every tile
     private static ArrayList<Tile> tileList = new ArrayList<>();
+    private Point2D entrance;
 
     /**
      * Default constructor so classes that extend tile can have their own constructor.
@@ -128,5 +129,18 @@ public class Tile extends ImageView {
     @Contract(pure = true)
     private static boolean getIsRoom(@NotNull Tile tileToCheck) {
         return tileToCheck.isTerrain && !tileToCheck.isBulitUpon;
+    }
+
+    /**
+     * The entrance coordinates for this tile
+     * @return The coordinates for the entrance of the tile
+     */
+    public static Point2D getEntrance(@NotNull Tile tileToCheck) {
+        if (tileToCheck.entrance != null) {
+            System.out.println("Here");
+            return tileToCheck.entrance;
+        }
+        else
+            return new Point2D(tileToCheck.getLayoutX(), tileToCheck.getLayoutY());
     }
 }

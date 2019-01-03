@@ -98,7 +98,7 @@ public class CameraControl {
      */
     public static void moveCameraToCow(Cow cowToMoveTo) {
         resetZoom();
-        moveCamera(Objects.requireNonNull(cowToMoveTo).getAnimatedX(), cowToMoveTo.getAnimatedY());
+        moveCamera(Objects.requireNonNull(cowToMoveTo).getTranslateX(), cowToMoveTo.getTranslateY());
     }
 
     /**
