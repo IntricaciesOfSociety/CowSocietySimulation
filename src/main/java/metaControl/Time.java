@@ -3,6 +3,8 @@ package metaControl;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.effect.ColorAdjust;
+import org.jetbrains.annotations.Contract;
+import societalProductivity.Government;
 import userInterface.StaticUI;
 
 import java.text.ParseException;
@@ -18,6 +20,8 @@ public class Time {
     private static Random random = new Random();
 
     private static Integer timeInDay = new Random().nextInt(2400);
+
+    private static int days = 1;
 
     //The brightness of the whole sim.
     public static ColorAdjust dayNightCycle = new ColorAdjust();
@@ -54,6 +58,13 @@ public class Time {
      * Progresses the age and fertility of every cow on a new day event.
      */
     private static void newDayEvent() {
+        days++;
+
+        if (days % 7 == 0)
+            Government.startElection();
+        else
+            Government.stopElection();
+
         Cow cowLife;
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             cowLife = CowHandler.liveCowList.get(i);
@@ -92,10 +103,11 @@ public class Time {
             timeAsString.insert(0, "0");
 
         timeAsString.insert(2, ':');
+        timeAsString.insert(0, days + "/");
 
         Date date = null;
         try {
-            date = new SimpleDateFormat("HH:mm").parse(timeAsString.toString());
+            date = new SimpleDateFormat("d/HH:mm").parse(timeAsString.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,7 @@
 package societalProductivity;
 
+import cowParts.Cow;
+
 import java.util.ArrayList;
 
 /** TODO: Implement me!
@@ -7,6 +9,16 @@ import java.util.ArrayList;
  */
 class Platform {
 
-    void addAllIssueOpinions(ArrayList leadersCurrentIssueOpinions) {
+    private ArrayList allIssueOpinions = new ArrayList<Opinion>();
+    private ArrayList primaryFocuses = new ArrayList<Opinion>();
+
+
+    void setNewLeaderPlatform(Cow leader) {
+        allIssueOpinions = Opinion.getCurrentIssueOpinions(leader);
+        primaryFocuses.add(allIssueOpinions.get(0));
+    }
+
+    public ArrayList getPrimaryFocuses() {
+        return primaryFocuses;
     }
 }

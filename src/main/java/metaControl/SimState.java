@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menus.MenuHandler;
+import societalProductivity.Issue;
 import terrain.Tile;
 import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
@@ -93,6 +94,7 @@ public class SimState extends Application {
         BuildingHandler.init();
         ResourcesHandler.init();
 
+        Issue.init();
         CowHandler.init();
         PlaygroundUI.init();
 

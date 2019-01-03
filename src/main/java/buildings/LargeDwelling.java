@@ -40,14 +40,14 @@ public class LargeDwelling extends Building {
         int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
-        this.buildingRequirement = new ResourceRequirement(0, 5, 1);
+        this.buildingRequirement = new ResourceRequirement(0, 10, 1);
 
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
 
         if (tileToBuildOn.tieToObject(this, tileSize)) {
             BuildingHandler.buildingsList.add(this);
-            buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + buildingSprite.getHeight() / 2);
+            buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
         }
 
     }

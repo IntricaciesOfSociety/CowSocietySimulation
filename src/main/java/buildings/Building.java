@@ -124,11 +124,10 @@ public abstract class Building extends Tile {
      * @param buildingToExitFrom The building to remove the given cow from
      */
     public static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
+        ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
         cowToMove.setBuildingIn(null);
 
         cowToMove.setTranslateX(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2);
         cowToMove.setTranslateY(buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
-
-        ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
     }
 }

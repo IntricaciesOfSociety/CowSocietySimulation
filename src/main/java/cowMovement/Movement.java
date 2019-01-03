@@ -89,6 +89,8 @@ public class Movement extends Cow {
 
                     animateTowardsDestination(cowToMove, Tile.getEntrance((Building) destination));
                     cowToMove.animation.setOnFinished(event -> {
+                        Building.enterBuilding(cowToMove, (Building) cowToMove.getDestination());
+
                         EventLogger.createLoggedEvent(cowToMove, "Going home", 0, "sleepiness", 100 - cowToMove.self.getSleepiness());
                         cowToMove.self.setSleepiness(100);
 
@@ -239,7 +241,12 @@ public class Movement extends Cow {
      */
     private static void pauseMovement(int stopDuration, @NotNull Cow cowToMove) {
         PauseTransition pause = new PauseTransition(Duration.millis(stopDuration));
-        pause.setOnFinished(event -> cowToMove.alreadyMoving = false);
+        pause.setOnFinished(event -> {
+            cowToMove.alreadyMoving = false;
+
+            if (cowToMove.isHidden())
+                Building.exitBuilding(cowToMove, cowToMove.getBuildingIn());
+        });
 
         cowToMove.animation = pause;
         pause.play();
@@ -262,13 +269,13 @@ public class Movement extends Cow {
          */
         //TODO: Move movement to AI
         if (!cowToCheck.alreadyMoving) {
-            //Roughly if between 10PM and 8AM
-            if ((Time.getTime().getTime() > 100860000 || Time.getTime().getTime() < 50400000
+            //If between 10PM and 8AM
+            if (((Time.getTime().getHours() > 22 || Time.getTime().getHours() < 8)
                     && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
                 step("toHome", cowToCheck);
             else if (cowToCheck.self.getThirst() <= 10)
                 step("toWaterSource", cowToCheck);
-            else if (cowToCheck.self.getSleepiness() >= 90)
+            else if (cowToCheck.self.getSleepiness() >= 10)
                 step(cowToCheck.getJob(), cowToCheck);
             else
                 step("spinning", cowToCheck);
