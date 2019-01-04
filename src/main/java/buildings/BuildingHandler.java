@@ -1,6 +1,6 @@
 package buildings;
 
-import cowMovement.Movement;
+import cowMovement.DecideActions;
 import cowParts.Cow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -132,13 +132,13 @@ public class BuildingHandler {
         }
 
         if (possibleVotingBuildings.size() > 0) {
-            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(0));;
+            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(0));;
             ImageView closestVotingBuilding = null;
             for (int j = 0; j < possibleVotingBuildings.size(); j++) {
                 closestVotingBuilding = possibleVotingBuildings.get(0);
 
-                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j)) < smallestDistance) {
-                    smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j));
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j)) < smallestDistance) {
+                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j));
                     closestVotingBuilding = possibleVotingBuildings.get(j);
                 }
             }

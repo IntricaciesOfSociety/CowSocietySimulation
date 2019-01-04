@@ -147,6 +147,8 @@ public abstract class Building extends Tile {
 
         cowToMove.setTranslateX(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2);
         cowToMove.setTranslateY(buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
+
+        cowToMove.show();
     }
 
     abstract boolean isVotingPlace();

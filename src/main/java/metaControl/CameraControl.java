@@ -26,7 +26,7 @@ public class CameraControl {
      * Updates the camera movement based off of the direction set to true.
      */
     static void updateCamera() {
-        //Movement
+        //DecideActions
         if (north) Playground.playground.setTranslateY(Playground.playground.getTranslateY() + MOVEMENTOFFSET);
         if (east) Playground.playground.setTranslateX(Playground.playground.getTranslateX() - MOVEMENTOFFSET);
         if (south) Playground.playground.setTranslateY(Playground.playground.getTranslateY() - MOVEMENTOFFSET);

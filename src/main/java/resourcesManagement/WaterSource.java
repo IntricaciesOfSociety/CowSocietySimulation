@@ -1,7 +1,7 @@
 package resourcesManagement;
 
 import cowParts.Cow;
-import cowMovement.Movement;
+import cowMovement.DecideActions;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
@@ -56,11 +56,11 @@ public class WaterSource extends Resource {
     @Nullable
     public static ImageView getClosestResource(Cow cowToCheck) {
         if (wateringHoles.size() != 0) {
-            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(0));
+            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(0));
             ImageView closestWaterSource = wateringHoles.get(0);
 
             for(int i = 0; i < wateringHoles.size(); i++) {
-                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(i)) < smallestDistance)
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(i)) < smallestDistance)
                     closestWaterSource = wateringHoles.get(i);
             }
             return closestWaterSource;

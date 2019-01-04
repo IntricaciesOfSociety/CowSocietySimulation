@@ -1,7 +1,8 @@
 package metaControl;
 
 import buildings.BuildingHandler;
-import cowMovement.Movement;
+import cowMovement.DecideActions;
+import cowMovement.ExecuteAction;
 import cowParts.CowHandler;
 import javafx.scene.shape.Rectangle;
 import metaEnvironment.AssetLoading;
@@ -52,19 +53,19 @@ public class SimState extends Application {
 
         switch (newState) {
             case "Paused":
-                Movement.pauseAllAnimation();
+                ExecuteAction.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "Playing":
-                Movement.startAllAnimation();
+                ExecuteAction.startAllAnimation();
                 simLoop.start();
                 break;
             case "DetailedView":
-                Movement.pauseAllAnimation();
+                ExecuteAction.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "StoryView":
-                Movement.pauseAllAnimation();
+                ExecuteAction.pauseAllAnimation();
                 simLoop.stop();
                 break;
             case "TileView":
@@ -111,8 +112,9 @@ public class SimState extends Application {
      */
     private static void simLoop() {
         /*for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
-            Movement.animateTowardsDestination(CowHandler.liveCowList.get(i), BuildingHandler.getDefaultBuilding());
+            DecideActions.animateTowardsDestination(CowHandler.liveCowList.get(i), BuildingHandler.getDefaultBuilding());
         }*/
+
 
         //timer runs constantly
         simLoop = new AnimationTimer() {
@@ -139,7 +141,7 @@ public class SimState extends Application {
 
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
-            Movement.decideAction(CowHandler.liveCowList.get(i));
+            DecideActions.decideActions(CowHandler.liveCowList.get(i));
         }
 
         //Checks whether or not any node is on the screen, and draws it accordingly

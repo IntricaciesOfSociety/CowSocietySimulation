@@ -4,7 +4,6 @@ import buildings.Building;
 import cowParts.Cow;
 import cowParts.Social;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
@@ -61,7 +60,7 @@ class Collision {
      * @param possibleCollide The tile that is colliding
      */
     private static void cowToTileCollision(Tile possibleCollide) {
-        Movement.tileStandingOn = possibleCollide;
+        DecideActions.tileStandingOn = possibleCollide;
     }
 
     /**

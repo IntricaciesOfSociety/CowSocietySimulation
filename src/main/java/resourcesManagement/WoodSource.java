@@ -1,7 +1,7 @@
 package resourcesManagement;
 
+import cowMovement.DecideActions;
 import cowParts.Cow;
-import cowMovement.Movement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
@@ -55,11 +55,11 @@ public class WoodSource extends Resource {
     @Nullable
     public static ImageView getClosestResource(Cow cowToCheck) {
         if (woodSources.size() != 0) {
-            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(0));
+            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(0));
             ImageView closestRockSource = woodSources.get(0);
 
             for(int i = 0; i < woodSources.size(); i++) {
-                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance)
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance)
                     closestRockSource = woodSources.get(i);
             }
             return closestRockSource;
