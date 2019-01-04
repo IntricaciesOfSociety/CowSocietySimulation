@@ -23,17 +23,20 @@ public class LargeDwelling extends Building {
     /**
      * Calls for the creation of a building given an image.
      * @param buildingSprite The image to create a building from
+     * @param name The name of the building
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public LargeDwelling(Image buildingSprite, Tile tileToBuildOn) {
-        constructBuilding(buildingSprite, tileToBuildOn);
+    public LargeDwelling(Image buildingSprite, String name, Tile tileToBuildOn) {
+        constructBuilding(buildingSprite, name, tileToBuildOn);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn) {
+    public void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+        this.setId(buildingName);
+
         this.buildingSprite = buildingSprite;
         this.setImage(BuildingHandler.largeUnderConstructionSprite);
 
@@ -49,7 +52,6 @@ public class LargeDwelling extends Building {
             BuildingHandler.buildingsList.add(this);
             buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
         }
-
     }
 
     /**
@@ -142,5 +144,10 @@ public class LargeDwelling extends Building {
     @Override
     public boolean isConstructed() {
         return this.isConstructed;
+    }
+
+    @Override
+    boolean isVotingPlace() {
+        return Building.checkIfVotingPlace(this.getId());
     }
 }

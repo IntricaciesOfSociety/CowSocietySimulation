@@ -1,7 +1,11 @@
 package buildings;
 
+import cowMovement.Movement;
+import cowParts.Cow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import menus.MenuHandler;
+import metaControl.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +34,7 @@ public class BuildingHandler {
         loadSmallUnderConstructionSprite();
         loadLargeUnderConstructionSprite();
 
-        new LargeDwelling(AssetLoading.basicLargeBuilding, Tile.getRandomNonBuiltUponTerrainTile());
+        new LargeDwelling(AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), Tile.getRandomNonBuiltUponTerrainTile());
     }
 
     /**
@@ -117,5 +121,31 @@ public class BuildingHandler {
     @Contract(pure = true)
     public static Building getDefaultBuilding() {
         return buildingsList.get(0);
+    }
+
+    @Nullable
+    public static ImageView getClosestVotingArea(Cow cowToCheck) {
+        ArrayList<Building> possibleVotingBuildings = new ArrayList<>();
+        for (int i = 0; i < buildingsList.size(); i++) {
+            if (buildingsList.get(i).isConstructed() && buildingsList.get(i).isVotingPlace())
+                possibleVotingBuildings.add(buildingsList.get(i));
+        }
+
+        if (possibleVotingBuildings.size() > 0) {
+            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(0));;
+            ImageView closestVotingBuilding = null;
+            for (int j = 0; j < possibleVotingBuildings.size(); j++) {
+                closestVotingBuilding = possibleVotingBuildings.get(0);
+
+                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j)) < smallestDistance) {
+                    smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j));
+                    closestVotingBuilding = possibleVotingBuildings.get(j);
+                }
+            }
+            return closestVotingBuilding;
+        }
+        else {
+            return null;
+        }
     }
 }

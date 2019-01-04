@@ -27,6 +27,8 @@ public class Cow extends ImageView {
     Social socialRelations = new Social();
     public PersonalViews views = new PersonalViews();
 
+    private int numberOfVotes;
+
     /* Control flags
     alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)
     delayTimer: The animation timer that is created to delay movement
@@ -85,6 +87,7 @@ public class Cow extends ImageView {
     private Building buildingIn;
     private int buildingTime = 5000;
     private Object destination;
+    private boolean voted = false;
 
     /**
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
@@ -301,5 +304,25 @@ public class Cow extends ImageView {
 
     void setColor(ColorAdjust colorAdjust) {
         color = colorAdjust;
+    }
+
+    public void increaseVote() {
+        numberOfVotes ++;
+    }
+
+    public int getVotes() {
+        return numberOfVotes;
+    }
+
+    public void setVotes(int i) {
+        numberOfVotes = i;
+    }
+
+    public boolean hasVoted() {
+        return voted;
+    }
+
+    public void setHasVoted(boolean b) {
+        voted = b;
     }
 }

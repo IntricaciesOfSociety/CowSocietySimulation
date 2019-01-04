@@ -12,13 +12,15 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
+import metaControl.LoadConfiguration;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.EventLogger;
 import resourcesManagement.*;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-import societalProductivity.Economy;
+import societalProductivity.government.Economy;
+import societalProductivity.government.Government;
 import societalProductivity.Role;
 import terrain.Tile;
 import userInterface.StaticUI;
@@ -74,8 +76,28 @@ public class Movement extends Cow {
 
                         pauseMovement(100, cowToMove);
                     });
-                    break;
                 }
+                break;
+
+            case "voting":
+                destination = BuildingHandler.getClosestVotingArea(cowToMove);
+
+                if (destination != null) {
+                    cowToMove.currentAction = "Voting";
+                    cowToMove.setDestination(destination);
+
+                    animateTowardsDestination(cowToMove, Tile.getEntrance((Building) destination));
+                    cowToMove.animation.setOnFinished(event -> {
+                        Building.enterBuilding(cowToMove, (Building) cowToMove.getDestination());
+                        Government.vote(CowHandler.liveCowList.get(random.nextInt(CowHandler.liveCowList.size())));
+
+                        EventLogger.createLoggedEvent(cowToMove, "Voting", 0, "trust", 10);
+                        cowToMove.self.setTrust(10);
+
+                        Movement.pauseMovement(cowToMove.getBuildingTime(), cowToMove);
+                    });
+                }
+                break;
 
             /*
             Creates an animation to move the cow to their home
@@ -96,8 +118,8 @@ public class Movement extends Cow {
 
                         Movement.pauseMovement(cowToMove.getBuildingTime(), cowToMove);
                     });
-                    break;
                 }
+                break;
 
             /*
             Creates an animation to move the next building that needs constructing
@@ -211,7 +233,7 @@ public class Movement extends Cow {
      * @param cowToMove The given cow to move towards the destination
      * @param destination The destination that the cow is to move to
      */
-    private static PathTransition animateTowardsDestination(@NotNull Cow cowToMove, @NotNull Point2D destination) {
+    private static void animateTowardsDestination(@NotNull Cow cowToMove, @NotNull Point2D destination) {
         double distanceX =  destination.getX() - cowToMove.getTranslateX();
         double distanceY = destination.getY() - cowToMove.getTranslateY();
         double distanceTotal = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
@@ -230,8 +252,6 @@ public class Movement extends Cow {
         cowToMove.animation = movementAnimation;
 
         movementAnimation.play();
-
-        return movementAnimation;
     }
 
     /**
@@ -269,8 +289,12 @@ public class Movement extends Cow {
          */
         //TODO: Move movement to AI
         if (!cowToCheck.alreadyMoving) {
+            if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean()) {
+                step("voting", cowToCheck);
+                cowToCheck.setHasVoted(true);
+            }
             //If between 10PM and 8AM
-            if (((Time.getTime().getHours() > 22 || Time.getTime().getHours() < 8)
+            else if (((Time.getHours() > 22 || Time.getHours() < 8)
                     && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
                 step("toHome", cowToCheck);
             else if (cowToCheck.self.getThirst() <= 10)
@@ -287,7 +311,7 @@ public class Movement extends Cow {
         if (cowToCheck.self.getDebt() <= 10 && cowToCheck.self.getSavings() > 30
                 && (BuildingHandler.getDefaultBuilding() == cowToCheck.getLivingSpace())) {
 
-            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, Tile.getRandomNonBuiltUponTerrainTile()));
+            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNonBuiltUponTerrainTile()));
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "taxes", 0);

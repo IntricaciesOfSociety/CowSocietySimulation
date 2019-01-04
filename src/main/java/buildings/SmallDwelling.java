@@ -1,9 +1,7 @@
 package buildings;
 
 import cowParts.Cow;
-import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import menus.MenuCreation;
 import menus.MenuHandler;
 import metaControl.SimState;
 import org.jetbrains.annotations.Contract;
@@ -23,17 +21,19 @@ public class SmallDwelling extends Building {
     /**
      * Calls for the creation of a building given an image.
      * @param buildingSprite The image to create a building from
+     * @param name The name of the building
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public SmallDwelling(Image buildingSprite, Tile tileToBuildOn) {
-        constructBuilding(buildingSprite, tileToBuildOn);
+    public SmallDwelling(Image buildingSprite, String name, Tile tileToBuildOn) {
+        constructBuilding(buildingSprite, name, tileToBuildOn);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn) {
+    public void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+        this.setId(buildingName);
         this.buildingSprite = buildingSprite;
         this.setImage(BuildingHandler.smallUnderConstructionSprite);
 
@@ -139,5 +139,10 @@ public class SmallDwelling extends Building {
     @Override
     public boolean isConstructed() {
         return this.isConstructed;
+    }
+
+    @Override
+    boolean isVotingPlace() {
+        return Building.checkIfVotingPlace(this.getId());
     }
 }

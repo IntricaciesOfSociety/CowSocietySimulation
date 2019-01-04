@@ -15,7 +15,7 @@ public class Opinion {
         return cowToGetOpinionFrom.views.getOpinionOnIssue(issue);
     }
 
-    static ArrayList getCurrentIssueOpinions(Cow leader) {
+    public static ArrayList getCurrentIssueOpinions(Cow leader) {
         ArrayList<Opinion> allCurrentIssueOpinions = new ArrayList<>();
 
         for (int i = 0; i < Issue.getCurrentIssues().size(); i++) {

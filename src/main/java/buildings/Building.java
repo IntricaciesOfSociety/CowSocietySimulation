@@ -42,11 +42,29 @@ public abstract class Building extends Tile {
     boolean isConstructed = false;
 
     /**
+     * Checks to see if the building is a place where cows can vote
+     * @param id The name of the building to check
+     * @return If a cow can vote here or not
+     */
+    @Contract(pure = true)
+    static boolean checkIfVotingPlace(@NotNull String id) {
+        switch (id) {
+            case "CityCenter":
+                return true;
+            case "CowHotel":
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Creates a Building with the given image and ties that Building to a tile.
      * @param buildingSprite The image to be used for an ImageView relation to a tile
+     * @param buildingName The name to be used as the ID for the building. Should be the same as the image name
      * @param tileToBuildOn The tile that the building will be built on
      */
-    abstract void constructBuilding(Image buildingSprite, @NotNull Tile tileToBuildOn);
+    abstract void constructBuilding(Image buildingSprite, String buildingName,  @NotNull Tile tileToBuildOn);
 
     /**
      * Calls the move of resources from the city pool to the building that this was called upon.
@@ -130,4 +148,6 @@ public abstract class Building extends Tile {
         cowToMove.setTranslateX(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2);
         cowToMove.setTranslateY(buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
     }
+
+    abstract boolean isVotingPlace();
 }

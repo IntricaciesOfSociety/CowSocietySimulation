@@ -36,7 +36,7 @@ public class BirthEvent {
      */
     static void createChild(@NotNull Cow parent1, @NotNull Cow parent2) {
         Cow newCow = CowHandler.createCow();
-        newCow.self.setAge(1);
+        newCow.self.setAge(-newCow.self.getAge() + 1);
         newCow.setScaleX(1.5);
         newCow.setScaleY(1.5);
 
