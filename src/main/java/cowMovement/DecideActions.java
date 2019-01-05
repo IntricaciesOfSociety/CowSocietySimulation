@@ -1,18 +1,24 @@
 package cowMovement;
 
+import buildings.Building;
 import buildings.BuildingHandler;
 import buildings.SmallDwelling;
 import cowParts.Cow;
+import cowParts.CowHandler;
 import javafx.scene.image.ImageView;
 import metaControl.LoadConfiguration;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.EventLogger;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import resourcesManagement.RockSource;
+import resourcesManagement.WaterSource;
+import societalProductivity.Role;
+import societalProductivity.government.Economy;
 import societalProductivity.government.Government;
 import terrain.Tile;
+import userInterface.StaticUI;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,6 +27,8 @@ import java.util.Random;
  * Handles all the movement decision and execution for all cows. Includes the handling of all animations.
  */
 public class DecideActions {
+
+    private static Object destination;
 
     private static Random random = new Random();
 
@@ -52,8 +60,93 @@ public class DecideActions {
 
         //Any action that is not a movement
         //ExecuteAction.executeMultipleActions(createGeneralActions());
+        createGeneralActions(cowToCheck);
     }
 
+    public interface Finish {
+        void executeFinish();
+    }
+
+    @Nullable
+    @Contract("_ -> new")
+    private static Movement createMovement(@NotNull Cow cowToCheck) {
+        //TODO: Move movement decision to AI
+
+        //Vitals are first priority
+        Finish finishBehavior;
+        
+        if (cowToCheck.self.getThirst() <= 10) {
+            destination = WaterSource.getClosestResource(cowToCheck);
+
+            finishBehavior = () -> {
+                cowToCheck.self.setThirst(100);
+                EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100);
+                Movement.pauseMovement(100, cowToCheck);
+            };
+        }
+        else if (cowToCheck.self.getSleepiness() >= 10) {
+            destination = Role.getRoleDestination(cowToCheck);
+
+            finishBehavior = () -> {
+                Role.getRoleCompletionBehavior(cowToCheck);
+
+                cowToCheck.self.setSleepiness(-20);
+                Economy.giveMoney(cowToCheck, 10);
+                EventLogger.createLoggedEvent(cowToCheck, "Working", 0, "sleepiness", -20);
+
+                Movement.pauseMovement(500, cowToCheck);
+            };
+        }
+        //Social duties are next priority
+        else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean()) {
+            cowToCheck.setHasVoted(true);
+            destination = BuildingHandler.getClosestVotingArea(cowToCheck);
+
+            finishBehavior = () -> {
+                Building.enterBuilding(cowToCheck, (Building) cowToCheck.getDestination());
+                Government.vote(CowHandler.liveCowList.get(random.nextInt(CowHandler.liveCowList.size())));
+
+                EventLogger.createLoggedEvent(cowToCheck, "Voting", 0, "trust", 10);
+                cowToCheck.self.setTrust(10);
+
+                Movement.pauseMovement(cowToCheck.getBuildingTime(), cowToCheck);
+            };
+        }
+        //If between 10PM and 8AM
+        else if (((Time.getHours() > 20 || Time.getHours() < 8) && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed()) {
+            destination = cowToCheck.getLivingSpace();
+
+            finishBehavior = () -> {
+                Building.enterBuilding(cowToCheck, (Building) cowToCheck.getDestination());
+
+                EventLogger.createLoggedEvent(cowToCheck, "Going home", 0, "sleepiness", 100 - cowToCheck.self.getSleepiness());
+                cowToCheck.self.setSleepiness(100);
+
+                Movement.pauseMovement(cowToCheck.getBuildingTime(), cowToCheck);
+            };
+        }
+        //TODO: Create spinning action
+        else {
+            cowToCheck.setRotate(random.nextInt(360 + 1 + 360) - 360);
+            cowToCheck.alreadyMoving = false;
+            return null;
+        }
+
+        StaticUI.updateActionText();
+
+        return new Movement (
+                () -> destination,
+                () -> Movement.validateDestination(destination),
+                finishBehavior,
+                cowToCheck);
+    }
+
+    /**TODO: Implement into the actions system
+     *
+     * @param cowToCheck
+     * @return
+     */
+    @Nullable
     private static ArrayList<Action> createGeneralActions(@NotNull Cow cowToCheck) {
         /*
          * Static (for now) stats based decisions.
@@ -76,42 +169,5 @@ public class DecideActions {
             }
         }
         return null;
-    }
-
-    @Nullable
-    private static Movement createMovement(@NotNull Cow cowToCheck) {
-        //TODO: Move movement decision to AI
-        Movement newMovement;
-        Object destination;
-
-        //Vitals are first priority
-        if (cowToCheck.self.getThirst() <= 10) {
-        }
-            step("toWaterSource", cowToCheck);
-        else if (cowToCheck.self.getSleepiness() >= 10)
-            step(cowToCheck.getJob(), cowToCheck);
-
-        //Social duties are next priority
-        else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean()) {
-            cowToCheck.setHasVoted(true);
-        }
-        //If between 10PM and 8AM
-        else if (((Time.getHours() > 22 || Time.getHours() < 8)
-                && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
-            step("toHome", cowToCheck);
-
-        else
-            step("spinning", cowToCheck);
-            return null;
-
-        newMovement = new Movement() {
-
-            @Override
-            void defineMovementAction() {
-                test = () -> System.out.println("");
-            }z
-        };
-
-
     }
 }
