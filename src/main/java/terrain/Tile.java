@@ -4,11 +4,13 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
+import metaControl.SimState;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import userInterface.TileUI;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,9 +20,6 @@ import java.util.Random;
  */
 public class Tile extends ImageView {
 
-    private boolean isTerrain = true;
-    private boolean isBulitUpon = false;
-
     private static Random random = new Random();
 
     private static final int ROWTILES = (int) Playground.playground.getPrefWidth() / 400;
@@ -28,7 +27,9 @@ public class Tile extends ImageView {
 
     //The list that contains every tile
     private static ArrayList<Tile> tileList = new ArrayList<>();
-    private Point2D entrance;
+
+    private Point2D entrence;
+    private ArrayList<Tile> children = new ArrayList<>();
 
     /**
      * Default constructor so classes that extend tile can have their own constructor.
@@ -49,20 +50,30 @@ public class Tile extends ImageView {
         Playground.playground.getChildren().add(this);
     }
 
+    @Contract(pure = true)
+    public static int getSize(Image newSprite) {
+        return (int) newSprite.getWidth() / 100;
+    }
+
     /**
      * Given a proposedConstruction, attempts to place the proposedConstruction on the current tile. Only works if there is adequate space.
      * @param proposedConstruction The proposedConstruction to be tried and placed
-     * @param numberOfSpaces The number of spaces that the proposed proposedConstruction takes up
+     * @param size The number of spaces that the proposed proposedConstruction takes up
      * @return If the construction is possible or not
      */
-    public boolean tieToObject(Tile proposedConstruction, int numberOfSpaces) {
-        if (getIsRoom(this)) {
-            proposedConstruction.setLayoutX(this.getLayoutX());
-            proposedConstruction.setLayoutY(this.getLayoutY());
+    public boolean tieToObject(Tile proposedConstruction, int size) {
+        if (getIsRoom(this, size)) {
 
-            this.isBulitUpon = true;
-            proposedConstruction.isTerrain = false;
+            if (SimState.getSimState().equals("TileView")) {
+                proposedConstruction.setLayoutX(TileUI.getSelectedXOrientation());
+                proposedConstruction.setLayoutY(TileUI.getSelectedYOrientation());
+            }
+            else {
+                proposedConstruction.setLayoutX(getRandomXOrientation(this));
+                proposedConstruction.setLayoutY(getRandomYOrientation(this));
+            }
 
+            children.add(proposedConstruction);
             tileList.add(proposedConstruction);
 
             Playground.playground.getChildren().add(proposedConstruction);
@@ -74,18 +85,24 @@ public class Tile extends ImageView {
         }
     }
 
+    private double getRandomXOrientation(Tile tile) {
+
+        for (int i = 0; i < children.size(); i++) {
+            ((children.get(i).getLayoutX() - tile.getLayoutX()) / 100);
+        }
+    }
+
     /**
      * Creates a random point where a tile is, then calls the search for the tile at that point. If that tile is not
      * terrain then recurse and try again.
      * @return The random tile found
      */
     @Nullable
-    @Contract(" -> new")
-    public static Tile getRandomNonBuiltUponTerrainTile() {
+    public static Tile getRandomNonBuiltUponTerrainTile(int size) {
         ArrayList<Tile> nonBuiltUponTiles = new ArrayList<>();
 
         for (int i = 0; i < tileList.size(); i++) {
-            if (!tileList.get(i).isBulitUpon)
+            if (getIsRoom(tileList.get(i), size))
                 nonBuiltUponTiles.add(tileList.get(i));
         }
 
@@ -127,18 +144,17 @@ public class Tile extends ImageView {
      * @return If the selected tile is okay to build the proposed tile upon.
      */
     @Contract(pure = true)
-    private static boolean getIsRoom(@NotNull Tile tileToCheck) {
-        return tileToCheck.isTerrain && !tileToCheck.isBulitUpon;
+    private static boolean getIsRoom(@NotNull Tile tileToCheck, int size) {
+        return false;
     }
 
     /**
-     * The entrance coordinates for this tile
-     * @return The coordinates for the entrance of the tile
+     * The entrence coordinates for this tile
+     * @return The coordinates for the entrence of the tile
      */
     public static Point2D getEntrance(@NotNull Tile tileToCheck) {
-        if (tileToCheck.entrance != null) {
-            System.out.println("Here");
-            return tileToCheck.entrance;
+        if (tileToCheck.entrence != null) {
+            return tileToCheck.entrence;
         }
         else
             return new Point2D(tileToCheck.getLayoutX(), tileToCheck.getLayoutY());

@@ -71,7 +71,7 @@ public class AssetLoading {
      */
     private static void loadResources() {
         try {
-            basicRock = new Image(new FileInputStream("src/main/resources/Environment/Rock.png"),0, 0, true, false);
+            basicRock = new Image(new FileInputStream("src/main/resources/Environment/SmallRock.png"),0, 0, true, false);
             basicWatersource = new Image(new FileInputStream("src/main/resources/Environment/WateringHole.png"),0, 0, true, false);
             basicTree = new Image(new FileInputStream("src/main/resources/Environment/Tree.png"),0, 0, true, false);
         }

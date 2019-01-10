@@ -15,11 +15,11 @@ import terrain.Tile;
 
 class Movement extends Action {
 
-    Start destination;
-    Execution executionBehavior;
-    End endBehavior;
+    private Start destination;
+    private Execution executionBehavior;
+    private End endBehavior;
 
-    Movement(Start startBehavior, Execution executionBehavior, DecideActions.Finish endBehavior, Cow cowToMove) {
+    Movement(Start startBehavior, Execution executionBehavior, @NotNull DecideActions.Finish endBehavior, Cow cowToMove) {
         this.destination = startBehavior;
         this.executionBehavior = executionBehavior;
         this.endBehavior = endBehavior::executeFinish;
@@ -32,8 +32,6 @@ class Movement extends Action {
         if (destination.startBehavior() != null) {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
-            //TODO: Implement action text somehow
-            cowToMove.currentAction = "Implement me!";
 
             PathTransition newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
             newMovement.setOnFinished((event) -> endBehavior.endBehavior());

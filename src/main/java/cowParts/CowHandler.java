@@ -91,9 +91,7 @@ public class CowHandler {
      */
     public static void diseaseAll(@NotNull ArrayList<Cow> diseaseList) {
         for (Cow cowToDisease : diseaseList) {
-            cowToDisease.diseased = true;
-            cowToDisease.color.setBrightness(-1.0);
-            cowToDisease.self.setThirst(0);
+            cowToDisease.disease();
         }
     }
 

@@ -34,7 +34,7 @@ public class BuildingHandler {
         loadSmallUnderConstructionSprite();
         loadLargeUnderConstructionSprite();
 
-        new LargeDwelling(AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), Tile.getRandomNonBuiltUponTerrainTile());
+        new LargeDwelling(AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), Tile.getRandomNonBuiltUponTerrainTile(4));
     }
 
     /**
@@ -133,9 +133,8 @@ public class BuildingHandler {
 
         if (possibleVotingBuildings.size() > 0) {
             double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(0));;
-            ImageView closestVotingBuilding = null;
+            ImageView closestVotingBuilding = possibleVotingBuildings.get(0);;
             for (int j = 0; j < possibleVotingBuildings.size(); j++) {
-                closestVotingBuilding = possibleVotingBuildings.get(0);
 
                 if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j)) < smallestDistance) {
                     smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j));
@@ -144,8 +143,7 @@ public class BuildingHandler {
             }
             return closestVotingBuilding;
         }
-        else {
+        else
             return null;
-        }
     }
 }

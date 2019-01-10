@@ -77,6 +77,7 @@ public class DecideActions {
         
         if (cowToCheck.self.getThirst() <= 10) {
             destination = WaterSource.getClosestResource(cowToCheck);
+            cowToCheck.currentAction = "Getting Water";
 
             finishBehavior = () -> {
                 cowToCheck.self.setThirst(100);
@@ -101,6 +102,7 @@ public class DecideActions {
         else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean()) {
             cowToCheck.setHasVoted(true);
             destination = BuildingHandler.getClosestVotingArea(cowToCheck);
+            cowToCheck.currentAction = "Voting";
 
             finishBehavior = () -> {
                 Building.enterBuilding(cowToCheck, (Building) cowToCheck.getDestination());
@@ -115,6 +117,7 @@ public class DecideActions {
         //If between 10PM and 8AM
         else if (((Time.getHours() > 20 || Time.getHours() < 8) && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed()) {
             destination = cowToCheck.getLivingSpace();
+            cowToCheck.currentAction = "Going Home";
 
             finishBehavior = () -> {
                 Building.enterBuilding(cowToCheck, (Building) cowToCheck.getDestination());
@@ -127,6 +130,7 @@ public class DecideActions {
         }
         //TODO: Create spinning action
         else {
+            cowToCheck.currentAction = "Spinning";
             cowToCheck.setRotate(random.nextInt(360 + 1 + 360) - 360);
             cowToCheck.alreadyMoving = false;
             return null;
@@ -154,7 +158,7 @@ public class DecideActions {
         if (cowToCheck.self.getDebt() <= 10 && cowToCheck.self.getSavings() > 30
                 && (BuildingHandler.getDefaultBuilding() == cowToCheck.getLivingSpace())) {
 
-            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNonBuiltUponTerrainTile()));
+            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNonBuiltUponTerrainTile(1)));
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "taxes", 0);

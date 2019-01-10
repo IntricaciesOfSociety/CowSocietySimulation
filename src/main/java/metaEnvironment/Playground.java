@@ -29,8 +29,8 @@ public class Playground {
      */
     public static void init() {
         playground = motion;
-        playground.setMinSize(LoadConfiguration.getStartingSize(), LoadConfiguration.getStartingSize());
-        playground.setPrefSize(LoadConfiguration.getStartingSize(), LoadConfiguration.getStartingSize());
+        playground.setMinSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);
+        playground.setPrefSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);
         playground.autosize();
         motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();

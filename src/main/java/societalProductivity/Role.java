@@ -43,10 +43,13 @@ public class Role {
     public static Object getRoleDestination(@NotNull Cow cowToCheck) {
         switch (cowToCheck.getJob()) {
             case "woodworking":
+                cowToCheck.currentAction = "Wood Constructing";
                 return BuildingHandler.nextHouseToConstruct();
             case "choppingWood":
+                cowToCheck.currentAction = "Chopping Wood";
                 return WoodSource.getClosestResource(cowToCheck);
             case "miningRock":
+                cowToCheck.currentAction = "Mining Rock";
                 return RockSource.getClosestResource(cowToCheck);
         }
         return null;

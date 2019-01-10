@@ -40,7 +40,6 @@ public class LargeDwelling extends Building {
         this.buildingSprite = buildingSprite;
         this.setImage(BuildingHandler.largeUnderConstructionSprite);
 
-        int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
         this.buildingRequirement = new ResourceRequirement(0, 10, 1);
@@ -48,7 +47,7 @@ public class LargeDwelling extends Building {
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
 
-        if (tileToBuildOn.tieToObject(this, tileSize)) {
+        if (tileToBuildOn.tieToObject(this, Tile.getSize(buildingSprite))) {
             BuildingHandler.buildingsList.add(this);
             buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
         }

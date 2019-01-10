@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class WaterSource extends Resource {
 
     private static ArrayList<WaterSource> wateringHoles = new ArrayList<>();
-    private int resourceHealth = 10000;
+    private int resourceHealth = 1000;
 
     /**
      * Calls for the creation of a woodSource
@@ -33,11 +33,13 @@ public class WaterSource extends Resource {
      * @inheritDoc
      */
     @Override
-    public void constructSource(Image waterSourceSprite, @NotNull Tile tileToBuildOn) {
+    public void constructSource(Image waterSourceSprite, Tile tileToBuildOn) {
         this.setImage(waterSourceSprite);
 
-        if (tileToBuildOn.tieToObject(this, 1))
-            addWaterSource(this);
+        if (tileToBuildOn != null) {
+            if (tileToBuildOn.tieToObject(this, 4))
+                addWaterSource(this);
+        }
     }
 
     /**
@@ -60,9 +62,12 @@ public class WaterSource extends Resource {
             ImageView closestWaterSource = wateringHoles.get(0);
 
             for(int i = 0; i < wateringHoles.size(); i++) {
-                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(i)) < smallestDistance)
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(i)) < smallestDistance) {
                     closestWaterSource = wateringHoles.get(i);
+                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, wateringHoles.get(i));
+                }
             }
+
             return closestWaterSource;
         }
         else
@@ -88,13 +93,5 @@ public class WaterSource extends Resource {
             wateringHoles.remove(this);
             Playground.playground.getChildren().remove(this);
         }
-    }
-
-    /**
-     * @return Returns the default watering hole
-     */
-    @Contract(pure = true)
-    public static WaterSource getWateringHole() {
-        return wateringHoles.get(0);
     }
 }

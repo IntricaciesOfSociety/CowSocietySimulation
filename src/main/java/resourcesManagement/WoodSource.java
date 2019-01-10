@@ -24,8 +24,9 @@ public class WoodSource extends Resource {
      * @param sourceSprite The spirte to create the woodSource from
      * @param tileToBuildOn The tile to build the source upon
      */
-    WoodSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
-        constructSource(sourceSprite, tileToBuildOn);
+    WoodSource(Image sourceSprite, Tile tileToBuildOn) {
+        if (tileToBuildOn != null)
+            constructSource(sourceSprite, tileToBuildOn);
     }
 
     /**
@@ -59,8 +60,10 @@ public class WoodSource extends Resource {
             ImageView closestRockSource = woodSources.get(0);
 
             for(int i = 0; i < woodSources.size(); i++) {
-                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance)
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance) {
                     closestRockSource = woodSources.get(i);
+                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i));
+                }
             }
             return closestRockSource;
         }

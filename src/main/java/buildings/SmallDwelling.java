@@ -37,7 +37,6 @@ public class SmallDwelling extends Building {
         this.buildingSprite = buildingSprite;
         this.setImage(BuildingHandler.smallUnderConstructionSprite);
 
-        int tileSize = (buildingSprite.getWidth() <= 400) ? 1 : 4;
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
         this.buildingRequirement = new ResourceRequirement(0, 5, 1);
@@ -45,7 +44,7 @@ public class SmallDwelling extends Building {
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
 
-        if (tileToBuildOn.tieToObject(this, tileSize))
+        if (tileToBuildOn.tieToObject(this, Tile.getSize(buildingSprite)))
             BuildingHandler.buildingsList.add(this);
     }
 

@@ -1,12 +1,10 @@
 package cowParts;
 
 import buildings.Building;
-import javafx.animation.PathTransition;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
-import javafx.animation.AnimationTimer;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -143,9 +141,11 @@ public class Cow extends ImageView {
         if (menuIsOpened)
             MenuHandler.closeMenu(this.cowMenu);
 
+        if (animation != null)
+            animation.stop();
+
         CowHandler.liveCowList.remove(this);
         Playground.playground.getChildren().remove(this);
-        this.animation = null;
 
         StaticUI.cowDeathEventUpdate(cowLink);
 
@@ -182,7 +182,7 @@ public class Cow extends ImageView {
     }
 
     /**
-     * Diseases the cow that called this method. Causes the cow to be hungry.
+     * Diseases the cow that called this method. Causes the cow to be thirsty.
      */
     public void disease() {
         diseased = true;

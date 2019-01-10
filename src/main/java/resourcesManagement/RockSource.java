@@ -23,8 +23,10 @@ public class RockSource extends Resource {
      * @param sourceSprite The sprite to create the rockSource from
      * @param tileToBuildOn The tile to build the source upon
      */
-    RockSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
-        constructSource(sourceSprite, tileToBuildOn);
+    RockSource(Image sourceSprite, Tile tileToBuildOn) {
+
+        if (tileToBuildOn != null)
+            constructSource(sourceSprite, tileToBuildOn);
     }
 
     /**
@@ -35,7 +37,7 @@ public class RockSource extends Resource {
         this.setImage(sourceSprite);
 
         if (tileToBuildOn.tieToObject(this, 1))
-           addRockSource(this);
+            addRockSource(this);
     }
 
     /**
@@ -71,8 +73,11 @@ public class RockSource extends Resource {
             ImageView closestRockSource = rockSources.get(0);
 
             for(int i = 0; i < rockSources.size(); i++) {
-                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(i)) < smallestDistance)
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(i)) < smallestDistance) {
                     closestRockSource = rockSources.get(i);
+                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(i));
+                }
+
             }
             return closestRockSource;
         }
