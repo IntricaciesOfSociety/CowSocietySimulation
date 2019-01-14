@@ -158,19 +158,23 @@ public class DecideActions {
         if (cowToCheck.self.getDebt() <= 10 && cowToCheck.self.getSavings() > 30
                 && (BuildingHandler.getDefaultBuilding() == cowToCheck.getLivingSpace())) {
 
-            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNonBuiltUponTerrainTile(1)));
-            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
-            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);
-            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "taxes", 0);
-            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "savings", cowToCheck.self.getSavings());
-            EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "debt", 100 - cowToCheck.self.getSavings());
-            cowToCheck.self.setDebt(100);
-            cowToCheck.self.setSavings(-100);
+            //If there is space available
+            if (Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicSmallBuilding)) != null) {
+                cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicSmallBuilding))));
+                EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
+                EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);
+                EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "taxes", 0);
+                EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "savings", cowToCheck.self.getSavings());
+                EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "debt", 100 - cowToCheck.self.getSavings());
+                cowToCheck.self.setDebt(100);
+                cowToCheck.self.setSavings(-100);
 
-            if (cowToCheck.hasOffspring()) {
-                cowToCheck.getOffspring().setLivingSpace(cowToCheck.getLivingSpace());
-                cowToCheck.getSpouse().setLivingSpace(cowToCheck.getLivingSpace());
+                if (cowToCheck.hasOffspring()) {
+                    cowToCheck.getOffspring().setLivingSpace(cowToCheck.getLivingSpace());
+                    cowToCheck.getSpouse().setLivingSpace(cowToCheck.getLivingSpace());
+                }
             }
+
         }
         return null;
     }

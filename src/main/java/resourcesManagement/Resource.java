@@ -4,8 +4,6 @@ import javafx.scene.image.Image;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
 
-import java.awt.geom.Point2D;
-
 /**
  * Defines what a resource is and how it is handled.
  */

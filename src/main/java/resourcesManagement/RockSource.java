@@ -36,7 +36,7 @@ public class RockSource extends Resource {
     public void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
         this.setImage(sourceSprite);
 
-        if (tileToBuildOn.tieToObject(this, 1))
+        if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
             addRockSource(this);
     }
 

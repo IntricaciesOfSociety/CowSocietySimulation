@@ -37,7 +37,7 @@ public class WaterSource extends Resource {
         this.setImage(waterSourceSprite);
 
         if (tileToBuildOn != null) {
-            if (tileToBuildOn.tieToObject(this, 4))
+            if (tileToBuildOn.tieToObject(this, Tile.getSize(waterSourceSprite)))
                 addWaterSource(this);
         }
     }
