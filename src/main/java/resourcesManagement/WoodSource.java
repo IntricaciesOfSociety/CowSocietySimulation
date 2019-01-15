@@ -1,7 +1,7 @@
 package resourcesManagement;
 
+import cowMovement.DecideActions;
 import cowParts.Cow;
-import cowMovement.Movement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
@@ -24,8 +24,9 @@ public class WoodSource extends Resource {
      * @param sourceSprite The spirte to create the woodSource from
      * @param tileToBuildOn The tile to build the source upon
      */
-    WoodSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
-        constructSource(sourceSprite, tileToBuildOn);
+    WoodSource(Image sourceSprite, Tile tileToBuildOn) {
+        if (tileToBuildOn != null)
+            constructSource(sourceSprite, tileToBuildOn);
     }
 
     /**
@@ -35,7 +36,7 @@ public class WoodSource extends Resource {
     public void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
         this.setImage(sourceSprite);
 
-        if (tileToBuildOn.tieToObject(this, 1))
+        if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
             addWoodSource(this);
     }
 
@@ -55,12 +56,14 @@ public class WoodSource extends Resource {
     @Nullable
     public static ImageView getClosestResource(Cow cowToCheck) {
         if (woodSources.size() != 0) {
-            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(0));
+            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(0));
             ImageView closestRockSource = woodSources.get(0);
 
             for(int i = 0; i < woodSources.size(); i++) {
-                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance)
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i)) < smallestDistance) {
                     closestRockSource = woodSources.get(i);
+                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, woodSources.get(i));
+                }
             }
             return closestRockSource;
         }

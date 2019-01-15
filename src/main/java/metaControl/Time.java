@@ -3,6 +3,8 @@ package metaControl;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.effect.ColorAdjust;
+import org.jetbrains.annotations.Contract;
+import societalProductivity.government.Government;
 import userInterface.StaticUI;
 
 import java.text.ParseException;
@@ -15,9 +17,16 @@ import java.util.Random;
  */
 public class Time {
 
+    Date date;
+
     private static Random random = new Random();
 
     private static Integer timeInDay = new Random().nextInt(2400);
+
+    private static int hours = 0;
+    private static int days = 1;
+    private static int months = 1;
+    private static int years = 1;
 
     //The brightness of the whole sim.
     public static ColorAdjust dayNightCycle = new ColorAdjust();
@@ -54,6 +63,28 @@ public class Time {
      * Progresses the age and fertility of every cow on a new day event.
      */
     private static void newDayEvent() {
+        days++;
+
+        if (days == 31) {
+            days = 1;
+            months++;
+
+            if (months == 13) {
+                months = 1;
+                years++;
+            }
+        }
+
+        if (days == Government.nextElectionDay()) {
+            Government.startElection();
+            System.out.println("Started Election");
+        }
+
+        if (Government.getPreviousElectionDay() + Government.getPollsOpenLength() == days) {
+            Government.stopElection();
+            System.out.println("Ended Election");
+        }
+
         Cow cowLife;
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             cowLife = CowHandler.liveCowList.get(i);
@@ -81,7 +112,6 @@ public class Time {
      * @return The date object that contains the current time of day
      */
     public static Date getTime() {
-
         // Assures that minute only goes to 59
         if ((timeInDay - ((timeInDay / 100) * 100)) != 0 && ((timeInDay - ((timeInDay / 100) * 100)) % 59) == 0)
             timeInDay += 40;
@@ -91,14 +121,27 @@ public class Time {
         while (timeAsString.length() != 4)
             timeAsString.insert(0, "0");
 
+        hours = Integer.parseInt(timeAsString.substring(0, 2));
+
         timeAsString.insert(2, ':');
+        timeAsString.insert(0, years + "/" + months + "/" + days + "/");
 
         Date date = null;
         try {
-            date = new SimpleDateFormat("HH:mm").parse(timeAsString.toString());
+            date = new SimpleDateFormat("y/m/d/HH:mm").parse(timeAsString.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;
+    }
+
+    @Contract(pure = true)
+    public static int getDays() {
+        return days;
+    }
+
+    @Contract(pure = true)
+    public static int getHours() {
+        return hours;
     }
 }

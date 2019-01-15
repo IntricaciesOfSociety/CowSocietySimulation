@@ -52,8 +52,8 @@ public class CowHandler {
         newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
         newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
         newCow.setEffect(newCow.getColor());
-        newCow.setScaleX(3);
-        newCow.setScaleY(3);
+        newCow.setScaleX(1.5);
+        newCow.setScaleY(1.5);
         newCow.setSmooth(false);
 
         //TODO: Switch to an actual date
@@ -91,9 +91,7 @@ public class CowHandler {
      */
     public static void diseaseAll(@NotNull ArrayList<Cow> diseaseList) {
         for (Cow cowToDisease : diseaseList) {
-            cowToDisease.diseased = true;
-            cowToDisease.color.setBrightness(-1.0);
-            cowToDisease.self.setThirst(0);
+            cowToDisease.disease();
         }
     }
 

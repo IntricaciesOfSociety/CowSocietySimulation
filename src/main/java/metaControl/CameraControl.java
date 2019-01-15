@@ -11,7 +11,8 @@ import java.util.Objects;
  */
 public class CameraControl {
 
-    private static final int MOVEMENTOFFSET = 10;
+    private static final double MOVEMENTOFFSET = 10;
+
     private static boolean cameraDisable = false;
 
     private static boolean
@@ -26,7 +27,7 @@ public class CameraControl {
      * Updates the camera movement based off of the direction set to true.
      */
     static void updateCamera() {
-        //Movement
+        //DecideActions
         if (north) Playground.playground.setTranslateY(Playground.playground.getTranslateY() + MOVEMENTOFFSET);
         if (east) Playground.playground.setTranslateX(Playground.playground.getTranslateX() - MOVEMENTOFFSET);
         if (south) Playground.playground.setTranslateY(Playground.playground.getTranslateY() - MOVEMENTOFFSET);
@@ -62,13 +63,12 @@ public class CameraControl {
         double scale = Playground.playground.getScaleY();
         double oldScale = scale;
 
-        if (direction) {
+        if (direction && scale < 2.4)
             scale *= delta;
-        } else {
+        else if (!direction && scale > 0.2)
             scale /= delta;
-        }
 
-        double f = (scale / oldScale)-1;
+        double f = (scale / oldScale) - 1;
 
         //Determining the shift in position of the camera as it zooms in on the center of the screen
         Bounds bounds = Playground.playground.localToScene(Playground.playground.getBoundsInLocal());
@@ -80,8 +80,8 @@ public class CameraControl {
         Playground.playground.setScaleY(scale);
 
         //Applying the new translation
-        Playground.playground.setTranslateX(Playground.playground.getTranslateX() - f*dx);
-        Playground.playground.setTranslateY(Playground.playground.getTranslateY() - f*dy);
+        Playground.playground.setTranslateX(Playground.playground.getTranslateX() - f * dx);
+        Playground.playground.setTranslateY(Playground.playground.getTranslateY() - f * dy);
     }
 
     /**

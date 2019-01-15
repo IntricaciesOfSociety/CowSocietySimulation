@@ -1,6 +1,6 @@
 package cowParts;
 
-import cowMovement.Movement;
+import cowMovement.DecideActions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
@@ -36,11 +36,11 @@ public class BirthEvent {
      */
     static void createChild(@NotNull Cow parent1, @NotNull Cow parent2) {
         Cow newCow = CowHandler.createCow();
-        newCow.self.setAge(1);
+        newCow.self.setAge(-newCow.self.getAge() + 1);
         newCow.setScaleX(1.5);
         newCow.setScaleY(1.5);
 
-        Movement.decideAction(newCow);
+        DecideActions.decideActions(newCow);
         newCow.setTranslateX(parent1.getTranslateX());
         newCow.setTranslateY(parent1.getTranslateY());
 

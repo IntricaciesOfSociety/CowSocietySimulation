@@ -2,8 +2,8 @@ package metaControl;
 
 import buildings.Building;
 import buildings.BuildingHandler;
+import cowMovement.ExecuteAction;
 import cowParts.Cow;
-import cowMovement.Movement;
 import cowParts.CowHandler;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
@@ -51,11 +51,16 @@ public class Input {
 
             KeyCode keyPressed = key.getCode();
 
-            //Movement
+            //DecideActions
             if (keyPressed.equals(KeyCode.W)) CameraControl.setNorth(true);
             if (keyPressed.equals(KeyCode.A)) CameraControl.setWest(true);
             if (keyPressed.equals(KeyCode.S)) CameraControl.setSouth(true);
             if (keyPressed.equals(KeyCode.D)) CameraControl.setEast(true);
+
+            if (keyPressed.equals(KeyCode.UP)) CameraControl.setNorth(true);
+            if (keyPressed.equals(KeyCode.LEFT)) CameraControl.setWest(true);
+            if (keyPressed.equals(KeyCode.DOWN)) CameraControl.setSouth(true);
+            if (keyPressed.equals(KeyCode.RIGHT)) CameraControl.setEast(true);
 
             //Zooming
             if (keyPressed.equals(KeyCode.Z)) CameraControl.setZoomIn(true);
@@ -81,11 +86,16 @@ public class Input {
         scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             KeyCode keyReleased = key.getCode();
 
-            //Movement
+            //DecideActions
             if (keyReleased.equals(KeyCode.W)) CameraControl.setNorth(false);
             if (keyReleased.equals(KeyCode.A)) CameraControl.setWest(false);
             if (keyReleased.equals(KeyCode.S)) CameraControl.setSouth(false);
             if (keyReleased.equals(KeyCode.D)) CameraControl.setEast(false);
+
+            if (keyReleased.equals(KeyCode.UP)) CameraControl.setNorth(false);
+            if (keyReleased.equals(KeyCode.LEFT)) CameraControl.setWest(false);
+            if (keyReleased.equals(KeyCode.DOWN)) CameraControl.setSouth(false);
+            if (keyReleased.equals(KeyCode.RIGHT)) CameraControl.setEast(false);
 
             //Zooming
             if (keyReleased.equals(KeyCode.Z)) CameraControl.setZoomIn(false);
@@ -111,9 +121,9 @@ public class Input {
          * the way; all on the mouse released event in the playground.
          */
         Playground.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
-            Movement.dragBoxSelectionUpdate(dragBox);
-            dragBox.setHeight(0);
-            dragBox.setWidth(0);
+            ExecuteAction.dragBoxSelectionUpdate(dragBox);
+            dragBox.setHeight(-1);
+            dragBox.setWidth(-1);
         });
 
         /*

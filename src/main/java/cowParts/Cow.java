@@ -1,12 +1,10 @@
 package cowParts;
 
 import buildings.Building;
-import javafx.animation.PathTransition;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import metaEnvironment.EventLogger;
 import metaEnvironment.Playground;
-import javafx.animation.AnimationTimer;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -26,6 +24,8 @@ public class Cow extends ImageView {
     public BirthEvent birth = new BirthEvent();
     Social socialRelations = new Social();
     public PersonalViews views = new PersonalViews();
+
+    private int numberOfVotes;
 
     /* Control flags
     alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)
@@ -85,6 +85,7 @@ public class Cow extends ImageView {
     private Building buildingIn;
     private int buildingTime = 5000;
     private Object destination;
+    private boolean voted = false;
 
     /**
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
@@ -140,9 +141,11 @@ public class Cow extends ImageView {
         if (menuIsOpened)
             MenuHandler.closeMenu(this.cowMenu);
 
+        if (animation != null)
+            animation.stop();
+
         CowHandler.liveCowList.remove(this);
         Playground.playground.getChildren().remove(this);
-        this.animation = null;
 
         StaticUI.cowDeathEventUpdate(cowLink);
 
@@ -179,7 +182,7 @@ public class Cow extends ImageView {
     }
 
     /**
-     * Diseases the cow that called this method. Causes the cow to be hungry.
+     * Diseases the cow that called this method. Causes the cow to be thirsty.
      */
     public void disease() {
         diseased = true;
@@ -301,5 +304,25 @@ public class Cow extends ImageView {
 
     void setColor(ColorAdjust colorAdjust) {
         color = colorAdjust;
+    }
+
+    public void increaseVote() {
+        numberOfVotes ++;
+    }
+
+    public int getVotes() {
+        return numberOfVotes;
+    }
+
+    public void setVotes(int i) {
+        numberOfVotes = i;
+    }
+
+    public boolean hasVoted() {
+        return voted;
+    }
+
+    public void setHasVoted(boolean b) {
+        voted = b;
     }
 }

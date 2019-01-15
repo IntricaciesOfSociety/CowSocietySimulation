@@ -1,4 +1,4 @@
-package societalProductivity;
+package societalProductivity.government;
 
 import cowParts.Cognition;
 import cowParts.Cow;
@@ -18,7 +18,8 @@ public class Economy {
     public static void giveMoney(@NotNull Cow cowToGiveMoney, int amountToGive) {
         Cognition cowFinances = cowToGiveMoney.self;
 
-        cowFinances.setIncome(amountToGive);
+        cowFinances.setIncome(-100);
+        cowFinances.setIncome(10);
         EventLogger.createLoggedEvent(cowToGiveMoney, "New Income", 0, "income", amountToGive);
 
         if (cowFinances.getDebt() == 0) {

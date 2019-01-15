@@ -1,7 +1,7 @@
 package resourcesManagement;
 
+import cowMovement.DecideActions;
 import cowParts.Cow;
-import cowMovement.Movement;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
@@ -23,8 +23,10 @@ public class RockSource extends Resource {
      * @param sourceSprite The sprite to create the rockSource from
      * @param tileToBuildOn The tile to build the source upon
      */
-    RockSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
-        constructSource(sourceSprite, tileToBuildOn);
+    RockSource(Image sourceSprite, Tile tileToBuildOn) {
+
+        if (tileToBuildOn != null)
+            constructSource(sourceSprite, tileToBuildOn);
     }
 
     /**
@@ -34,8 +36,8 @@ public class RockSource extends Resource {
     public void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
         this.setImage(sourceSprite);
 
-        if (tileToBuildOn.tieToObject(this, 1))
-           addRockSource(this);
+        if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
+            addRockSource(this);
     }
 
     /**
@@ -67,12 +69,15 @@ public class RockSource extends Resource {
     @Nullable
     public static ImageView getClosestResource(Cow cowToCheck) {
         if (rockSources.size() != 0) {
-            double smallestDistance = Movement.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(0));
+            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(0));
             ImageView closestRockSource = rockSources.get(0);
 
             for(int i = 0; i < rockSources.size(); i++) {
-                if (Movement.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(i)) < smallestDistance)
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(i)) < smallestDistance) {
                     closestRockSource = rockSources.get(i);
+                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, rockSources.get(i));
+                }
+
             }
             return closestRockSource;
         }

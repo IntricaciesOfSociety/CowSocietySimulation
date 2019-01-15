@@ -11,16 +11,26 @@ public class Issue {
 
     private static ArrayList<Issue> currentIssues = new ArrayList<>();
 
-    Issue(String name, String ... biases) {
+    private String issueName;
 
+    private Issue(String name) {
+        issueName = name;
     }
 
-    public static void createCurrentIssue(Issue newIssue) {
+    public static void init() {
+        createCurrentIssue(new Issue("Too many ducks"));
+    }
 
+    private static void createCurrentIssue(Issue newIssue) {
+        currentIssues.add(newIssue);
     }
 
     @Contract(pure = true)
     static ArrayList<Issue> getCurrentIssues() {
         return currentIssues;
+    }
+
+    public String getIssueName() {
+        return issueName;
     }
 }
