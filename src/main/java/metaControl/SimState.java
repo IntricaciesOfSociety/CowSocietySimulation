@@ -39,10 +39,22 @@ public class SimState extends Application {
     SimLoop: The main simulation loop that handles the updating of moving elements
     PlayState: The state that the simLoop is in: 'Paused' or 'Playing'
     SimSpeed: The amount of milliseconds between each simLoop tick.
+    DeltaTime: The time difference between now and the last frame, used to calculate speeds.
+    Paused: If the main loop is to be calling the main update loop or not.
      */
     private static AnimationTimer simLoop;
     private static String playState = "Playing";
-    private static long simSpeed = 16_666_666;
+    private static long simSpeed = 128_666_666L;
+    private static double deltaTime = 0;
+    private static boolean paused;
+
+    /**
+     * @return The current simSpeed of the sim
+     */
+    @Contract(pure = true)
+    public static double getDeltaTime() {
+        return deltaTime;
+    }
 
     /**
      * Sets the state that the simulation is in. SimState is referenced from outside of this method.
@@ -54,19 +66,19 @@ public class SimState extends Application {
         switch (newState) {
             case "Paused":
                 ExecuteAction.pauseAllAnimation();
-                simLoop.stop();
+                paused = true;
                 break;
             case "Playing":
                 ExecuteAction.startAllAnimation();
-                simLoop.start();
+                paused = false;
                 break;
             case "DetailedView":
                 ExecuteAction.pauseAllAnimation();
-                simLoop.stop();
+                paused = true;
                 break;
             case "StoryView":
                 ExecuteAction.pauseAllAnimation();
-                simLoop.stop();
+                paused = true;
                 break;
             case "TileView":
                 break;
@@ -111,19 +123,30 @@ public class SimState extends Application {
      * Calls the update, then the draw methods for the whole system
      */
     private static void simLoop() {
-        /*for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
-            DecideActions.animateTowardsDestination(CowHandler.liveCowList.get(i), BuildingHandler.getDefaultBuilding());
-        }*/
-
-
         //timer runs constantly
         simLoop = new AnimationTimer() {
             private long lastUpdate = 0 ;
 
             @Override
             public void handle(long frameTime) {
-                if (frameTime - lastUpdate >= (simSpeed) ) {
-                    updateTick();
+                if (getSimState().equals("Paused") || getSimState().equals("Playing")) {
+                    CameraControl.updateCamera();
+
+                    MenuHandler.updateOpenMenus();
+                    if (ResourcesUI.isOpened())
+                        ResourcesUI.updateUI();
+                }
+
+
+                if (frameTime - lastUpdate >= simSpeed) {
+                    if (!paused)
+                        updateTick();
+                    //Time difference from last frame
+                    deltaTime = 0.00000001 * (frameTime - lastUpdate);
+
+                    if (deltaTime <= 0.0 || deltaTime >= 1.0)
+                        deltaTime = 0.00000001 * simSpeed;
+
                     lastUpdate = frameTime;
                 }
             }
@@ -136,27 +159,13 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
-        Rectangle drawBounds = new Rectangle(0,0,initialScene.getWidth(),initialScene.getHeight());
-        CameraControl.updateCamera();
 
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             DecideActions.decideActions(CowHandler.liveCowList.get(i));
         }
 
-        //Checks whether or not any node is on the screen, and draws it accordingly
-        for (int i = 0; i < Playground.playground.getChildren().size(); i++) {
-            if (Playground.playground.getChildren().get(i).localToScene(Playground.playground.getChildren().get(i).getBoundsInLocal()).intersects(drawBounds.getBoundsInLocal())) {
-                Playground.playground.getChildren().get(i).setVisible(true);
-            } else {
-                Playground.playground.getChildren().get(i).setVisible(false);
-            }
-        }
         Time.updateTime();
-
-        MenuHandler.updateOpenMenus();
-        if (ResourcesUI.isOpened())
-            ResourcesUI.updateUI();
     }
 
     /**

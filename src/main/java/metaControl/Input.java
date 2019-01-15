@@ -57,6 +57,11 @@ public class Input {
             if (keyPressed.equals(KeyCode.S)) CameraControl.setSouth(true);
             if (keyPressed.equals(KeyCode.D)) CameraControl.setEast(true);
 
+            if (keyPressed.equals(KeyCode.UP)) CameraControl.setNorth(true);
+            if (keyPressed.equals(KeyCode.LEFT)) CameraControl.setWest(true);
+            if (keyPressed.equals(KeyCode.DOWN)) CameraControl.setSouth(true);
+            if (keyPressed.equals(KeyCode.RIGHT)) CameraControl.setEast(true);
+
             //Zooming
             if (keyPressed.equals(KeyCode.Z)) CameraControl.setZoomIn(true);
             if (keyPressed.equals(KeyCode.X)) CameraControl.setZoomOut(true);
@@ -87,6 +92,11 @@ public class Input {
             if (keyReleased.equals(KeyCode.S)) CameraControl.setSouth(false);
             if (keyReleased.equals(KeyCode.D)) CameraControl.setEast(false);
 
+            if (keyReleased.equals(KeyCode.UP)) CameraControl.setNorth(false);
+            if (keyReleased.equals(KeyCode.LEFT)) CameraControl.setWest(false);
+            if (keyReleased.equals(KeyCode.DOWN)) CameraControl.setSouth(false);
+            if (keyReleased.equals(KeyCode.RIGHT)) CameraControl.setEast(false);
+
             //Zooming
             if (keyReleased.equals(KeyCode.Z)) CameraControl.setZoomIn(false);
             if (keyReleased.equals(KeyCode.X)) CameraControl.setZoomOut(false);
@@ -112,8 +122,8 @@ public class Input {
          */
         Playground.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
             ExecuteAction.dragBoxSelectionUpdate(dragBox);
-            dragBox.setHeight(0);
-            dragBox.setWidth(0);
+            dragBox.setHeight(-1);
+            dragBox.setWidth(-1);
         });
 
         /*

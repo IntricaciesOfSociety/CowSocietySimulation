@@ -9,6 +9,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import metaControl.SimState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
@@ -59,7 +60,7 @@ class Movement extends Action {
         path.getElements().add(moveTo);
         path.getElements().add(pathLine);
         PathTransition movementAnimation = new PathTransition();
-        movementAnimation.setDuration(Duration.millis(distanceTotal * 10));
+        movementAnimation.setDuration( Duration.millis( (distanceTotal /  10) * SimState.getDeltaTime() * 10) );
         movementAnimation.setNode(cowToMove);
         movementAnimation.setPath(path);
         movementAnimation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);

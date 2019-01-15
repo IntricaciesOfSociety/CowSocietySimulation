@@ -59,6 +59,7 @@ public class StaticUI {
      */
     static void init() {
         createSpeedButtons();
+
         Rectangle background = new Rectangle(150, 600, Color.DARKGOLDENROD);
 
         populationText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
@@ -76,17 +77,21 @@ public class StaticUI {
 
         heartAttackButton.setLayoutX(5);
         heartAttackButton.setLayoutY(170);
+        heartAttackButton.setFocusTraversable(false);
         //heartAttackButton.setGraphic(new ImageView(AssetLoading.loadUISprite("HeartAttackButton")));
 
         diseaseButton.setLayoutX(5);
         diseaseButton.setLayoutY(200);
+        diseaseButton.setFocusTraversable(false);
 
         detailedViewButton.setLayoutX(5);
         detailedViewButton.setLayoutY(230);
+        detailedViewButton.setFocusTraversable(false);
         detailedViewButton.setGraphic(new ImageView(AssetLoading.loadUISprite("DetailedView")));
 
         storyViewButton.setLayoutX(5);
         storyViewButton.setLayoutY(260);
+        storyViewButton.setFocusTraversable(false);
         storyViewButton.setGraphic(new ImageView(AssetLoading.loadUISprite("StoryView")));
 
         controlGroup.setDisable(true);
@@ -106,11 +111,13 @@ public class StaticUI {
 
         tileUIButton.setLayoutX(5);
         tileUIButton.setLayoutY(400);
+        tileUIButton.setFocusTraversable(false);
         tileUIButton.setGraphic(new ImageView(AssetLoading.loadUISprite("TileUI")));
 
 
         resourcesUIButton.setLayoutX(5);
         resourcesUIButton.setLayoutY(430);
+        resourcesUIButton.setFocusTraversable(false);
         resourcesUIButton.setGraphic(new ImageView(AssetLoading.loadUISprite("ResourcesUI")));
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
@@ -162,11 +169,12 @@ public class StaticUI {
 
         for (double i = 0.5; i < 4; i *= 2) {
             speedButton = new ToggleButton("x" + ((i == 0.5) ? "1/2" : (int) i + "   "));
+            speedButton.setFocusTraversable(false);
             speedButton.setToggleGroup(simSpeedButtons);
             speedButton.setSelected(i == 1);
             speedButton.setLayoutX(5 + (buttonOffset * 35));
             speedButton.setLayoutY(5);
-            speedButton.setId(Long.toString(((long) ((double) 16_666_666L / i))));
+            speedButton.setId(Long.toString(((long) ((double) 128_666_666L / i))));
             speedButton.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
 
             simSpeedGroup.getChildren().add(speedButton);
@@ -182,6 +190,7 @@ public class StaticUI {
         Hyperlink cowLink;
 
         cowLink = new Hyperlink("Cow: " + cowId);
+        cowLink.setFocusTraversable(false);
         cowLink.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
         cowLink.setTextFill(Color.BLACK);
 
