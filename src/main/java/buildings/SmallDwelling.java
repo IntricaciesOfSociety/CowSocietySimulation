@@ -39,7 +39,7 @@ public class SmallDwelling extends Building {
 
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
-        this.buildingRequirement = new ResourceRequirement(0, 5, 1);
+        this.buildingRequirement = new ResourceRequirement(5, 5, 1);
 
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);

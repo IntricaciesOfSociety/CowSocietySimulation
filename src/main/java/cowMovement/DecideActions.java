@@ -7,6 +7,7 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.image.ImageView;
 import metaControl.LoadConfiguration;
+import metaControl.SimState;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.EventLogger;
@@ -80,9 +81,9 @@ public class DecideActions {
             cowToCheck.currentAction = "Getting Water";
 
             finishBehavior = () -> {
+                EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100 - cowToCheck.self.getThirst());
                 cowToCheck.self.setThirst(100);
-                EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100);
-                Movement.pauseMovement(100, cowToCheck);
+                Movement.pauseMovement(((int) (SimState.getDeltaTime() * 1000)), cowToCheck);
             };
         }
         else if (cowToCheck.self.getSleepiness() >= 10) {
@@ -91,11 +92,11 @@ public class DecideActions {
             finishBehavior = () -> {
                 Role.getRoleCompletionBehavior(cowToCheck);
 
-                cowToCheck.self.setSleepiness(-20);
+                EventLogger.createLoggedEvent(cowToCheck, "Working", 0, "sleepiness", -50);
+                cowToCheck.self.setSleepiness(-50);
                 Economy.giveMoney(cowToCheck, 10);
-                EventLogger.createLoggedEvent(cowToCheck, "Working", 0, "sleepiness", -20);
 
-                Movement.pauseMovement(500, cowToCheck);
+                Movement.pauseMovement( ((int) (SimState.getDeltaTime() * 50000)), cowToCheck);
             };
         }
         //Social duties are next priority

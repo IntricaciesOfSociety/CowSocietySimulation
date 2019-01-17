@@ -138,15 +138,16 @@ public class SimState extends Application {
                 }
 
 
-                if (frameTime - lastUpdate >= simSpeed) {
-                    if (!paused)
-                        updateTick();
+
                     //Time difference from last frame
                     deltaTime = 0.00000001 * (frameTime - lastUpdate);
 
-                    if (deltaTime <= 0.0 || deltaTime >= 1.0)
+                    if (deltaTime <= 0.1 || deltaTime >= 1.0)
                         deltaTime = 0.00000001 * simSpeed;
 
+                    if (frameTime - lastUpdate >= simSpeed) {
+                        if (!paused)
+                            updateTick();
                     lastUpdate = frameTime;
                 }
             }
