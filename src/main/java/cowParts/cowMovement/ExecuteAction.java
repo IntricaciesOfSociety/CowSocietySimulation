@@ -1,4 +1,4 @@
-package cowMovement;
+package cowParts.cowMovement;
 
 import cowParts.Cow;
 import cowParts.CowHandler;

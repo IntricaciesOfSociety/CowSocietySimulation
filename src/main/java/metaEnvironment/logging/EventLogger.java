@@ -1,4 +1,4 @@
-package metaEnvironment;
+package metaEnvironment.logging;
 
 import cowParts.Cow;
 import org.jetbrains.annotations.NotNull;

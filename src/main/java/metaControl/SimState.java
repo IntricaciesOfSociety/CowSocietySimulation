@@ -1,10 +1,10 @@
 package metaControl;
 
 import buildings.BuildingHandler;
-import cowMovement.DecideActions;
-import cowMovement.ExecuteAction;
+import cowParts.cowMovement.DecideActions;
+import cowParts.cowMovement.ExecuteAction;
 import cowParts.CowHandler;
-import javafx.scene.shape.Rectangle;
+import cowParts.cowMovement.Movement;
 import metaEnvironment.AssetLoading;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
@@ -163,7 +163,10 @@ public class SimState extends Application {
 
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
-            DecideActions.decideActions(CowHandler.liveCowList.get(i));
+            if (!CowHandler.liveCowList.get(i).alreadyMoving)
+                DecideActions.decideActions(CowHandler.liveCowList.get(i));
+            else
+                Movement.validateDestination(CowHandler.liveCowList.get(i));
         }
 
         Time.updateTime();

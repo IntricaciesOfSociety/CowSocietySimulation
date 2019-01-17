@@ -1,4 +1,4 @@
-package cowMovement;
+package cowParts.cowMovement;
 
 import buildings.Building;
 import buildings.BuildingHandler;
@@ -10,7 +10,7 @@ import metaControl.LoadConfiguration;
 import metaControl.SimState;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.EventLogger;
+import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -141,7 +141,6 @@ public class DecideActions {
 
         return new Movement (
                 () -> destination,
-                () -> Movement.validateDestination(destination),
                 finishBehavior,
                 cowToCheck);
     }

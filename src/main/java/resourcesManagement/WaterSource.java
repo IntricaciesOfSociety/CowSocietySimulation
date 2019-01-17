@@ -1,12 +1,10 @@
 package resourcesManagement;
 
 import cowParts.Cow;
-import cowMovement.DecideActions;
+import cowParts.cowMovement.DecideActions;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 

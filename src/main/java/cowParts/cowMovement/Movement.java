@@ -1,4 +1,4 @@
-package cowMovement;
+package cowParts.cowMovement;
 
 import buildings.Building;
 import cowParts.Cow;
@@ -14,15 +14,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
-class Movement extends Action {
+public class Movement extends Action {
 
     private Start destination;
-    private Execution executionBehavior;
     private End endBehavior;
 
-    Movement(Start startBehavior, Execution executionBehavior, @NotNull DecideActions.Finish endBehavior, Cow cowToMove) {
+    Movement(Start startBehavior, @NotNull DecideActions.Finish endBehavior, Cow cowToMove) {
         this.destination = startBehavior;
-        this.executionBehavior = executionBehavior;
         this.endBehavior = endBehavior::executeFinish;
 
         completeAction = createMovementAction(cowToMove);
@@ -70,8 +68,10 @@ class Movement extends Action {
         return movementAnimation;
     }
 
-    public static void validateDestination(Object destination) {
-
+    public static void validateDestination(Cow cowToCheck) {
+        if (cowToCheck.getDestination() instanceof Building && ((Building) cowToCheck.getDestination()).isConstructed() &&
+                !cowToCheck.currentAction.equals("Going Home") && cowToCheck.animation instanceof PathTransition) {
+        }
     }
 
     /**TODO: Move to an action?

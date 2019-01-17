@@ -4,7 +4,7 @@ import buildings.Building;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import metaControl.SimState;
-import metaEnvironment.EventLogger;
+import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
