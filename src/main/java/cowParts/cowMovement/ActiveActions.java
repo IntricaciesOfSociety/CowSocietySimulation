@@ -6,6 +6,9 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import metaControl.SimState;
 import metaEnvironment.logging.EventLogger;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import resourcesManagement.WaterSource;
 import societalProductivity.Role;
 import societalProductivity.government.Economy;
@@ -26,6 +29,7 @@ class ActiveActions extends Action {
 
     private static Random random = new Random();
 
+    @NotNull
     static Movement getWater(Cow cowToCheck) {
         destination = WaterSource.getClosestResource(cowToCheck);
         cowToCheck.currentAction = "Getting Water";
@@ -40,6 +44,7 @@ class ActiveActions extends Action {
         return createMovement();
     }
 
+    @NotNull
     static Movement goWork(Cow cowToCheck) {
         destination = Role.getRoleDestination(cowToCheck);
 
@@ -57,7 +62,8 @@ class ActiveActions extends Action {
         return createMovement();
     }
 
-    static Movement goVote(Cow cowToCheck) {
+    @NotNull
+    static Movement goVote(@NotNull Cow cowToCheck) {
         cowToCheck.setHasVoted(true);
         destination = BuildingHandler.getClosestVotingArea(cowToCheck);
         cowToCheck.currentAction = "Voting";
@@ -76,7 +82,8 @@ class ActiveActions extends Action {
         return createMovement();
     }
 
-    static Movement goHome(Cow cowToCheck) {
+    @NotNull
+    static Movement goHome(@NotNull Cow cowToCheck) {
         destination = cowToCheck.getLivingSpace();
         cowToCheck.currentAction = "Going Home";
 
@@ -93,7 +100,8 @@ class ActiveActions extends Action {
         return createMovement();
     }
 
-    static Action goSpin(Cow cowToCheck) {
+    @Nullable
+    static Movement goSpin(@NotNull Cow cowToCheck) {
         cowToCheck.currentAction = "Spinning";
         cowToCheck.setRotate(random.nextInt(360 + 1 + 360) - 360);
         cowToCheck.alreadyMoving = false;
@@ -101,6 +109,8 @@ class ActiveActions extends Action {
         return null;
     }
 
+    @NotNull
+    @Contract(" -> new")
     private static Movement createMovement() {
         return (new Movement(
                 () -> destination,

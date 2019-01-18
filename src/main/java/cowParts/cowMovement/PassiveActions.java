@@ -7,9 +7,9 @@ import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import terrain.Tile;
 
-public class PassiveActions {
+class PassiveActions {
 
-    private static void buyHouse(Cow cowToCheck) {
+    static void buyHouse(Cow cowToCheck) {
         //If there is space available
         if (Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicSmallBuilding)) != null) {
             cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicSmallBuilding))));

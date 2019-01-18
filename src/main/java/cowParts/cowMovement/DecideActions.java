@@ -35,7 +35,7 @@ public class DecideActions {
         return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     }
 
-    /**TODO: Implement AI
+    /**
      * Handles where the given cow is going to move.
      * @param cowToCheck The how whose movements are being decided
      */
@@ -52,8 +52,7 @@ public class DecideActions {
         createGeneralActions(cowToCheck);
     }
 
-    private static Action decideMovement(@NotNull Cow cowToCheck) {
-
+    private static Movement decideMovement(@NotNull Cow cowToCheck) {
         if (cowToCheck.self.getThirst() <= 10)
             return ActiveActions.getWater(cowToCheck);
         else if (cowToCheck.self.getSleepiness() > 0)
@@ -79,6 +78,7 @@ public class DecideActions {
          */
         if (cowToCheck.self.getDebt() <= 10 && cowToCheck.self.getSavings() > 30
                 && (BuildingHandler.getDefaultBuilding() == cowToCheck.getLivingSpace())) {
+            PassiveActions.buyHouse(cowToCheck);
         }
         return null;
     }

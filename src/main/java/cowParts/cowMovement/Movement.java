@@ -23,7 +23,7 @@ public class Movement extends Action {
         this.destination = startBehavior;
         this.endBehavior = endBehavior::executeFinish;
 
-        createMovementAction(cowToMove);
+        completeAction = createMovementAction(cowToMove);
     }
 
     @Nullable
