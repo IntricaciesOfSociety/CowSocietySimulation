@@ -6,12 +6,11 @@ import javafx.scene.image.Image;
 import metaControl.LoadConfiguration;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.EventLogger;
+import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import societalProductivity.Role;
-import userInterface.PlaygroundUI;
 import userInterface.StaticUI;
 
 import java.util.ArrayList;

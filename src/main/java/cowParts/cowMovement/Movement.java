@@ -1,4 +1,4 @@
-package cowMovement;
+package cowParts.cowMovement;
 
 import buildings.Building;
 import cowParts.Cow;
@@ -19,22 +19,21 @@ public class Movement extends Action {
     private Start destination;
     private End endBehavior;
 
-    PathTransition newMovement;
-
-    Movement(Start startBehavior, @NotNull DecideActions.Finish endBehavior, Cow cowToMove) {
+    Movement(Start startBehavior, @NotNull Finish endBehavior, Cow cowToMove) {
         this.destination = startBehavior;
         this.endBehavior = endBehavior::executeFinish;
 
-        completeAction = createMovementAction(cowToMove);
+        createMovementAction(cowToMove);
     }
 
     @Nullable
     private PathTransition createMovementAction(Cow cowToMove) {
+
         if (destination.startBehavior() != null) {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
 
-            newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            PathTransition newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
             newMovement.setOnFinished((event) -> endBehavior.endBehavior());
 
             //TODO: Implement path redirection through executionBehavior
@@ -60,7 +59,7 @@ public class Movement extends Action {
         path.getElements().add(moveTo);
         path.getElements().add(pathLine);
         PathTransition movementAnimation = new PathTransition();
-        movementAnimation.setDuration( Duration.millis( (distanceTotal /  10) * SimState.getDeltaTime() * 10) );
+        movementAnimation.setDuration( Duration.millis( (distanceTotal /  5) * SimState.getDeltaTime() * 5) );
         movementAnimation.setNode(cowToMove);
         movementAnimation.setPath(path);
         movementAnimation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
@@ -71,7 +70,6 @@ public class Movement extends Action {
     }
 
     public static void validateDestination(Cow cowToCheck) {
-
     }
 
     /**TODO: Move to an action?

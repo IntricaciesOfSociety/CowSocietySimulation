@@ -2,7 +2,7 @@ package societalProductivity.government;
 
 import cowParts.Cognition;
 import cowParts.Cow;
-import metaEnvironment.EventLogger;
+import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.NotNull;
 
 /**

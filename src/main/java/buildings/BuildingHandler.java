@@ -1,6 +1,6 @@
 package buildings;
 
-import cowMovement.DecideActions;
+import cowParts.cowMovement.DecideActions;
 import cowParts.Cow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -1,4 +1,4 @@
-package cowMovement;
+package cowParts.cowMovement;
 
 import cowParts.Cow;
 import cowParts.CowHandler;
@@ -10,8 +10,8 @@ public class ExecuteAction {
 
      static void execute(Action newAction) {
          if (newAction != null && newAction.completeAction != null) {
-             if (newAction instanceof Movement)
-                 ((PathTransition)((Movement) newAction).completeAction).play();
+             if (newAction instanceof ActiveActions)
+                 ((PathTransition)((ActiveActions) newAction).completeAction).play();
              else
                  newAction.execute();
          }

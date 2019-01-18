@@ -1,10 +1,9 @@
 package metaControl;
 
 import buildings.BuildingHandler;
-import cowMovement.DecideActions;
-import cowMovement.ExecuteAction;
-import cowMovement.Movement;
 import cowParts.CowHandler;
+import cowParts.cowMovement.DecideActions;
+import cowParts.cowMovement.ExecuteAction;
 import metaEnvironment.AssetLoading;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
@@ -138,15 +137,16 @@ public class SimState extends Application {
                 }
 
 
-                if (frameTime - lastUpdate >= simSpeed) {
-                    if (!paused)
-                        updateTick();
+
                     //Time difference from last frame
                     deltaTime = 0.00000001 * (frameTime - lastUpdate);
 
-                    if (deltaTime <= 0.0 || deltaTime >= 1.0)
+                    if (deltaTime <= 0.1 || deltaTime >= 1.0)
                         deltaTime = 0.00000001 * simSpeed;
 
+                    if (frameTime - lastUpdate >= simSpeed) {
+                        if (!paused)
+                            updateTick();
                     lastUpdate = frameTime;
                 }
             }
@@ -162,9 +162,9 @@ public class SimState extends Application {
 
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
-            DecideActions.decideActions(CowHandler.liveCowList.get(i));
+            if (!CowHandler.liveCowList.get(i).alreadyMoving)
+                DecideActions.decideActions(CowHandler.liveCowList.get(i));
         }
-
         Time.updateTime();
     }
 
