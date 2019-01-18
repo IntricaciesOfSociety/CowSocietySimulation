@@ -10,7 +10,7 @@ import terrain.Tile;
 public abstract class Resource extends Tile {
 
     //How much the resource can be mined.
-    int resourceHealth = 100;
+    int resourceHealth;
 
     /**
      * Constructs a resource based off of the class being called from, the sprite given, and the tile given.

@@ -223,9 +223,8 @@ public class Tile extends ImageView {
      * @return The coordinates for the entrence of the tile
      */
     public static Point2D getEntrance(@NotNull Tile tileToCheck) {
-        if (tileToCheck.entrance != null) {
+        if (tileToCheck.entrance != null)
             return tileToCheck.entrance;
-        }
         else
             return new Point2D(tileToCheck.getLayoutX(), tileToCheck.getLayoutY());
     }

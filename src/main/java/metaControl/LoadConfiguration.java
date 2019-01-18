@@ -25,9 +25,11 @@ public class LoadConfiguration {
     private static String basicLargeDwelling;
 
     //[Resources]
-    private static int initialRocks;
-    private static int initialTrees;
+    private static int initialSmallRocks;
+    private static int initialSmallTrees;
     private static int initialWaterSources;
+    private static int initialLargeRocks;
+    private static int initialLargeTrees;
 
     /**
      * Loads the configuration file
@@ -57,8 +59,10 @@ public class LoadConfiguration {
         basicSmallDwelling = ini.get("Buildings", "basicsmalldwelling");
         basicLargeDwelling = ini.get("Buildings", "basiclargedwelling");
 
-        initialRocks = Integer.parseInt(ini.get("Resources", "rocks"));
-        initialTrees = Integer.parseInt(ini.get("Resources", "trees"));
+        initialSmallRocks = Integer.parseInt(ini.get("Resources", "smallRocks"));
+        initialSmallTrees = Integer.parseInt(ini.get("Resources", "smallTrees"));
+        initialLargeRocks = Integer.parseInt(ini.get("Resources", "largeRocks"));
+        initialLargeTrees = Integer.parseInt(ini.get("Resources", "largeTrees"));
         initialWaterSources = Integer.parseInt(ini.get("Resources", "watersources"));
     }
 
@@ -68,13 +72,13 @@ public class LoadConfiguration {
     }
 
     @Contract(pure = true)
-    public static int getInitialRocks() {
-        return initialRocks;
+    public static int getInitialSmallRocks() {
+        return initialSmallRocks;
     }
 
     @Contract(pure = true)
-    public static int getInitialTrees() {
-        return initialTrees;
+    public static int getInitialSmallTrees() {
+        return initialSmallTrees;
     }
 
     @Contract(pure = true)
@@ -105,5 +109,13 @@ public class LoadConfiguration {
     @Contract(pure = true)
     public static int getStartingSize() {
         return startingSize;
+    }
+
+    public static int getInitialLargeRocks() {
+        return initialLargeRocks;
+    }
+
+    public static int getInitialLargeTrees() {
+        return initialLargeTrees;
     }
 }

@@ -14,15 +14,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
-class Movement extends Action {
+public class Movement extends Action {
 
     private Start destination;
-    private Execution executionBehavior;
     private End endBehavior;
 
-    Movement(Start startBehavior, Execution executionBehavior, @NotNull DecideActions.Finish endBehavior, Cow cowToMove) {
+    PathTransition newMovement;
+
+    Movement(Start startBehavior, @NotNull DecideActions.Finish endBehavior, Cow cowToMove) {
         this.destination = startBehavior;
-        this.executionBehavior = executionBehavior;
         this.endBehavior = endBehavior::executeFinish;
 
         completeAction = createMovementAction(cowToMove);
@@ -34,7 +34,7 @@ class Movement extends Action {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
 
-            PathTransition newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
             newMovement.setOnFinished((event) -> endBehavior.endBehavior());
 
             //TODO: Implement path redirection through executionBehavior
@@ -70,7 +70,7 @@ class Movement extends Action {
         return movementAnimation;
     }
 
-    public static void validateDestination(Object destination) {
+    public static void validateDestination(Cow cowToCheck) {
 
     }
 

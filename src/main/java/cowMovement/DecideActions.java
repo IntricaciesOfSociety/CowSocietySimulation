@@ -140,7 +140,6 @@ public class DecideActions {
 
         return new Movement (
                 () -> destination,
-                () -> Movement.validateDestination(destination),
                 finishBehavior,
                 cowToCheck);
     }

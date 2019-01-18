@@ -34,6 +34,7 @@ public class RockSource extends Resource {
      */
     @Override
     public void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
+        resourceHealth = Tile.getSize(sourceSprite) * 25;
         this.setImage(sourceSprite);
 
         if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))

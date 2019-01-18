@@ -24,13 +24,22 @@ public class ResourcesHandler {
             new WaterSource(AssetLoading.basicWatersource, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicWatersource)));
         }
 
-        for (int j = 0; j < LoadConfiguration.getInitialRocks(); j++) {
-            new RockSource(AssetLoading.basicRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicRock)));
+        for (int j = 0; j < LoadConfiguration.getInitialSmallRocks(); j++) {
+            new RockSource(AssetLoading.smallRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallRock)));
         }
 
-        for (int k = 0; k < LoadConfiguration.getInitialTrees(); k++) {
-            new WoodSource(AssetLoading.basicTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicTree)));
+        for (int k = 0; k < LoadConfiguration.getInitialSmallTrees(); k++) {
+            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree)));
         }
+
+        for (int q = 0; q < LoadConfiguration.getInitialLargeTrees(); q++) {
+            new WoodSource(AssetLoading.largeTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeTree)));
+        }
+
+        for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++) {
+            new RockSource(AssetLoading.largeRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeRock)));
+        }
+
 
     }
 

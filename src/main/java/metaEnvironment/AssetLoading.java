@@ -22,9 +22,14 @@ public class AssetLoading {
     public static Image basicSmallBuilding;
     public static Image basicLargeBuilding;
 
-    public static Image basicRock;
+    public static Image smallRock;
+    public static Image smallTree;
+
+    public static Image largeRock;
+    public static Image largeTree;
+
     public static Image basicWatersource;
-    public static Image basicTree;
+
 
     public static ArrayList<Image> basicCows = new ArrayList<>();
 
@@ -71,9 +76,11 @@ public class AssetLoading {
      */
     private static void loadResources() {
         try {
-            basicRock = new Image(new FileInputStream("src/main/resources/Environment/SmallRock.png"),0, 0, true, false);
+            smallRock = new Image(new FileInputStream("src/main/resources/Environment/SmallRock.png"),0, 0, true, false);
             basicWatersource = new Image(new FileInputStream("src/main/resources/Environment/WateringHole.png"),0, 0, true, false);
-            basicTree = new Image(new FileInputStream("src/main/resources/Environment/Tree.png"),0, 0, true, false);
+            smallTree = new Image(new FileInputStream("src/main/resources/Environment/SmallTree.png"),0, 0, true, false);
+            largeRock = new Image(new FileInputStream("src/main/resources/Environment/LargeRock.png"),0, 0, true, false);
+            largeTree = new Image(new FileInputStream("src/main/resources/Environment/LargeTree.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
