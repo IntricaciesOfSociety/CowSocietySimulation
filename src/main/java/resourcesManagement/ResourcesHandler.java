@@ -39,8 +39,6 @@ public class ResourcesHandler {
         for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++) {
             new RockSource(AssetLoading.largeRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeRock)));
         }
-
-
     }
 
     /**

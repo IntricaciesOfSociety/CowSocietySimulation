@@ -4,6 +4,8 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.effect.ColorAdjust;
 import org.jetbrains.annotations.Contract;
+import resourcesManagement.ResourcesHandler;
+import resourcesManagement.WoodSource;
 import societalProductivity.government.Government;
 import userInterface.StaticUI;
 
@@ -104,6 +106,13 @@ public class Time {
                 cowLife.kill();
             }
         }
+
+        repopulateResources();
+    }
+
+    private static void repopulateResources() {
+        if (WoodSource.getNumberOfSources() < (LoadConfiguration.getInitialLargeTrees() + LoadConfiguration.getInitialSmallTrees()))
+            WoodSource.repopulate();
     }
 
     /**

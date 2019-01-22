@@ -128,7 +128,7 @@ public class SimState extends Application {
 
             @Override
             public void handle(long frameTime) {
-                if (getSimState().equals("Paused") || getSimState().equals("Playing")) {
+                if (getSimState().equals("Paused") || getSimState().equals("Playing") || getSimState().equals("TileView")) {
                     CameraControl.updateCamera();
 
                     MenuHandler.updateOpenMenus();
