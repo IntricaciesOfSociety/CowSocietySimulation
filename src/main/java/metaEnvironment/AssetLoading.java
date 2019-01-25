@@ -18,6 +18,8 @@ import java.util.ArrayList;
 public class AssetLoading {
 
     public static Image basicTile;
+    public static Image mountainTileFull;
+    public static Image mountainTileHalf;
 
     public static Image basicSmallBuilding;
     public static Image basicLargeBuilding;
@@ -50,6 +52,10 @@ public class AssetLoading {
         try {
             basicTile = new Image(new FileInputStream("src/main/resources/Terrain/"
                     + LoadConfiguration.getBasicTileName() + ".png"),0, 0, true, false);
+            mountainTileFull = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "RockTerrainFull.png"),0, 0, true, false);
+            mountainTileHalf = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "RockTerrainHalf.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();

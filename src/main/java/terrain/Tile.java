@@ -11,20 +11,22 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+
+import static java.util.Arrays.asList;
 
 /**
  * Handles the creation and management of tiles within the sim. A tile is a section of land.
  */
 public class Tile extends ImageView {
 
-    private static Random random = new Random();
-
     private static final int ROWTILES = (int) Playground.playground.getPrefWidth() / 400;
     private static final int COLTILES = (int) Playground.playground.getPrefHeight() / 400;
 
-
     private boolean isTerrain = true;
+    private String tileType;
 
     //The list that contains every tile
     private static ArrayList<Tile> tileList = new ArrayList<>();
@@ -106,16 +108,6 @@ public class Tile extends ImageView {
             }
         }
 
-        /*int openTiles = 16;
-
-        for (int t = 0; t < children.size(); t++) {
-            openTiles -= Math.pow(Tile.getSize(children.get(t).getImage()), 2 );
-        }
-
-        int randOrientation = new Random().nextInt(openTiles / (int) (Math.pow(size, 2)));
-        int counter = -1;
-        int spacesToCheck = -size + 5;*/
-
         int randOrientation = new Random().nextInt(possibleSpaces);
         int counter = -1;
 
@@ -130,9 +122,6 @@ public class Tile extends ImageView {
                 }
             }
         }
-        System.out.println("Children " + children.size() + " Size " + size);
-        System.out.println(orientation + " " + " Rand " + randOrientation);
-        System.out.println("Open " + possibleSpaces);
         return null;
     }
 
@@ -151,12 +140,32 @@ public class Tile extends ImageView {
      * @return The random tile found
      */
     @Nullable
-    public static Tile getRandomNotFullTile(int size) {
+    public static Tile getRandomNotFullTile(int size, Image ... tilesToExclude) {
         ArrayList<Tile> notFullTiles = new ArrayList<>();
 
-        for (int i = 0; i < tileList.size(); i++) {
-            if (tileList.get(i).isTerrain && tileList.get(i).getIsRoom(size))
-                notFullTiles.add(tileList.get(i));
+        System.out.println(tilesToExclude);
+        if (tilesToExclude.length != 0) {
+            List<Image> exclusions = Arrays.asList(tilesToExclude);
+
+            for (int j = 0; j < tileList.size(); j++) {
+                if (!exclusions.contains(tileList.get(j).getImage()) && tileList.get(j).isTerrain && tileList.get(j).getIsRoom(size))
+                    notFullTiles.add(tileList.get(j));
+            }
+            if (notFullTiles.size() != 0) {
+                System.out.println(notFullTiles);
+                return notFullTiles.get(new Random().nextInt(notFullTiles.size()));
+            }
+
+            else {
+                MenuHandler.createErrorMenu();
+                return null;
+            }
+        }
+        else {
+            for (int i = 0; i < tileList.size(); i++) {
+                if (tileList.get(i).isTerrain && tileList.get(i).getIsRoom(size))
+                    notFullTiles.add(tileList.get(i));
+            }
         }
 
         if (notFullTiles.size() != 0)
@@ -165,21 +174,6 @@ public class Tile extends ImageView {
             MenuHandler.createErrorMenu();
             return null;
         }
-    }
-
-    /**
-     * Finds the tile at the given point
-     * @param tileCoords The point to find the coordinate at
-     * @return The tile that was at the given point
-     */
-    @Nullable
-    @Contract(pure = true)
-    private static Tile tileAt(Point2D tileCoords) {
-        for (Tile tile : tileList) {
-            if (tile.getLayoutX() == tileCoords.getX() && tile.getLayoutY() == tileCoords.getY())
-                return tile;
-        }
-        return null;
     }
 
     /**

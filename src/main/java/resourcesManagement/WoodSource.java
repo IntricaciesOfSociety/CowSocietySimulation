@@ -33,14 +33,13 @@ public class WoodSource extends Resource {
     }
 
     public static int getNumberOfSources() {
-        System.out.println(woodSources.size());
         return woodSources.size();
     }
 
     public static void repopulate() {
         int popIncrease = (LoadConfiguration.getInitialLargeTrees() + LoadConfiguration.getInitialSmallTrees()) - woodSources.size();
         for (int i = 0; i < popIncrease; i++) {
-            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree)));
+            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull));
         }
     }
 

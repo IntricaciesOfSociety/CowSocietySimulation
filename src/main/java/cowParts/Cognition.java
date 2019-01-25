@@ -45,6 +45,8 @@ public class Cognition {
     //Academic 0 is low 100 is high
     private int intelligence = random.nextInt(100);
 
+    private int fitness;
+
     /**
      * Tests the given modification delta against a given cognitive element to see if a limit would be met. If a limit
      * is met, sets the cognitive element to the closest limit.
@@ -278,5 +280,13 @@ public class Cognition {
      */
     public String getAcademicAggregate() {
         return intelligence + "/100";
+    }
+
+    public int getFitness() {
+        return fitness;
+    }
+
+    public void setFitness(int newFitness) {
+        fitness = newFitness;
     }
 }

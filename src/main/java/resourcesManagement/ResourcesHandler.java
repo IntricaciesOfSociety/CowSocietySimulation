@@ -29,11 +29,11 @@ public class ResourcesHandler {
         }
 
         for (int k = 0; k < LoadConfiguration.getInitialSmallTrees(); k++) {
-            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree)));
+            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull));
         }
 
         for (int q = 0; q < LoadConfiguration.getInitialLargeTrees(); q++) {
-            new WoodSource(AssetLoading.largeTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeTree)));
+            new WoodSource(AssetLoading.largeTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull));
         }
 
         for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++) {
