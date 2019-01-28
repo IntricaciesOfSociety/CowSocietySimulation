@@ -17,9 +17,12 @@ import java.util.ArrayList;
  */
 public class AssetLoading {
 
-    public static Image basicTile;
+    public static Image defaultTile;
+
+    public static Image flatTerrain;
     public static Image mountainTileFull;
     public static Image mountainTileHalf;
+    public static Image desertTileFull;
 
     public static Image basicSmallBuilding;
     public static Image basicLargeBuilding;
@@ -34,6 +37,7 @@ public class AssetLoading {
 
 
     public static ArrayList<Image> basicCows = new ArrayList<>();
+
 
     /**
      * Calls the loading for all base assets.
@@ -50,15 +54,29 @@ public class AssetLoading {
      */
     private static void loadTiles() {
         try {
-            basicTile = new Image(new FileInputStream("src/main/resources/Terrain/"
-                    + LoadConfiguration.getBasicTileName() + ".png"),0, 0, true, false);
+            flatTerrain = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "FlatTerrain.png"),0, 0, true, false);
             mountainTileFull = new Image(new FileInputStream("src/main/resources/Terrain/"
                     + "RockTerrainFull.png"),0, 0, true, false);
             mountainTileHalf = new Image(new FileInputStream("src/main/resources/Terrain/"
                     + "RockTerrainHalf.png"),0, 0, true, false);
+            desertTileFull = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "DesertTileFull.png"),0, 0, true, false);
+            loadDefaultTile();
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
+        }
+    }
+
+    private static void loadDefaultTile() {
+        switch (LoadConfiguration.getBasicTileName()) {
+            case "RockTerrainFull":
+                defaultTile = mountainTileFull;
+                break;
+            case "FlatTerrain":
+                defaultTile = flatTerrain;
+                break;
         }
     }
 

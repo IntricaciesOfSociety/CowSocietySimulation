@@ -19,6 +19,8 @@ public class LoadConfiguration {
 
     //[Tiles]
     private static String basicTileName;
+    private static int mountainBiomes;
+    private static int desertBiomes;
 
     //[Buildings]
     private static String basicSmallDwelling;
@@ -30,6 +32,7 @@ public class LoadConfiguration {
     private static int initialWaterSources;
     private static int initialLargeRocks;
     private static int initialLargeTrees;
+
 
     /**
      * Loads the configuration file
@@ -55,6 +58,8 @@ public class LoadConfiguration {
         startingSize = Integer.parseInt(ini.get("SituationConfig", "startingsize"));
 
         basicTileName = ini.get("Tiles", "basictile");
+        mountainBiomes = Integer.parseInt(ini.get("Tiles", "mountainBiomes"));
+        desertBiomes = Integer.parseInt(ini.get("Tiles", "desertBiomes"));
 
         basicSmallDwelling = ini.get("Buildings", "basicsmalldwelling");
         basicLargeDwelling = ini.get("Buildings", "basiclargedwelling");
@@ -117,5 +122,13 @@ public class LoadConfiguration {
 
     public static int getInitialLargeTrees() {
         return initialLargeTrees;
+    }
+
+    public static int getMountainBiomes() {
+        return mountainBiomes;
+    }
+
+    public static int getDesertBiomes() {
+        return desertBiomes;
     }
 }

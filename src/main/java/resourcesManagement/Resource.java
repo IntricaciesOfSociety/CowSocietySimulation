@@ -17,7 +17,7 @@ public abstract class Resource extends Tile {
      * @param sourceSprite The sprite to create a resource with
      * @param tileToBuildOn The tile to create the resource upon
      */
-    abstract void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn);
+    abstract void constructSource(Image sourceSprite, Tile tileToBuildOn);
 
     /**
      * Depletes the resource that this method was called on by the given amount.

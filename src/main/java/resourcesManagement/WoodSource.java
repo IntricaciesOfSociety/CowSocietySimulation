@@ -47,11 +47,13 @@ public class WoodSource extends Resource {
      * @inheritDoc
      */
     @Override
-    public void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
+    public void constructSource(Image sourceSprite, Tile tileToBuildOn) {
         this.setImage(sourceSprite);
 
-        if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
-            addWoodSource(this);
+        if (tileToBuildOn != null) {
+            if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
+                addWoodSource(this);
+        }
     }
 
     /**

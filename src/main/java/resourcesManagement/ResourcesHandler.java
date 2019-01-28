@@ -21,23 +21,37 @@ public class ResourcesHandler {
      */
     public static void init() {
         for (int i = 0; i < LoadConfiguration.getInitialWaterSources(); i++) {
-            new WaterSource(AssetLoading.basicWatersource, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicWatersource)));
+            new WaterSource(
+                    AssetLoading.basicWatersource,
+                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicWatersource), AssetLoading.desertTileFull)
+            );
         }
 
         for (int j = 0; j < LoadConfiguration.getInitialSmallRocks(); j++) {
-            new RockSource(AssetLoading.smallRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallRock)));
+            new RockSource(
+                    AssetLoading.smallRock,
+                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallRock))
+            );
         }
 
         for (int k = 0; k < LoadConfiguration.getInitialSmallTrees(); k++) {
-            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull));
+            new WoodSource(
+                    AssetLoading.smallTree,
+                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+            );
         }
 
         for (int q = 0; q < LoadConfiguration.getInitialLargeTrees(); q++) {
-            new WoodSource(AssetLoading.largeTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull));
+            new WoodSource(
+                    AssetLoading.largeTree,
+                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+            );
         }
 
         for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++) {
-            new RockSource(AssetLoading.largeRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeRock)));
+            new RockSource(
+                    AssetLoading.largeRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeRock))
+            );
         }
     }
 

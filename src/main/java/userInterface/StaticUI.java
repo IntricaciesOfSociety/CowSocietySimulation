@@ -74,6 +74,7 @@ public class StaticUI {
         cowLinkScrollBox.setPrefHeight(100);
         cowLinkScrollBox.setLayoutX(5);
         cowLinkScrollBox.setLayoutY(60);
+        cowLinkScrollBox.setFocusTraversable(false);
 
         heartAttackButton.setLayoutX(5);
         heartAttackButton.setLayoutY(170);

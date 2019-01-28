@@ -33,12 +33,14 @@ public class RockSource extends Resource {
      * @inheritDoc
      */
     @Override
-    public void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
+    public void constructSource(Image sourceSprite, Tile tileToBuildOn) {
         resourceHealth = Tile.getSize(sourceSprite) * 25;
         this.setImage(sourceSprite);
 
-        if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
-            addRockSource(this);
+        if (tileToBuildOn != null) {
+            if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
+                addRockSource(this);
+        }
     }
 
     /**
