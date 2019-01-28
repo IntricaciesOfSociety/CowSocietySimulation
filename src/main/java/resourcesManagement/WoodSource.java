@@ -1,9 +1,11 @@
 package resourcesManagement;
 
-import cowMovement.DecideActions;
+import cowParts.cowMovement.DecideActions;
 import cowParts.Cow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import metaControl.LoadConfiguration;
+import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +19,6 @@ import java.util.ArrayList;
 public class WoodSource extends Resource {
 
     private static ArrayList<WoodSource> woodSources = new ArrayList<>();
-    private int resourceHealth = 100;
 
     /**
      * Calls for the creation of a woodSource
@@ -25,19 +26,34 @@ public class WoodSource extends Resource {
      * @param tileToBuildOn The tile to build the source upon
      */
     WoodSource(Image sourceSprite, Tile tileToBuildOn) {
+        resourceHealth = Tile.getSize(sourceSprite) * 25;
+
         if (tileToBuildOn != null)
             constructSource(sourceSprite, tileToBuildOn);
+    }
+
+    public static int getNumberOfSources() {
+        return woodSources.size();
+    }
+
+    public static void repopulate() {
+        int popIncrease = (LoadConfiguration.getInitialLargeTrees() + LoadConfiguration.getInitialSmallTrees()) - woodSources.size();
+        for (int i = 0; i < popIncrease; i++) {
+            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull));
+        }
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn) {
+    public void constructSource(Image sourceSprite, Tile tileToBuildOn) {
         this.setImage(sourceSprite);
 
-        if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
-            addWoodSource(this);
+        if (tileToBuildOn != null) {
+            if (tileToBuildOn.tieToObject(this, Tile.getSize(sourceSprite)))
+                addWoodSource(this);
+        }
     }
 
     /**

@@ -1,10 +1,10 @@
-package cowMovement;
+package cowParts.cowMovement;
 
 import buildings.Building;
 import cowParts.Cow;
 import cowParts.Social;
 import javafx.scene.Node;
-import metaEnvironment.EventLogger;
+import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.Resource;

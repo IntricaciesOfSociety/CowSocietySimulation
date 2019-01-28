@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
+import metaControl.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
@@ -11,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -18,13 +21,10 @@ import java.util.Random;
  */
 public class Tile extends ImageView {
 
-    private static Random random = new Random();
-
     private static final int ROWTILES = (int) Playground.playground.getPrefWidth() / 400;
     private static final int COLTILES = (int) Playground.playground.getPrefHeight() / 400;
 
-
-    private boolean isTerrain = true;
+    private boolean isDefaultTerrain = true;
 
     //The list that contains every tile
     private static ArrayList<Tile> tileList = new ArrayList<>();
@@ -49,6 +49,9 @@ public class Tile extends ImageView {
         this.setImage(sprite);
         this.setLayoutX(xCoord);
         this.setLayoutY(yCoord);
+
+        if (sprite.equals(AssetLoading.defaultTile))
+            isDefaultTerrain = true;
         for (int i = 0; i < 4; i++) {
             orientation.add(new ArrayList<>());
             for (int j = 0; j < 4; j++) {
@@ -76,7 +79,7 @@ public class Tile extends ImageView {
             proposedConstruction.setLayoutX(randCoords.getX());
             proposedConstruction.setLayoutY(randCoords.getY());
 
-            proposedConstruction.isTerrain = false;
+            proposedConstruction.isDefaultTerrain = false;
             this.children.add(proposedConstruction);
             tileList.add(proposedConstruction);
 
@@ -106,16 +109,6 @@ public class Tile extends ImageView {
             }
         }
 
-        /*int openTiles = 16;
-
-        for (int t = 0; t < children.size(); t++) {
-            openTiles -= Math.pow(Tile.getSize(children.get(t).getImage()), 2 );
-        }
-
-        int randOrientation = new Random().nextInt(openTiles / (int) (Math.pow(size, 2)));
-        int counter = -1;
-        int spacesToCheck = -size + 5;*/
-
         int randOrientation = new Random().nextInt(possibleSpaces);
         int counter = -1;
 
@@ -130,9 +123,6 @@ public class Tile extends ImageView {
                 }
             }
         }
-        System.out.println("Children " + children.size() + " Size " + size);
-        System.out.println(orientation + " " + " Rand " + randOrientation);
-        System.out.println("Open " + possibleSpaces);
         return null;
     }
 
@@ -146,49 +136,89 @@ public class Tile extends ImageView {
     }
 
     /**
-     * Creates a random point where a tile is, then calls the search for the tile at that point. If that tile is not
-     * terrain then recurse and try again.
-     * @return The random tile found
+     * Adds tiles from the tileList that still have room, excluding any tile types given if any.
+     * @return The random tile that is not an exclusion and that has room
      */
     @Nullable
-    public static Tile getRandomNotFullTile(int size) {
+    public static Tile getRandomNotFullTile(int size, Image ... tilesToExclude) {
         ArrayList<Tile> notFullTiles = new ArrayList<>();
 
-        for (int i = 0; i < tileList.size(); i++) {
-            if (tileList.get(i).isTerrain && tileList.get(i).getIsRoom(size))
-                notFullTiles.add(tileList.get(i));
+        if (tilesToExclude.length != 0) {
+            List<Image> exclusions = Arrays.asList(tilesToExclude);
+            for (Tile aTileList : tileList) {
+                if (!exclusions.contains(aTileList.getImage()) && aTileList.isDefaultTerrain && aTileList.getIsRoom(size))
+                    notFullTiles.add(aTileList);
+            }
+        }
+        else {
+            for (Tile aTileList : tileList) {
+                if (aTileList.isDefaultTerrain && aTileList.getIsRoom(size))
+                    notFullTiles.add(aTileList);
+            }
         }
 
         if (notFullTiles.size() != 0)
             return notFullTiles.get(new Random().nextInt(notFullTiles.size()));
-        else {
-            MenuHandler.createErrorMenu();
+        else
             return null;
-        }
     }
 
     /**
-     * Finds the tile at the given point
-     * @param tileCoords The point to find the coordinate at
-     * @return The tile that was at the given point
-     */
-    @Nullable
-    @Contract(pure = true)
-    private static Tile tileAt(Point2D tileCoords) {
-        for (Tile tile : tileList) {
-            if (tile.getLayoutX() == tileCoords.getX() && tile.getLayoutY() == tileCoords.getY())
-                return tile;
-        }
-        return null;
-    }
-
-    /**
-     * Creates the perfect amount of tiles based on the size of the playground.
+     * Creates the perfect amount of tiles based on the size of the playground. Ground not the default tile has a chance
+     * to appear, usually based of the size of the sim.
      */
     public static void createTiles() {
+        int mountainBiomesAmount = LoadConfiguration.getMountainBiomes();
+        int desertBiomesAmount = LoadConfiguration.getDesertBiomes();
+
+        ArrayList<Point2D> biomeStarts = new ArrayList<>();
+        Random random = new Random();
+
         for (int i = 0; i < COLTILES; i++) {
             for (int j = 0; j < ROWTILES; j++) {
-                tileList.add(new Tile(400 * j, i * 400, AssetLoading.basicTile));
+                tileList.add(new Tile(400 * j, i * 400, AssetLoading.defaultTile));
+            }
+        }
+
+        for (int q = 0; q < mountainBiomesAmount + desertBiomesAmount; q++) {
+            Point2D randStart = new Point2D(new Random().nextInt(ROWTILES), new Random().nextInt(COLTILES));
+
+            while (biomeStarts.contains(randStart)) {
+                randStart = new Point2D(new Random().nextInt(ROWTILES), new Random().nextInt(COLTILES));
+            }
+
+            biomeStarts.add(randStart);
+        }
+
+        for (int t = 0; t < mountainBiomesAmount; t++) {
+            int randStartCoord = random.nextInt(biomeStarts.size());
+            createBiome(biomeStarts.get(randStartCoord), AssetLoading.mountainTileFull);
+            biomeStarts.remove(randStartCoord);
+        }
+
+        for (int u = 0; u < desertBiomesAmount; u++) {
+            int randStartCoord = random.nextInt(biomeStarts.size());
+            createBiome(biomeStarts.get(randStartCoord), AssetLoading.desertTileFull);
+            biomeStarts.remove(randStartCoord);
+        }
+    }
+
+    private static void createBiome(Point2D startingPoint, Image biomeToCreate) {
+        int biomeSize = new Random().nextInt(11) + 5;
+
+        int xLimit = (int) ((biomeSize <= (ROWTILES - startingPoint.getX()) - 1) ? biomeSize : ROWTILES - startingPoint.getX());
+        int yLimit = (int) ((biomeSize <= (COLTILES - startingPoint.getY()) - 1) ? biomeSize : COLTILES - startingPoint.getY());
+
+        for (int i = 0; i < yLimit; i++) {
+            for (int j = 0; j < xLimit; j++) {
+                int tileIndex = (int) (startingPoint.getX() + j + ((startingPoint.getY() + i) * COLTILES));
+                if (tileList.get(tileIndex).isDefaultTerrain) {
+                    Playground.playground.getChildren().remove(tileList.get(tileIndex));
+                    tileList.set(
+                            tileIndex,
+                            new Tile(400 * (startingPoint.getX() + j), 400 * (startingPoint.getY() + i), biomeToCreate)
+                    );
+                }
             }
         }
     }
@@ -223,9 +253,8 @@ public class Tile extends ImageView {
      * @return The coordinates for the entrence of the tile
      */
     public static Point2D getEntrance(@NotNull Tile tileToCheck) {
-        if (tileToCheck.entrance != null) {
+        if (tileToCheck.entrance != null)
             return tileToCheck.entrance;
-        }
         else
             return new Point2D(tileToCheck.getLayoutX(), tileToCheck.getLayoutY());
     }

@@ -17,16 +17,27 @@ import java.util.ArrayList;
  */
 public class AssetLoading {
 
-    public static Image basicTile;
+    public static Image defaultTile;
+
+    public static Image flatTerrain;
+    public static Image mountainTileFull;
+    public static Image mountainTileHalf;
+    public static Image desertTileFull;
 
     public static Image basicSmallBuilding;
     public static Image basicLargeBuilding;
 
-    public static Image basicRock;
+    public static Image smallRock;
+    public static Image smallTree;
+
+    public static Image largeRock;
+    public static Image largeTree;
+
     public static Image basicWatersource;
-    public static Image basicTree;
+
 
     public static ArrayList<Image> basicCows = new ArrayList<>();
+
 
     /**
      * Calls the loading for all base assets.
@@ -43,11 +54,29 @@ public class AssetLoading {
      */
     private static void loadTiles() {
         try {
-            basicTile = new Image(new FileInputStream("src/main/resources/Terrain/"
-                    + LoadConfiguration.getBasicTileName() + ".png"),0, 0, true, false);
+            flatTerrain = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "FlatTerrain.png"),0, 0, true, false);
+            mountainTileFull = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "RockTerrainFull.png"),0, 0, true, false);
+            mountainTileHalf = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "RockTerrainHalf.png"),0, 0, true, false);
+            desertTileFull = new Image(new FileInputStream("src/main/resources/Terrain/"
+                    + "DesertTileFull.png"),0, 0, true, false);
+            loadDefaultTile();
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
+        }
+    }
+
+    private static void loadDefaultTile() {
+        switch (LoadConfiguration.getBasicTileName()) {
+            case "RockTerrainFull":
+                defaultTile = mountainTileFull;
+                break;
+            case "FlatTerrain":
+                defaultTile = flatTerrain;
+                break;
         }
     }
 
@@ -71,9 +100,11 @@ public class AssetLoading {
      */
     private static void loadResources() {
         try {
-            basicRock = new Image(new FileInputStream("src/main/resources/Environment/SmallRock.png"),0, 0, true, false);
+            smallRock = new Image(new FileInputStream("src/main/resources/Environment/SmallRock.png"),0, 0, true, false);
             basicWatersource = new Image(new FileInputStream("src/main/resources/Environment/WateringHole.png"),0, 0, true, false);
-            basicTree = new Image(new FileInputStream("src/main/resources/Environment/Tree.png"),0, 0, true, false);
+            smallTree = new Image(new FileInputStream("src/main/resources/Environment/SmallTree.png"),0, 0, true, false);
+            largeRock = new Image(new FileInputStream("src/main/resources/Environment/LargeRock.png"),0, 0, true, false);
+            largeTree = new Image(new FileInputStream("src/main/resources/Environment/LargeTree.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();

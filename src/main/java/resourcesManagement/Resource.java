@@ -10,14 +10,14 @@ import terrain.Tile;
 public abstract class Resource extends Tile {
 
     //How much the resource can be mined.
-    int resourceHealth = 100;
+    int resourceHealth;
 
     /**
      * Constructs a resource based off of the class being called from, the sprite given, and the tile given.
      * @param sourceSprite The sprite to create a resource with
      * @param tileToBuildOn The tile to create the resource upon
      */
-    abstract void constructSource(Image sourceSprite, @NotNull Tile tileToBuildOn);
+    abstract void constructSource(Image sourceSprite, Tile tileToBuildOn);
 
     /**
      * Depletes the resource that this method was called on by the given amount.

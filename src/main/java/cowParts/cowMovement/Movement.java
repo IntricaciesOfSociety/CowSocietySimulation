@@ -1,4 +1,4 @@
-package cowMovement;
+package cowParts.cowMovement;
 
 import buildings.Building;
 import cowParts.Cow;
@@ -14,15 +14,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
-class Movement extends Action {
+public class Movement extends Action {
 
     private Start destination;
-    private Execution executionBehavior;
     private End endBehavior;
 
-    Movement(Start startBehavior, Execution executionBehavior, @NotNull DecideActions.Finish endBehavior, Cow cowToMove) {
+    Movement(Start startBehavior, @NotNull Finish endBehavior, Cow cowToMove) {
         this.destination = startBehavior;
-        this.executionBehavior = executionBehavior;
         this.endBehavior = endBehavior::executeFinish;
 
         completeAction = createMovementAction(cowToMove);
@@ -30,6 +28,7 @@ class Movement extends Action {
 
     @Nullable
     private PathTransition createMovementAction(Cow cowToMove) {
+
         if (destination.startBehavior() != null) {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
@@ -60,7 +59,7 @@ class Movement extends Action {
         path.getElements().add(moveTo);
         path.getElements().add(pathLine);
         PathTransition movementAnimation = new PathTransition();
-        movementAnimation.setDuration( Duration.millis( (distanceTotal /  10) * SimState.getDeltaTime() * 10) );
+        movementAnimation.setDuration( Duration.millis( (distanceTotal /  5) * SimState.getDeltaTime() * 5) );
         movementAnimation.setNode(cowToMove);
         movementAnimation.setPath(path);
         movementAnimation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
@@ -70,8 +69,7 @@ class Movement extends Action {
         return movementAnimation;
     }
 
-    public static void validateDestination(Object destination) {
-
+    public static void validateDestination(Cow cowToCheck) {
     }
 
     /**TODO: Move to an action?

@@ -3,7 +3,9 @@ package cowParts;
 import buildings.Building;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
-import metaEnvironment.EventLogger;
+import javafx.util.Duration;
+import metaControl.SimState;
+import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
@@ -66,7 +68,7 @@ public class Cow extends ImageView {
     ColorAdjust color = new ColorAdjust();
 
     //The job that this cow has
-    private String job = "spinning";
+    private String job = "Spinning";
 
     //TODO: Implement amount of work cow can do
     private int workForce = 10;
@@ -83,7 +85,6 @@ public class Cow extends ImageView {
      */
     private Building livingSpace;
     private Building buildingIn;
-    private int buildingTime = 5000;
     private Object destination;
     private boolean voted = false;
 
@@ -100,7 +101,7 @@ public class Cow extends ImageView {
         //Constantly updated vitals
         if (counter % 100 == 0) {
             self.setThirst(-1);
-            self.setSleepiness(-2);
+            self.setSleepiness(-1);
         }
 
         //If cow is in a building
@@ -248,14 +249,6 @@ public class Cow extends ImageView {
 
     Social getSocialRelations() {
         return socialRelations;
-    }
-
-    public int getBuildingTime() {
-        return buildingTime;
-    }
-
-    public void setBuildingTime(int buildingTime) {
-        this.buildingTime = buildingTime;
     }
 
     public Building getLivingSpace() {

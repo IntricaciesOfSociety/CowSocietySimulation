@@ -2,7 +2,7 @@ package metaControl;
 
 import buildings.Building;
 import buildings.BuildingHandler;
-import cowMovement.ExecuteAction;
+import cowParts.cowMovement.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import metaEnvironment.Playground;

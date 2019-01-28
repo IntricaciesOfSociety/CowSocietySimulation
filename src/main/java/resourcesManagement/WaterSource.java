@@ -1,12 +1,10 @@
 package resourcesManagement;
 
 import cowParts.Cow;
-import cowMovement.DecideActions;
+import cowParts.cowMovement.DecideActions;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 public class WaterSource extends Resource {
 
     private static ArrayList<WaterSource> wateringHoles = new ArrayList<>();
-    private int resourceHealth = 1000;
 
     /**
      * Calls for the creation of a woodSource
@@ -34,6 +31,7 @@ public class WaterSource extends Resource {
      */
     @Override
     public void constructSource(Image waterSourceSprite, Tile tileToBuildOn) {
+        resourceHealth = Tile.getSize(waterSourceSprite) * 250;
         this.setImage(waterSourceSprite);
 
         if (tileToBuildOn != null) {

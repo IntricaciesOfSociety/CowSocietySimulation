@@ -26,13 +26,15 @@ public class Role {
      */
     public Role(Cow cowToCheck) {
         if (random.nextInt(100) < 10)
-            cowToCheck.setJob("woodworking");
+            cowToCheck.setJob("Carpenter");
         else if (random.nextInt(100) < 10)
-            cowToCheck.setJob("choppingWood");
+            cowToCheck.setJob("Mason");
         else if (random.nextInt(100) < 10)
-            cowToCheck.setJob("miningRock");
+            cowToCheck.setJob("Lumberjack");
+        else if (random.nextInt(100) < 10)
+            cowToCheck.setJob("Miner");
 
-        if (cowToCheck.getJob().equals("spinning"))
+        if (cowToCheck.getJob().equals("Spinning"))
             new Role(cowToCheck);
 
         if (!Government.hasLeader())
@@ -42,13 +44,16 @@ public class Role {
     @Nullable
     public static Object getRoleDestination(@NotNull Cow cowToCheck) {
         switch (cowToCheck.getJob()) {
-            case "woodworking":
+            case "Carpenter":
                 cowToCheck.currentAction = "Wood Constructing";
                 return BuildingHandler.nextHouseToConstruct();
-            case "choppingWood":
+            case "Mason":
+                cowToCheck.currentAction = "Rock Constructing";
+                return BuildingHandler.nextHouseToConstruct();
+            case "Lumberjack":
                 cowToCheck.currentAction = "Chopping Wood";
                 return WoodSource.getClosestResource(cowToCheck);
-            case "miningRock":
+            case "Miner":
                 cowToCheck.currentAction = "Mining Rock";
                 return RockSource.getClosestResource(cowToCheck);
         }
@@ -58,19 +63,25 @@ public class Role {
 
     public static void getRoleCompletionBehavior(@NotNull Cow cowToCheck) {
         switch (cowToCheck.getJob()) {
-            case "woodworking":
+            case "Carpenter":
                 if ( !((Building) cowToCheck.getDestination()).isConstructed() ) {
                     ((Building) cowToCheck.getDestination()).contributeResource("wood", 5);
                     ((Building) cowToCheck.getDestination()).contributeResource("power", 1);
                 }
                 break;
-            case "choppingWood":
+            case "Mason":
+                if ( !((Building) cowToCheck.getDestination()).isConstructed() ) {
+                    ((Building) cowToCheck.getDestination()).contributeResource("rock", 5);
+                    ((Building) cowToCheck.getDestination()).contributeResource("power", 1);
+                }
+                break;
+            case "Lumberjack":
                 if ( !((WoodSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("wood", 5);
                     Resource.depleteResource((WoodSource) cowToCheck.getDestination(), 5);
                 }
                 break;
-            case "miningRock":
+            case "Miner":
                 if ( !((RockSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("rock", 5);
                     Resource.depleteResource((RockSource) cowToCheck.getDestination(), 5);

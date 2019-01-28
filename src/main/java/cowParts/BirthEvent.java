@@ -1,6 +1,6 @@
 package cowParts;
 
-import cowMovement.DecideActions;
+import cowParts.cowMovement.DecideActions;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;

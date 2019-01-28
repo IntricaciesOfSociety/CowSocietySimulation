@@ -4,6 +4,8 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.effect.ColorAdjust;
 import org.jetbrains.annotations.Contract;
+import resourcesManagement.ResourcesHandler;
+import resourcesManagement.WoodSource;
 import societalProductivity.government.Government;
 import userInterface.StaticUI;
 
@@ -52,11 +54,10 @@ public class Time {
      * Updates the brightness of the sim based off of the time of day.
      */
     private static void updateBrightness() {
-        if (timeInDay == 800)
-            brightnessValue = 0;
-
-        if (timeInDay == 2000)
+        if (timeInDay <= 800 || timeInDay >= 2000)
             brightnessValue = -0.7;
+        else
+            brightnessValue = 0;
     }
 
     /**
@@ -105,6 +106,13 @@ public class Time {
                 cowLife.kill();
             }
         }
+
+        repopulateResources();
+    }
+
+    private static void repopulateResources() {
+        if (WoodSource.getNumberOfSources() < (LoadConfiguration.getInitialLargeTrees() + LoadConfiguration.getInitialSmallTrees()))
+            WoodSource.repopulate();
     }
 
     /**
