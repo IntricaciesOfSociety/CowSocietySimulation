@@ -5,6 +5,7 @@ import cowParts.Cow;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Point2D;
+import javafx.scene.CacheHint;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -37,6 +38,9 @@ public class Movement extends Action {
             newMovement.setOnFinished((event) -> endBehavior.endBehavior());
 
             //TODO: Implement path redirection through executionBehavior
+            cowToMove.setCacheHint(CacheHint.SPEED);
+            cowToMove.setCache(true);
+
             return newMovement;
         }
         else

@@ -1,6 +1,7 @@
 package terrain;
 
 import javafx.geometry.Point2D;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
@@ -58,6 +59,7 @@ public class Tile extends ImageView {
                 orientation.get(i).add(false);
             }
         }
+        this.setCacheHint(CacheHint.SPEED);
         Playground.playground.getChildren().add(this);
     }
 

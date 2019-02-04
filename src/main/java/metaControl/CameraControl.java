@@ -65,7 +65,7 @@ public class CameraControl {
 
         if (direction && scale < 2.4)
             scale *= delta;
-        else if (!direction && scale > 0.2)
+        else if (!direction && scale > 200 / Playground.playground.getWidth() * 10)
             scale /= delta;
 
         double f = (scale / oldScale) - 1;

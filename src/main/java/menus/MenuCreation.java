@@ -2,6 +2,7 @@ package menus;
 
 import buildings.Building;
 import cowParts.CowHandler;
+import javafx.scene.CacheHint;
 import metaControl.SimState;
 import cowParts.Cow;
 import cowParts.Social;
@@ -410,6 +411,9 @@ public class MenuCreation {
 
         background.setFill(Color.BLACK);
         idText.setFill(Color.WHITE);
+
+        stack.setCacheHint(CacheHint.SPEED);
+        stack.setCache(true);
 
         cognitiveAggregates.getChildren().addAll(overallEmotion, overallFinance, overallSocial, overallPhysical, overallMental, overallAcademic);
         stack.getChildren().addAll(background, idText, cognitiveAggregates);
