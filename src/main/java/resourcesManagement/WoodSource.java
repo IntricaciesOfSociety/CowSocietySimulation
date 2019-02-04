@@ -7,7 +7,6 @@ import javafx.scene.image.ImageView;
 import metaControl.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
@@ -39,7 +38,7 @@ public class WoodSource extends Resource {
     public static void repopulate() {
         int popIncrease = (LoadConfiguration.getInitialLargeTrees() + LoadConfiguration.getInitialSmallTrees()) - woodSources.size();
         for (int i = 0; i < popIncrease; i++) {
-            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull));
+            new WoodSource(AssetLoading.smallTree, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull));
         }
     }
 

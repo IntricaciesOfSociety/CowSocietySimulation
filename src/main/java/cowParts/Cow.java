@@ -163,6 +163,7 @@ public class Cow extends ImageView {
 
         hidden = true;
         Playground.playground.getChildren().remove(this);
+        System.out.println(this.getLayoutX());
     }
 
     /**
