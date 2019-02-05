@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import menus.MenuCreation;
 import menus.MenuHandler;
 import metaControl.SimState;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  * Handles the creation of large dwelling buildings. Called only if building prerequisites have been fulfilled
  * (resources and technology).
  */
-public class LargeDwelling extends Building {
+public class LargeBuilding extends Building {
 
     /**
      * Calls for the creation of a building given an image.
@@ -26,7 +27,7 @@ public class LargeDwelling extends Building {
      * @param name The name of the building
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public LargeDwelling(Image buildingSprite, String name, Tile tileToBuildOn) {
+    public LargeBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
         constructBuilding(buildingSprite, name, tileToBuildOn);
     }
 
@@ -38,7 +39,7 @@ public class LargeDwelling extends Building {
         this.setId(buildingName);
 
         this.buildingSprite = buildingSprite;
-        this.setImage(BuildingHandler.largeUnderConstructionSprite);
+        this.setImage(AssetLoading.largeUnderConstructionSprite);
 
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
@@ -49,6 +50,7 @@ public class LargeDwelling extends Building {
 
         if (tileToBuildOn.tieToObject(this, Tile.getSize(buildingSprite))) {
             BuildingHandler.buildingsList.add(this);
+            Building.setBuildingType(this);
             buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
         }
     }
@@ -143,10 +145,5 @@ public class LargeDwelling extends Building {
     @Override
     public boolean isConstructed() {
         return this.isConstructed;
-    }
-
-    @Override
-    boolean isVotingPlace() {
-        return Building.checkIfVotingPlace(this.getId());
     }
 }

@@ -4,6 +4,7 @@ import cowParts.Cow;
 import javafx.scene.image.Image;
 import menus.MenuHandler;
 import metaControl.SimState;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * Handles the creation of small dwelling buildings. Called only if building prerequisites have been fulfilled
  * (resources and technology).
  */
-public class SmallDwelling extends Building {
+public class SmallBuilding extends Building {
 
     /**
      * Calls for the creation of a building given an image.
@@ -24,7 +25,7 @@ public class SmallDwelling extends Building {
      * @param name The name of the building
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public SmallDwelling(Image buildingSprite, String name, Tile tileToBuildOn) {
+    public SmallBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
         constructBuilding(buildingSprite, name, tileToBuildOn);
     }
 
@@ -35,7 +36,7 @@ public class SmallDwelling extends Building {
     public void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
         this.setId(buildingName);
         this.buildingSprite = buildingSprite;
-        this.setImage(BuildingHandler.smallUnderConstructionSprite);
+        this.setImage(AssetLoading.smallUnderConstructionSprite);
 
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
@@ -138,10 +139,5 @@ public class SmallDwelling extends Building {
     @Override
     public boolean isConstructed() {
         return this.isConstructed;
-    }
-
-    @Override
-    boolean isVotingPlace() {
-        return Building.checkIfVotingPlace(this.getId());
     }
 }

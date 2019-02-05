@@ -44,6 +44,20 @@ class ActiveActions extends Action {
         return createMovement();
     }
 
+    public static Movement getFood(Cow cowToCheck) {
+        destination = BuildingHandler.getClosestGroceryStore(cowToCheck);
+        cowToCheck.currentAction = "Getting Food";
+
+        finishBehavior = () -> {
+            EventLogger.createLoggedEvent(cowToCheck, "Getting food", 0, "hunger", 100 - cowToCheck.self.getHunger());
+            cowToCheck.self.setHunger(100);
+            Movement.pauseMovement(((int) (SimState.getDeltaTime() * 1000)), cowToCheck);
+        };
+        cowToMakeMovement = cowToCheck;
+        StaticUI.updateActionText();
+        return createMovement();
+    }
+
     @NotNull
     static Movement goWork(Cow cowToCheck) {
         destination = Role.getRoleDestination(cowToCheck);

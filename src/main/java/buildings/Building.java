@@ -1,9 +1,13 @@
 package buildings;
 
 import cowParts.Cow;
+import cowParts.cowMovement.DecideActions;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import menus.MenuCreation;
+import metaControl.LoadConfiguration;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
@@ -42,20 +46,17 @@ public abstract class Building extends Tile {
     boolean isConstructed = false;
 
     /**
-     * Checks to see if the building is a place where cows can vote
-     * @param id The name of the building to check
-     * @return If a cow can vote here or not
+     * Checks to see what type of building list the new building goes into, then adds the building into that list. All
+     * buildings are added into the buildingList within their own constructor.
+     * @param buildingToAdd The building to add to its correct list
      */
-    @Contract(pure = true)
-    static boolean checkIfVotingPlace(@NotNull String id) {
-        switch (id) {
-            case "CityCenter":
-                return true;
-            case "CowHotel":
-                return true;
-            default:
-                return false;
-        }
+    static void setBuildingType(Building buildingToAdd) {
+        String buildindID = buildingToAdd.getId();
+
+        if (buildindID.equals("CityCenter") || buildindID.equals("CowHotel"))
+            BuildingHandler.votingPlaces.add(buildingToAdd);
+        else if (buildindID.equals(LoadConfiguration.getBasicGroceryStore()))
+            BuildingHandler.groceryStores.add(buildingToAdd);
     }
 
     /**
@@ -151,5 +152,26 @@ public abstract class Building extends Tile {
         cowToMove.show();
     }
 
-    abstract boolean isVotingPlace();
+    /**
+     * Finds the closest given building to the given cow.
+     * @param cowToCheck The cow to check
+     * @return The closest building to the cowToCheck
+     */
+    public static ImageView getClosestBuilding(Cow cowToCheck, ArrayList<Building> specializedBuilding) {
+
+        if (specializedBuilding.size() != 0) {
+            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(0));
+            ImageView closestBuilding = specializedBuilding.get(0);
+
+            for(int i = 0; i < specializedBuilding.size(); i++) {
+                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(i)) < smallestDistance) {
+                    closestBuilding = specializedBuilding.get(i);
+                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(i));
+                }
+
+            }
+            return closestBuilding;
+        }
+        else return null;
+    }
 }

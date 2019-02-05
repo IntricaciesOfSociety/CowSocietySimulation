@@ -55,6 +55,8 @@ public class DecideActions {
     private static Movement decideMovement(@NotNull Cow cowToCheck) {
         if (cowToCheck.self.getThirst() <= 10)
             return ActiveActions.getWater(cowToCheck);
+        else if (cowToCheck.self.getHunger() <= 10)
+            return ActiveActions.getFood(cowToCheck);
         else if (cowToCheck.self.getSleepiness() > 0)
             return ActiveActions.goWork(cowToCheck);
         else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean())

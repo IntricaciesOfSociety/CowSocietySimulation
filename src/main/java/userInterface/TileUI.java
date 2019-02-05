@@ -40,9 +40,6 @@ public class TileUI {
         PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText, buildButton, buildButton2);
 
         BuildingHandler.highlightBuildings();
-
-        buildButton.setOnAction(event -> {if(selectedTile != null) new LargeDwelling(BuildingHandler.loadSprite("CityCenter"), "CityCenter", selectedTile);});
-        buildButton2.setOnAction(event -> {if(selectedTile != null) new SmallDwelling(BuildingHandler.loadSprite("CowShack"), "CowShack", selectedTile);});
     }
 
     /**

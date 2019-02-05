@@ -1,6 +1,6 @@
 package cowParts.cowMovement;
 
-import buildings.SmallDwelling;
+import buildings.SmallBuilding;
 import cowParts.Cow;
 import metaControl.LoadConfiguration;
 import metaEnvironment.AssetLoading;
@@ -12,7 +12,7 @@ class PassiveActions {
     static void buyHouse(Cow cowToCheck) {
         //If there is space available
         if (Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicSmallBuilding)) != null) {
-            cowToCheck.setLivingSpace(new SmallDwelling(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicSmallBuilding))));
+            cowToCheck.setLivingSpace(new SmallBuilding(AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(), Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicSmallBuilding))));
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "taxes", 0);
