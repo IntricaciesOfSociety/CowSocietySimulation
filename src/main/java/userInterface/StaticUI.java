@@ -60,10 +60,8 @@ public class StaticUI {
     static void init() {
         createSpeedButtons();
 
-        Rectangle background = new Rectangle(150, 600, Color.DARKGOLDENROD);
-
         populationText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
-        populationText.setFill(Color.BLACK);
+        populationText.setFill(Color.RED);
         populationText.setX(5);
         populationText.setY(50);
 
@@ -79,16 +77,16 @@ public class StaticUI {
         ImageView heartAttackImage = new ImageView(AssetLoading.loadUISprite("HeartAttack"));
         heartAttackImage.setScaleX(2);
         heartAttackImage.setScaleY(2);
-        heartAttackButton.setLayoutX(15);
-        heartAttackButton.setLayoutY(170);
+        heartAttackButton.setLayoutX(1300);
+        heartAttackButton.setLayoutY(20);
         heartAttackButton.setFocusTraversable(false);
         heartAttackButton.setGraphic(heartAttackImage);
 
         ImageView diseaseImage = new ImageView(AssetLoading.loadUISprite("Disease"));
         diseaseImage.setScaleX(2);
         diseaseImage.setScaleY(2);
-        diseaseButton.setLayoutX(15);
-        diseaseButton.setLayoutY(200);
+        diseaseButton.setLayoutX(1300);
+        diseaseButton.setLayoutY(50);
         diseaseButton.setFocusTraversable(false);
         diseaseButton.setGraphic(diseaseImage);
 
@@ -96,7 +94,7 @@ public class StaticUI {
         detailedImage.setScaleX(2);
         detailedImage.setScaleY(2);
         detailedViewButton.setLayoutX(15);
-        detailedViewButton.setLayoutY(230);
+        detailedViewButton.setLayoutY(170);
         detailedViewButton.setFocusTraversable(false);
         detailedViewButton.setGraphic(detailedImage);
 
@@ -104,30 +102,30 @@ public class StaticUI {
         storyImage.setScaleX(2);
         storyImage.setScaleY(2);
         storyViewButton.setLayoutX(15);
-        storyViewButton.setLayoutY(260);
+        storyViewButton.setLayoutY(200);
         storyViewButton.setFocusTraversable(false);
         storyViewButton.setGraphic(storyImage);
 
         controlGroup.setDisable(true);
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        idText.setFill(Color.BLACK);
+        idText.setFill(Color.RED);
         idText.setX(5);
-        idText.setY(310);
+        idText.setY(250);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setLayoutX(5);
-        actionText.setLayoutY(320);
+        actionText.setLayoutY(260);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(360);
+        accommodationsText.setLayoutY(300);
 
         ImageView tileImage = new ImageView(AssetLoading.loadUISprite("TileUI"));
         tileImage.setScaleX(2);
         tileImage.setScaleY(2);
         tileUIButton.setLayoutX(15);
-        tileUIButton.setLayoutY(400);
+        tileUIButton.setLayoutY(340);
         tileUIButton.setFocusTraversable(false);
         tileUIButton.setGraphic(tileImage);
 
@@ -135,20 +133,20 @@ public class StaticUI {
         resourcesImage.setScaleX(2);
         resourcesImage.setScaleY(2);
         resourcesUIButton.setLayoutX(15);
-        resourcesUIButton.setLayoutY(430);
+        resourcesUIButton.setLayoutY(370);
         resourcesUIButton.setFocusTraversable(false);
         resourcesUIButton.setGraphic(resourcesImage);
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setLayoutX(20);
-        timeOfDay.setLayoutY(590);
+        timeOfDay.setLayoutY(750);
 
         controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
         differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton);
 
         PlaygroundUI.staticUI.getChildren().addAll(
-                background, simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
+                 simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
         );
 
         detailedViewButton.setOnAction(event -> {
@@ -211,7 +209,7 @@ public class StaticUI {
         cowLink = new Hyperlink("Cow: " + cowId);
         cowLink.setFocusTraversable(false);
         cowLink.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
-        cowLink.setTextFill(Color.BLACK);
+        cowLink.setTextFill(Color.RED);
 
         cowLinkBox.getChildren().add(cowLink);
 
