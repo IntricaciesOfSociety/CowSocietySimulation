@@ -157,7 +157,7 @@ public abstract class Building extends Tile {
      * @param cowToCheck The cow to check
      * @return The closest building to the cowToCheck
      */
-    public static ImageView getClosestBuilding(Cow cowToCheck, ArrayList<Building> specializedBuilding) {
+    static ImageView getClosestBuilding(Cow cowToCheck, ArrayList<Building> specializedBuilding) {
 
         if (specializedBuilding.size() != 0) {
             double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(0));
