@@ -76,6 +76,9 @@ public class Input {
             //Toggles all cow menus
             if (keyPressed.equals(KeyCode.N)) toggleAllCowMenus();
 
+            //Fullscreens
+            if (keyPressed.equals(KeyCode.F)) SimState.initFullScreen();
+
             //Pause/UnPause simulation
             if (keyPressed.equals(KeyCode.P)) {
                 if (!SimState.getSimState().equals("Paused")) SimState.setSimState("Paused");

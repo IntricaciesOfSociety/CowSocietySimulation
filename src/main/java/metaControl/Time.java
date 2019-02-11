@@ -1,5 +1,6 @@
 package metaControl;
 
+import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.effect.ColorAdjust;
@@ -91,14 +92,16 @@ public class Time {
             cowLife = CowHandler.liveCowList.get(i);
             cowLife.self.setAge(1);
             cowLife.birth.updateFertility();
+            if (cowLife.birth.isFertile() && !BirthEvent.getCreationList().contains(cowLife))
+                BirthEvent.getCreationList().add(cowLife);
 
             if (cowLife.self.getAge() == 5) {
-                cowLife.setScaleX(2.25);
-                cowLife.setScaleY(2.25);
+                cowLife.setScaleX(1.5);
+                cowLife.setScaleY(1.5);
             }
             else if (cowLife.self.getAge() == 10) {
-                cowLife.setScaleX(3);
-                cowLife.setScaleY(3);
+                cowLife.setScaleX(2);
+                cowLife.setScaleY(2);
             }
 
             if (cowLife.self.getAge() > random.nextInt((100 - 50) + 1) + 50) {

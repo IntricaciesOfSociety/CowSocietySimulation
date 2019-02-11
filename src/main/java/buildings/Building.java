@@ -7,9 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import metaControl.LoadConfiguration;
-import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import resourcesManagement.ResourceRequirement;
 import terrain.Tile;
 
@@ -50,7 +50,7 @@ public abstract class Building extends Tile {
      * buildings are added into the buildingList within their own constructor.
      * @param buildingToAdd The building to add to its correct list
      */
-    static void setBuildingType(Building buildingToAdd) {
+    static void setBuildingType(@NotNull Building buildingToAdd) {
         String buildindID = buildingToAdd.getId();
 
         if (buildindID.equals("CityCenter") || buildindID.equals("CowHotel"))
@@ -157,7 +157,8 @@ public abstract class Building extends Tile {
      * @param cowToCheck The cow to check
      * @return The closest building to the cowToCheck
      */
-    static ImageView getClosestBuilding(Cow cowToCheck, ArrayList<Building> specializedBuilding) {
+    @Nullable
+    static ImageView getClosestBuilding(Cow cowToCheck, @NotNull ArrayList<Building> specializedBuilding) {
 
         if (specializedBuilding.size() != 0) {
             double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(0));

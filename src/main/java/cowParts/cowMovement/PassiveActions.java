@@ -22,7 +22,9 @@ class PassiveActions {
             cowToCheck.self.setSavings(-100);
 
             if (cowToCheck.hasOffspring()) {
-                cowToCheck.getOffspring().setLivingSpace(cowToCheck.getLivingSpace());
+                for (int i = 0; i < cowToCheck.getOffspring().size(); i ++) {
+                    cowToCheck.getOffspring().get(i).setLivingSpace(cowToCheck.getLivingSpace());
+                }
                 cowToCheck.getSpouse().setLivingSpace(cowToCheck.getLivingSpace());
             }
         }

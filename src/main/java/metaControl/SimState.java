@@ -4,11 +4,6 @@ import buildings.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
-import insidefx.undecorator.UndecoratorScene;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.layout.Region;
-import javafx.stage.StageStyle;
 import metaEnvironment.AssetLoading;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
@@ -26,11 +21,6 @@ import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import userInterface.ResourcesUI;
-
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -56,6 +46,7 @@ public class SimState extends Application {
     private static long simSpeed = 128_666_666L;
     private static double deltaTime = 0;
     private static boolean paused;
+    private static Stage primaryStage;
 
     /**
      * @return The current simSpeed of the sim
@@ -194,29 +185,22 @@ public class SimState extends Application {
         root.getChildren().add(0, playground);
     }
 
+    static void initFullScreen() {
+        primaryStage.setFullScreen(true);
+    }
+
     /**
      * This is the main method that is run to start the whole simulation. Initializes the stage and calls simInit().
      * @param primaryStage The stage for the window that the simulation is in. Required for javafx
      */
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         primaryStage.setTitle("Release01");
-
-        Region xml = null;
-        try {
-            xml = FXMLLoader.load(getClass().getResource("/ClientArea.fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        UndecoratorScene.setClassicDecoration();
-
-
-        UndecoratorScene undecoratorScene = new UndecoratorScene(primaryStage, xml);
 
         primaryStage.show();
         primaryStage.setScene(initialScene);
+        primaryStage.setResizable(false);
 
         simInit();
     }

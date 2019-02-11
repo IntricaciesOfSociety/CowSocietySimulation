@@ -27,8 +27,12 @@ class ActiveActions extends Action {
 
     private static Random random = new Random();
 
-    private static Movement returnAction(Cow cowToMakeMovement, Object destination, String currentAction, Finish finishBehavior) {
-        cowToMakeMovement.currentAction = currentAction;
+    @NotNull
+    @Contract("_, _, _, _ -> new")
+    private static Movement returnAction(@NotNull Cow cowToMakeMovement, Object destination, String currentAction, Finish finishBehavior) {
+        if (currentAction != null)
+            cowToMakeMovement.currentAction = currentAction;
+
         StaticUI.updateActionText();
         return (new Movement(
                 () -> destination,
@@ -37,8 +41,25 @@ class ActiveActions extends Action {
         );
     }
 
+    @Nullable
+    static Movement getVitalAction(@NotNull Cow cowToCheck) {
+        int lowestVitalValue = 11;
+
+        if (cowToCheck.self.getThirst() < lowestVitalValue)
+            lowestVitalValue = cowToCheck.self.getThirst();
+        else if (cowToCheck.self.getHunger() < lowestVitalValue)
+            lowestVitalValue = cowToCheck.self.getHunger();
+
+        if (cowToCheck.self.getThirst() == lowestVitalValue)
+            return getWater(cowToCheck);
+        else if (cowToCheck.self.getHunger() == lowestVitalValue)
+            return getFood(cowToCheck);
+
+        return null;
+    }
+
     @NotNull
-    static Movement getWater(Cow cowToCheck) {
+    private static Movement getWater(Cow cowToCheck) {
         return returnAction(cowToCheck, WaterSource.getClosestResource(cowToCheck), "Getting Water",
             () -> {
                 EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100 - cowToCheck.self.getThirst());
@@ -48,7 +69,8 @@ class ActiveActions extends Action {
         );
     }
 
-    static Movement getFood(Cow cowToCheck) {
+    @NotNull
+    private static Movement getFood(Cow cowToCheck) {
         return returnAction(cowToCheck, BuildingHandler.getClosestGroceryStore(cowToCheck), "Getting Food",
             () -> {
                 EventLogger.createLoggedEvent(cowToCheck, "Getting food", 0, "hunger", 100 - cowToCheck.self.getHunger());
@@ -60,7 +82,7 @@ class ActiveActions extends Action {
 
     @NotNull
     static Movement goWork(Cow cowToCheck) {
-        return returnAction(cowToCheck, Role.getRoleDestination(cowToCheck), "Going to work",
+        return returnAction(cowToCheck, Role.getRoleDestination(cowToCheck), null,
             () -> {
                 Role.getRoleCompletionBehavior(cowToCheck);
 
@@ -103,8 +125,8 @@ class ActiveActions extends Action {
         );
     }
 
+    @NotNull
     static Movement createChild(@NotNull Cow cowToCheck) {
-
         return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, BirthEvent.getProcreatingGroupMatch(cowToCheck)), "Going Home",
             () -> {
                 BirthEvent.createChild(cowToCheck, BirthEvent.getProcreatingGroupMatch(cowToCheck));

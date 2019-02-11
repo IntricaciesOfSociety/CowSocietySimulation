@@ -32,7 +32,16 @@ public class CowHandler {
      */
     public static void init() {
         for (int i = 0; i < LoadConfiguration.getInitialPopulation(); i++) {
-            createCow();
+            Cow newCow = createCow();
+
+            if (newCow.self.getAge() >= 5 && newCow.self.getAge() <= 10) {
+                newCow.setScaleX(1.5);
+                newCow.setScaleY(1.5);
+            }
+            else if (newCow.self.getAge() >= 10) {
+                newCow.setScaleX(2);
+                newCow.setScaleY(2);
+            }
         }
     }
 
