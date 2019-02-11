@@ -34,7 +34,13 @@ public class Movement extends Action {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
 
-            PathTransition newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            PathTransition newMovement = null;
+
+            if (destination.startBehavior() instanceof Tile)
+                newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            else
+                newMovement = animateTowardsDestination(cowToMove, (Point2D) destination.startBehavior());
+
             newMovement.setOnFinished((event) -> endBehavior.endBehavior());
 
             //TODO: Implement path redirection through executionBehavior

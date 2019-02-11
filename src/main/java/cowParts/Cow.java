@@ -65,7 +65,7 @@ public class Cow extends ImageView {
     color: The color effects applied to the cow
     sprite: The image being displayed
      */
-    ColorAdjust color = new ColorAdjust();
+    private ColorAdjust color = new ColorAdjust();
 
     //The job that this cow has
     private String job = "Spinning";
@@ -77,7 +77,7 @@ public class Cow extends ImageView {
     boolean parent = false;
 
     //Statuses
-    boolean diseased = false;
+    private boolean diseased = false;
 
     /* Tile Control variables
     livingSpace: Where the cow currently resides
@@ -120,9 +120,6 @@ public class Cow extends ImageView {
             otherCow = buildingIn.getCurrentInhabitants().get(i);
 
             if (Social.relationExists(this, otherCow)) {
-                if (!this.parent && this.birth.isFertile() && otherCow.birth.isFertile())
-                    BirthEvent.createChild(this, otherCow);
-
                 if (random.nextInt(50) == 1)
                     Social.modifyRelationValue(this, otherCow, random.nextInt(5 + 1 + 5) + -5);
             }

@@ -1,6 +1,7 @@
 package cowParts;
 
 import buildings.BuildingHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import metaControl.LoadConfiguration;
@@ -99,5 +100,9 @@ public class CowHandler {
     public static void killAll(@NotNull ArrayList<Cow> killList) {
         for (Cow cowToKill : killList)
             cowToKill.kill();
+    }
+
+    public static Point2D findHalfwayPoint(Cow cowToCheck, Cow otherCow) {
+        return new Point2D((cowToCheck.getLayoutX() + otherCow.getLayoutX()) / 2, (cowToCheck.getLayoutY() + otherCow.getLayoutY()) / 2);
     }
 }

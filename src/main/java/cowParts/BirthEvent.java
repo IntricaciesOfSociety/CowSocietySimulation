@@ -21,6 +21,9 @@ public class BirthEvent {
     private Cow offspring;
     private Cow spouse;
 
+    public static Cow getProcreatingGroupMatch(Cow cowToCheck) {
+    }
+
     /**
      * Sets the birth date of a new cow.
      * @param date The date of the new cow's birth
@@ -34,7 +37,7 @@ public class BirthEvent {
      * @param parent1 The first parent of the new cow
      * @param parent2 The second parent of the new cow
      */
-    static void createChild(@NotNull Cow parent1, @NotNull Cow parent2) {
+    public static void createChild(@NotNull Cow parent1, @NotNull Cow parent2) {
         Cow newCow = CowHandler.createCow();
         newCow.self.setAge(-newCow.self.getAge() + 1);
 

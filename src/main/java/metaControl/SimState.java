@@ -4,6 +4,11 @@ import buildings.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
+import insidefx.undecorator.UndecoratorScene;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.layout.Region;
+import javafx.stage.StageStyle;
 import metaEnvironment.AssetLoading;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
@@ -21,6 +26,11 @@ import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import userInterface.ResourcesUI;
+
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -191,8 +201,22 @@ public class SimState extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Release01");
-        primaryStage.setScene(initialScene);
+
+        Region xml = null;
+        try {
+            xml = FXMLLoader.load(getClass().getResource("/ClientArea.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        UndecoratorScene.setClassicDecoration();
+
+
+        UndecoratorScene undecoratorScene = new UndecoratorScene(primaryStage, xml);
+
         primaryStage.show();
+        primaryStage.setScene(initialScene);
 
         simInit();
     }
