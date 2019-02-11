@@ -131,7 +131,7 @@ public class AssetLoading {
         try {
             Files.walk(Paths.get("src/main/resources/Cows/Random")).filter(Files::isRegularFile).forEach(spritePath -> {
                 try {
-                    basicCows.add(new Image(new FileInputStream(spritePath.toString()),0, 0, true, false));
+                    basicCows.add(new Image(new FileInputStream(spritePath.toString()),37.5, 16.5, true, false));
                 }
                 catch (FileNotFoundException e) {
                     e.printStackTrace();

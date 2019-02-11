@@ -51,8 +51,6 @@ public class CowHandler {
         newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
         newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
         newCow.setEffect(newCow.getColor());
-        newCow.setScaleX(1.5);
-        newCow.setScaleY(1.5);
         newCow.setSmooth(false);
 
         //TODO: Switch to an actual date
