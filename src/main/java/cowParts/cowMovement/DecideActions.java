@@ -3,6 +3,7 @@ package cowParts.cowMovement;
 import buildings.BuildingHandler;
 import cowParts.BirthEvent;
 import cowParts.Cow;
+import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;
 import metaControl.Time;
 import org.jetbrains.annotations.Contract;
@@ -67,7 +68,7 @@ public class DecideActions {
         //Social actions
         else if (((Time.getHours() > 20 || Time.getHours() < 8) && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
             return ActiveActions.goHome(cowToCheck);
-        else if (cowToCheck.birth.isFertile() && BirthEvent.getProcreatingGroupMatch(cowToCheck) != null)
+        else if (cowToCheck.birth.isFertile() && NaturalSelection.getMostFitAndFertile(cowToCheck) != null)
             return ActiveActions.createChild(cowToCheck);
 
         else

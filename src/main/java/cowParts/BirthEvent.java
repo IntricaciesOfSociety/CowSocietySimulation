@@ -1,5 +1,6 @@
 package cowParts;
 
+import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -19,30 +20,11 @@ public class BirthEvent {
     //TODO: Make an actual date (Not just a time)
     private Date birthDay;
 
-    private static ArrayList<Cow> creationList = new ArrayList<>();
 
     private int fertility = random.nextInt(100);
 
     private ArrayList<Cow> offspring = new ArrayList<>();
     private Cow spouse;
-
-    /**
-     * TODO: Implement
-     * @param cowToCheck
-     * @return
-     */
-    @Nullable
-    public static Cow getProcreatingGroupMatch(Cow cowToCheck) {
-        if (creationList.size() != 0)
-            return creationList.get(0);
-        else
-            return null;
-    }
-
-    @Contract(pure = true)
-    public static ArrayList<Cow> getCreationList() {
-        return creationList;
-    }
 
     /**
      * Sets the birth date of a new cow.
@@ -58,7 +40,23 @@ public class BirthEvent {
      * @param parent2 The second parent of the new cow
      */
     public static void createChild(@NotNull Cow parent1, @NotNull Cow parent2) {
-        Cow newCow = CowHandler.createCow();
+        parent1.parent = true;
+        parent2.parent = true;
+        parent1.birth.setFertility(0);
+        parent2.birth.setFertility(0);
+
+        parent1.birth.spouse = parent2;
+        parent2.birth.spouse = parent1;
+        NaturalSelection.calculateFitness(parent1);
+        NaturalSelection.calculateFitness(parent2);
+
+        if (random.nextInt(2000) == 1)
+            parent1.kill();
+        if (random.nextInt(2000) == 1)
+            parent2.kill();
+
+        Cow newCow = CowHandler.createCow(parent1, parent2);
+
         newCow.self.setAge(-newCow.self.getAge() + 1);
 
         DecideActions.decideActions(newCow);
@@ -68,23 +66,8 @@ public class BirthEvent {
         parent2.setLivingSpace(parent1.getLivingSpace());
         newCow.setLivingSpace(parent1.getLivingSpace());
 
-        parent1.parent = true;
-        parent2.parent = true;
-        parent1.birth.setFertility(0);
-        parent2.birth.setFertility(0);
-        creationList.remove(parent1);
-        creationList.remove(parent2);
-
         parent1.birth.offspring.add(newCow);
         parent2.birth.offspring.add(newCow);
-
-        parent1.birth.spouse = parent2;
-        parent2.birth.spouse = parent1;
-
-        if (random.nextInt(2000) == 1)
-            parent1.kill();
-        if (random.nextInt(2000) == 1)
-            parent2.kill();
     }
 
     private void setFertility(int i) {

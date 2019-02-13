@@ -1,6 +1,10 @@
 package cowParts;
 
 import buildings.Building;
+import cowParts.cowThoughts.Cognition;
+import cowParts.cowAI.NaturalSelection;
+import cowParts.cowThoughts.PersonalViews;
+import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import metaEnvironment.logging.EventLogger;
@@ -22,10 +26,10 @@ import java.util.Random;
 public class Cow extends ImageView {
 
     /* What makes a cow */
-    public Cognition self = new Cognition();
-    public BirthEvent birth = new BirthEvent();
-    Social socialRelations = new Social();
-    public PersonalViews views = new PersonalViews();
+    public Cognition self;
+    public BirthEvent birth;
+    public Social socialRelations;
+    public PersonalViews views;
 
     private int numberOfVotes;
 
@@ -42,7 +46,7 @@ public class Cow extends ImageView {
     //Contains any animation that the cow is using
     public Transition animation;
 
-    //TEMP: Used for random movement and stats.
+    //Used for relation value changing logic
     private Random random = new Random();
 
     /* UI elements
@@ -88,11 +92,23 @@ public class Cow extends ImageView {
     private Object destination;
     private boolean voted = false;
 
+    Cow(Cow parent1, Cow parent2) {
+        if (parent1 != null)
+            self = NaturalSelection.crossover(parent1, parent2);
+        else
+            self = new Cognition();
+
+        birth = new BirthEvent();
+        socialRelations = new Social();
+        views = new PersonalViews();
+    }
+
     /**
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
      * increases about 60 times a second.
      */
     public void updateVitals() {
+
         //Counter increase and reset
         counter++;
         if (counter % 1000 == 0)
@@ -244,7 +260,7 @@ public class Cow extends ImageView {
         this.job = job;
     }
 
-    Social getSocialRelations() {
+    public Social getSocialRelations() {
         return socialRelations;
     }
 

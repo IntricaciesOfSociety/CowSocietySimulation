@@ -3,6 +3,7 @@ package metaControl;
 import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.CowHandler;
+import cowParts.cowAI.NaturalSelection;
 import javafx.scene.effect.ColorAdjust;
 import org.jetbrains.annotations.Contract;
 import resourcesManagement.ResourcesHandler;
@@ -19,6 +20,8 @@ import java.util.Random;
  * Handles the progression and reading of the sim time. Handles new day events.
  */
 public class Time {
+
+    static boolean timeHasStarted = false;
 
     Date date;
 
@@ -46,6 +49,7 @@ public class Time {
             newDayEvent();
 
         StaticUI.updateTimeOfDayText(timeInDay);
+        NaturalSelection.rankFitness();
 
         updateBrightness();
         dayNightCycle.setBrightness(brightnessValue);
@@ -92,8 +96,6 @@ public class Time {
             cowLife = CowHandler.liveCowList.get(i);
             cowLife.self.setAge(1);
             cowLife.birth.updateFertility();
-            if (cowLife.birth.isFertile() && !BirthEvent.getCreationList().contains(cowLife))
-                BirthEvent.getCreationList().add(cowLife);
 
             if (cowLife.self.getAge() == 5) {
                 cowLife.setScaleX(1.5);
@@ -105,7 +107,6 @@ public class Time {
             }
 
             if (cowLife.self.getAge() > random.nextInt((100 - 50) + 1) + 50) {
-                System.out.println(CowHandler.liveCowList.get(i).getId());
                 cowLife.kill();
             }
         }
@@ -154,5 +155,9 @@ public class Time {
     @Contract(pure = true)
     public static int getHours() {
         return hours;
+    }
+
+    public static boolean hasStarted() {
+        return timeHasStarted;
     }
 }

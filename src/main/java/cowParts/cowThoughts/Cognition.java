@@ -1,4 +1,4 @@
-package cowParts;
+package cowParts.cowThoughts;
 
 import org.jetbrains.annotations.Contract;
 
@@ -45,7 +45,7 @@ public class Cognition {
     //Academic 0 is low 100 is high
     private int intelligence = random.nextInt(100);
 
-    private int fitness;
+    private int fitness = random.nextInt(900);
 
     /**
      * Tests the given modification delta against a given cognitive element to see if a limit would be met. If a limit

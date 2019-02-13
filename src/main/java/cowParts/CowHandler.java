@@ -1,6 +1,7 @@
 package cowParts;
 
 import buildings.BuildingHandler;
+import cowParts.cowAI.NaturalSelection;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -32,7 +33,7 @@ public class CowHandler {
      */
     public static void init() {
         for (int i = 0; i < LoadConfiguration.getInitialPopulation(); i++) {
-            Cow newCow = createCow();
+            Cow newCow = createCow(null, null);
 
             if (newCow.self.getAge() >= 5 && newCow.self.getAge() <= 10) {
                 newCow.setScaleX(1.5);
@@ -50,10 +51,10 @@ public class CowHandler {
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
      * for the cow to be used in PlaygroundUI.
      */
-    static Cow createCow() {
+    static Cow createCow(Cow parent1, Cow parent2) {
         Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
 
-        Cow newCow = new Cow();
+        Cow newCow = new Cow(parent1, parent2);
         newCow.setImage(cowSprite);
         newCow.setColor(new ColorAdjust());
 

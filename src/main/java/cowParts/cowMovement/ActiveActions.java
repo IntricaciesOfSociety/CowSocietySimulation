@@ -5,6 +5,7 @@ import buildings.BuildingHandler;
 import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.CowHandler;
+import cowParts.cowAI.NaturalSelection;
 import javafx.geometry.Point2D;
 import metaControl.SimState;
 import metaEnvironment.logging.EventLogger;
@@ -127,9 +128,9 @@ class ActiveActions extends Action {
 
     @NotNull
     static Movement createChild(@NotNull Cow cowToCheck) {
-        return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, BirthEvent.getProcreatingGroupMatch(cowToCheck)), "Going Home",
+        return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Going Home",
             () -> {
-                BirthEvent.createChild(cowToCheck, BirthEvent.getProcreatingGroupMatch(cowToCheck));
+                BirthEvent.createChild(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck));
 
                 EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "companionship", 10);
                 EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "sleepiness", -10);

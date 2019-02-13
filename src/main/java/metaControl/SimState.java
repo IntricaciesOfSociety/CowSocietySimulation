@@ -2,6 +2,7 @@ package metaControl;
 
 import buildings.BuildingHandler;
 import cowParts.CowHandler;
+import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
 import metaEnvironment.AssetLoading;
@@ -117,6 +118,7 @@ public class SimState extends Application {
 
         Input.enableInput(initialScene);
         simLoop();
+        Time.timeHasStarted = true;
     }
 
     /**
@@ -137,17 +139,15 @@ public class SimState extends Application {
                         ResourcesUI.updateUI();
                 }
 
+                //Time difference from last frame
+                deltaTime = 0.00000001 * (frameTime - lastUpdate);
 
+                if (deltaTime <= 0.1 || deltaTime >= 1.0)
+                    deltaTime = 0.00000001 * simSpeed;
 
-                    //Time difference from last frame
-                    deltaTime = 0.00000001 * (frameTime - lastUpdate);
-
-                    if (deltaTime <= 0.1 || deltaTime >= 1.0)
-                        deltaTime = 0.00000001 * simSpeed;
-
-                    if (frameTime - lastUpdate >= simSpeed) {
-                        if (!paused)
-                            updateTick();
+                if (frameTime - lastUpdate >= simSpeed) {
+                    if (!paused)
+                        updateTick();
                     lastUpdate = frameTime;
                 }
             }
@@ -163,6 +163,7 @@ public class SimState extends Application {
 
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
+            NaturalSelection.calculateFitness(CowHandler.liveCowList.get(i));
             if (!CowHandler.liveCowList.get(i).alreadyMoving)
                 DecideActions.decideActions(CowHandler.liveCowList.get(i));
         }

@@ -5,7 +5,7 @@ import cowParts.CowHandler;
 import javafx.scene.CacheHint;
 import metaControl.SimState;
 import cowParts.Cow;
-import cowParts.Social;
+import cowParts.cowThoughts.Social;
 import metaEnvironment.Playground;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -15,11 +15,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * A MenuCreation object is a StackPane menu that holds information based off of the object given. Used currently for the
