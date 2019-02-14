@@ -6,6 +6,9 @@ import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
 import metaEnvironment.AssetLoading;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -27,6 +30,8 @@ import userInterface.ResourcesUI;
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
  */
 public class SimState extends Application {
+
+    public static final Logger logger = LoggerFactory.getLogger(SimState.class);
 
     /*Scene elements
     Root: The root node that is the parent of the scene and everything within the scene
@@ -196,12 +201,14 @@ public class SimState extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+
+        //primaryStage = primaryStage;
         primaryStage.setTitle("Release01");
+        primaryStage.setFullScreen(true);
 
         primaryStage.show();
         primaryStage.setScene(initialScene);
-        primaryStage.setResizable(false);
+        //primaryStage.setResizable(false);
 
         simInit();
     }

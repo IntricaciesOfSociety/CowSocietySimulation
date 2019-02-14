@@ -6,12 +6,14 @@ import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import metaControl.LoadConfiguration;
+import metaControl.SimState;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.MDC;
 import societalProductivity.Role;
 import userInterface.StaticUI;
 
@@ -58,7 +60,7 @@ public class CowHandler {
         newCow.setImage(cowSprite);
         newCow.setColor(new ColorAdjust());
 
-        newCow.setId("Big Beefy" + new Random().nextInt(1000));
+        newCow.setId("Big Beefy" + new Random().nextInt(1000000));
         newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
         newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
         newCow.setEffect(newCow.getColor());
@@ -76,6 +78,9 @@ public class CowHandler {
 
         Playground.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
+
+        MDC.put("cowName", newCow.getId());
+        SimState.logger.info("test");
 
         return newCow;
     }
