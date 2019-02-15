@@ -5,7 +5,10 @@ import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
+import javafx.event.EventHandler;
+import javafx.stage.WindowEvent;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -20,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menus.MenuHandler;
 import societalProductivity.Issue;
+import societalProductivity.cityPlanning.CityControl;
 import terrain.Tile;
 import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
@@ -105,6 +109,7 @@ public class SimState extends Application {
      * into the root node.
      */
     private static void simInit() {
+        EventLogger.clearLogs();
         LoadConfiguration.loadConfigurationFile();
         AssetLoading.loadBaseAssets();
         Playground.init();
@@ -112,6 +117,8 @@ public class SimState extends Application {
         Tile.createTiles();
         BuildingHandler.init();
         ResourcesHandler.init();
+
+        CityControl.init();
 
         Issue.init();
         CowHandler.init();
@@ -201,7 +208,6 @@ public class SimState extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-
         //primaryStage = primaryStage;
         primaryStage.setTitle("Release01");
         primaryStage.setFullScreen(true);

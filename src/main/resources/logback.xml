@@ -2,16 +2,16 @@
 
     <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
-            <key>cowName</key>
-            <defaultValue>unknown</defaultValue>
+            <key>logName</key>
+            <defaultValue>undefined</defaultValue>
         </discriminator>
         <sift>
-            <appender name="FILE-${cowName}" class="ch.qos.logback.core.FileAppender">
-                <file>src/main/logs/session/${cowName}.log</file>
-                <append>false</append>
-                <layout class="ch.qos.logback.classic.PatternLayout">
+            <appender name="FILE-${logName}" class="ch.qos.logback.core.FileAppender">
+                <file>src/main/logs/session/${logName}.log</file>
+                <append>true</append>
+                <encoder>
                     <pattern>%msg%n</pattern>
-                </layout>
+                </encoder>
             </appender>
         </sift>
     </appender>

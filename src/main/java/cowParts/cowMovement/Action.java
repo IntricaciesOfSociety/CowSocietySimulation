@@ -9,10 +9,6 @@ interface Start {
     Object startBehavior();
 }
 
-interface Execution {
-    void executionBehavior();
-}
-
 interface End {
     void endBehavior();
 }

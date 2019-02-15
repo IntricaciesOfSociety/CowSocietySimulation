@@ -36,6 +36,10 @@ public class LoadConfiguration {
     private static int initialLargeRocks;
     private static int initialLargeTrees;
 
+    //[Cows]
+    //[City]
+    private static String cityName;
+
     /**
      * Loads the configuration file
      */
@@ -74,6 +78,8 @@ public class LoadConfiguration {
         initialLargeRocks = Integer.parseInt(ini.get("Resources", "largeRocks"));
         initialLargeTrees = Integer.parseInt(ini.get("Resources", "largeTrees"));
         initialWaterSources = Integer.parseInt(ini.get("Resources", "watersources"));
+
+        cityName = ini.get("City", "cityName");
     }
 
     @Contract(pure = true)
@@ -147,5 +153,9 @@ public class LoadConfiguration {
 
     public static String getBasicMine() {
         return basicMine;
+    }
+
+    public static String getCityName() {
+        return cityName;
     }
 }

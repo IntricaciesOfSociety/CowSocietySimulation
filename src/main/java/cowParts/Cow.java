@@ -62,10 +62,8 @@ public class Cow extends ImageView {
 
     /* Logging elements
     currentAction: What the cow is currently doing within the sim
-    logger: The instance of EventLogger that holds this cow's unique log
      */
     public String currentAction = "";
-    public final EventLogger logger = new EventLogger();
 
     /* What makes a cow
     color: The color effects applied to the cow
@@ -248,10 +246,6 @@ public class Cow extends ImageView {
      */
     public boolean getDiseased() {
         return diseased;
-    }
-
-    public EventLogger getLogger() {
-        return logger;
     }
 
     public String getJob() {

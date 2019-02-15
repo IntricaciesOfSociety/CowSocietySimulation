@@ -79,9 +79,6 @@ public class CowHandler {
         Playground.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
 
-        MDC.put("cowName", newCow.getId());
-        SimState.logger.info("test");
-
         return newCow;
     }
 
