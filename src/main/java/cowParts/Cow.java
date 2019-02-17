@@ -176,6 +176,7 @@ public class Cow extends ImageView {
 
         hidden = true;
         Playground.playground.getChildren().remove(this);
+        StaticUI.updateIdText();
     }
 
     /**

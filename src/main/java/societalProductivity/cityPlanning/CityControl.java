@@ -1,18 +1,24 @@
 package societalProductivity.cityPlanning;
 
+import buildings.BuildingHandler;
 import metaControl.LoadConfiguration;
 import metaControl.SimState;
 import metaControl.Time;
 import org.jetbrains.annotations.Contract;
 import org.slf4j.MDC;
 
+import java.util.ArrayList;
+
 public class CityControl {
 
     private static String cityName = LoadConfiguration.getCityName();
 
+    private static ArrayList<CitySector> allSectors = new ArrayList<>();
     public static void init() {
         cityName = LoadConfiguration.getCityName();
         createCityLog();
+
+        allSectors.add(new CitySector(BuildingHandler.getDefaultBuilding()));
     }
 
     private static void createCityLog() {

@@ -46,7 +46,7 @@ public class DecideActions {
         Collision.checkForCollision(cowToCheck);
 
         //Only one movement action at a time
-        if (!cowToCheck.alreadyMoving)
+        if (!cowToCheck.alreadyMoving && decideMovement(cowToCheck) != null)
             ExecuteAction.execute(decideMovement(cowToCheck));
 
         //Any action that is not a movement

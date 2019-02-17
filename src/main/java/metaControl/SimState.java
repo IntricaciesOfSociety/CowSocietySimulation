@@ -42,7 +42,7 @@ public class SimState extends Application {
     InitialScene: The scene that the simulation starts out in. Holds the playground and playgroundStaticUI
     */
     public static Group root = new Group();
-    static Scene initialScene = new Scene(root, 800, 600, Color.GREEN);
+    static Scene initialScene = new Scene(root, 800, 600, Color.BLACK);
 
     /*Main loop
     SimLoop: The main simulation loop that handles the updating of moving elements
@@ -208,7 +208,7 @@ public class SimState extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        //primaryStage = primaryStage;
+        SimState.primaryStage = primaryStage;
         primaryStage.setTitle("Release01");
         primaryStage.setFullScreen(true);
 

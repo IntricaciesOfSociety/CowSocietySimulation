@@ -6,7 +6,6 @@ import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import javafx.geometry.Point2D;
 import metaControl.SimState;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
@@ -126,20 +125,24 @@ class ActiveActions extends Action {
         );
     }
 
-    @NotNull
+    @Nullable
     static Movement createChild(@NotNull Cow cowToCheck) {
-        return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Going Home",
-            () -> {
-                BirthEvent.createChild(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck));
+        if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
+            return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Going Home",
+                    () -> {
+                        BirthEvent.createChild(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck));
 
-                EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "companionship", 10);
-                EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "sleepiness", -10);
-                cowToCheck.self.setCompanionship(10);
-                cowToCheck.self.setSleepiness(-10);
+                        EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "companionship", 10);
+                        EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "sleepiness", -10);
+                        cowToCheck.self.setCompanionship(10);
+                        cowToCheck.self.setSleepiness(-10);
 
-                Movement.pauseMovement((int) (SimState.getDeltaTime() * 1000), cowToCheck);
-            }
-        );
+                        Movement.pauseMovement((int) (SimState.getDeltaTime() * 1000), cowToCheck);
+                    }
+            );
+        }
+        else
+            return null;
     }
 
     @Nullable
