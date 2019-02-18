@@ -48,6 +48,7 @@ public class StaticUI {
     private static Button diseaseButton = new Button();
     private static Button detailedViewButton = new Button();
     private static Button storyViewButton = new Button();
+    private static Button trackingButton = new Button();
 
     //Structure for buttons that open the other UIs
     private static Group differentUIGroup = new Group();
@@ -111,21 +112,21 @@ public class StaticUI {
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         idText.setFill(Color.RED);
         idText.setX(5);
-        idText.setY(250);
+        idText.setY(280);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setLayoutX(5);
-        actionText.setLayoutY(260);
+        actionText.setLayoutY(290);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(300);
+        accommodationsText.setLayoutY(330);
 
         ImageView tileImage = new ImageView(AssetLoading.loadUISprite("TileUI"));
         tileImage.setScaleX(2);
         tileImage.setScaleY(2);
         tileUIButton.setLayoutX(15);
-        tileUIButton.setLayoutY(340);
+        tileUIButton.setLayoutY(370);
         tileUIButton.setFocusTraversable(false);
         tileUIButton.setGraphic(tileImage);
 
@@ -133,15 +134,23 @@ public class StaticUI {
         resourcesImage.setScaleX(2);
         resourcesImage.setScaleY(2);
         resourcesUIButton.setLayoutX(15);
-        resourcesUIButton.setLayoutY(370);
+        resourcesUIButton.setLayoutY(400);
         resourcesUIButton.setFocusTraversable(false);
         resourcesUIButton.setGraphic(resourcesImage);
+
+        ImageView trackingImage = new ImageView(AssetLoading.loadUISprite("Tracking"));
+        trackingImage.setScaleX(2);
+        trackingImage.setScaleY(2);
+        trackingButton.setLayoutX(15);
+        trackingButton.setLayoutY(230);
+        trackingButton.setFocusTraversable(false);
+        trackingButton.setGraphic(trackingImage);
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setLayoutX(20);
         timeOfDay.setLayoutY(750);
 
-        controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
+        controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
         differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton);
 
@@ -167,6 +176,10 @@ public class StaticUI {
         });
 
         resourcesUIButton.setOnAction(event -> PlaygroundUI.toggleResourcesUI());
+
+        tileUIButton.setOnAction(event -> {
+
+        });
 
         updatePopulationText();
     }

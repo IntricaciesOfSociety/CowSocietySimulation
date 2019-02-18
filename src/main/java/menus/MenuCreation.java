@@ -81,7 +81,7 @@ public class MenuCreation {
         ScrollPane socialViewScrollPane = new ScrollPane();
 
         Button exitButton = new Button("EXIT");
-        Rectangle background = new Rectangle(150, 0, 650, 600);
+        Rectangle background = new Rectangle(150, 0, 1300, 750);
 
         Text currentStatusText = new Text("JOB: " + cowsPreviouslySelected.get(0).getJob()
                               + "    CURRENTLY: " + cowsPreviouslySelected.get(0).getCurrentAction());
@@ -98,7 +98,7 @@ public class MenuCreation {
 
         currentStatusText.relocate(160, 325);
 
-        exitButton.relocate(160, 560);
+        exitButton.relocate(160, 720);
         exitButton.setOnAction(event -> {
             SimState.setSimState("Playing");
             Playground.setPlayground("Motion");
@@ -197,10 +197,10 @@ public class MenuCreation {
 
         socialRelationsScrollPane.setContent(socialRelationsView);
         socialRelationsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        socialRelationsScrollPane.setPrefWidth(250);
+        socialRelationsScrollPane.setPrefWidth(500);
         socialRelationsScrollPane.setPrefHeight(150);
 
-        socialRelationsScrollPane.relocate(175, 350);
+        socialRelationsScrollPane.relocate(175, 450);
 
         Playground.playground.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
     }
@@ -231,6 +231,7 @@ public class MenuCreation {
     private void createCognitionTree(@NotNull Cow firstCow) {
         TreeItem<Object> treeTier = new TreeItem<>();
         TreeItem<Object> emotionLinks = new TreeItem<>(new Text("Emotions")),
+
                 financeLinks = new TreeItem<>(new Text("Finances")),
                 socialLinks = new TreeItem<>(new Text("Social")),
                 physicalLinks = new TreeItem<>(new Text("Physical")),
@@ -337,7 +338,8 @@ public class MenuCreation {
         TreeView<Object> tree = new TreeView<>(treeTier);
         tree.setShowRoot(false);
         tree.relocate(175, 50);
-        tree.setPrefHeight(260);
+        tree.setPrefHeight(280);
+        tree.setPrefWidth(300);
         Playground.playground.getChildren().add(tree);
     }
 
