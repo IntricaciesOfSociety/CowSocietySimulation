@@ -2,9 +2,16 @@ package metaControl;
 
 import buildings.BuildingHandler;
 import cowParts.CowHandler;
+import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
+import javafx.event.EventHandler;
+import javafx.stage.WindowEvent;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.logging.EventLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -16,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menus.MenuHandler;
 import societalProductivity.Issue;
+import societalProductivity.cityPlanning.CityControl;
 import terrain.Tile;
 import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
@@ -27,12 +35,14 @@ import userInterface.ResourcesUI;
  */
 public class SimState extends Application {
 
+    public static final Logger logger = LoggerFactory.getLogger(SimState.class);
+
     /*Scene elements
     Root: The root node that is the parent of the scene and everything within the scene
     InitialScene: The scene that the simulation starts out in. Holds the playground and playgroundStaticUI
     */
     public static Group root = new Group();
-    static Scene initialScene = new Scene(root, 800, 600, Color.GREEN);
+    static Scene initialScene = new Scene(root, 800, 600, Color.BLACK);
 
     /*Main loop
     SimLoop: The main simulation loop that handles the updating of moving elements
@@ -46,6 +56,7 @@ public class SimState extends Application {
     private static long simSpeed = 128_666_666L;
     private static double deltaTime = 0;
     private static boolean paused;
+    private static Stage primaryStage;
 
     /**
      * @return The current simSpeed of the sim
@@ -98,6 +109,7 @@ public class SimState extends Application {
      * into the root node.
      */
     private static void simInit() {
+        EventLogger.clearLogs();
         LoadConfiguration.loadConfigurationFile();
         AssetLoading.loadBaseAssets();
         Playground.init();
@@ -105,6 +117,8 @@ public class SimState extends Application {
         Tile.createTiles();
         BuildingHandler.init();
         ResourcesHandler.init();
+
+        CityControl.init();
 
         Issue.init();
         CowHandler.init();
@@ -116,6 +130,7 @@ public class SimState extends Application {
 
         Input.enableInput(initialScene);
         simLoop();
+        Time.timeHasStarted = true;
     }
 
     /**
@@ -136,17 +151,15 @@ public class SimState extends Application {
                         ResourcesUI.updateUI();
                 }
 
+                //Time difference from last frame
+                deltaTime = 0.00000001 * (frameTime - lastUpdate);
 
+                if (deltaTime <= 0.1 || deltaTime >= 1.0)
+                    deltaTime = 0.00000001 * simSpeed;
 
-                    //Time difference from last frame
-                    deltaTime = 0.00000001 * (frameTime - lastUpdate);
-
-                    if (deltaTime <= 0.1 || deltaTime >= 1.0)
-                        deltaTime = 0.00000001 * simSpeed;
-
-                    if (frameTime - lastUpdate >= simSpeed) {
-                        if (!paused)
-                            updateTick();
+                if (frameTime - lastUpdate >= simSpeed) {
+                    if (!paused)
+                        updateTick();
                     lastUpdate = frameTime;
                 }
             }
@@ -162,6 +175,7 @@ public class SimState extends Application {
 
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
+            NaturalSelection.calculateFitness(CowHandler.liveCowList.get(i));
             if (!CowHandler.liveCowList.get(i).alreadyMoving)
                 DecideActions.decideActions(CowHandler.liveCowList.get(i));
         }
@@ -184,15 +198,23 @@ public class SimState extends Application {
         root.getChildren().add(0, playground);
     }
 
+    static void initFullScreen() {
+        primaryStage.setFullScreen(true);
+    }
+
     /**
      * This is the main method that is run to start the whole simulation. Initializes the stage and calls simInit().
      * @param primaryStage The stage for the window that the simulation is in. Required for javafx
      */
     @Override
     public void start(Stage primaryStage) {
+        SimState.primaryStage = primaryStage;
         primaryStage.setTitle("Release01");
-        primaryStage.setScene(initialScene);
+        primaryStage.setFullScreen(true);
+
         primaryStage.show();
+        primaryStage.setScene(initialScene);
+        //primaryStage.setResizable(false);
 
         simInit();
     }

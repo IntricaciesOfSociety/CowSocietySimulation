@@ -1,18 +1,13 @@
 package buildings;
 
-import cowParts.cowMovement.DecideActions;
 import cowParts.Cow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import menus.MenuHandler;
 import metaControl.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -21,56 +16,30 @@ import java.util.ArrayList;
  */
 public class BuildingHandler {
 
-    static Image smallUnderConstructionSprite;
-    static Image largeUnderConstructionSprite;
-
-    //A list of every building that is built or being constructed.
+    //All buildings
     static ArrayList<Building> buildingsList = new ArrayList<>();
+
+    //Lists of specialized buildings
+    static ArrayList<Building> votingPlaces = new ArrayList<>();
+    static ArrayList<Building> groceryStores = new ArrayList<>();
 
     /**
      * Creates the necessary buildings based off the situation chosen for the sim.
      */
     public static void init() {
-        loadSmallUnderConstructionSprite();
-        loadLargeUnderConstructionSprite();
+        new LargeBuilding(AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), Tile.getRandomNotFullTile(4));
 
-        new LargeDwelling(AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), Tile.getRandomNotFullTile(4));
-    }
+        new SmallBuilding(AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(), Tile.getRandomNotFullTile(2, AssetLoading.desertTileFull, AssetLoading.flatTerrain));
 
-    /**
-     * Loads the sprite for the large under construction sprite into the corresponding field
-     */
-    private static void loadLargeUnderConstructionSprite() {
-        largeUnderConstructionSprite = loadSprite("LargeUnderConstruction");
-    }
-
-    /**
-     * Loads the sprite for the small under construction sprite into the corresponding field
-     */
-    private static void loadSmallUnderConstructionSprite() {
-        smallUnderConstructionSprite = loadSprite("SmallUnderConstruction");
-    }
-
-    /**
-     * Finds the image corresponding to the given string.
-     * @param imageName The name of the image to have a building created from
-     * @return The new building
-     */
-    public static Image loadSprite(String imageName) {
-        Image buildingSprite = null;
-        try {
-            buildingSprite = new Image(new FileInputStream("src/main/resources/Buildings/" + imageName + ".png"),0, 0, true, false);
+        for (int i = 0; i < LoadConfiguration.getGroceryStores(); i++) {
+            new LargeBuilding(AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), Tile.getRandomNotFullTile(4));
         }
-        catch (FileNotFoundException error) {
-            MenuHandler.createErrorMenu();
-        }
-        return buildingSprite;
     }
 
     /**TODO: Implement
      * Demolishes the current building
      */
-    public static void removeBuilding() {
+    public static void destroyBuilding() {
     }
 
     /**
@@ -123,27 +92,11 @@ public class BuildingHandler {
         return buildingsList.get(0);
     }
 
-    @Nullable
+    public static ImageView getClosestGroceryStore(Cow cowToCheck) {
+        return Building.getClosestBuilding(cowToCheck, groceryStores);
+    }
+
     public static ImageView getClosestVotingArea(Cow cowToCheck) {
-        ArrayList<Building> possibleVotingBuildings = new ArrayList<>();
-        for (int i = 0; i < buildingsList.size(); i++) {
-            if (buildingsList.get(i).isConstructed() && buildingsList.get(i).isVotingPlace())
-                possibleVotingBuildings.add(buildingsList.get(i));
-        }
-
-        if (possibleVotingBuildings.size() > 0) {
-            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(0));;
-            ImageView closestVotingBuilding = possibleVotingBuildings.get(0);;
-            for (int j = 0; j < possibleVotingBuildings.size(); j++) {
-
-                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j)) < smallestDistance) {
-                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, possibleVotingBuildings.get(j));
-                    closestVotingBuilding = possibleVotingBuildings.get(j);
-                }
-            }
-            return closestVotingBuilding;
-        }
-        else
-            return null;
+        return Building.getClosestBuilding(cowToCheck, votingPlaces);
     }
 }

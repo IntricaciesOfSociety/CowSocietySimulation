@@ -1,6 +1,7 @@
 package terrain;
 
 import javafx.geometry.Point2D;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +32,6 @@ public class Tile extends ImageView {
     private static ArrayList<Tile> tileList = new ArrayList<>();
 
     private Point2D entrance;
-    private ArrayList<Tile> children = new ArrayList<>();
     private ArrayList<ArrayList<Boolean>> orientation = new ArrayList<>();
 
     /**
@@ -58,11 +59,12 @@ public class Tile extends ImageView {
                 orientation.get(i).add(false);
             }
         }
+        this.setCacheHint(CacheHint.SPEED);
         Playground.playground.getChildren().add(this);
     }
 
     @Contract(pure = true)
-    public static int getSize(Image newSprite) {
+    public static int getSize(@NotNull Image newSprite) {
         return (int) newSprite.getWidth() / 100;
     }
 
@@ -80,8 +82,6 @@ public class Tile extends ImageView {
             proposedConstruction.setLayoutY(randCoords.getY());
 
             proposedConstruction.isDefaultTerrain = false;
-            this.children.add(proposedConstruction);
-            tileList.add(proposedConstruction);
 
             Playground.playground.getChildren().add(proposedConstruction);
             return true;
@@ -92,6 +92,7 @@ public class Tile extends ImageView {
         }
     }
 
+    @Nullable
     @Contract("_, _ -> new")
     private Point2D getRandomTileOrientation(Tile tile, int size) {
         if (size == 4) {
@@ -140,7 +141,7 @@ public class Tile extends ImageView {
      * @return The random tile that is not an exclusion and that has room
      */
     @Nullable
-    public static Tile getRandomNotFullTile(int size, Image ... tilesToExclude) {
+    public static Tile getRandomNotFullTile(int size, @NotNull Image ... tilesToExclude) {
         ArrayList<Tile> notFullTiles = new ArrayList<>();
 
         if (tilesToExclude.length != 0) {
@@ -203,7 +204,7 @@ public class Tile extends ImageView {
         }
     }
 
-    private static void createBiome(Point2D startingPoint, Image biomeToCreate) {
+    private static void createBiome(@NotNull Point2D startingPoint, Image biomeToCreate) {
         int biomeSize = new Random().nextInt(11) + 5;
 
         int xLimit = (int) ((biomeSize <= (ROWTILES - startingPoint.getX()) - 1) ? biomeSize : ROWTILES - startingPoint.getX());
@@ -236,6 +237,11 @@ public class Tile extends ImageView {
             }
         }
         return false;
+    }
+
+    @Contract(pure = true)
+    public static boolean getIsRoom(int size, @NotNull Tile tileToCheck) {
+        return tileToCheck.getIsRoom(size);
     }
 
     private boolean checkForOverlap(int row, int col, int size) {

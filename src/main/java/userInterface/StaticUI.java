@@ -44,15 +44,15 @@ public class StaticUI {
 
     //Structure for the cow control buttons
     private static Group controlGroup = new Group();
-    private static Button heartAttackButton = new Button("Heart Attack");
-    private static Button diseaseButton = new Button("Disease");
-    private static Button detailedViewButton = new Button("Detailed View");
-    private static Button storyViewButton = new Button("Story View");
+    private static Button heartAttackButton = new Button();
+    private static Button diseaseButton = new Button();
+    private static Button detailedViewButton = new Button();
+    private static Button storyViewButton = new Button();
 
     //Structure for buttons that open the other UIs
     private static Group differentUIGroup = new Group();
-    private static Button tileUIButton = new Button("TileUI");
-    private static Button resourcesUIButton = new Button("ResourcesUI");
+    private static Button tileUIButton = new Button();
+    private static Button resourcesUIButton = new Button();
 
     /**
      * Handles the creation of all static elements within the playgroundStaticUI. Buttons, text, and containers.
@@ -60,10 +60,8 @@ public class StaticUI {
     static void init() {
         createSpeedButtons();
 
-        Rectangle background = new Rectangle(150, 600, Color.DARKGOLDENROD);
-
         populationText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
-        populationText.setFill(Color.BLACK);
+        populationText.setFill(Color.RED);
         populationText.setX(5);
         populationText.setY(50);
 
@@ -76,61 +74,79 @@ public class StaticUI {
         cowLinkScrollBox.setLayoutY(60);
         cowLinkScrollBox.setFocusTraversable(false);
 
-        heartAttackButton.setLayoutX(5);
-        heartAttackButton.setLayoutY(170);
+        ImageView heartAttackImage = new ImageView(AssetLoading.loadUISprite("HeartAttack"));
+        heartAttackImage.setScaleX(2);
+        heartAttackImage.setScaleY(2);
+        heartAttackButton.setLayoutX(1300);
+        heartAttackButton.setLayoutY(20);
         heartAttackButton.setFocusTraversable(false);
-        //heartAttackButton.setGraphic(new ImageView(AssetLoading.loadUISprite("HeartAttackButton")));
+        heartAttackButton.setGraphic(heartAttackImage);
 
-        diseaseButton.setLayoutX(5);
-        diseaseButton.setLayoutY(200);
+        ImageView diseaseImage = new ImageView(AssetLoading.loadUISprite("Disease"));
+        diseaseImage.setScaleX(2);
+        diseaseImage.setScaleY(2);
+        diseaseButton.setLayoutX(1300);
+        diseaseButton.setLayoutY(50);
         diseaseButton.setFocusTraversable(false);
+        diseaseButton.setGraphic(diseaseImage);
 
-        detailedViewButton.setLayoutX(5);
-        detailedViewButton.setLayoutY(230);
+        ImageView detailedImage = new ImageView(AssetLoading.loadUISprite("DetailedView"));
+        detailedImage.setScaleX(2);
+        detailedImage.setScaleY(2);
+        detailedViewButton.setLayoutX(15);
+        detailedViewButton.setLayoutY(170);
         detailedViewButton.setFocusTraversable(false);
-        detailedViewButton.setGraphic(new ImageView(AssetLoading.loadUISprite("DetailedView")));
+        detailedViewButton.setGraphic(detailedImage);
 
-        storyViewButton.setLayoutX(5);
-        storyViewButton.setLayoutY(260);
+        ImageView storyImage = new ImageView(AssetLoading.loadUISprite("StoryView"));
+        storyImage.setScaleX(2);
+        storyImage.setScaleY(2);
+        storyViewButton.setLayoutX(15);
+        storyViewButton.setLayoutY(200);
         storyViewButton.setFocusTraversable(false);
-        storyViewButton.setGraphic(new ImageView(AssetLoading.loadUISprite("StoryView")));
+        storyViewButton.setGraphic(storyImage);
 
         controlGroup.setDisable(true);
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        idText.setFill(Color.BLACK);
+        idText.setFill(Color.RED);
         idText.setX(5);
-        idText.setY(310);
+        idText.setY(250);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setLayoutX(5);
-        actionText.setLayoutY(320);
+        actionText.setLayoutY(260);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(360);
+        accommodationsText.setLayoutY(300);
 
-        tileUIButton.setLayoutX(5);
-        tileUIButton.setLayoutY(400);
+        ImageView tileImage = new ImageView(AssetLoading.loadUISprite("TileUI"));
+        tileImage.setScaleX(2);
+        tileImage.setScaleY(2);
+        tileUIButton.setLayoutX(15);
+        tileUIButton.setLayoutY(340);
         tileUIButton.setFocusTraversable(false);
-        tileUIButton.setGraphic(new ImageView(AssetLoading.loadUISprite("TileUI")));
+        tileUIButton.setGraphic(tileImage);
 
-
-        resourcesUIButton.setLayoutX(5);
-        resourcesUIButton.setLayoutY(430);
+        ImageView resourcesImage = new ImageView(AssetLoading.loadUISprite("ResourcesUI"));
+        resourcesImage.setScaleX(2);
+        resourcesImage.setScaleY(2);
+        resourcesUIButton.setLayoutX(15);
+        resourcesUIButton.setLayoutY(370);
         resourcesUIButton.setFocusTraversable(false);
-        resourcesUIButton.setGraphic(new ImageView(AssetLoading.loadUISprite("ResourcesUI")));
+        resourcesUIButton.setGraphic(resourcesImage);
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setLayoutX(20);
-        timeOfDay.setLayoutY(590);
+        timeOfDay.setLayoutY(750);
 
         controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
         differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton);
 
         PlaygroundUI.staticUI.getChildren().addAll(
-                background, simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
+                 simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
         );
 
         detailedViewButton.setOnAction(event -> {
@@ -193,7 +209,7 @@ public class StaticUI {
         cowLink = new Hyperlink("Cow: " + cowId);
         cowLink.setFocusTraversable(false);
         cowLink.setFont(Font.font("Verdana", FontWeight.BOLD, 8));
-        cowLink.setTextFill(Color.BLACK);
+        cowLink.setTextFill(Color.RED);
 
         cowLinkBox.getChildren().add(cowLink);
 
@@ -209,7 +225,7 @@ public class StaticUI {
      * Updates the idText and control buttons whenever a cow is clicked.
      */
     public static void cowClickEvent() {
-        updateIdText();
+        StaticUI.updateIdText();
         updateActionText();
         updateAccommodationsText();
         initControlButtons();
@@ -249,7 +265,7 @@ public class StaticUI {
     /**
      * Updates the idText variable to Input.selectedCow
      */
-    private static void updateIdText() {
+    public static void updateIdText() {
         Input.updateSelectedCows();
 
         if (Input.selectedCows.size() > 1)

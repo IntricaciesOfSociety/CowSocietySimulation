@@ -1,11 +1,10 @@
 package buildings;
 
 import cowParts.Cow;
-import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import menus.MenuCreation;
 import menus.MenuHandler;
 import metaControl.SimState;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
@@ -15,10 +14,10 @@ import terrain.Tile;
 import java.util.ArrayList;
 
 /**
- * Handles the creation of large dwelling buildings. Called only if building prerequisites have been fulfilled
+ * Handles the creation of small dwelling buildings. Called only if building prerequisites have been fulfilled
  * (resources and technology).
  */
-public class LargeDwelling extends Building {
+public class SmallBuilding extends Building {
 
     /**
      * Calls for the creation of a building given an image.
@@ -26,8 +25,11 @@ public class LargeDwelling extends Building {
      * @param name The name of the building
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public LargeDwelling(Image buildingSprite, String name, Tile tileToBuildOn) {
-        constructBuilding(buildingSprite, name, tileToBuildOn);
+    public SmallBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
+        if (tileToBuildOn != null)
+            constructBuilding(buildingSprite, name, tileToBuildOn);
+        else
+            System.out.println("Cannot construct " + name);
     }
 
     /**
@@ -36,21 +38,18 @@ public class LargeDwelling extends Building {
     @Override
     public void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
         this.setId(buildingName);
-
         this.buildingSprite = buildingSprite;
-        this.setImage(BuildingHandler.largeUnderConstructionSprite);
+        this.setImage(AssetLoading.smallUnderConstructionSprite);
 
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
-        this.buildingRequirement = new ResourceRequirement(0, 10, 1);
+        this.buildingRequirement = new ResourceRequirement(5, 5, 1);
 
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
 
-        if (tileToBuildOn.tieToObject(this, Tile.getSize(buildingSprite))) {
+        if (tileToBuildOn.tieToObject(this, Tile.getSize(buildingSprite)))
             BuildingHandler.buildingsList.add(this);
-            buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
-        }
     }
 
     /**
@@ -58,7 +57,7 @@ public class LargeDwelling extends Building {
      */
     @Override
     public void contributeResource(String resourceContribution, int amountToBeUsed) {
-        ResourcesHandler.repurposeResource(this.buildingRequirement, resourceContribution, amountToBeUsed);
+        ResourcesHandler.repurposeResource(buildingRequirement, resourceContribution, amountToBeUsed);
 
         if (this.buildingRequirement.passesRequirements())
             finishConstruction();
@@ -69,7 +68,7 @@ public class LargeDwelling extends Building {
      */
     @Override
     public void finishConstruction() {
-        this.setImage(this.buildingSprite);
+        this.setImage(buildingSprite);
         this.isConstructed = true;
     }
 
@@ -143,10 +142,5 @@ public class LargeDwelling extends Building {
     @Override
     public boolean isConstructed() {
         return this.isConstructed;
-    }
-
-    @Override
-    boolean isVotingPlace() {
-        return Building.checkIfVotingPlace(this.getId());
     }
 }

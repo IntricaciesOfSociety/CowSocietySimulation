@@ -25,6 +25,9 @@ public class LoadConfiguration {
     //[Buildings]
     private static String basicSmallDwelling;
     private static String basicLargeDwelling;
+    private static String basicGroceryStore;
+    private static int groceryStores;
+    private static String basicMine;
 
     //[Resources]
     private static int initialSmallRocks;
@@ -33,6 +36,9 @@ public class LoadConfiguration {
     private static int initialLargeRocks;
     private static int initialLargeTrees;
 
+    //[Cows]
+    //[City]
+    private static String cityName;
 
     /**
      * Loads the configuration file
@@ -63,12 +69,17 @@ public class LoadConfiguration {
 
         basicSmallDwelling = ini.get("Buildings", "basicsmalldwelling");
         basicLargeDwelling = ini.get("Buildings", "basiclargedwelling");
+        basicGroceryStore = ini.get("Buildings", "basicGroceryStoreBuilding");
+        groceryStores = Integer.parseInt(ini.get("Buildings", "numberOfGroceryStores"));
+        basicMine = ini.get("Buildings", "basicMineBuliding");
 
         initialSmallRocks = Integer.parseInt(ini.get("Resources", "smallRocks"));
         initialSmallTrees = Integer.parseInt(ini.get("Resources", "smallTrees"));
         initialLargeRocks = Integer.parseInt(ini.get("Resources", "largeRocks"));
         initialLargeTrees = Integer.parseInt(ini.get("Resources", "largeTrees"));
         initialWaterSources = Integer.parseInt(ini.get("Resources", "watersources"));
+
+        cityName = ini.get("City", "cityName");
     }
 
     @Contract(pure = true)
@@ -130,5 +141,21 @@ public class LoadConfiguration {
 
     public static int getDesertBiomes() {
         return desertBiomes;
+    }
+
+    public static String getBasicGroceryStore() {
+        return basicGroceryStore;
+    }
+
+    public static int getGroceryStores() {
+        return groceryStores;
+    }
+
+    public static String getBasicMine() {
+        return basicMine;
+    }
+
+    public static String getCityName() {
+        return cityName;
     }
 }

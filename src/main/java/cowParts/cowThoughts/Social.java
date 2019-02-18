@@ -1,5 +1,6 @@
-package cowParts;
+package cowParts.cowThoughts;
 
+import cowParts.Cow;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

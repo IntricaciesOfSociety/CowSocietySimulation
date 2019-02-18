@@ -24,8 +24,13 @@ public class AssetLoading {
     public static Image mountainTileHalf;
     public static Image desertTileFull;
 
+    public static Image smallUnderConstructionSprite;
+    public static Image largeUnderConstructionSprite;
+
     public static Image basicSmallBuilding;
     public static Image basicLargeBuilding;
+    public static Image basicGroceryStoreBuilding;
+    public static Image basicMineBuilding;
 
     public static Image smallRock;
     public static Image smallTree;
@@ -85,10 +90,18 @@ public class AssetLoading {
      */
     private static void loadBuildings() {
         try {
+            largeUnderConstructionSprite = new Image(new FileInputStream("src/main/resources/Buildings/"
+                    + "LargeUnderConstruction.png"),0, 0, true, false);
+            smallUnderConstructionSprite = new Image(new FileInputStream("src/main/resources/Buildings/"
+                    + "SmallUnderConstruction.png"),0, 0, true, false);
             basicSmallBuilding = new Image(new FileInputStream("src/main/resources/Buildings/"
                     + LoadConfiguration.getBasicSmallDwelling() + ".png"),0, 0, true, false);
             basicLargeBuilding  = new Image(new FileInputStream("src/main/resources/Buildings/"
                     + LoadConfiguration.getBasicLargeDwelling() + ".png"),0, 0, true, false);
+            basicGroceryStoreBuilding = new Image(new FileInputStream("src/main/resources/Buildings/"
+                    + LoadConfiguration.getBasicGroceryStore() + ".png"),0, 0, true, false);
+            basicMineBuilding = new Image(new FileInputStream("src/main/resources/Buildings/"
+                    + LoadConfiguration.getBasicMine() + ".png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
@@ -118,7 +131,7 @@ public class AssetLoading {
         try {
             Files.walk(Paths.get("src/main/resources/Cows/Random")).filter(Files::isRegularFile).forEach(spritePath -> {
                 try {
-                    basicCows.add(new Image(new FileInputStream(spritePath.toString()),0, 0, true, false));
+                    basicCows.add(new Image(new FileInputStream(spritePath.toString()),37.5, 16.5, true, false));
                 }
                 catch (FileNotFoundException e) {
                     e.printStackTrace();

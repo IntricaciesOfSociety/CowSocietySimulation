@@ -2,19 +2,16 @@ package cowParts.cowMovement;
 
 import buildings.Building;
 import cowParts.Cow;
-import cowParts.Social;
-import javafx.scene.Node;
+import cowParts.cowThoughts.Social;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
-import resourcesManagement.Resource;
 import terrain.Tile;
 
-import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 /**
  * Handles all handled collision events between objects. Collisions are mostly centered around cows.
+ * DEPRECATED
  */
 class Collision {
 
@@ -26,7 +23,7 @@ class Collision {
      * @param cowToMove The cow that is being check for collisions
      */
     static void checkForCollision(Cow cowToMove) {
-        try {
+        /*try {
             for (Node possibleCollide : Playground.playground.getChildren()) {
                 if (possibleCollide != cowToMove && cowToMove.getBoundsInParent().intersects(possibleCollide.getBoundsInParent())) {
                     if (possibleCollide instanceof  Tile)
@@ -42,7 +39,7 @@ class Collision {
         }
         catch (ConcurrentModificationException e) {
             checkForCollision(cowToMove);
-        }
+        }*/
     }
 
     /**
@@ -89,7 +86,6 @@ class Collision {
      * @param intersectingBuilding The building that is colliding
      */
     private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Tile intersectingBuilding) {
-        /*
         if (cowToMove.getDestination() == intersectingBuilding && cowToMove.currentAction.equals("Going home")) {
             //Called as the cow first enters the building
             if (!((Building)intersectingBuilding).getCurrentInhabitants().contains(cowToMove))
@@ -99,6 +95,5 @@ class Collision {
             else if (!cowToMove.isHidden())
                 Building.exitBuilding(cowToMove, intersectingBuilding);
         }
-        */
     }
 }
