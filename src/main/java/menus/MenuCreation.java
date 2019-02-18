@@ -5,7 +5,7 @@ import cowParts.CowHandler;
 import javafx.scene.CacheHint;
 import metaControl.SimState;
 import cowParts.Cow;
-import cowParts.Social;
+import cowParts.cowThoughts.Social;
 import metaEnvironment.Playground;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -14,12 +14,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * A MenuCreation object is a StackPane menu that holds information based off of the object given. Used currently for the
@@ -133,12 +132,28 @@ public class MenuCreation {
     }
 
     /**
-     * TODO: Implement storyView
+     * Creates the story view menu which displays the given cow's entire log
      * @param cowsPreviouslySelected The cows selected when the story view was clicked to open.
      */
-    private void createStoryViewMenu(ArrayList<Cow> cowsPreviouslySelected) {
+    private void createStoryViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        VBox logContent = new VBox();
+        ScrollPane logScroll = new ScrollPane();
+
+        Label logText = new Label(EventLogger.getEntireCowLog(cowsPreviouslySelected.get(0)));
+
         Button exitButton = new Button("EXIT");
         Rectangle background = new Rectangle(150, 0, 650, 600);
+
+        Text idText = new Text(160, 30, cowsPreviouslySelected.get(0).getId());
+        idText.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
+        idText.setFill(Color.RED);
+
+        logScroll.setContent(logText);
+        logScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        logScroll.setPrefWidth(400);
+        logScroll.setPrefHeight(500);
+
+        idText.relocate(200, 10);
 
         exitButton.setLayoutX(160);
         exitButton.setLayoutY(560);
@@ -147,7 +162,10 @@ public class MenuCreation {
             Playground.setPlayground("Motion");
         });
 
-        Playground.playground.getChildren().addAll(background, exitButton);
+        logContent.getChildren().addAll(logScroll, logText);
+        logContent.relocate(300, 50);
+
+        Playground.playground.getChildren().addAll(background, idText, logContent, exitButton);
     }
 
     /**
@@ -242,96 +260,96 @@ public class MenuCreation {
 
         //Emotion links
         hyperlink = new Hyperlink("ANGER: " + firstCow.self.getAnger());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("anger")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "anger")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("ANTICIPATION: " + firstCow.self.getAnticipation());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("anticipation")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "anticipation")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("DISGUST: " + firstCow.self.getDisgust());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("disgust")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "disgust")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("FEAR: " + firstCow.self.getFear());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("fear")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "fear")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("HAPPINESS: " + firstCow.self.getHappiness());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("happiness")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "happiness")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("SURPRISE: " + firstCow.self.getSurprise());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("surprise")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "surprise")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("TRUST: " + firstCow.self.getTrust());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("trust")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "trust")));
         emotionLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Finance Links
         hyperlink = new Hyperlink("INCOME: " + firstCow.self.getIncome());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("income")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "income")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("BILLS: " + firstCow.self.getBills());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("bills")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "bills")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("TAXES: " + firstCow.self.getTaxes());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("taxes")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "taxes")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("SAVINGS: " + firstCow.self.getSavings());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("savings")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "savings")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("DEBT: " + firstCow.self.getDebt());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("debt")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "debt")));
         financeLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Social links
         hyperlink = new Hyperlink("BOREDOM: " + firstCow.self.getBoredom());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("boredom")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "boredom")));
         socialLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("COMPANIONSHIP: " + firstCow.self.getCompanionship());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("companionship")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "companionship")));
         socialLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Physical
         hyperlink = new Hyperlink("HUNGER: " + firstCow.self.getHunger());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("hunger")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "hunger")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("THIRST: " + firstCow.self.getThirst());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("thirst")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "thirst")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("AGE: " + firstCow.self.getAge());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("age")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "age")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("HEALTH: " + firstCow.self.getPhysicalHealth());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("physicalHealth")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "physicalHealth")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("SLEEPINESS: " + firstCow.self.getSleepiness());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("sleepiness")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "sleepiness")));
         physicalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Mental links
         hyperlink = new Hyperlink("FAITH: " + firstCow.self.getFaith());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("faith")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "faith")));
         mentalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         hyperlink = new Hyperlink("HEALTH: " + firstCow.self.getMentalHealth());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("mentalHealth")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "mentalHealth")));
         mentalLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         //Academic links
         hyperlink = new Hyperlink("INTELLIGENCE: " + firstCow.self.getAge());
-        hyperlink.setOnAction(event -> switchContent(firstCow.getLogger().getEventsFromEmotion("intelligence")));
+        hyperlink.setOnAction(event -> switchContent(EventLogger.getCowStatLog(firstCow, "intelligence")));
         academicLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         treeTier.getChildren().addAll(emotionLinks, financeLinks, socialLinks, physicalLinks, mentalLinks, academicLinks);

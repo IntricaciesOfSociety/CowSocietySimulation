@@ -26,7 +26,10 @@ public class SmallBuilding extends Building {
      * @param tileToBuildOn The tile that the building will be built on
      */
     public SmallBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
-        constructBuilding(buildingSprite, name, tileToBuildOn);
+        if (tileToBuildOn != null)
+            constructBuilding(buildingSprite, name, tileToBuildOn);
+        else
+            System.out.println("Cannot construct " + name);
     }
 
     /**

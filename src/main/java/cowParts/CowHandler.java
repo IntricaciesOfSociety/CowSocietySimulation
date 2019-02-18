@@ -1,15 +1,19 @@
 package cowParts;
 
 import buildings.BuildingHandler;
+import cowParts.cowAI.NaturalSelection;
+import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import metaControl.LoadConfiguration;
+import metaControl.SimState;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.MDC;
 import societalProductivity.Role;
 import userInterface.StaticUI;
 
@@ -31,28 +35,35 @@ public class CowHandler {
      */
     public static void init() {
         for (int i = 0; i < LoadConfiguration.getInitialPopulation(); i++) {
-            createCow();
+            Cow newCow = createCow(null, null);
+
+            if (newCow.self.getAge() >= 5 && newCow.self.getAge() <= 10) {
+                newCow.setScaleX(1.5);
+                newCow.setScaleY(1.5);
+            }
+            else if (newCow.self.getAge() >= 10) {
+                newCow.setScaleX(2);
+                newCow.setScaleY(2);
+            }
         }
     }
 
     /**
-     * TEMP
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
      * for the cow to be used in PlaygroundUI.
      */
-    static Cow createCow() {
+    static Cow createCow(Cow parent1, Cow parent2) {
         Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
 
-        Cow newCow = new Cow();
+        Cow newCow = new Cow(parent1, parent2);
         newCow.setImage(cowSprite);
+        newCow.skinSprite = cowSprite;
         newCow.setColor(new ColorAdjust());
 
-        newCow.setId("Big Beefy" + new Random().nextInt(1000));
+        newCow.setId("Big Beefy" + new Random().nextInt(1000000));
         newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
         newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
         newCow.setEffect(newCow.getColor());
-        newCow.setScaleX(1.5);
-        newCow.setScaleY(1.5);
         newCow.setSmooth(false);
 
         //TODO: Switch to an actual date
@@ -101,5 +112,9 @@ public class CowHandler {
     public static void killAll(@NotNull ArrayList<Cow> killList) {
         for (Cow cowToKill : killList)
             cowToKill.kill();
+    }
+
+    public static Point2D findHalfwayPoint(Cow cowToCheck, Cow otherCow) {
+        return new Point2D((cowToCheck.getLayoutX() + otherCow.getLayoutX()) / 2, (cowToCheck.getLayoutY() + otherCow.getLayoutY()) / 2);
     }
 }

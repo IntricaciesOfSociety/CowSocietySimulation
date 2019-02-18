@@ -27,8 +27,11 @@ public class LargeBuilding extends Building {
      * @param name The name of the building
      * @param tileToBuildOn The tile that the building will be built on
      */
-    public LargeBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
-        constructBuilding(buildingSprite, name, tileToBuildOn);
+    LargeBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
+        if (tileToBuildOn != null)
+            constructBuilding(buildingSprite, name, tileToBuildOn);
+        else
+            System.out.println("Cannot construct " + name);
     }
 
     /**

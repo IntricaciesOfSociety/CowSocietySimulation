@@ -1,6 +1,6 @@
 package societalProductivity.government;
 
-import cowParts.Cognition;
+import cowParts.cowThoughts.Cognition;
 import cowParts.Cow;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.NotNull;

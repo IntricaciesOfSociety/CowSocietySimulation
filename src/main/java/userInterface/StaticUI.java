@@ -238,7 +238,7 @@ public class StaticUI {
      * Updates the idText and control buttons whenever a cow is clicked.
      */
     public static void cowClickEvent() {
-        updateIdText();
+        StaticUI.updateIdText();
         updateActionText();
         updateAccommodationsText();
         initControlButtons();
@@ -278,7 +278,7 @@ public class StaticUI {
     /**
      * Updates the idText variable to Input.selectedCow
      */
-    private static void updateIdText() {
+    public static void updateIdText() {
         Input.updateSelectedCows();
 
         if (Input.selectedCows.size() > 1)

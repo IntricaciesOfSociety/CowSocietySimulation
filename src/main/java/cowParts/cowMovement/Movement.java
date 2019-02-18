@@ -34,7 +34,13 @@ public class Movement extends Action {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
 
-            PathTransition newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            PathTransition newMovement = null;
+
+            if (destination.startBehavior() instanceof Tile)
+                newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            else
+                newMovement = animateTowardsDestination(cowToMove, (Point2D) destination.startBehavior());
+
             newMovement.setOnFinished((event) -> endBehavior.endBehavior());
 
             //TODO: Implement path redirection through executionBehavior
@@ -73,9 +79,6 @@ public class Movement extends Action {
         return movementAnimation;
     }
 
-    public static void validateDestination(Cow cowToCheck) {
-    }
-
     /**TODO: Move to an action?
      * 'Pauses' the movement of the current cow by setting an animation for however long was given. Used for staying within
      * buildings along with making tasks take time.
@@ -88,6 +91,8 @@ public class Movement extends Action {
 
             if (cowToMove.isHidden())
                 Building.exitBuilding(cowToMove, cowToMove.getBuildingIn());
+
+            cowToMove.setImage(cowToMove.skinSprite);
         });
 
         cowToMove.animation = pause;

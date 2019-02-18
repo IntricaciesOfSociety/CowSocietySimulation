@@ -1,9 +1,13 @@
 package cowParts;
 
 import buildings.Building;
+import cowParts.cowThoughts.Cognition;
+import cowParts.cowAI.NaturalSelection;
+import cowParts.cowThoughts.PersonalViews;
+import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
-import javafx.util.Duration;
+import javafx.scene.image.Image;
 import metaControl.SimState;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
@@ -12,7 +16,10 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
+import org.slf4j.MDC;
 import userInterface.StaticUI;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -22,10 +29,11 @@ import java.util.Random;
 public class Cow extends ImageView {
 
     /* What makes a cow */
-    public Cognition self = new Cognition();
-    public BirthEvent birth = new BirthEvent();
-    Social socialRelations = new Social();
-    public PersonalViews views = new PersonalViews();
+    public Cognition self;
+    public BirthEvent birth;
+    public Social socialRelations;
+    public PersonalViews views;
+    public Image skinSprite;
 
     private int numberOfVotes;
 
@@ -42,7 +50,7 @@ public class Cow extends ImageView {
     //Contains any animation that the cow is using
     public Transition animation;
 
-    //TEMP: Used for random movement and stats.
+    //Used for relation value changing logic
     private Random random = new Random();
 
     /* UI elements
@@ -56,16 +64,14 @@ public class Cow extends ImageView {
 
     /* Logging elements
     currentAction: What the cow is currently doing within the sim
-    logger: The instance of EventLogger that holds this cow's unique log
      */
     public String currentAction = "";
-    public final EventLogger logger = new EventLogger();
 
     /* What makes a cow
     color: The color effects applied to the cow
     sprite: The image being displayed
      */
-    ColorAdjust color = new ColorAdjust();
+    private ColorAdjust color = new ColorAdjust();
 
     //The job that this cow has
     private String job = "Spinning";
@@ -77,7 +83,7 @@ public class Cow extends ImageView {
     boolean parent = false;
 
     //Statuses
-    boolean diseased = false;
+    private boolean diseased = false;
 
     /* Tile Control variables
     livingSpace: Where the cow currently resides
@@ -88,11 +94,23 @@ public class Cow extends ImageView {
     private Object destination;
     private boolean voted = false;
 
+    Cow(Cow parent1, Cow parent2) {
+        if (parent1 != null)
+            self = NaturalSelection.crossover(parent1, parent2);
+        else
+            self = new Cognition();
+
+        birth = new BirthEvent();
+        socialRelations = new Social();
+        views = new PersonalViews();
+    }
+
     /**
      * Updates the time sensitive attributes in the cow based a counter that relates to the simState main loop. Counter
      * increases about 60 times a second.
      */
     public void updateVitals() {
+
         //Counter increase and reset
         counter++;
         if (counter % 1000 == 0)
@@ -120,9 +138,6 @@ public class Cow extends ImageView {
             otherCow = buildingIn.getCurrentInhabitants().get(i);
 
             if (Social.relationExists(this, otherCow)) {
-                if (!this.parent && this.birth.isFertile() && otherCow.birth.isFertile())
-                    BirthEvent.createChild(this, otherCow);
-
                 if (random.nextInt(50) == 1)
                     Social.modifyRelationValue(this, otherCow, random.nextInt(5 + 1 + 5) + -5);
             }
@@ -163,7 +178,7 @@ public class Cow extends ImageView {
 
         hidden = true;
         Playground.playground.getChildren().remove(this);
-        System.out.println(this.getLayoutX());
+        StaticUI.updateIdText();
     }
 
     /**
@@ -236,10 +251,6 @@ public class Cow extends ImageView {
         return diseased;
     }
 
-    public EventLogger getLogger() {
-        return logger;
-    }
-
     public String getJob() {
         return job;
     }
@@ -248,7 +259,7 @@ public class Cow extends ImageView {
         this.job = job;
     }
 
-    Social getSocialRelations() {
+    public Social getSocialRelations() {
         return socialRelations;
     }
 
@@ -284,7 +295,7 @@ public class Cow extends ImageView {
         return parent;
     }
 
-    public Cow getOffspring() {
+    public ArrayList<Cow> getOffspring() {
         return birth.getOffspring();
     }
 

@@ -1,45 +1,56 @@
 package cowParts.cowAI;
 
-import cowParts.Cognition;
 import cowParts.Cow;
+import cowParts.CowHandler;
+import cowParts.cowThoughts.Cognition;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
+import org.jetbrains.annotations.Nullable;
+import java.util.Comparator;
+import java.util.Random;
 
 public class NaturalSelection {
-
-    //Ordered from greatest to least fittest cow
-    private static ArrayList<Cow> fitnessList = new ArrayList<>();
+    private static Random random = new Random();
 
     public static void calculateFitness(@NotNull Cow cowToCheck) {
-        int survivalFitness = 0;
-        int fameFitness = 0;
+        int survivalFitness = random.nextInt(900);
+        int fameFitness = random.nextInt(900);
 
         Cognition cowCog = cowToCheck.self;
 
         //survivalFitness += cowCog;
         //fameFitness += cowCog;
 
-
         cowToCheck.self.setFitness(survivalFitness + fameFitness);
+    }
 
-        if (fitnessList.size() > 0) {
-            for (int i = 0; i < fitnessList.size(); i++) {
-                if (fitnessList.get(i).self.getFitness() <= (survivalFitness + fameFitness))
-                    fitnessList.add(i + 1, cowToCheck);
-            }
+    public static Cognition crossover(Cow parent1, Cow parent2) {
+        Cognition crossoverCog = new Cognition();
+        //Crossover first
+        mutate();
+        return crossoverCog;
+    }
+
+    private static void mutate() {
+        //Mutate first
+
+    }
+
+    public static void rankFitness() {
+        CowHandler.liveCowList.sort(Comparator.comparingInt(cow -> cow.self.getFitness()));
+    }
+
+
+    /**
+     * TODO: Implement
+     * @param cowToCheck
+     * @return
+     */
+    @Nullable
+    public static Cow getMostFitAndFertile(Cow cowToCheck) {
+        for (int i = 0; i < CowHandler.liveCowList.size(); i++ ) {
+            if (CowHandler.liveCowList.get(i).birth.isFertile())
+                return CowHandler.liveCowList.get(i);
         }
-    }
-
-    public static void selection() {
-
-    }
-
-    public static void crossover() {
-
-    }
-
-    public static void mutation() {
-
+        return null;
     }
 }

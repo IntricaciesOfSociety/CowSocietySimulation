@@ -2,15 +2,11 @@ package cowParts.cowMovement;
 
 import buildings.Building;
 import cowParts.Cow;
-import cowParts.Social;
-import javafx.scene.Node;
+import cowParts.cowThoughts.Social;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
-import resourcesManagement.Resource;
 import terrain.Tile;
 
-import java.util.ConcurrentModificationException;
 import java.util.Random;
 
 /**

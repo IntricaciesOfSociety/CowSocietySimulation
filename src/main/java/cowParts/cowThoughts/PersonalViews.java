@@ -1,4 +1,4 @@
-package cowParts;
+package cowParts.cowThoughts;
 
 import societalProductivity.Issue;
 import societalProductivity.Opinion;
@@ -8,7 +8,7 @@ import societalProductivity.Opinion;
  */
 public class PersonalViews {
 
-    PersonalViews() {
+    public PersonalViews() {
 
     }
 

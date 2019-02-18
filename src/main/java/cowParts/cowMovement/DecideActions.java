@@ -1,7 +1,9 @@
 package cowParts.cowMovement;
 
 import buildings.BuildingHandler;
+import cowParts.BirthEvent;
 import cowParts.Cow;
+import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;
 import metaControl.Time;
 import org.jetbrains.annotations.Contract;
@@ -44,7 +46,7 @@ public class DecideActions {
         Collision.checkForCollision(cowToCheck);
 
         //Only one movement action at a time
-        if (!cowToCheck.alreadyMoving)
+        if (!cowToCheck.alreadyMoving && decideMovement(cowToCheck) != null)
             ExecuteAction.execute(decideMovement(cowToCheck));
 
         //Any action that is not a movement
@@ -53,17 +55,23 @@ public class DecideActions {
     }
 
     private static Movement decideMovement(@NotNull Cow cowToCheck) {
-        if (cowToCheck.self.getThirst() <= 10)
-            return ActiveActions.getWater(cowToCheck);
-        else if (cowToCheck.self.getHunger() <= 10)
-            return ActiveActions.getFood(cowToCheck);
+
+        //Vital actions
+        if (cowToCheck.self.getThirst() <= 10 || cowToCheck.self.getHunger() <= 10)
+            return ActiveActions.getVitalAction(cowToCheck);
+
+        //Economical/Governmental actions
         else if (cowToCheck.self.getSleepiness() > 0)
             return ActiveActions.goWork(cowToCheck);
         else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean())
             return ActiveActions.goVote(cowToCheck);
-        //If between 10PM and 8AM
+
+        //Social actions
         else if (((Time.getHours() > 20 || Time.getHours() < 8) && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
             return ActiveActions.goHome(cowToCheck);
+        else if (cowToCheck.birth.isFertile() && NaturalSelection.getMostFitAndFertile(cowToCheck) != null)
+            return ActiveActions.createChild(cowToCheck);
+
         else
             return ActiveActions.goSpin(cowToCheck);
     }
