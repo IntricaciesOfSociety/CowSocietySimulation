@@ -115,10 +115,12 @@ public class StaticUI {
         idText.setY(280);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        actionText.setTextFill(Color.RED);
         actionText.setLayoutX(5);
         actionText.setLayoutY(290);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        accommodationsText.setTextFill(Color.RED);
         accommodationsText.setLayoutX(5);
         accommodationsText.setLayoutY(330);
 
@@ -147,6 +149,7 @@ public class StaticUI {
         trackingButton.setGraphic(trackingImage);
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        timeOfDay.setFill(Color.RED);
         timeOfDay.setLayoutX(20);
         timeOfDay.setLayoutY(750);
 
