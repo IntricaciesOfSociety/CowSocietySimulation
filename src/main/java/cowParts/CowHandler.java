@@ -49,7 +49,6 @@ public class CowHandler {
     }
 
     /**
-     * TEMP
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
      * for the cow to be used in PlaygroundUI.
      */
@@ -58,6 +57,7 @@ public class CowHandler {
 
         Cow newCow = new Cow(parent1, parent2);
         newCow.setImage(cowSprite);
+        newCow.skinSprite = cowSprite;
         newCow.setColor(new ColorAdjust());
 
         newCow.setId("Big Beefy" + new Random().nextInt(1000000));

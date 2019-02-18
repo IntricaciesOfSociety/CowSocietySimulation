@@ -79,9 +79,6 @@ public class Movement extends Action {
         return movementAnimation;
     }
 
-    public static void validateDestination(Cow cowToCheck) {
-    }
-
     /**TODO: Move to an action?
      * 'Pauses' the movement of the current cow by setting an animation for however long was given. Used for staying within
      * buildings along with making tasks take time.
@@ -94,6 +91,8 @@ public class Movement extends Action {
 
             if (cowToMove.isHidden())
                 Building.exitBuilding(cowToMove, cowToMove.getBuildingIn());
+
+            cowToMove.setImage(cowToMove.skinSprite);
         });
 
         cowToMove.animation = pause;

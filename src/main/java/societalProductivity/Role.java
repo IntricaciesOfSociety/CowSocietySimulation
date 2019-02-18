@@ -3,6 +3,7 @@ package societalProductivity;
 import buildings.Building;
 import buildings.BuildingHandler;
 import cowParts.Cow;
+import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.Resource;
@@ -19,7 +20,7 @@ import java.util.Random;
  */
 public class Role {
 
-    Random random = new Random();
+    private Random random = new Random();
 
     /**
      * Assigns a role based off of random chance.
@@ -46,15 +47,19 @@ public class Role {
         switch (cowToCheck.getJob()) {
             case "Carpenter":
                 cowToCheck.currentAction = "Wood Constructing";
+                cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
                 return BuildingHandler.nextHouseToConstruct();
             case "Mason":
                 cowToCheck.currentAction = "Rock Constructing";
+                cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
                 return BuildingHandler.nextHouseToConstruct();
             case "Lumberjack":
                 cowToCheck.currentAction = "Chopping Wood";
+                cowToCheck.setImage(AssetLoading.loadCowRole("LumberJackCow"));
                 return WoodSource.getClosestResource(cowToCheck);
             case "Miner":
                 cowToCheck.currentAction = "Mining Rock";
+                cowToCheck.setImage(AssetLoading.loadCowRole("MinerCow"));
                 return RockSource.getClosestResource(cowToCheck);
         }
         return null;

@@ -7,6 +7,7 @@ import cowParts.cowThoughts.PersonalViews;
 import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 import metaControl.SimState;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
@@ -32,6 +33,7 @@ public class Cow extends ImageView {
     public BirthEvent birth;
     public Social socialRelations;
     public PersonalViews views;
+    public Image skinSprite;
 
     private int numberOfVotes;
 

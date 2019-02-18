@@ -55,6 +55,7 @@ public class DecideActions {
     }
 
     private static Movement decideMovement(@NotNull Cow cowToCheck) {
+
         //Vital actions
         if (cowToCheck.self.getThirst() <= 10 || cowToCheck.self.getHunger() <= 10)
             return ActiveActions.getVitalAction(cowToCheck);

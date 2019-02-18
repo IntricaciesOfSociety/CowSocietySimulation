@@ -130,14 +130,16 @@ class ActiveActions extends Action {
         if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
             return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Going Home",
                     () -> {
-                        BirthEvent.createChild(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck));
+                        if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
+                            BirthEvent.createChild(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck));
 
-                        EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "companionship", 10);
-                        EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "sleepiness", -10);
-                        cowToCheck.self.setCompanionship(10);
-                        cowToCheck.self.setSleepiness(-10);
+                            EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "companionship", 10);
+                            EventLogger.createLoggedEvent(cowToCheck, "Procreating", 0, "sleepiness", -10);
+                            cowToCheck.self.setCompanionship(10);
+                            cowToCheck.self.setSleepiness(-10);
 
-                        Movement.pauseMovement((int) (SimState.getDeltaTime() * 1000), cowToCheck);
+                            Movement.pauseMovement((int) (SimState.getDeltaTime() * 1000), cowToCheck);
+                        }
                     }
             );
         }

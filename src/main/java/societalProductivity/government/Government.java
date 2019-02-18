@@ -41,7 +41,8 @@ public class Government {
 
     public static void setLeader(@NotNull Cow cowToBeLeader) {
         leader = cowToBeLeader;
-        cowToBeLeader.setImage(AssetLoading.loadCowRole("SnowmanCow"));
+        cowToBeLeader.setImage(AssetLoading.loadCowRole("BusinessCow"));
+        cowToBeLeader.setImage(AssetLoading.loadCowRole("BusinessCow"));
         setNewPlatform();
     }
 
