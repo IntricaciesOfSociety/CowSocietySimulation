@@ -2,6 +2,7 @@ package resourcesManagement;
 
 import cowParts.cowMovement.DecideActions;
 import cowParts.Cow;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaControl.LoadConfiguration;
@@ -29,6 +30,8 @@ public class WoodSource extends Resource {
 
         if (tileToBuildOn != null)
             constructSource(sourceSprite, tileToBuildOn);
+
+        this.setCacheHint(CacheHint.SPEED);
     }
 
     public static int getNumberOfSources() {
