@@ -1,19 +1,16 @@
 package cowParts;
 
 import buildings.BuildingHandler;
-import cowParts.cowAI.NaturalSelection;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import metaControl.LoadConfiguration;
-import metaControl.SimState;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.MDC;
 import societalProductivity.Role;
 import userInterface.StaticUI;
 

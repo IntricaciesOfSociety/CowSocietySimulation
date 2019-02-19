@@ -12,6 +12,9 @@ import java.io.IOException;
  */
 public class LoadConfiguration {
 
+    //[Meta]
+    private static boolean isFullscreen;
+
     //[SituationConfig]
     private static String primaryEra = "";
     private static int initialPopulation;
@@ -59,6 +62,8 @@ public class LoadConfiguration {
      * @param ini The init file to read
      */
     private static void setConfiguration(@NotNull Ini ini) {
+        isFullscreen = Boolean.parseBoolean(ini.get("Meta", "fullscreen"));
+
         primaryEra = ini.get("SituationConfig", "era");
         initialPopulation = Integer.parseInt(ini.get("SituationConfig", "population"));
         startingSize = Integer.parseInt(ini.get("SituationConfig", "startingsize"));
@@ -157,5 +162,9 @@ public class LoadConfiguration {
 
     public static String getCityName() {
         return cityName;
+    }
+
+    public static boolean getFullscreen() {
+        return isFullscreen;
     }
 }
