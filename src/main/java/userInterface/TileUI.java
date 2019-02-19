@@ -26,16 +26,16 @@ public class TileUI {
      * Creates the UI components for the TileUI. Layout is temp.
      */
     private static void init() {
-        Rectangle background = new Rectangle(360, 0, 500, 50);
-        tileText = new Text(385, 25, "TILE UI        " + selectedTile);
-        coordsText = new Text(435, 40, "");
+        Rectangle background = new Rectangle(200, 0, 450, 50);
+        tileText = new Text(210, 25, "TILE UI        " + selectedTile);
+        coordsText = new Text(210, 40, "");
         Button buildButton = new Button("Build City Center");
         Button buildButton2 = new Button("Build Cow Shack");
 
         tileText.setFill(Color.RED);
         coordsText.setFill(Color.YELLOW);
-        buildButton.relocate(750, 0);
-        buildButton2.relocate(750, 25);
+        buildButton.relocate(570, 0);
+        buildButton2.relocate(570, 25);
 
         PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText, buildButton, buildButton2);
 

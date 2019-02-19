@@ -78,7 +78,7 @@ public class StaticUI {
         ImageView heartAttackImage = new ImageView(AssetLoading.loadUISprite("HeartAttack"));
         heartAttackImage.setScaleX(2);
         heartAttackImage.setScaleY(2);
-        heartAttackButton.setLayoutX(1300);
+        heartAttackButton.setLayoutX(730);
         heartAttackButton.setLayoutY(20);
         heartAttackButton.setFocusTraversable(false);
         heartAttackButton.setGraphic(heartAttackImage);
@@ -86,7 +86,7 @@ public class StaticUI {
         ImageView diseaseImage = new ImageView(AssetLoading.loadUISprite("Disease"));
         diseaseImage.setScaleX(2);
         diseaseImage.setScaleY(2);
-        diseaseButton.setLayoutX(1300);
+        diseaseButton.setLayoutX(730);
         diseaseButton.setLayoutY(50);
         diseaseButton.setFocusTraversable(false);
         diseaseButton.setGraphic(diseaseImage);
@@ -151,7 +151,7 @@ public class StaticUI {
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setFill(Color.RED);
         timeOfDay.setLayoutX(20);
-        timeOfDay.setLayoutY(750);
+        timeOfDay.setLayoutY(575);
 
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
@@ -180,7 +180,7 @@ public class StaticUI {
 
         resourcesUIButton.setOnAction(event -> PlaygroundUI.toggleResourcesUI());
 
-        tileUIButton.setOnAction(event -> {
+        trackingButton.setOnAction(event -> {
 
         });
 

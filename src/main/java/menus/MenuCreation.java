@@ -97,7 +97,7 @@ public class MenuCreation {
 
         currentStatusText.relocate(160, 325);
 
-        exitButton.relocate(160, 720);
+        exitButton.relocate(160, 550);
         exitButton.setOnAction(event -> {
             SimState.setSimState("Playing");
             Playground.setPlayground("Motion");
@@ -119,11 +119,11 @@ public class MenuCreation {
         bottomScrollPane.setPrefHeight(125);
 
         topView.getChildren().addAll(topContent, topScrollPane);
-        topView.relocate(455, 50);
+        topView.relocate(470, 50);
         bottomView.getChildren().addAll(bottomScrollPane);
-        bottomView.relocate(455, 185);
+        bottomView.relocate(470, 185);
         socialView.getChildren().addAll(socialViewContent, socialViewScrollPane);
-        socialView.relocate(455, 350);
+        socialView.relocate(470, 350);
 
         Playground.playground.getChildren().addAll(background, idText, exitButton, topView, bottomView, socialView, currentStatusText);
 
@@ -150,8 +150,8 @@ public class MenuCreation {
 
         logScroll.setContent(logText);
         logScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        logScroll.setPrefWidth(400);
-        logScroll.setPrefHeight(500);
+        logScroll.setPrefWidth(350);
+        logScroll.setPrefHeight(450);
 
         idText.relocate(200, 10);
 
@@ -173,7 +173,7 @@ public class MenuCreation {
      * @param buildingToCreateMenuFrom The building to create an inhabitants menu for
      */
     private void createInhabitantsMenu(@NotNull Tile buildingToCreateMenuFrom) {
-        Rectangle background = new Rectangle(50, 50, Color.BLACK);
+        Rectangle background = new Rectangle(100, 50, Color.BLACK);
         numberOfInhabitants = new Text(Integer.toString(((Building) buildingToCreateMenuFrom).getCurrentInhabitants().size()));
         stack = new Pane();
 
@@ -215,10 +215,10 @@ public class MenuCreation {
 
         socialRelationsScrollPane.setContent(socialRelationsView);
         socialRelationsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        socialRelationsScrollPane.setPrefWidth(500);
+        socialRelationsScrollPane.setPrefWidth(325);
         socialRelationsScrollPane.setPrefHeight(150);
 
-        socialRelationsScrollPane.relocate(175, 450);
+        socialRelationsScrollPane.relocate(125, 350);
 
         Playground.playground.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
     }
@@ -356,8 +356,8 @@ public class MenuCreation {
         TreeView<Object> tree = new TreeView<>(treeTier);
         tree.setShowRoot(false);
         tree.relocate(175, 50);
-        tree.setPrefHeight(280);
-        tree.setPrefWidth(300);
+        tree.setPrefHeight(250);
+        tree.setPrefWidth(250);
         Playground.playground.getChildren().add(tree);
     }
 
