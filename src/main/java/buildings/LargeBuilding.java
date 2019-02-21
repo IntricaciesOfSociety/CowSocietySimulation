@@ -2,6 +2,7 @@ package buildings;
 
 import cowParts.Cow;
 import javafx.geometry.Point2D;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import menus.MenuCreation;
 import menus.MenuHandler;
@@ -28,6 +29,8 @@ public class LargeBuilding extends Building {
      * @param tileToBuildOn The tile that the building will be built on
      */
     LargeBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
+        this.setCacheHint(CacheHint.SPEED);
+
         if (tileToBuildOn != null)
             constructBuilding(buildingSprite, name, tileToBuildOn);
         else

@@ -2,6 +2,7 @@ package resourcesManagement;
 
 import cowParts.cowMovement.DecideActions;
 import cowParts.Cow;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
@@ -24,9 +25,12 @@ public class RockSource extends Resource {
      * @param tileToBuildOn The tile to build the source upon
      */
     RockSource(Image sourceSprite, Tile tileToBuildOn) {
+        resourceHealth = Tile.getSize(sourceSprite) * 25;
 
         if (tileToBuildOn != null)
             constructSource(sourceSprite, tileToBuildOn);
+
+        this.setCacheHint(CacheHint.SPEED);
     }
 
     /**

@@ -28,6 +28,9 @@ public class Playground {
      * Defaults the playground to the motion pane.
      */
     public static void init() {
+        if (LoadConfiguration.getFullscreen())
+            SimState.initFullScreen();
+
         playground = motion;
         playground.setMinSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);
         playground.setPrefSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);

@@ -2,6 +2,7 @@ package resourcesManagement;
 
 import cowParts.Cow;
 import cowParts.cowMovement.DecideActions;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
@@ -23,7 +24,12 @@ public class WaterSource extends Resource {
      * @param tileToBuildOn The tile to build the source upon
      */
     WaterSource(Image resourceSprite, Tile tileToBuildOn) {
-        constructSource(resourceSprite, tileToBuildOn);
+        resourceHealth = Tile.getSize(resourceSprite) * 25;
+
+        if (tileToBuildOn != null)
+            constructSource(resourceSprite, tileToBuildOn);
+
+        this.setCacheHint(CacheHint.SPEED);
     }
 
     /**

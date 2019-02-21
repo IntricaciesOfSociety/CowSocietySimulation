@@ -1,6 +1,7 @@
 package buildings;
 
 import cowParts.Cow;
+import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import menus.MenuHandler;
 import metaControl.SimState;
@@ -26,6 +27,8 @@ public class SmallBuilding extends Building {
      * @param tileToBuildOn The tile that the building will be built on
      */
     public SmallBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
+        this.setCacheHint(CacheHint.SPEED);
+
         if (tileToBuildOn != null)
             constructBuilding(buildingSprite, name, tileToBuildOn);
         else
