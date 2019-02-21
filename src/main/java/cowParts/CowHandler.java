@@ -11,6 +11,7 @@ import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.MDC;
@@ -114,7 +115,12 @@ public class CowHandler {
             cowToKill.kill();
     }
 
-    public static Point2D findHalfwayPoint(Cow cowToCheck, Cow otherCow) {
-        return new Point2D((cowToCheck.getLayoutX() + otherCow.getLayoutX()) / 2, (cowToCheck.getLayoutY() + otherCow.getLayoutY()) / 2);
+    @NotNull
+    @Contract("_, _ -> new")
+    public static Point2D findHalfwayPoint(@NotNull Cow cowToCheck, @NotNull Cow otherCow) {
+        return new Point2D(
+                (cowToCheck.getLayoutX() + cowToCheck.getTranslateX() + otherCow.getLayoutX() + otherCow.getTranslateX()) / 2,
+                (cowToCheck.getLayoutY() + cowToCheck.getTranslateY() + otherCow.getLayoutY() + otherCow.getTranslateY()) / 2
+        );
     }
 }
