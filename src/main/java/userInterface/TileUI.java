@@ -47,7 +47,7 @@ public class TileUI {
         updateUIPlacements();
     }
 
-    private static void updateUIPlacements() {
+    public static void updateUIPlacements() {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
@@ -101,7 +101,7 @@ public class TileUI {
      * @return If the tileUI is opened or not
      */
     @Contract(pure = true)
-    static boolean isOpened() {
+    public static boolean isOpened() {
         return opened;
     }
 

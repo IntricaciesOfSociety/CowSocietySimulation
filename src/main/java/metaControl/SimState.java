@@ -5,6 +5,8 @@ import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
+import menus.StatsViewMenu;
+import menus.StoryViewMenu;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
@@ -27,6 +29,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import userInterface.ResourcesUI;
 import userInterface.StaticUI;
+import userInterface.TileUI;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -177,7 +180,17 @@ public class SimState extends Application {
     private static void updateTick() {
         if (nativeScreenX != (int) primaryStage.getWidth()) {
             nativeScreenX = (int) primaryStage.getWidth();
+
             StaticUI.updateUIPlacements();
+
+            if (TileUI.isOpened())
+                TileUI.updateUIPlacements();
+            if (ResourcesUI.isOpened())
+                ResourcesUI.updateUIPlacements();
+            if (StoryViewMenu.isOpened())
+                StoryViewMenu.updateUIPlacements();
+            if (StatsViewMenu.isOpened())
+                StatsViewMenu.updateUIPlacements();
         }
 
         //Decides what action each cow should be doing

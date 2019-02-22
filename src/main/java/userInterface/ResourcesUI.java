@@ -35,7 +35,7 @@ public class ResourcesUI {
         updateUIPlacements();
     }
 
-    private static void updateUIPlacements() {
+    public static void updateUIPlacements() {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 

@@ -13,15 +13,31 @@ import javafx.scene.text.Text;
 import metaControl.SimState;
 import metaEnvironment.Playground;
 import metaEnvironment.logging.EventLogger;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-class StatsViewMenu extends MenuCreation{
+public class StatsViewMenu extends MenuCreation {
 
-    private static Label topContent = new Label();
-    private static Label bottomContent = new Label();
-    private static Label socialViewContent = new Label("Here");
+    private static boolean isOpened;
+
+    private static Label topContent;
+    private static Label bottomContent;
+    private static Label socialViewContent;
+
+    private static VBox topView;
+    private static VBox bottomView;
+    private static VBox socialView;
+    private static ScrollPane topScrollPane;
+    private static ScrollPane bottomScrollPane;
+    private static ScrollPane socialViewScrollPane;
+
+    private static Button exitButton;
+    private static Rectangle background;
+
+    private static Text currentStatusText;
+    private static Text idText;
 
     StatsViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         super(cowsPreviouslySelected);
@@ -32,19 +48,26 @@ class StatsViewMenu extends MenuCreation{
      * @param cowsPreviouslySelected The cows previously selected when the detailedView was clicked to open
      */
     static void createDetailedViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        VBox topView = new VBox();
-        VBox bottomView = new VBox();
-        VBox socialView = new VBox();
-        ScrollPane topScrollPane = new ScrollPane();
-        ScrollPane bottomScrollPane = new ScrollPane();
-        ScrollPane socialViewScrollPane = new ScrollPane();
+        isOpened = true;
 
-        Button exitButton = new Button("EXIT");
-        Rectangle background = new Rectangle(150, 0, 650, 600);
+        topContent = new Label();
+        bottomContent = new Label();
+        socialViewContent = new Label("Here");
 
-        Text currentStatusText = new Text("JOB: " + cowsPreviouslySelected.get(0).getJob()
+        topView = new VBox();
+        bottomView = new VBox();
+        socialView = new VBox();
+        topScrollPane = new ScrollPane();
+        bottomScrollPane = new ScrollPane();
+        socialViewScrollPane = new ScrollPane();
+
+        exitButton = new Button("EXIT");
+
+        background = new Rectangle();
+
+        currentStatusText = new Text("JOB: " + cowsPreviouslySelected.get(0).getJob()
                 + "    CURRENTLY: " + cowsPreviouslySelected.get(0).getCurrentAction());
-        Text idText = new Text(160, 30, cowsPreviouslySelected.get(0).getId());
+        idText = new Text(cowsPreviouslySelected.get(0).getId());
 
         topContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         bottomContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
@@ -55,40 +78,57 @@ class StatsViewMenu extends MenuCreation{
         currentStatusText.setFill(Color.RED);
         idText.setFill(Color.RED);
 
-        currentStatusText.relocate(160, 325);
-
-        exitButton.relocate(160, 560);
         exitButton.setOnAction(event -> {
             SimState.setSimState("Playing");
             Playground.setPlayground("Motion");
+            isOpened = false;
         });
 
         socialViewScrollPane.setContent(socialViewContent);
         socialViewScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        socialViewScrollPane.setPrefWidth(300);
-        socialViewScrollPane.setPrefHeight(200);
 
         topScrollPane.setContent(topContent);
         topScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        topScrollPane.setPrefWidth(300);
-        topScrollPane.setPrefHeight(125);
 
         bottomScrollPane.setContent(bottomContent);
         bottomScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        bottomScrollPane.setPrefWidth(300);
-        bottomScrollPane.setPrefHeight(125);
 
         topView.getChildren().addAll(topContent, topScrollPane);
-        topView.relocate(455, 50);
         bottomView.getChildren().addAll(bottomScrollPane);
-        bottomView.relocate(455, 185);
         socialView.getChildren().addAll(socialViewContent, socialViewScrollPane);
-        socialView.relocate(455, 350);
 
         Playground.playground.getChildren().addAll(background, idText, exitButton, topView, bottomView, socialView, currentStatusText);
 
         createCognitionTree(cowsPreviouslySelected.get(0));
         createSocialLinks(cowsPreviouslySelected);
+    }
+
+    public static void updateUIPlacements() {
+        int screenOffsetX = SimState.getScreenWidth();
+        int screenOffsetY = SimState.getScreenHeight();
+
+        background.setWidth(650);
+        background.setHeight(600);
+        background.relocate(150, 0);
+
+        exitButton.relocate(160, 560);
+
+        currentStatusText.relocate(160, 325);
+
+        idText.relocate(160, 30);
+
+        socialViewScrollPane.setPrefWidth(300);
+        socialViewScrollPane.setPrefHeight(200);
+
+        topScrollPane.setPrefWidth(300);
+        topScrollPane.setPrefHeight(125);
+
+        bottomScrollPane.setPrefWidth(300);
+        bottomScrollPane.setPrefHeight(125);
+
+        topView.relocate(455, 50);
+        bottomView.relocate(455, 185);
+        socialView.relocate(455, 350);
     }
 
     /**
@@ -288,5 +328,10 @@ class StatsViewMenu extends MenuCreation{
      */
     private static void switchSocialContent(String socialValue) {
         socialViewContent.setText((socialValue));
+    }
+
+    @Contract(pure = true)
+    public static boolean isOpened() {
+        return isOpened;
     }
 }
