@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
-public class Movement extends Action {
+class Movement extends Action {
 
     private Start destination;
     private End endBehavior;

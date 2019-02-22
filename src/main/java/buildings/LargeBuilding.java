@@ -4,7 +4,6 @@ import cowParts.Cow;
 import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
-import menus.MenuCreation;
 import menus.MenuHandler;
 import metaControl.SimState;
 import metaEnvironment.AssetLoading;

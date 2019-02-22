@@ -1,20 +1,16 @@
 package menus;
 
 import buildings.Building;
-import cowParts.CowHandler;
 import javafx.scene.CacheHint;
 import metaControl.SimState;
 import cowParts.Cow;
-import cowParts.cowThoughts.Social;
 import metaEnvironment.Playground;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
 
