@@ -1,7 +1,6 @@
 package metaEnvironment.logging;
 
 import cowParts.Cow;
-import metaControl.LoadConfiguration;
 import metaControl.SimState;
 import metaControl.Time;
 import org.apache.commons.io.FileUtils;
@@ -10,17 +9,11 @@ import org.slf4j.MDC;
 import societalProductivity.cityPlanning.CityControl;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Logs every action for each individual cow. Also auto-generates a city-wide log for important events.
  */
 public class EventLogger {
-
-    private ArrayList<String> eventLog = new ArrayList<>();
-    private ArrayList<String> effectedEmotions = new ArrayList<>();
 
     /**
      * Logs the given event to the given cow's log.
@@ -34,7 +27,7 @@ public class EventLogger {
         StringBuilder logMessage = new StringBuilder();
 
         logMessage.append(cognitiveEffecting).append((effectAmount >= 0) ? "+" + effectAmount : effectAmount).append(" ");
-        logMessage.append(Time.getTime().getMinutes()).append(" ");
+        logMessage.append(Time.getTime()).append(" ");
         logMessage.append(event);
 
         logEvent(logMessage.toString(), cowToLogTo.getId());

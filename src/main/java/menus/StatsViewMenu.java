@@ -1,11 +1,9 @@
 package menus;
 
-import buildings.Building;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import cowParts.cowThoughts.Social;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,7 +14,6 @@ import metaControl.SimState;
 import metaEnvironment.Playground;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.NotNull;
-import terrain.Tile;
 
 import java.util.ArrayList;
 

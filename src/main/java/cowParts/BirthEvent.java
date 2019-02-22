@@ -2,9 +2,7 @@ package cowParts;
 
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;

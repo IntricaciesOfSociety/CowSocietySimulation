@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class StoryViewMenu {
+class StoryViewMenu {
     /**
      * Creates the story view menu which displays the given cow's entire log
      * @param cowsPreviouslySelected The cows selected when the story view was clicked to open.

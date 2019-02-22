@@ -19,27 +19,48 @@ public class TileUI {
     private static Tile selectedTile;
     private static boolean opened = false;
 
+    private static Rectangle background;
+
     private static Text tileText;
     private static Text coordsText;
+
+    private static Button buildButton;
+    private static Button buildButton2;
 
     /**
      * Creates the UI components for the TileUI. Layout is temp.
      */
     private static void init() {
-        Rectangle background = new Rectangle(360, 0, 500, 50);
-        tileText = new Text(385, 25, "TILE UI        " + selectedTile);
-        coordsText = new Text(435, 40, "");
-        Button buildButton = new Button("Build City Center");
-        Button buildButton2 = new Button("Build Cow Shack");
+        background = new Rectangle();
+        tileText = new Text("TILE UI        " + selectedTile);
+        coordsText = new Text("");
+        buildButton = new Button("Build City Center");
+        buildButton2 = new Button("Build Cow Shack");
 
         tileText.setFill(Color.RED);
         coordsText.setFill(Color.YELLOW);
-        buildButton.relocate(750, 0);
-        buildButton2.relocate(750, 25);
 
         PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText, buildButton, buildButton2);
 
         BuildingHandler.highlightBuildings();
+
+        updateUIPlacements();
+    }
+
+    private static void updateUIPlacements() {
+        int screenOffsetX = SimState.getScreenWidth();
+        int screenOffsetY = SimState.getScreenHeight();
+
+        background.setWidth(500);
+        background.setHeight(50);
+        background.relocate(360, 0);
+
+        coordsText.relocate(435, 40);
+
+        tileText.relocate(385, 25);
+
+        buildButton.relocate(750, 0);
+        buildButton2.relocate(750, 25);
     }
 
     /**
