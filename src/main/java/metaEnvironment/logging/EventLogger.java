@@ -34,7 +34,7 @@ public class EventLogger {
         StringBuilder logMessage = new StringBuilder();
 
         logMessage.append(cognitiveEffecting).append((effectAmount >= 0) ? "+" + effectAmount : effectAmount).append(" ");
-        logMessage.append(Time.getTime()).append(" ");
+        logMessage.append(Time.getTime().getMinutes()).append(" ");
         logMessage.append(event);
 
         logEvent(logMessage.toString(), cowToLogTo.getId());

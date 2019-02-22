@@ -128,7 +128,7 @@ class ActiveActions extends Action {
     @Nullable
     static Movement createChild(@NotNull Cow cowToCheck) {
         if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
-            return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Going Home",
+            return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Creating Offspring",
                     () -> {
                         if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
                             BirthEvent.createChild(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck));

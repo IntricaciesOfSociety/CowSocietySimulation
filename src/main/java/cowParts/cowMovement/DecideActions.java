@@ -1,17 +1,14 @@
 package cowParts.cowMovement;
 
 import buildings.BuildingHandler;
-import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;
 import metaControl.Time;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import societalProductivity.government.Government;
 import terrain.Tile;
-import userInterface.StaticUI;
 
 import java.util.ArrayList;
 import java.util.Random;
