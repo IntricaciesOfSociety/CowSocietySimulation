@@ -28,12 +28,14 @@ public class TileUI {
      * Creates the UI components for the TileUI. Layout is temp.
      */
     private static void init() {
+
         background = new Rectangle();
         tileText = new Text("TILE UI        " + selectedTile);
         coordsText = new Text("");
 
         tileText.setFill(Color.RED);
         coordsText.setFill(Color.YELLOW);
+
 
         PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText);
 
@@ -52,7 +54,18 @@ public class TileUI {
         tileText.relocate(background.getLayoutX() + 20, 30);
         coordsText.relocate(background.getLayoutX() + 20, 50);
     }
+    /*
+    public static void updateUIPlacements() {
+        int screenOffsetX = SimState.getScreenWidth();
+        int screenOffsetY = SimState.getScreenHeight();
 
+        tileText.setX(screenOffsetX / 2);
+        tileText.setY();
+
+        coordsText.setX(screenOffsetX / 2);
+        coordsText.setY();
+    }
+    */
     /**
      * Sets the tile that is currently selected within the UI. Set from Input.java.
      * @param target The selected tile
