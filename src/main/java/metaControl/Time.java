@@ -1,12 +1,10 @@
 package metaControl;
 
-import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.effect.ColorAdjust;
 import org.jetbrains.annotations.Contract;
-import resourcesManagement.ResourcesHandler;
 import resourcesManagement.WoodSource;
 import societalProductivity.government.Government;
 import userInterface.StaticUI;
@@ -27,7 +25,7 @@ public class Time {
 
     private static Random random = new Random();
 
-    private static Integer timeInDay = new Random().nextInt(2400);
+    private static Integer timeInDay = 0;
 
     private static int hours = 0;
     private static int days = 1;

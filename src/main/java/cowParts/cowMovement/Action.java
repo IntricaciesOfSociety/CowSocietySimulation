@@ -1,9 +1,6 @@
 package cowParts.cowMovement;
 
 import javafx.animation.Animation;
-import metaControl.SimState;
-import metaEnvironment.logging.EventLogger;
-import resourcesManagement.WaterSource;
 
 interface Start {
     Object startBehavior();

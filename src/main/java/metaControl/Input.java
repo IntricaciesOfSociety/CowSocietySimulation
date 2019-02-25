@@ -204,7 +204,7 @@ public class Input {
         StaticUI.cowClickEvent();
     }
 
-    /**
+    /** TODO: Rework into a system that makes sense
      * Refreshes the selected cow variable equal to the cows from the open menus list in menu handler.
      */
     public static void updateSelectedCows() {

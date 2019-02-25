@@ -120,8 +120,10 @@ public class StaticUI {
        // accommodationsText.setLayoutY(330);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        actionText.setTextFill(Color.RED);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        accommodationsText.setTextFill(Color.RED);
 
         ImageView tileImage = new ImageView(AssetLoading.loadUISprite("TileUI"));
         tileImage.setScaleX(2);
@@ -149,8 +151,6 @@ public class StaticUI {
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setFill(Color.RED);
-        //timeOfDay.setLayoutX(20);
-       // timeOfDay.setLayoutY(575);
 
 
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
@@ -198,11 +198,13 @@ public class StaticUI {
         cowLinkScrollBox.setLayoutX(5);
         cowLinkScrollBox.setLayoutY(60);
 
-        heartAttackButton.setLayoutX(screenOffsetX - 75);
-        heartAttackButton.setLayoutY(30);
 
-        diseaseButton.setLayoutX(screenOffsetX - 75);
-        diseaseButton.setLayoutY(60);
+        heartAttackButton.setLayoutX(screenOffsetX - 85);
+        heartAttackButton.setLayoutY(20);
+
+        diseaseButton.setLayoutX(screenOffsetX - 85);
+        diseaseButton.setLayoutY(50);
+
 
         detailedViewButton.setLayoutX(15);
         detailedViewButton.setLayoutY(170);
@@ -226,7 +228,8 @@ public class StaticUI {
         resourcesUIButton.setLayoutY(380);
 
         timeOfDay.setLayoutX(20);
-        timeOfDay.setLayoutY(screenOffsetY);
+
+        timeOfDay.setLayoutY(screenOffsetY - 50);
 
     }
 
@@ -392,6 +395,7 @@ public class StaticUI {
         cowLinkScrollBox.setDisable(true);
         controlGroup.setDisable(true);
         simSpeedGroup.setDisable(true);
+        differentUIGroup.setDisable(true);
     }
 
     /**
@@ -400,6 +404,7 @@ public class StaticUI {
     public static void enableUI() {
         simSpeedGroup.setDisable(false);
         cowLinkScrollBox.setDisable(false);
+        differentUIGroup.setDisable(false);
 
         if (!Input.selectedCows.isEmpty())
             controlGroup.setDisable(false);

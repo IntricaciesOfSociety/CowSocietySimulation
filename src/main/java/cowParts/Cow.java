@@ -8,7 +8,6 @@ import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
-import metaControl.SimState;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import javafx.scene.control.Hyperlink;
@@ -16,7 +15,6 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
-import org.slf4j.MDC;
 import userInterface.StaticUI;
 
 import java.util.ArrayList;
@@ -187,7 +185,11 @@ public class Cow extends ImageView {
     public void show() {
         if (hidden) {
             hidden = false;
-            Playground.playground.getChildren().add(this);
+
+            if (!Playground.playground.getChildren().contains(this))
+                Playground.playground.getChildren().add(this);
+            else
+                System.out.println("Duplicate???? " + this.getId());
         }
     }
 

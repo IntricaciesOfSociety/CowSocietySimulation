@@ -90,7 +90,7 @@ class ActiveActions extends Action {
                 cowToCheck.self.setSleepiness(-50);
                 Economy.giveMoney(cowToCheck, 10);
 
-                Movement.pauseMovement( ((int) (SimState.getDeltaTime() * 5000)), cowToCheck);
+                Movement.pauseMovement( ((int) (SimState.getDeltaTime() * 50000)), cowToCheck);
             }
         );
     }
@@ -128,7 +128,7 @@ class ActiveActions extends Action {
     @Nullable
     static Movement createChild(@NotNull Cow cowToCheck) {
         if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
-            return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Going Home",
+            return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Creating Offspring",
                     () -> {
                         if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
                             BirthEvent.createChild(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck));

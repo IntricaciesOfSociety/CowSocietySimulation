@@ -19,6 +19,8 @@ public class TileUI {
     private static Tile selectedTile;
     private static boolean opened = false;
 
+    private static Rectangle background;
+
     private static Text tileText;
     private static Text coordsText;
 
@@ -26,20 +28,31 @@ public class TileUI {
      * Creates the UI components for the TileUI. Layout is temp.
      */
     private static void init() {
-        Rectangle background = new Rectangle(200, 0, 450, 50);
-        tileText = new Text(210, 25, "TILE UI        " + selectedTile);
-        coordsText = new Text(210, 40, "");
-        Button buildButton = new Button("Build City Center");
-        Button buildButton2 = new Button("Build Cow Shack");
+
+        background = new Rectangle();
+        tileText = new Text("TILE UI        " + selectedTile);
+        coordsText = new Text("");
 
         tileText.setFill(Color.RED);
         coordsText.setFill(Color.YELLOW);
-        buildButton.relocate(570, 0);
-        buildButton2.relocate(570, 25);
 
-        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText, buildButton, buildButton2);
+
+        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText);
 
         BuildingHandler.highlightBuildings();
+
+        updateUIPlacements();
+    }
+
+    public static void updateUIPlacements() {
+        int screenOffsetX = SimState.getScreenWidth();
+
+        background.setWidth(500);
+        background.setHeight(50);
+        background.relocate((screenOffsetX / 2) - background.getWidth() / 2, 20);
+
+        tileText.relocate(background.getLayoutX() + 20, 30);
+        coordsText.relocate(background.getLayoutX() + 20, 50);
     }
     /*
     public static void updateUIPlacements() {
@@ -91,7 +104,7 @@ public class TileUI {
      * @return If the tileUI is opened or not
      */
     @Contract(pure = true)
-    static boolean isOpened() {
+    public static boolean isOpened() {
         return opened;
     }
 

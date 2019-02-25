@@ -4,6 +4,7 @@ import buildings.Building;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import metaControl.SimState;
 import org.jetbrains.annotations.Contract;
 import resourcesManagement.Resource;
 import resourcesManagement.ResourcesHandler;
@@ -16,18 +17,35 @@ public class ResourcesUI {
     
     private static boolean opened = false;
 
+    private static Rectangle background;
+
     private static Text resourcesText;
 
     /**
      * Creates the core components of the resourcesUI.
      */
     private static void init() {
-        Rectangle background = new Rectangle(200, 550, 500, 50);
-        resourcesText = new Text(235, 575, "RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
+
+        background = new Rectangle();
+        resourcesText = new Text("RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
+
 
         resourcesText.setFill(Color.RED);
 
         PlaygroundUI.resourcesUI.getChildren().addAll(background, resourcesText);
+
+        updateUIPlacements();
+    }
+
+    public static void updateUIPlacements() {
+        int screenOffsetX = SimState.getScreenWidth();
+        int screenOffsetY = SimState.getScreenHeight();
+
+        background.setWidth(500);
+        background.setHeight(50);
+        background.relocate((screenOffsetX / 2) - background.getWidth() / 2, screenOffsetY - 100);
+
+        resourcesText.relocate(background.getLayoutX() + 20, background.getLayoutY() + 15);
     }
 
     /**

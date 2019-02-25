@@ -5,6 +5,9 @@ import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
+import javafx.beans.value.ChangeListener;
+import menus.StatsViewMenu;
+import menus.StoryViewMenu;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
@@ -27,6 +30,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import userInterface.ResourcesUI;
 import userInterface.StaticUI;
+import userInterface.TileUI;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -34,8 +38,6 @@ import userInterface.StaticUI;
 public class SimState extends Application {
 
     public static final Logger logger = LoggerFactory.getLogger(SimState.class);
-
-    private static int nativeScreenX;
 
     /*Scene elements
     Root: The root node that is the parent of the scene and everything within the scene
@@ -125,8 +127,6 @@ public class SimState extends Application {
         CowHandler.init();
         PlaygroundUI.init();
 
-        nativeScreenX = (int) primaryStage.getWidth();
-
         root.getChildren().addAll(Playground.playground,
                 PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
         );
@@ -175,11 +175,6 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
-        if (nativeScreenX != (int) primaryStage.getWidth()) {
-            nativeScreenX = (int) primaryStage.getWidth();
-            StaticUI.updateUIPlacements();
-        }
-
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             NaturalSelection.calculateFitness(CowHandler.liveCowList.get(i));
@@ -218,6 +213,22 @@ public class SimState extends Application {
     public void start(Stage primaryStage) {
         SimState.primaryStage = primaryStage;
         primaryStage.setTitle("Release01");
+
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
+            StaticUI.updateUIPlacements();
+
+            if (TileUI.isOpened())
+                TileUI.updateUIPlacements();
+            if (ResourcesUI.isOpened())
+                ResourcesUI.updateUIPlacements();
+            if (StoryViewMenu.isOpened())
+                StoryViewMenu.updateUIPlacements();
+            if (StatsViewMenu.isOpened())
+                StatsViewMenu.updateUIPlacements();
+        };
+
+        primaryStage.widthProperty().addListener(stageSizeListener);
+        primaryStage.heightProperty().addListener(stageSizeListener);
 
         primaryStage.show();
         primaryStage.setScene(initialScene);
