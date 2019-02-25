@@ -29,15 +29,19 @@ public class StatsViewMenu extends MenuCreation {
     private static VBox topView;
     private static VBox bottomView;
     private static VBox socialView;
+    private static VBox socialRelationsView;
     private static ScrollPane topScrollPane;
     private static ScrollPane bottomScrollPane;
     private static ScrollPane socialViewScrollPane;
+    private static ScrollPane socialRelationsScrollPane;
 
     private static Button exitButton;
     private static Rectangle background;
 
     private static Text currentStatusText;
     private static Text idText;
+
+    private static TreeView<Object> tree;
 
     StatsViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         super(cowsPreviouslySelected);
@@ -101,24 +105,32 @@ public class StatsViewMenu extends MenuCreation {
 
         createCognitionTree(cowsPreviouslySelected.get(0));
         createSocialLinks(cowsPreviouslySelected);
+
+        updateUIPlacements();
     }
 
     public static void updateUIPlacements() {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
-        background.setWidth(650);
-        background.setHeight(600);
-        background.relocate(150, 0);
+        background.setWidth(screenOffsetX);
+        background.setHeight(screenOffsetY);
+        background.relocate(0, 0);
 
-        exitButton.relocate(160, 560);
+        tree.relocate(175, 80);
+        tree.setPrefHeight((screenOffsetY / 2) - 50);
 
-        currentStatusText.relocate(160, 325);
+        exitButton.relocate(75, screenOffsetY - 100);
+
+        currentStatusText.relocate(175, tree.getLayoutY() + tree.getPrefHeight() + 5);
 
         idText.relocate(160, 30);
 
         socialViewScrollPane.setPrefWidth(300);
-        socialViewScrollPane.setPrefHeight(200);
+        socialViewScrollPane.setPrefHeight(screenOffsetY / 4);
+
+        socialRelationsScrollPane.setPrefWidth(250);
+        socialRelationsScrollPane.setPrefHeight(screenOffsetY / 4);
 
         topScrollPane.setPrefWidth(300);
         topScrollPane.setPrefHeight(125);
@@ -126,9 +138,10 @@ public class StatsViewMenu extends MenuCreation {
         bottomScrollPane.setPrefWidth(300);
         bottomScrollPane.setPrefHeight(125);
 
+        socialRelationsScrollPane.relocate(currentStatusText.getLayoutX(), currentStatusText.getLayoutY() + 10);
         topView.relocate(455, 50);
         bottomView.relocate(455, 185);
-        socialView.relocate(455, 350);
+        socialView.relocate((socialRelationsScrollPane.getLayoutX() + 260), socialRelationsScrollPane.getLayoutY());
     }
 
     /**
@@ -137,8 +150,8 @@ public class StatsViewMenu extends MenuCreation {
      * @param cowsPreviouslySelected The cows that were selected when the detailedView button was clicked.
      */
     private static void createSocialLinks(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        VBox socialRelationsView = new VBox();
-        ScrollPane socialRelationsScrollPane = new ScrollPane();
+        socialRelationsScrollPane = new ScrollPane();
+        socialRelationsView = new VBox();
 
         if (cowsPreviouslySelected.size() == 1) {
             ArrayList<String> relations = Social.getAllRelations(cowsPreviouslySelected.get(0));
@@ -158,10 +171,6 @@ public class StatsViewMenu extends MenuCreation {
 
         socialRelationsScrollPane.setContent(socialRelationsView);
         socialRelationsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        socialRelationsScrollPane.setPrefWidth(250);
-        socialRelationsScrollPane.setPrefHeight(150);
-
-        socialRelationsScrollPane.relocate(175, 350);
 
         Playground.playground.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
     }
@@ -295,10 +304,9 @@ public class StatsViewMenu extends MenuCreation {
         academicLinks.getChildren().add(new TreeItem<>(hyperlink));
 
         treeTier.getChildren().addAll(emotionLinks, financeLinks, socialLinks, physicalLinks, mentalLinks, academicLinks);
-        TreeView<Object> tree = new TreeView<>(treeTier);
+
+        tree = new TreeView<>(treeTier);
         tree.setShowRoot(false);
-        tree.relocate(175, 50);
-        tree.setPrefHeight(260);
         Playground.playground.getChildren().add(tree);
     }
 

@@ -185,7 +185,11 @@ public class Cow extends ImageView {
     public void show() {
         if (hidden) {
             hidden = false;
-            Playground.playground.getChildren().add(this);
+
+            if (!Playground.playground.getChildren().contains(this))
+                Playground.playground.getChildren().add(this);
+            else
+                System.out.println("Duplicate???? " + this.getId());
         }
     }
 

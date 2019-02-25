@@ -24,9 +24,6 @@ public class TileUI {
     private static Text tileText;
     private static Text coordsText;
 
-    private static Button buildButton;
-    private static Button buildButton2;
-
     /**
      * Creates the UI components for the TileUI. Layout is temp.
      */
@@ -34,13 +31,11 @@ public class TileUI {
         background = new Rectangle();
         tileText = new Text("TILE UI        " + selectedTile);
         coordsText = new Text("");
-        buildButton = new Button("Build City Center");
-        buildButton2 = new Button("Build Cow Shack");
 
         tileText.setFill(Color.RED);
         coordsText.setFill(Color.YELLOW);
 
-        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText, buildButton, buildButton2);
+        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText);
 
         BuildingHandler.highlightBuildings();
 
@@ -49,18 +44,13 @@ public class TileUI {
 
     public static void updateUIPlacements() {
         int screenOffsetX = SimState.getScreenWidth();
-        int screenOffsetY = SimState.getScreenHeight();
 
         background.setWidth(500);
         background.setHeight(50);
-        background.relocate(360, 0);
+        background.relocate((screenOffsetX / 2) - background.getWidth() / 2, 20);
 
-        coordsText.relocate(435, 40);
-
-        tileText.relocate(385, 25);
-
-        buildButton.relocate(750, 0);
-        buildButton2.relocate(750, 25);
+        tileText.relocate(background.getLayoutX() + 20, 30);
+        coordsText.relocate(background.getLayoutX() + 20, 50);
     }
 
     /**
