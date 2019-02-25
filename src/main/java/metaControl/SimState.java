@@ -5,13 +5,10 @@ import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
-import javafx.event.EventHandler;
-import javafx.stage.WindowEvent;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import resourcesManagement.ResourcesHandler;
 import metaEnvironment.Playground;
 import javafx.animation.AnimationTimer;
@@ -29,6 +26,7 @@ import userInterface.PlaygroundUI;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import userInterface.ResourcesUI;
+import userInterface.StaticUI;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -36,6 +34,8 @@ import userInterface.ResourcesUI;
 public class SimState extends Application {
 
     public static final Logger logger = LoggerFactory.getLogger(SimState.class);
+
+    private static int nativeScreenX;
 
     /*Scene elements
     Root: The root node that is the parent of the scene and everything within the scene
@@ -110,6 +110,7 @@ public class SimState extends Application {
      */
     private static void simInit() {
         EventLogger.clearLogs();
+
         LoadConfiguration.loadConfigurationFile();
         AssetLoading.loadBaseAssets();
         Playground.init();
@@ -123,6 +124,8 @@ public class SimState extends Application {
         Issue.init();
         CowHandler.init();
         PlaygroundUI.init();
+
+        nativeScreenX = (int) primaryStage.getWidth();
 
         root.getChildren().addAll(Playground.playground,
                 PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
@@ -172,6 +175,10 @@ public class SimState extends Application {
      * the collisions methods, and the boundary methods.
      */
     private static void updateTick() {
+        if (nativeScreenX != (int) primaryStage.getWidth()) {
+            nativeScreenX = (int) primaryStage.getWidth();
+            StaticUI.updateUIPlacements();
+        }
 
         //Decides what action each cow should be doing
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
@@ -198,7 +205,8 @@ public class SimState extends Application {
         root.getChildren().add(0, playground);
     }
 
-    static void initFullScreen() {
+    public static void initFullScreen() {
+
         primaryStage.setFullScreen(true);
     }
 
@@ -210,13 +218,19 @@ public class SimState extends Application {
     public void start(Stage primaryStage) {
         SimState.primaryStage = primaryStage;
         primaryStage.setTitle("Release01");
-        primaryStage.setFullScreen(true);
 
         primaryStage.show();
         primaryStage.setScene(initialScene);
-        //primaryStage.setResizable(false);
 
         simInit();
+    }
+
+    public static int getScreenHeight() {
+        return (int) primaryStage.getHeight();
+    }
+
+    public static int getScreenWidth() {
+        return (int) primaryStage.getWidth();
     }
 
     /**

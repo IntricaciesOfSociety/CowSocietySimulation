@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class Input {
 
     //Drag Box
-    private static Rectangle dragBox = new Rectangle(0,0,0,0);
+    private static Rectangle dragBox = new Rectangle(-1,-1,0,0);
 
     //Directions relating to the direction that the dragBox is being created in.
     private static boolean xRight;

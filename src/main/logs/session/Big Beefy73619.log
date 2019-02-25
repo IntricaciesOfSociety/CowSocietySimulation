@@ -1,0 +1,485 @@
+age+0 Sat Jan 01 16:00:00 CST 1 creation
+sleepiness-50 Sat Jan 01 16:01:00 CST 1 Working
+income+10 Sat Jan 01 16:01:00 CST 1 New Income
+debt-10 Sat Jan 01 16:01:00 CST 1 Payment
+sleepiness-50 Sat Jan 01 16:08:00 CST 1 Working
+income+10 Sat Jan 01 16:08:00 CST 1 New Income
+debt-10 Sat Jan 01 16:08:00 CST 1 Payment
+sleepiness+100 Tue Jan 04 09:01:00 CST 1 Going home
+sleepiness-50 Tue Jan 04 09:24:00 CST 1 Working
+income+10 Tue Jan 04 09:24:00 CST 1 New Income
+debt-10 Tue Jan 04 09:24:00 CST 1 Payment
+sleepiness-50 Tue Jan 04 09:37:00 CST 1 Working
+income+10 Tue Jan 04 09:37:00 CST 1 New Income
+debt-10 Tue Jan 04 09:37:00 CST 1 Payment
+sleepiness+100 Tue Jan 04 21:06:00 CST 1 Going home
+sleepiness-50 Tue Jan 04 22:39:00 CST 1 Working
+income+10 Tue Jan 04 22:39:00 CST 1 New Income
+debt-10 Tue Jan 04 22:39:00 CST 1 Payment
+sleepiness-50 Tue Jan 04 22:13:00 CST 1 Working
+income+10 Tue Jan 04 22:13:00 CST 1 New Income
+debt-10 Tue Jan 04 22:13:00 CST 1 Payment
+sleepiness+100 Tue Jan 04 22:25:00 CST 1 Going home
+sleepiness-50 Tue Jan 04 23:01:00 CST 1 Working
+income+10 Tue Jan 04 23:01:00 CST 1 New Income
+debt-10 Tue Jan 04 23:01:00 CST 1 Payment
+sleepiness-50 Tue Jan 04 23:15:00 CST 1 Working
+income+10 Tue Jan 04 23:15:00 CST 1 New Income
+debt-10 Tue Jan 04 23:15:00 CST 1 Payment
+sleepiness+100 Tue Jan 04 23:27:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 00:01:00 CST 1 Working
+income+10 Wed Jan 05 00:01:00 CST 1 New Income
+debt-10 Wed Jan 05 00:01:00 CST 1 Payment
+sleepiness-50 Wed Jan 05 00:15:00 CST 1 Working
+income+10 Wed Jan 05 00:15:00 CST 1 New Income
+debt-10 Wed Jan 05 00:15:00 CST 1 Payment
+sleepiness+100 Wed Jan 05 00:27:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 01:02:00 CST 1 Working
+income+10 Wed Jan 05 01:02:00 CST 1 New Income
+savings+10 Wed Jan 05 01:02:00 CST 1 Payment
+sleepiness-50 Wed Jan 05 01:15:00 CST 1 Working
+income+10 Wed Jan 05 01:15:00 CST 1 New Income
+savings+10 Wed Jan 05 01:15:00 CST 1 Payment
+sleepiness+100 Wed Jan 05 01:27:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 02:04:00 CST 1 Working
+income+10 Wed Jan 05 02:04:00 CST 1 New Income
+savings+10 Wed Jan 05 02:04:00 CST 1 Payment
+sleepiness-50 Wed Jan 05 02:54:00 CST 1 Working
+income+10 Wed Jan 05 02:54:00 CST 1 New Income
+savings+10 Wed Jan 05 02:54:00 CST 1 Payment
+sleepiness+100 Wed Jan 05 03:07:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 04:02:00 CST 1 Working
+income+10 Wed Jan 05 04:02:00 CST 1 New Income
+savings+10 Wed Jan 05 04:02:00 CST 1 Payment
+sleepiness-50 Wed Jan 05 04:41:00 CST 1 Working
+income+10 Wed Jan 05 04:41:00 CST 1 New Income
+savings+10 Wed Jan 05 04:41:00 CST 1 Payment
+sleepiness+100 Wed Jan 05 04:54:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 05:49:00 CST 1 Working
+income+10 Wed Jan 05 05:49:00 CST 1 New Income
+savings+10 Wed Jan 05 05:49:00 CST 1 Payment
+sleepiness-50 Wed Jan 05 06:39:00 CST 1 Working
+income+10 Wed Jan 05 06:39:00 CST 1 New Income
+savings+10 Wed Jan 05 06:39:00 CST 1 Payment
+sleepiness+100 Wed Jan 05 06:52:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 07:47:00 CST 1 Working
+income+10 Wed Jan 05 07:47:00 CST 1 New Income
+savings+10 Wed Jan 05 07:47:00 CST 1 Payment
+sleepiness-50 Wed Jan 05 08:25:00 CST 1 Working
+income+10 Wed Jan 05 08:25:00 CST 1 New Income
+savings+10 Wed Jan 05 08:25:00 CST 1 Payment
+sleepiness+100 Wed Jan 05 21:07:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 22:02:00 CST 1 Working
+income+10 Wed Jan 05 22:02:00 CST 1 New Income
+savings+10 Wed Jan 05 22:02:00 CST 1 Payment
+sleepiness-50 Wed Jan 05 22:41:00 CST 1 Working
+income+10 Wed Jan 05 22:41:00 CST 1 New Income
+savings+10 Wed Jan 05 22:41:00 CST 1 Payment
+sleepiness+100 Wed Jan 05 22:54:00 CST 1 Going home
+sleepiness-50 Wed Jan 05 23:52:00 CST 1 Working
+income+10 Wed Jan 05 23:52:00 CST 1 New Income
+savings+10 Wed Jan 05 23:52:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 00:39:00 CST 1 Working
+income+10 Thu Jan 06 00:39:00 CST 1 New Income
+savings+10 Thu Jan 06 00:39:00 CST 1 Payment
+sleepiness+100 Thu Jan 06 00:11:00 CST 1 Going home
+sleepiness-50 Thu Jan 06 01:09:00 CST 1 Working
+income+10 Thu Jan 06 01:09:00 CST 1 New Income
+savings+10 Thu Jan 06 01:09:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 01:16:00 CST 1 Working
+income+10 Thu Jan 06 01:16:00 CST 1 New Income
+savings+10 Thu Jan 06 01:16:00 CST 1 Payment
+sleepiness+100 Thu Jan 06 01:30:00 CST 1 Going home
+sleepiness-50 Thu Jan 06 02:17:00 CST 1 Working
+income+10 Thu Jan 06 02:17:00 CST 1 New Income
+savings+10 Thu Jan 06 02:17:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 02:24:00 CST 1 Working
+income+10 Thu Jan 06 02:24:00 CST 1 New Income
+savings+10 Thu Jan 06 02:24:00 CST 1 Payment
+sleepiness+100 Thu Jan 06 02:38:00 CST 1 Going home
+sleepiness-50 Thu Jan 06 03:24:00 CST 1 Working
+income+10 Thu Jan 06 03:24:00 CST 1 New Income
+savings+10 Thu Jan 06 03:24:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 03:31:00 CST 1 Working
+income+10 Thu Jan 06 03:31:00 CST 1 New Income
+savings+10 Thu Jan 06 03:31:00 CST 1 Payment
+sleepiness+100 Thu Jan 06 03:45:00 CST 1 Going home
+sleepiness-50 Thu Jan 06 04:43:00 CST 1 Working
+income+10 Thu Jan 06 04:43:00 CST 1 New Income
+savings+10 Thu Jan 06 04:43:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 04:50:00 CST 1 Working
+income+10 Thu Jan 06 04:50:00 CST 1 New Income
+savings+10 Thu Jan 06 04:50:00 CST 1 Payment
+sleepiness+100 Thu Jan 06 05:04:00 CST 1 Going home
+sleepiness-50 Thu Jan 06 06:05:00 CST 1 Working
+income+10 Thu Jan 06 06:05:00 CST 1 New Income
+savings+10 Thu Jan 06 06:05:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 06:38:00 CST 1 Working
+income+10 Thu Jan 06 06:38:00 CST 1 New Income
+savings+10 Thu Jan 06 06:38:00 CST 1 Payment
+sleepiness+100 Thu Jan 06 06:55:00 CST 1 Going home
+sleepiness-50 Thu Jan 06 07:56:00 CST 1 Working
+income+10 Thu Jan 06 07:56:00 CST 1 New Income
+savings+10 Thu Jan 06 07:56:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 08:32:00 CST 1 Working
+income+10 Thu Jan 06 08:32:00 CST 1 New Income
+savings+10 Thu Jan 06 08:32:00 CST 1 Payment
+thirst+90 Thu Jan 06 15:12:00 CST 1 Getting water
+sleepiness+100 Thu Jan 06 21:29:00 CST 1 Going home
+sleepiness-50 Thu Jan 06 22:31:00 CST 1 Working
+income+10 Thu Jan 06 22:31:00 CST 1 New Income
+savings+10 Thu Jan 06 22:31:00 CST 1 Payment
+sleepiness-50 Thu Jan 06 23:04:00 CST 1 Working
+income+10 Thu Jan 06 23:04:00 CST 1 New Income
+savings+10 Thu Jan 06 23:04:00 CST 1 Payment
+sleepiness+100 Thu Jan 06 23:25:00 CST 1 Going home
+sleepiness-50 Fri Jan 07 00:25:00 CST 1 Working
+income+10 Fri Jan 07 00:25:00 CST 1 New Income
+savings+10 Fri Jan 07 00:25:00 CST 1 Payment
+sleepiness-50 Fri Jan 07 00:58:00 CST 1 Working
+income+10 Fri Jan 07 00:58:00 CST 1 New Income
+savings+10 Fri Jan 07 00:58:00 CST 1 Payment
+sleepiness+100 Fri Jan 07 01:19:00 CST 1 Going home
+sleepiness-50 Fri Jan 07 02:21:00 CST 1 Working
+income+10 Fri Jan 07 02:21:00 CST 1 New Income
+savings+10 Fri Jan 07 02:21:00 CST 1 Payment
+sleepiness-50 Fri Jan 07 02:53:00 CST 1 Working
+income+10 Fri Jan 07 02:53:00 CST 1 New Income
+savings+10 Fri Jan 07 02:53:00 CST 1 Payment
+sleepiness+100 Fri Jan 07 03:14:00 CST 1 Going home
+sleepiness-50 Fri Jan 07 04:16:00 CST 1 Working
+income+10 Fri Jan 07 04:16:00 CST 1 New Income
+savings+10 Fri Jan 07 04:16:00 CST 1 Payment
+sleepiness-50 Fri Jan 07 04:49:00 CST 1 Working
+income+10 Fri Jan 07 04:49:00 CST 1 New Income
+savings+10 Fri Jan 07 04:49:00 CST 1 Payment
+sleepiness+100 Fri Jan 07 05:10:00 CST 1 Going home
+sleepiness-50 Fri Jan 07 06:12:00 CST 1 Working
+income+10 Fri Jan 07 06:12:00 CST 1 New Income
+savings+10 Fri Jan 07 06:12:00 CST 1 Payment
+sleepiness-50 Fri Jan 07 06:45:00 CST 1 Working
+income+10 Fri Jan 07 06:45:00 CST 1 New Income
+savings+10 Fri Jan 07 06:45:00 CST 1 Payment
+sleepiness+100 Fri Jan 07 07:06:00 CST 1 Going home
+sleepiness-50 Fri Jan 07 08:08:00 CST 1 Working
+income+10 Fri Jan 07 08:08:00 CST 1 New Income
+savings+10 Fri Jan 07 08:08:00 CST 1 Payment
+sleepiness-50 Fri Jan 07 08:47:00 CST 1 Working
+income+10 Fri Jan 07 08:47:00 CST 1 New Income
+savings+10 Fri Jan 07 08:47:00 CST 1 Payment
+sleepiness+100 Fri Jan 07 21:15:00 CST 1 Going home
+sleepiness-50 Fri Jan 07 22:17:00 CST 1 Working
+income+10 Fri Jan 07 22:17:00 CST 1 New Income
+savings+10 Fri Jan 07 22:17:00 CST 1 Payment
+sleepiness-50 Fri Jan 07 23:39:00 CST 1 Working
+income+10 Fri Jan 07 23:39:00 CST 1 New Income
+savings+10 Fri Jan 07 23:39:00 CST 1 Payment
+sleepiness+100 Sat Jan 08 00:02:00 CST 1 Going home
+sleepiness-50 Sat Jan 08 00:41:00 CST 1 Working
+income+10 Sat Jan 08 00:41:00 CST 1 New Income
+savings+10 Sat Jan 08 00:41:00 CST 1 Payment
+sleepiness-50 Sat Jan 08 01:31:00 CST 1 Working
+income+10 Sat Jan 08 01:31:00 CST 1 New Income
+savings+10 Sat Jan 08 01:31:00 CST 1 Payment
+trust+10 Sat Jan 08 02:33:00 CST 1 Voting
+sleepiness+100 Sat Jan 08 03:34:00 CST 1 Going home
+sleepiness-50 Sat Jan 08 04:20:00 CST 1 Working
+income+10 Sat Jan 08 04:20:00 CST 1 New Income
+savings+10 Sat Jan 08 04:20:00 CST 1 Payment
+sleepiness-50 Sat Jan 08 05:10:00 CST 1 Working
+income+10 Sat Jan 08 05:10:00 CST 1 New Income
+savings+10 Sat Jan 08 05:10:00 CST 1 Payment
+sleepiness+100 Sat Jan 08 05:32:00 CST 1 Going home
+sleepiness-50 Sat Jan 08 06:11:00 CST 1 Working
+income+10 Sat Jan 08 06:11:00 CST 1 New Income
+savings+10 Sat Jan 08 06:11:00 CST 1 Payment
+sleepiness-50 Sat Jan 08 07:01:00 CST 1 Working
+income+10 Sat Jan 08 07:01:00 CST 1 New Income
+savings+10 Sat Jan 08 07:01:00 CST 1 Payment
+sleepiness+100 Sat Jan 08 07:23:00 CST 1 Going home
+sleepiness-50 Sat Jan 08 08:02:00 CST 1 Working
+income+10 Sat Jan 08 08:02:00 CST 1 New Income
+savings+10 Sat Jan 08 08:02:00 CST 1 Payment
+sleepiness-50 Sat Jan 08 08:52:00 CST 1 Working
+income+10 Sat Jan 08 08:52:00 CST 1 New Income
+savings+10 Sat Jan 08 08:52:00 CST 1 Payment
+sleepiness+100 Sat Jan 08 21:16:00 CST 1 Going home
+sleepiness-50 Sat Jan 08 21:55:00 CST 1 Working
+income+10 Sat Jan 08 21:55:00 CST 1 New Income
+savings+10 Sat Jan 08 21:55:00 CST 1 Payment
+sleepiness-50 Sat Jan 08 22:45:00 CST 1 Working
+income+10 Sat Jan 08 22:45:00 CST 1 New Income
+savings+10 Sat Jan 08 22:45:00 CST 1 Payment
+sleepiness+100 Sat Jan 08 23:06:00 CST 1 Going home
+sleepiness-50 Sat Jan 08 23:45:00 CST 1 Working
+income+10 Sat Jan 08 23:45:00 CST 1 New Income
+savings+10 Sat Jan 08 23:45:00 CST 1 Payment
+sleepiness-50 Sun Jan 09 00:35:00 CST 1 Working
+income+10 Sun Jan 09 00:35:00 CST 1 New Income
+savings+10 Sun Jan 09 00:35:00 CST 1 Payment
+sleepiness+100 Sun Jan 09 01:39:00 CST 1 Going home
+sleepiness-50 Sun Jan 09 02:43:00 CST 1 Working
+income+10 Sun Jan 09 02:43:00 CST 1 New Income
+savings+10 Sun Jan 09 02:43:00 CST 1 Payment
+sleepiness-50 Sun Jan 09 03:03:00 CST 1 Working
+income+10 Sun Jan 09 03:03:00 CST 1 New Income
+savings+10 Sun Jan 09 03:03:00 CST 1 Payment
+sleepiness+100 Sun Jan 09 03:23:00 CST 1 Going home
+sleepiness-50 Sun Jan 09 04:27:00 CST 1 Working
+income+10 Sun Jan 09 04:27:00 CST 1 New Income
+savings+10 Sun Jan 09 04:27:00 CST 1 Payment
+sleepiness-50 Sun Jan 09 05:25:00 CST 1 Working
+income+10 Sun Jan 09 05:25:00 CST 1 New Income
+savings+10 Sun Jan 09 05:25:00 CST 1 Payment
+sleepiness+100 Sun Jan 09 06:02:00 CST 1 Going home
+sleepiness-50 Sun Jan 09 07:07:00 CST 1 Working
+income+10 Sun Jan 09 07:07:00 CST 1 New Income
+savings+10 Sun Jan 09 07:07:00 CST 1 Payment
+sleepiness-50 Sun Jan 09 07:56:00 CST 1 Working
+income+10 Sun Jan 09 07:56:00 CST 1 New Income
+savings+10 Sun Jan 09 07:56:00 CST 1 Payment
+sleepiness+100 Sun Jan 09 21:19:00 CST 1 Going home
+sleepiness-50 Sun Jan 09 22:24:00 CST 1 Working
+income+10 Sun Jan 09 22:24:00 CST 1 New Income
+savings+10 Sun Jan 09 22:24:00 CST 1 Payment
+sleepiness-50 Sun Jan 09 23:13:00 CST 1 Working
+income+10 Sun Jan 09 23:13:00 CST 1 New Income
+savings+10 Sun Jan 09 23:13:00 CST 1 Payment
+sleepiness+100 Sun Jan 09 23:38:00 CST 1 Going home
+sleepiness-50 Mon Jan 10 00:41:00 CST 1 Working
+income+10 Mon Jan 10 00:41:00 CST 1 New Income
+savings+10 Mon Jan 10 00:41:00 CST 1 Payment
+sleepiness-50 Mon Jan 10 01:30:00 CST 1 Working
+income+10 Mon Jan 10 01:30:00 CST 1 New Income
+savings+10 Mon Jan 10 01:30:00 CST 1 Payment
+sleepiness+100 Mon Jan 10 01:55:00 CST 1 Going home
+sleepiness-50 Mon Jan 10 03:00:00 CST 1 Working
+income+10 Mon Jan 10 03:00:00 CST 1 New Income
+savings+10 Mon Jan 10 03:00:00 CST 1 Payment
+sleepiness-50 Mon Jan 10 03:49:00 CST 1 Working
+income+10 Mon Jan 10 03:49:00 CST 1 New Income
+savings+10 Mon Jan 10 03:49:00 CST 1 Payment
+sleepiness+100 Mon Jan 10 04:14:00 CST 1 Going home
+sleepiness-50 Mon Jan 10 05:19:00 CST 1 Working
+income+10 Mon Jan 10 05:19:00 CST 1 New Income
+savings+10 Mon Jan 10 05:19:00 CST 1 Payment
+sleepiness-50 Mon Jan 10 06:18:00 CST 1 Working
+income+10 Mon Jan 10 06:18:00 CST 1 New Income
+savings+10 Mon Jan 10 06:18:00 CST 1 Payment
+sleepiness+100 Mon Jan 10 06:51:00 CST 1 Going home
+sleepiness-50 Mon Jan 10 07:33:00 CST 1 Working
+income+10 Mon Jan 10 07:33:00 CST 1 New Income
+savings+10 Mon Jan 10 07:33:00 CST 1 Payment
+sleepiness-50 Mon Jan 10 08:12:00 CST 1 Working
+income+10 Mon Jan 10 08:12:00 CST 1 New Income
+savings+10 Mon Jan 10 08:12:00 CST 1 Payment
+sleepiness+100 Mon Jan 10 21:15:00 CST 1 Going home
+sleepiness-50 Mon Jan 10 22:21:00 CST 1 Working
+income+10 Mon Jan 10 22:21:00 CST 1 New Income
+savings+10 Mon Jan 10 22:21:00 CST 1 Payment
+sleepiness-50 Mon Jan 10 23:03:00 CST 1 Working
+income+10 Mon Jan 10 23:03:00 CST 1 New Income
+savings+10 Mon Jan 10 23:03:00 CST 1 Payment
+sleepiness+100 Mon Jan 10 23:28:00 CST 1 Going home
+sleepiness-50 Mon Jan 10 23:58:00 CST 1 Working
+income+10 Mon Jan 10 23:58:00 CST 1 New Income
+savings+10 Mon Jan 10 23:58:00 CST 1 Payment
+sleepiness-50 Tue Jan 11 00:22:00 CST 1 Working
+income+10 Tue Jan 11 00:22:00 CST 1 New Income
+savings+10 Tue Jan 11 00:22:00 CST 1 Payment
+sleepiness+100 Tue Jan 11 00:45:00 CST 1 Going home
+sleepiness-50 Tue Jan 11 01:28:00 CST 1 Working
+income+10 Tue Jan 11 01:28:00 CST 1 New Income
+savings+10 Tue Jan 11 01:28:00 CST 1 Payment
+sleepiness-50 Tue Jan 11 02:00:00 CST 1 Working
+income+10 Tue Jan 11 02:00:00 CST 1 New Income
+savings+10 Tue Jan 11 02:00:00 CST 1 Payment
+sleepiness+100 Tue Jan 11 02:40:00 CST 1 Going home
+sleepiness-50 Tue Jan 11 03:11:00 CST 1 Working
+income+10 Tue Jan 11 03:11:00 CST 1 New Income
+savings+10 Tue Jan 11 03:11:00 CST 1 Payment
+sleepiness-50 Tue Jan 11 04:01:00 CST 1 Working
+income+10 Tue Jan 11 04:01:00 CST 1 New Income
+savings+10 Tue Jan 11 04:01:00 CST 1 Payment
+sleepiness+100 Tue Jan 11 04:27:00 CST 1 Going home
+sleepiness-50 Tue Jan 11 05:39:00 CST 1 Working
+income+10 Tue Jan 11 05:39:00 CST 1 New Income
+savings+10 Tue Jan 11 05:39:00 CST 1 Payment
+sleepiness-50 Tue Jan 11 05:49:00 CST 1 Working
+income+10 Tue Jan 11 05:49:00 CST 1 New Income
+savings+10 Tue Jan 11 05:49:00 CST 1 Payment
+sleepiness+100 Tue Jan 11 06:15:00 CST 1 Going home
+sleepiness-50 Tue Jan 11 06:46:00 CST 1 Working
+income+10 Tue Jan 11 06:46:00 CST 1 New Income
+savings+10 Tue Jan 11 06:46:00 CST 1 Payment
+sleepiness-50 Tue Jan 11 07:36:00 CST 1 Working
+income+10 Tue Jan 11 07:36:00 CST 1 New Income
+savings+10 Tue Jan 11 07:36:00 CST 1 Payment
+sleepiness+100 Tue Jan 11 08:02:00 CST 1 Going home
+sleepiness-50 Tue Jan 11 08:33:00 CST 1 Working
+income+10 Tue Jan 11 08:33:00 CST 1 New Income
+savings+10 Tue Jan 11 08:33:00 CST 1 Payment
+sleepiness-50 Tue Jan 11 09:23:00 CST 1 Working
+income+10 Tue Jan 11 09:23:00 CST 1 New Income
+savings+10 Tue Jan 11 09:23:00 CST 1 Payment
+sleepiness+100 Tue Jan 11 21:20:00 CST 1 Going home
+sleepiness-50 Tue Jan 11 21:51:00 CST 1 Working
+income+10 Tue Jan 11 21:51:00 CST 1 New Income
+savings+10 Tue Jan 11 21:51:00 CST 1 Payment
+sleepiness-50 Tue Jan 11 22:44:00 CST 1 Working
+income+10 Tue Jan 11 22:44:00 CST 1 New Income
+savings+10 Tue Jan 11 22:44:00 CST 1 Payment
+sleepiness+100 Tue Jan 11 23:42:00 CST 1 Going home
+sleepiness-50 Wed Jan 12 00:49:00 CST 1 Working
+income+10 Wed Jan 12 00:49:00 CST 1 New Income
+savings+10 Wed Jan 12 00:49:00 CST 1 Payment
+sleepiness-50 Wed Jan 12 00:56:00 CST 1 Working
+income+10 Wed Jan 12 00:56:00 CST 1 New Income
+savings+10 Wed Jan 12 00:56:00 CST 1 Payment
+sleepiness+100 Wed Jan 12 01:22:00 CST 1 Going home
+sleepiness-50 Wed Jan 12 02:21:00 CST 1 Working
+income+10 Wed Jan 12 02:21:00 CST 1 New Income
+savings+10 Wed Jan 12 02:21:00 CST 1 Payment
+sleepiness-50 Wed Jan 12 02:28:00 CST 1 Working
+income+10 Wed Jan 12 02:28:00 CST 1 New Income
+savings+10 Wed Jan 12 02:28:00 CST 1 Payment
+sleepiness+100 Wed Jan 12 02:55:00 CST 1 Going home
+sleepiness-50 Wed Jan 12 04:04:00 CST 1 Working
+income+10 Wed Jan 12 04:04:00 CST 1 New Income
+savings+10 Wed Jan 12 04:04:00 CST 1 Payment
+sleepiness-50 Wed Jan 12 04:11:00 CST 1 Working
+income+10 Wed Jan 12 04:11:00 CST 1 New Income
+savings+10 Wed Jan 12 04:11:00 CST 1 Payment
+sleepiness+100 Wed Jan 12 04:38:00 CST 1 Going home
+sleepiness-50 Wed Jan 12 05:47:00 CST 1 Working
+income+10 Wed Jan 12 05:47:00 CST 1 New Income
+savings+10 Wed Jan 12 05:47:00 CST 1 Payment
+sleepiness-50 Wed Jan 12 05:54:00 CST 1 Working
+income+10 Wed Jan 12 05:54:00 CST 1 New Income
+savings+10 Wed Jan 12 05:54:00 CST 1 Payment
+sleepiness+100 Wed Jan 12 06:21:00 CST 1 Going home
+sleepiness-50 Wed Jan 12 07:30:00 CST 1 Working
+income+10 Wed Jan 12 07:30:00 CST 1 New Income
+savings+10 Wed Jan 12 07:30:00 CST 1 Payment
+sleepiness-50 Wed Jan 12 07:41:00 CST 1 Working
+income+10 Wed Jan 12 07:41:00 CST 1 New Income
+savings+10 Wed Jan 12 07:41:00 CST 1 Payment
+sleepiness+100 Wed Jan 12 21:24:00 CST 1 Going home
+sleepiness-50 Wed Jan 12 22:34:00 CST 1 Working
+income+10 Wed Jan 12 22:34:00 CST 1 New Income
+savings+10 Wed Jan 12 22:34:00 CST 1 Payment
+sleepiness-50 Wed Jan 12 23:01:00 CST 1 Working
+income+10 Wed Jan 12 23:01:00 CST 1 New Income
+savings+10 Wed Jan 12 23:01:00 CST 1 Payment
+sleepiness+100 Wed Jan 12 23:26:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 00:39:00 CST 1 Working
+income+10 Thu Jan 13 00:39:00 CST 1 New Income
+savings+10 Thu Jan 13 00:39:00 CST 1 Payment
+sleepiness-50 Thu Jan 13 00:24:00 CST 1 Working
+income+10 Thu Jan 13 00:24:00 CST 1 New Income
+savings+10 Thu Jan 13 00:24:00 CST 1 Payment
+sleepiness+100 Thu Jan 13 00:49:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 01:23:00 CST 1 Working
+income+10 Thu Jan 13 01:23:00 CST 1 New Income
+savings+10 Thu Jan 13 01:23:00 CST 1 Payment
+sleepiness-50 Thu Jan 13 01:49:00 CST 1 Working
+income+10 Thu Jan 13 01:49:00 CST 1 New Income
+savings+10 Thu Jan 13 01:49:00 CST 1 Payment
+sleepiness+100 Thu Jan 13 02:14:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 02:47:00 CST 1 Working
+income+10 Thu Jan 13 02:47:00 CST 1 New Income
+savings+10 Thu Jan 13 02:47:00 CST 1 Payment
+sleepiness-50 Thu Jan 13 03:13:00 CST 1 Working
+income+10 Thu Jan 13 03:13:00 CST 1 New Income
+savings+10 Thu Jan 13 03:13:00 CST 1 Payment
+sleepiness+100 Thu Jan 13 03:38:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 04:11:00 CST 1 Working
+income+10 Thu Jan 13 04:11:00 CST 1 New Income
+savings+10 Thu Jan 13 04:11:00 CST 1 Payment
+sleepiness-50 Thu Jan 13 04:42:00 CST 1 Working
+income+10 Thu Jan 13 04:42:00 CST 1 New Income
+savings+10 Thu Jan 13 04:42:00 CST 1 Payment
+sleepiness+100 Thu Jan 13 05:22:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 05:56:00 CST 1 Working
+income+10 Thu Jan 13 05:56:00 CST 1 New Income
+savings+10 Thu Jan 13 05:56:00 CST 1 Payment
+sleepiness-50 Thu Jan 13 06:46:00 CST 1 Working
+income+10 Thu Jan 13 06:46:00 CST 1 New Income
+savings+10 Thu Jan 13 06:46:00 CST 1 Payment
+sleepiness+100 Thu Jan 13 07:13:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 07:48:00 CST 1 Working
+income+10 Thu Jan 13 07:48:00 CST 1 New Income
+savings+10 Thu Jan 13 07:48:00 CST 1 Payment
+sleepiness-50 Thu Jan 13 08:38:00 CST 1 Working
+income+10 Thu Jan 13 08:38:00 CST 1 New Income
+savings+10 Thu Jan 13 08:38:00 CST 1 Payment
+sleepiness+100 Thu Jan 13 21:21:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 21:55:00 CST 1 Working
+income+10 Thu Jan 13 21:55:00 CST 1 New Income
+savings+10 Thu Jan 13 21:55:00 CST 1 Payment
+sleepiness-50 Thu Jan 13 22:45:00 CST 1 Working
+income+10 Thu Jan 13 22:45:00 CST 1 New Income
+savings+10 Thu Jan 13 22:45:00 CST 1 Payment
+sleepiness+100 Thu Jan 13 23:12:00 CST 1 Going home
+sleepiness-50 Thu Jan 13 23:46:00 CST 1 Working
+income+10 Thu Jan 13 23:46:00 CST 1 New Income
+savings+10 Thu Jan 13 23:46:00 CST 1 Payment
+sleepiness-50 Fri Jan 14 00:36:00 CST 1 Working
+income+10 Fri Jan 14 00:36:00 CST 1 New Income
+savings+10 Fri Jan 14 00:36:00 CST 1 Payment
+sleepiness+100 Fri Jan 14 01:49:00 CST 1 Going home
+sleepiness-50 Fri Jan 14 03:00:00 CST 1 Working
+income+10 Fri Jan 14 03:00:00 CST 1 New Income
+savings+10 Fri Jan 14 03:00:00 CST 1 Payment
+sleepiness-50 Fri Jan 14 03:49:00 CST 1 Working
+income+10 Fri Jan 14 03:49:00 CST 1 New Income
+savings+10 Fri Jan 14 03:49:00 CST 1 Payment
+sleepiness+100 Fri Jan 14 04:20:00 CST 1 Going home
+sleepiness-50 Fri Jan 14 05:15:00 CST 1 Working
+income+10 Fri Jan 14 05:15:00 CST 1 New Income
+savings+10 Fri Jan 14 05:15:00 CST 1 Payment
+sleepiness-50 Fri Jan 14 06:11:00 CST 1 Working
+income+10 Fri Jan 14 06:11:00 CST 1 New Income
+savings+10 Fri Jan 14 06:11:00 CST 1 Payment
+sleepiness+100 Fri Jan 14 07:17:00 CST 1 Going home
+sleepiness-50 Fri Jan 14 08:06:00 CST 1 Working
+income+10 Fri Jan 14 08:06:00 CST 1 New Income
+savings+10 Fri Jan 14 08:06:00 CST 1 Payment
+sleepiness-50 Fri Jan 14 08:13:00 CST 1 Working
+income+10 Fri Jan 14 08:13:00 CST 1 New Income
+savings+10 Fri Jan 14 08:13:00 CST 1 Payment
+sleepiness+100 Fri Jan 14 21:24:00 CST 1 Going home
+sleepiness-50 Fri Jan 14 22:34:00 CST 1 Working
+income+10 Fri Jan 14 22:34:00 CST 1 New Income
+savings+10 Fri Jan 14 22:34:00 CST 1 Payment
+sleepiness-50 Fri Jan 14 23:21:00 CST 1 Working
+income+10 Fri Jan 14 23:21:00 CST 1 New Income
+savings+10 Fri Jan 14 23:21:00 CST 1 Payment
+sleepiness+100 Fri Jan 14 23:50:00 CST 1 Going home
+sleepiness-50 Sat Jan 15 00:58:00 CST 1 Working
+income+10 Sat Jan 15 00:58:00 CST 1 New Income
+savings+10 Sat Jan 15 00:58:00 CST 1 Payment
+sleepiness-50 Sat Jan 15 01:29:00 CST 1 Working
+income+10 Sat Jan 15 01:29:00 CST 1 New Income
+savings+10 Sat Jan 15 01:29:00 CST 1 Payment
+sleepiness+100 Sat Jan 15 02:37:00 CST 1 Going home
+sleepiness-50 Sat Jan 15 03:16:00 CST 1 Working
+income+10 Sat Jan 15 03:16:00 CST 1 New Income
+savings+10 Sat Jan 15 03:16:00 CST 1 Payment
+sleepiness-50 Sat Jan 15 03:25:00 CST 1 Working
+income+10 Sat Jan 15 03:25:00 CST 1 New Income
+savings+10 Sat Jan 15 03:25:00 CST 1 Payment
+sleepiness+100 Sat Jan 15 04:33:00 CST 1 Going home
+sleepiness-50 Sat Jan 15 05:41:00 CST 1 Working
+income+10 Sat Jan 15 05:41:00 CST 1 New Income
+savings+10 Sat Jan 15 05:41:00 CST 1 Payment
+sleepiness-50 Sat Jan 15 06:28:00 CST 1 Working
+income+10 Sat Jan 15 06:28:00 CST 1 New Income
+savings+10 Sat Jan 15 06:28:00 CST 1 Payment
+sleepiness+100 Sat Jan 15 07:37:00 CST 1 Going home
+sleepiness-50 Sat Jan 15 08:45:00 CST 1 Working
+income+10 Sat Jan 15 08:45:00 CST 1 New Income
+savings+10 Sat Jan 15 08:45:00 CST 1 Payment
+sleepiness-50 Sat Jan 15 09:06:00 CST 1 Working
+income+10 Sat Jan 15 09:06:00 CST 1 New Income
+savings+10 Sat Jan 15 09:06:00 CST 1 Payment

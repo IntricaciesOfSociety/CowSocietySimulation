@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -27,6 +26,7 @@ import java.util.Objects;
  * Handles the creation and updating of all staticUI elements that are needed during a 'playing' simState.
  */
 public class StaticUI {
+
     //UI text and container
     private static Group UIText = new Group();
     private static Text idText = new Text("Cow: N/A");
@@ -63,47 +63,42 @@ public class StaticUI {
 
         populationText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
         populationText.setFill(Color.RED);
-        populationText.setX(5);
-        populationText.setY(50);
 
         cowLinkBox.setSpacing(5);
 
         cowLinkScrollBox.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         cowLinkScrollBox.setContent(cowLinkBox);
         cowLinkScrollBox.setPrefHeight(100);
-        cowLinkScrollBox.setLayoutX(5);
-        cowLinkScrollBox.setLayoutY(60);
         cowLinkScrollBox.setFocusTraversable(false);
 
         ImageView heartAttackImage = new ImageView(AssetLoading.loadUISprite("HeartAttack"));
         heartAttackImage.setScaleX(2);
         heartAttackImage.setScaleY(2);
-        heartAttackButton.setLayoutX(730);
-        heartAttackButton.setLayoutY(20);
+
+       // heartAttackButton.setLayoutX(730);
+       // heartAttackButton.setLayoutY(20);
+
         heartAttackButton.setFocusTraversable(false);
         heartAttackButton.setGraphic(heartAttackImage);
 
         ImageView diseaseImage = new ImageView(AssetLoading.loadUISprite("Disease"));
         diseaseImage.setScaleX(2);
         diseaseImage.setScaleY(2);
-        diseaseButton.setLayoutX(730);
-        diseaseButton.setLayoutY(50);
+     //   diseaseButton.setLayoutX(730);
+    //    diseaseButton.setLayoutY(50);
+
         diseaseButton.setFocusTraversable(false);
         diseaseButton.setGraphic(diseaseImage);
 
         ImageView detailedImage = new ImageView(AssetLoading.loadUISprite("DetailedView"));
         detailedImage.setScaleX(2);
         detailedImage.setScaleY(2);
-        detailedViewButton.setLayoutX(15);
-        detailedViewButton.setLayoutY(170);
         detailedViewButton.setFocusTraversable(false);
         detailedViewButton.setGraphic(detailedImage);
 
         ImageView storyImage = new ImageView(AssetLoading.loadUISprite("StoryView"));
         storyImage.setScaleX(2);
         storyImage.setScaleY(2);
-        storyViewButton.setLayoutX(15);
-        storyViewButton.setLayoutY(200);
         storyViewButton.setFocusTraversable(false);
         storyViewButton.setGraphic(storyImage);
 
@@ -111,32 +106,36 @@ public class StaticUI {
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         idText.setFill(Color.RED);
-        idText.setX(5);
-        idText.setY(280);
+      //  idText.setX(5);
+       // idText.setY(280);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setTextFill(Color.RED);
-        actionText.setLayoutX(5);
-        actionText.setLayoutY(290);
+      //  actionText.setLayoutX(5);
+       // actionText.setLayoutY(290);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         accommodationsText.setTextFill(Color.RED);
-        accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(330);
+       // accommodationsText.setLayoutX(5);
+       // accommodationsText.setLayoutY(330);
+
+        actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+
+        accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
 
         ImageView tileImage = new ImageView(AssetLoading.loadUISprite("TileUI"));
         tileImage.setScaleX(2);
         tileImage.setScaleY(2);
-        tileUIButton.setLayoutX(15);
-        tileUIButton.setLayoutY(370);
+       // tileUIButton.setLayoutX(15);
+       // tileUIButton.setLayoutY(370);
         tileUIButton.setFocusTraversable(false);
         tileUIButton.setGraphic(tileImage);
 
         ImageView resourcesImage = new ImageView(AssetLoading.loadUISprite("ResourcesUI"));
         resourcesImage.setScaleX(2);
         resourcesImage.setScaleY(2);
-        resourcesUIButton.setLayoutX(15);
-        resourcesUIButton.setLayoutY(400);
+       // resourcesUIButton.setLayoutX(15);
+     //   resourcesUIButton.setLayoutY(400);
         resourcesUIButton.setFocusTraversable(false);
         resourcesUIButton.setGraphic(resourcesImage);
 
@@ -150,8 +149,9 @@ public class StaticUI {
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setFill(Color.RED);
-        timeOfDay.setLayoutX(20);
-        timeOfDay.setLayoutY(575);
+        //timeOfDay.setLayoutX(20);
+       // timeOfDay.setLayoutY(575);
+
 
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
@@ -185,6 +185,49 @@ public class StaticUI {
         });
 
         updatePopulationText();
+        updateUIPlacements();
+    }
+
+    public static void updateUIPlacements() {
+        int screenOffsetX = SimState.getScreenWidth();
+        int screenOffsetY = SimState.getScreenHeight();
+
+        populationText.setX(5);
+        populationText.setY(50);
+
+        cowLinkScrollBox.setLayoutX(5);
+        cowLinkScrollBox.setLayoutY(60);
+
+        heartAttackButton.setLayoutX(screenOffsetX - 75);
+        heartAttackButton.setLayoutY(30);
+
+        diseaseButton.setLayoutX(screenOffsetX - 75);
+        diseaseButton.setLayoutY(60);
+
+        detailedViewButton.setLayoutX(15);
+        detailedViewButton.setLayoutY(170);
+
+        storyViewButton.setLayoutX(15);
+        storyViewButton.setLayoutY(200);
+
+        idText.setX(5);
+        idText.setY(270);
+
+        actionText.setLayoutX(5);
+        actionText.setLayoutY(290);
+
+        accommodationsText.setLayoutX(5);
+        accommodationsText.setLayoutY(310);
+
+        tileUIButton.setLayoutX(15);
+        tileUIButton.setLayoutY(350);
+
+        resourcesUIButton.setLayoutX(15);
+        resourcesUIButton.setLayoutY(380);
+
+        timeOfDay.setLayoutX(20);
+        timeOfDay.setLayoutY(screenOffsetY);
+
     }
 
     /**
