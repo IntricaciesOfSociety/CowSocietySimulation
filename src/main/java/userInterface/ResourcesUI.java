@@ -41,9 +41,9 @@ public class ResourcesUI {
 
         background.setWidth(500);
         background.setHeight(50);
-        background.relocate(355, 725);
+        background.relocate((screenOffsetX / 2) - background.getWidth() / 2, screenOffsetY - 100);
 
-        resourcesText.relocate(385, 750);
+        resourcesText.relocate(background.getLayoutX() + 20, background.getLayoutY() + 15);
     }
 
     /**

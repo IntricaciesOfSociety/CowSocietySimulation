@@ -83,8 +83,7 @@ public class StoryViewMenu {
         logScroll.setPrefWidth(400);
         logScroll.setPrefHeight(500);
 
-        exitButton.setLayoutX(160);
-        exitButton.setLayoutY(560);
+        exitButton.relocate(75, screenOffsetY - 100);
 
         logContent.relocate(300, 50);
     }

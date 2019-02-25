@@ -100,8 +100,10 @@ public class StaticUI {
         idText.setFill(Color.RED);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        actionText.setTextFill(Color.RED);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        accommodationsText.setTextFill(Color.RED);
 
         ImageView tileImage = new ImageView(AssetLoading.loadUISprite("TileUI"));
         tileImage.setScaleX(2);
@@ -116,6 +118,7 @@ public class StaticUI {
         resourcesUIButton.setGraphic(resourcesImage);
 
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        timeOfDay.setFill(Color.RED);
 
         controlGroup.getChildren().addAll(heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
@@ -158,10 +161,10 @@ public class StaticUI {
         cowLinkScrollBox.setLayoutX(5);
         cowLinkScrollBox.setLayoutY(60);
 
-        heartAttackButton.setLayoutX(1300);
+        heartAttackButton.setLayoutX(screenOffsetX - 85);
         heartAttackButton.setLayoutY(20);
 
-        diseaseButton.setLayoutX(screenOffsetX - 50);
+        diseaseButton.setLayoutX(screenOffsetX - 85);
         diseaseButton.setLayoutY(50);
 
         detailedViewButton.setLayoutX(15);
@@ -186,8 +189,7 @@ public class StaticUI {
         resourcesUIButton.setLayoutY(370);
 
         timeOfDay.setLayoutX(20);
-        timeOfDay.setLayoutY(750);
-
+        timeOfDay.setLayoutY(screenOffsetY - 50);
     }
 
     /**
@@ -352,6 +354,7 @@ public class StaticUI {
         cowLinkScrollBox.setDisable(true);
         controlGroup.setDisable(true);
         simSpeedGroup.setDisable(true);
+        differentUIGroup.setDisable(true);
     }
 
     /**
@@ -360,6 +363,7 @@ public class StaticUI {
     public static void enableUI() {
         simSpeedGroup.setDisable(false);
         cowLinkScrollBox.setDisable(false);
+        differentUIGroup.setDisable(false);
 
         if (!Input.selectedCows.isEmpty())
             controlGroup.setDisable(false);

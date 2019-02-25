@@ -90,7 +90,7 @@ class ActiveActions extends Action {
                 cowToCheck.self.setSleepiness(-50);
                 Economy.giveMoney(cowToCheck, 10);
 
-                Movement.pauseMovement( ((int) (SimState.getDeltaTime() * 5000)), cowToCheck);
+                Movement.pauseMovement( ((int) (SimState.getDeltaTime() * 50000)), cowToCheck);
             }
         );
     }
