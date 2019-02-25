@@ -25,8 +25,10 @@ public class ResourcesUI {
      * Creates the core components of the resourcesUI.
      */
     private static void init() {
+
         background = new Rectangle();
         resourcesText = new Text("RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
+
 
         resourcesText.setFill(Color.RED);
 

@@ -58,12 +58,8 @@ public class MenuCreation {
         createInhabitantsMenu(buildingToCreateMenuFrom);
     }
 
-    /**
-     * Creates the menu for the given building that shows the number of inhabitants in that building.
-     * @param buildingToCreateMenuFrom The building to create an inhabitants menu for
-     */
     private void createInhabitantsMenu(@NotNull Tile buildingToCreateMenuFrom) {
-        Rectangle background = new Rectangle(50, 50, Color.BLACK);
+        Rectangle background = new Rectangle(100, 50, Color.BLACK);
         numberOfInhabitants = new Text(Integer.toString(((Building) buildingToCreateMenuFrom).getCurrentInhabitants().size()));
         stack = new Pane();
 
@@ -77,7 +73,6 @@ public class MenuCreation {
         stack.getChildren().addAll(background, numberOfInhabitants);
         Playground.playground.getChildren().add(stack);
     }
-
 
     /**
      * Creates the UI elements for the popup menu.
