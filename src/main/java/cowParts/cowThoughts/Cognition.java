@@ -289,4 +289,36 @@ public class Cognition {
     public void setFitness(int newFitness) {
         fitness = newFitness;
     }
+
+    public void clear() {
+        anger = 0;
+        anticipation = 0;
+        disgust = 0;
+        fear = 0;
+        happiness = 0;
+        surprise = 0;
+        trust = 0;
+
+        income = 0;
+        bills = 0;
+        taxes = 0;
+        savings = 0;
+        debt = 0;
+
+        boredom = 0;
+        companionship = 0;
+
+        hunger = 0;
+        thirst = 0;
+        age = 360;
+        physicalHealth = 0;
+        sleepiness = 0;
+
+        faith = 0;
+        mentalHealth = 0;
+
+        intelligence = 0;
+
+        fitness = 0;
+    }
 }
