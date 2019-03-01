@@ -1,6 +1,6 @@
 package cowParts.cowMovement;
 
-import buildings.BuildingHandler;
+import infrastructure.BuildingHandler;
 import cowParts.Cow;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;
@@ -57,7 +57,7 @@ public class DecideActions {
         if (cowToCheck.self.getThirst() <= 10 || cowToCheck.self.getHunger() <= 10)
             return ActiveActions.getVitalAction(cowToCheck);
 
-        //Economical/Governmental actions
+        //Economical/GovernmentalBuilding actions
         else if (cowToCheck.self.getSleepiness() > 0)
             return ActiveActions.goWork(cowToCheck);
         else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean())

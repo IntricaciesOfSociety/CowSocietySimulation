@@ -1,7 +1,7 @@
-package metaControl;
+package metaControl.main;
 
-import buildings.Building;
-import buildings.BuildingHandler;
+import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.BuildingHandler;
 import cowParts.cowMovement.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
@@ -16,9 +16,9 @@ import javafx.scene.shape.Rectangle;
 import menus.MenuHandler;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
-import userInterface.ResourcesUI;
-import userInterface.StaticUI;
-import userInterface.TileUI;
+import userInterface.playgroundUI.ResourcesUI;
+import userInterface.playgroundUI.StaticUI;
+import userInterface.playgroundUI.TileUI;
 
 import java.util.ArrayList;
 
@@ -68,7 +68,7 @@ public class Input {
             if (keyPressed.equals(KeyCode.C)) {
                 CameraControl.resetZoom();
 
-                Building defaultBuilding = BuildingHandler.getDefaultBuilding();
+                GenericBuilding defaultBuilding = BuildingHandler.getDefaultBuilding();
                 CameraControl.moveCamera(
                         defaultBuilding.getLayoutX(), defaultBuilding.getLayoutY());
             }
@@ -146,8 +146,8 @@ public class Input {
                 StaticUI.cowClickEvent();
             }
             else if (mouseEvent.getTarget() instanceof Tile) {
-                if (mouseEvent.getTarget() instanceof Building)
-                    ((Building) mouseEvent.getTarget()).toggleInhabitantsMenu();
+                if (mouseEvent.getTarget() instanceof GenericBuilding)
+                    ((GenericBuilding) mouseEvent.getTarget()).toggleInhabitantsMenu();
 
                 if (SimState.getSimState().equals("TileView")) {
                     TileUI.setSelectedTile((Tile) mouseEvent.getTarget());

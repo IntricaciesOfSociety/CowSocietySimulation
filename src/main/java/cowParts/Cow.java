@@ -1,6 +1,6 @@
 package cowParts;
 
-import buildings.Building;
+import infrastructure.buildingTypes.GenericBuilding;
 import cowParts.cowThoughts.Cognition;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowThoughts.PersonalViews;
@@ -15,7 +15,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
-import userInterface.StaticUI;
+import userInterface.playgroundUI.StaticUI;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -87,8 +87,8 @@ public class Cow extends ImageView {
     livingSpace: Where the cow currently resides
     buildingTime: How long to stay in the next building
      */
-    private Building livingSpace;
-    private Building buildingIn;
+    private GenericBuilding livingSpace;
+    private GenericBuilding buildingIn;
     private Object destination;
     private boolean voted = false;
 
@@ -149,7 +149,7 @@ public class Cow extends ImageView {
 
     /**
      * Removes the cow and any mention of the cow from the simulation by deleting the cow from the playground and the
-     * cow's link from PlaygroundUI. Logs the death event as a city-wide important event.
+     * cow's link from PlaygroundUIControl. Logs the death event as a city-wide important event.
      */
     public void kill() {
         if (menuIsOpened)
@@ -265,19 +265,19 @@ public class Cow extends ImageView {
         return socialRelations;
     }
 
-    public Building getLivingSpace() {
+    public GenericBuilding getLivingSpace() {
         return livingSpace;
     }
 
-    public void setLivingSpace(Building livingSpace) {
+    public void setLivingSpace(GenericBuilding livingSpace) {
         this.livingSpace = livingSpace;
     }
 
-    public Building getBuildingIn() {
+    public GenericBuilding getBuildingIn() {
         return buildingIn;
     }
 
-    public void setBuildingIn(Building buildingIn) {
+    public void setBuildingIn(GenericBuilding buildingIn) {
         this.buildingIn = buildingIn;
     }
 

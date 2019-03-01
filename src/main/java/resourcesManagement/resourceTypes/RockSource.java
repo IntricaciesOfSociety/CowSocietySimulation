@@ -1,4 +1,4 @@
-package resourcesManagement;
+package resourcesManagement.resourceTypes;
 
 import cowParts.cowMovement.DecideActions;
 import cowParts.Cow;
@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Nullable;
+import resourcesManagement.ResourceTemplate;
 import terrain.Tile;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Creates and handles any rockSource resource.
  */
-public class RockSource extends Resource {
+public class RockSource extends ResourceTemplate {
 
     private static ArrayList<RockSource> rockSources = new ArrayList<>();
 
@@ -96,7 +97,7 @@ public class RockSource extends Resource {
      * Adds the rockSource to the rockSource list.
      * @param resource The resource to add
      */
-    private static void addRockSource(Resource resource) {
+    private static void addRockSource(ResourceTemplate resource) {
         rockSources.add((RockSource) resource);
     }
 

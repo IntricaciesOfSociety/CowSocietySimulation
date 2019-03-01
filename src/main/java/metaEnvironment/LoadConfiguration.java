@@ -1,4 +1,4 @@
-package metaControl;
+package metaEnvironment;
 
 import org.ini4j.Ini;
 import org.jetbrains.annotations.Contract;
@@ -46,7 +46,7 @@ public class LoadConfiguration {
     /**
      * Loads the configuration file
      */
-    static void loadConfigurationFile() {
+    public static void loadConfigurationFile() {
         Ini ini = null;
         try {
             ini = new Ini(new File("src/main/configuration.ini"));

@@ -5,8 +5,11 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import menus.MenuHandler;
+import metaControl.main.CameraControl;
+import metaControl.main.Input;
+import metaControl.main.SimState;
 import org.jetbrains.annotations.NotNull;
-import userInterface.StaticUI;
+import userInterface.playgroundUI.StaticUI;
 
 /**
  * Creates and handles the switching of the panes within the main window (the playground).

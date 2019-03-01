@@ -1,7 +1,6 @@
 package metaEnvironment;
 
 import javafx.scene.image.Image;
-import metaControl.LoadConfiguration;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 

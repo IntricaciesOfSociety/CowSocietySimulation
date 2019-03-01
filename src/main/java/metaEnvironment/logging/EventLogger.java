@@ -1,7 +1,7 @@
 package metaEnvironment.logging;
 
 import cowParts.Cow;
-import metaControl.SimState;
+import metaControl.main.SimState;
 import metaControl.Time;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;

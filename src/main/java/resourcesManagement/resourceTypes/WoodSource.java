@@ -1,14 +1,15 @@
-package resourcesManagement;
+package resourcesManagement.resourceTypes;
 
 import cowParts.cowMovement.DecideActions;
 import cowParts.Cow;
 import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import metaControl.LoadConfiguration;
+import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Nullable;
+import resourcesManagement.ResourceTemplate;
 import terrain.Tile;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Creates and handles any woodSource resource.
  */
-public class WoodSource extends Resource {
+public class WoodSource extends ResourceTemplate {
 
     private static ArrayList<WoodSource> woodSources = new ArrayList<>();
 
@@ -107,7 +108,7 @@ public class WoodSource extends Resource {
      * Adds the woodSource to the woodResource list.
      * @param resource The resource to add
      */
-    private static void addWoodSource(Resource resource) {
+    private static void addWoodSource(ResourceTemplate resource) {
         woodSources.add((WoodSource) resource);
     }
 }

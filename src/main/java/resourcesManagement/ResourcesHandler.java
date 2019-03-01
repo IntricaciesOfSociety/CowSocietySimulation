@@ -1,10 +1,13 @@
 package resourcesManagement;
 
 import cowParts.CowHandler;
-import metaControl.LoadConfiguration;
+import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import resourcesManagement.resourceTypes.RockSource;
+import resourcesManagement.resourceTypes.WaterSource;
+import resourcesManagement.resourceTypes.WoodSource;
 import terrain.Tile;
 
 /**

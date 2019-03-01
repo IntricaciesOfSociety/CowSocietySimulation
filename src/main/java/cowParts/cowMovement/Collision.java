@@ -1,6 +1,6 @@
 package cowParts.cowMovement;
 
-import buildings.Building;
+import infrastructure.buildingTypes.GenericBuilding;
 import cowParts.Cow;
 import cowParts.cowThoughts.Social;
 import metaEnvironment.logging.EventLogger;
@@ -30,9 +30,9 @@ class Collision {
                         cowToTileCollision((Tile) possibleCollide);
                     if (possibleCollide instanceof Cow)
                         cowToCowCollision(cowToMove, (Cow) possibleCollide);
-                    else if (possibleCollide instanceof Building)
-                        cowToBuildingCollision(cowToMove, (Building) possibleCollide);
-                    else if (possibleCollide instanceof Resource)
+                    else if (possibleCollide instanceof GenericBuilding)
+                        cowToBuildingCollision(cowToMove, (GenericBuilding) possibleCollide);
+                    else if (possibleCollide instanceof ResourceTemplate)
                         cowToResourceCollision(cowToMove, (Tile) possibleCollide);
                 }
             }
@@ -88,12 +88,12 @@ class Collision {
     private static void cowToBuildingCollision(@NotNull Cow cowToMove, @NotNull Tile intersectingBuilding) {
         if (cowToMove.getDestination() == intersectingBuilding && cowToMove.currentAction.equals("Going home")) {
             //Called as the cow first enters the building
-            if (!((Building)intersectingBuilding).getCurrentInhabitants().contains(cowToMove))
-                Building.enterBuilding(cowToMove, intersectingBuilding);
+            if (!((GenericBuilding)intersectingBuilding).getCurrentInhabitants().contains(cowToMove))
+                GenericBuilding.enterBuilding(cowToMove, intersectingBuilding);
 
                 //Called as the cow is ready to exit the building indirectly from the cowToMove.show in decideMovement()
             else if (!cowToMove.isHidden())
-                Building.exitBuilding(cowToMove, intersectingBuilding);
+                GenericBuilding.exitBuilding(cowToMove, intersectingBuilding);
         }
     }
 }

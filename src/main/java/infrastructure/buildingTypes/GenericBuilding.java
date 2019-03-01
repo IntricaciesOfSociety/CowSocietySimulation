@@ -1,15 +1,11 @@
-package buildings;
+package infrastructure.buildingTypes;
 
 import cowParts.Cow;
-import cowParts.cowMovement.DecideActions;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import menus.MenuCreation;
-import metaControl.LoadConfiguration;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import resourcesManagement.ResourceRequirement;
 import terrain.Tile;
 
@@ -17,10 +13,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Creates the blueprint for all buildings. Makes sure that all buildings have standard interactions and that all buildings
+ * Creates the blueprint for all infrastructure. Makes sure that all infrastructure have standard interactions and that all infrastructure
  * are tracked properly.
  */
-public abstract class Building extends Tile {
+public abstract class GenericBuilding extends Tile {
 
     //The random variable to be used to generate random street numbers.
     Random random = new Random();
@@ -46,21 +42,7 @@ public abstract class Building extends Tile {
     boolean isConstructed = false;
 
     /**
-     * Checks to see what type of building list the new building goes into, then adds the building into that list. All
-     * buildings are added into the buildingList within their own constructor.
-     * @param buildingToAdd The building to add to its correct list
-     */
-    static void setBuildingType(@NotNull Building buildingToAdd) {
-        String buildindID = buildingToAdd.getId();
-
-        if (buildindID.equals("CityCenter") || buildindID.equals("CowHotel"))
-            BuildingHandler.votingPlaces.add(buildingToAdd);
-        else if (buildindID.equals(LoadConfiguration.getBasicGroceryStore()))
-            BuildingHandler.groceryStores.add(buildingToAdd);
-    }
-
-    /**
-     * Creates a Building with the given image and ties that Building to a tile.
+     * Creates a GenericBuilding with the given image and ties that GenericBuilding to a tile.
      * @param buildingSprite The image to be used for an ImageView relation to a tile
      * @param buildingName The name to be used as the ID for the building. Should be the same as the image name
      * @param tileToBuildOn The tile that the building will be built on
@@ -111,11 +93,6 @@ public abstract class Building extends Tile {
     public abstract String getStreetAddress();
 
     /**
-     * @return The building as the tile type that it is instead of as the Building type
-     */
-    abstract Tile getBuildingAsBuildingTile();
-
-    /**
      * @return The resource requirement for the building that this method is called on.
      */
     public abstract ResourceRequirement getResourceRequirement();
@@ -132,9 +109,9 @@ public abstract class Building extends Tile {
      */
     public static void enterBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToMoveInto) {
         cowToMove.hide();
-        cowToMove.setBuildingIn((Building) buildingToMoveInto);
+        cowToMove.setBuildingIn((GenericBuilding) buildingToMoveInto);
 
-        ((Building) buildingToMoveInto).addInhabitant(cowToMove);
+        ((GenericBuilding) buildingToMoveInto).addInhabitant(cowToMove);
     }
 
     /**
@@ -143,36 +120,12 @@ public abstract class Building extends Tile {
      * @param buildingToExitFrom The building to remove the given cow from
      */
     public static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
-        ((Building)buildingToExitFrom).removeInhabitant(cowToMove);
+        ((GenericBuilding)buildingToExitFrom).removeInhabitant(cowToMove);
         cowToMove.setBuildingIn(null);
 
         cowToMove.setTranslateX(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2);
         cowToMove.setTranslateY(buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
 
         cowToMove.show();
-    }
-
-    /**
-     * Finds the closest given building to the given cow.
-     * @param cowToCheck The cow to check
-     * @return The closest building to the cowToCheck
-     */
-    @Nullable
-    static ImageView getClosestBuilding(Cow cowToCheck, @NotNull ArrayList<Building> specializedBuilding) {
-
-        if (specializedBuilding.size() != 0) {
-            double smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(0));
-            ImageView closestBuilding = specializedBuilding.get(0);
-
-            for(int i = 0; i < specializedBuilding.size(); i++) {
-                if (DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(i)) < smallestDistance) {
-                    closestBuilding = specializedBuilding.get(i);
-                    smallestDistance = DecideActions.findDistanceBetweenCowAndObject(cowToCheck, specializedBuilding.get(i));
-                }
-
-            }
-            return closestBuilding;
-        }
-        else return null;
     }
 }

@@ -1,18 +1,18 @@
-package userInterface;
+package userInterface.playgroundUI;
 
-import buildings.*;
-import javafx.scene.control.Button;
+import infrastructure.*;
+import infrastructure.buildingTypes.GenericBuilding;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import metaControl.SimState;
+import metaControl.main.SimState;
 import org.jetbrains.annotations.Contract;
 import terrain.Tile;
 
 /**
  * Creates handles tiles within the simulation. A tile is a space of land that can hold either plain terrain, or
- * a building. Can construct buildings and change tiles from this menu.
+ * a building. Can construct infrastructure and change tiles from this menu.
  */
 public class TileUI {
 
@@ -37,7 +37,7 @@ public class TileUI {
         coordsText.setFill(Color.YELLOW);
 
 
-        PlaygroundUI.buildingUI.getChildren().addAll(background, tileText, coordsText);
+        PlaygroundUIControl.buildingUI.getChildren().addAll(background, tileText, coordsText);
 
         BuildingHandler.highlightBuildings();
 
@@ -97,7 +97,7 @@ public class TileUI {
         opened = false;
         BuildingHandler.dehighlightBuildings();
         SimState.setSimState("Playing");
-        PlaygroundUI.buildingUI.getChildren().clear();
+        PlaygroundUIControl.buildingUI.getChildren().clear();
     }
 
     /**
@@ -117,8 +117,8 @@ public class TileUI {
         if (selectedTile != null)
             coordsText.setText("XCoord:" + selectedTile.getLayoutX() + " YCoord:" + selectedTile.getLayoutY());
 
-        if (selectedTile instanceof Building)
-            tileText.setText(selectedTile.getClass().getSimpleName() + " " + ((Building) selectedTile).getStreetAddress());
+        if (selectedTile instanceof GenericBuilding)
+            tileText.setText(selectedTile.getClass().getSimpleName() + " " + ((GenericBuilding) selectedTile).getStreetAddress());
     }
 
 }

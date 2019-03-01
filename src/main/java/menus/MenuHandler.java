@@ -1,6 +1,6 @@
 package menus;
 
-import buildings.Building;
+import infrastructure.buildingTypes.GenericBuilding;
 import cowParts.Cow;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.*;
@@ -46,7 +46,7 @@ public class MenuHandler {
      */
     @NotNull
     @Contract(value = "_ -> new", pure = true)
-    public static MenuCreation createInhabitantsMenu(Building buildingToCreateMenuFrom) {
+    public static MenuCreation createInhabitantsMenu(GenericBuilding buildingToCreateMenuFrom) {
         MenuCreation inhabitantsMenu = new MenuCreation(buildingToCreateMenuFrom);
         openInhabitantMenus.add(inhabitantsMenu);
         return inhabitantsMenu;

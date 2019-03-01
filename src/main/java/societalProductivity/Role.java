@@ -1,15 +1,15 @@
 package societalProductivity;
 
-import buildings.Building;
-import buildings.BuildingHandler;
+import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.BuildingHandler;
 import cowParts.Cow;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import resourcesManagement.Resource;
+import resourcesManagement.ResourceTemplate;
 import resourcesManagement.ResourcesHandler;
-import resourcesManagement.RockSource;
-import resourcesManagement.WoodSource;
+import resourcesManagement.resourceTypes.RockSource;
+import resourcesManagement.resourceTypes.WoodSource;
 import societalProductivity.government.Government;
 
 import java.util.Random;
@@ -48,11 +48,11 @@ public class Role {
             case "Carpenter":
                 cowToCheck.currentAction = "Wood Constructing";
                 cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
-                return BuildingHandler.nextHouseToConstruct();
+                return BuildingHandler.nextToConstruct();
             case "Mason":
                 cowToCheck.currentAction = "Rock Constructing";
                 cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
-                return BuildingHandler.nextHouseToConstruct();
+                return BuildingHandler.nextToConstruct();
             case "Lumberjack":
                 cowToCheck.currentAction = "Chopping Wood";
                 cowToCheck.setImage(AssetLoading.loadCowRole("LumberJackCow"));
@@ -69,27 +69,27 @@ public class Role {
     public static void getRoleCompletionBehavior(@NotNull Cow cowToCheck) {
         switch (cowToCheck.getJob()) {
             case "Carpenter":
-                if ( !((Building) cowToCheck.getDestination()).isConstructed() ) {
-                    ((Building) cowToCheck.getDestination()).contributeResource("wood", 5);
-                    ((Building) cowToCheck.getDestination()).contributeResource("power", 1);
+                if ( !((GenericBuilding) cowToCheck.getDestination()).isConstructed() ) {
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("wood", 5);
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("power", 1);
                 }
                 break;
             case "Mason":
-                if ( !((Building) cowToCheck.getDestination()).isConstructed() ) {
-                    ((Building) cowToCheck.getDestination()).contributeResource("rock", 5);
-                    ((Building) cowToCheck.getDestination()).contributeResource("power", 1);
+                if ( !((GenericBuilding) cowToCheck.getDestination()).isConstructed() ) {
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("rock", 5);
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("power", 1);
                 }
                 break;
             case "Lumberjack":
                 if ( !((WoodSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("wood", 5);
-                    Resource.depleteResource((WoodSource) cowToCheck.getDestination(), 5);
+                    ResourceTemplate.depleteResource((WoodSource) cowToCheck.getDestination(), 5);
                 }
                 break;
             case "Miner":
                 if ( !((RockSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("rock", 5);
-                    Resource.depleteResource((RockSource) cowToCheck.getDestination(), 5);
+                    ResourceTemplate.depleteResource((RockSource) cowToCheck.getDestination(), 5);
                 }
                 break;
         }

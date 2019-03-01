@@ -1,7 +1,8 @@
-package metaControl;
+package metaControl.main;
 
 import cowParts.Cow;
 import javafx.geometry.Bounds;
+import metaControl.main.SimState;
 import metaEnvironment.Playground;
 
 import java.util.Objects;

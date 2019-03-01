@@ -1,4 +1,4 @@
-package resourcesManagement;
+package resourcesManagement.resourceTypes;
 
 import cowParts.Cow;
 import cowParts.cowMovement.DecideActions;
@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Nullable;
+import resourcesManagement.ResourceTemplate;
 import terrain.Tile;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Creates and handles any waterSource resource.
  */
-public class WaterSource extends Resource {
+public class WaterSource extends ResourceTemplate {
 
     private static ArrayList<WaterSource> wateringHoles = new ArrayList<>();
 
@@ -82,7 +83,7 @@ public class WaterSource extends Resource {
      * Adds the waterSource to the waterSource list.
      * @param waterHoleResource The resource to add
      */
-    private static void addWaterSource(Resource waterHoleResource) {
+    private static void addWaterSource(ResourceTemplate waterHoleResource) {
         wateringHoles.add((WaterSource) waterHoleResource);
     }
 

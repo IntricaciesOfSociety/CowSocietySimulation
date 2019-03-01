@@ -1,12 +1,11 @@
-package buildings;
+package infrastructure.buildingTypes;
 
 import cowParts.Cow;
-import javafx.scene.CacheHint;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import menus.MenuHandler;
-import metaControl.SimState;
+import metaControl.main.SimState;
 import metaEnvironment.AssetLoading;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
 import resourcesManagement.ResourcesHandler;
@@ -14,45 +13,27 @@ import terrain.Tile;
 
 import java.util.ArrayList;
 
-/**
- * Handles the creation of small dwelling buildings. Called only if building prerequisites have been fulfilled
- * (resources and technology).
- */
-public class SmallBuilding extends Building {
+public class AgriculturalBuilding extends GenericBuilding {
 
-    /**
-     * Calls for the creation of a building given an image.
-     * @param buildingSprite The image to create a building from
-     * @param name The name of the building
-     * @param tileToBuildOn The tile that the building will be built on
-     */
-    public SmallBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
-        this.setCacheHint(CacheHint.SPEED);
-
-        if (tileToBuildOn != null)
-            constructBuilding(buildingSprite, name, tileToBuildOn);
-        else
-            System.out.println("Cannot construct " + name);
-    }
-
-    /**
-     * @inheritDoc
-     */
     @Override
-    public void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+    void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+        int tileSize = Tile.getSize(buildingSprite);
+
+        this.setImage((tileSize < 4) ? AssetLoading.smallUnderConstructionSprite : AssetLoading.largeUnderConstructionSprite);
         this.setId(buildingName);
         this.buildingSprite = buildingSprite;
-        this.setImage(AssetLoading.smallUnderConstructionSprite);
 
         this.streetAddress = random.nextInt(500) + " Cow Drive";
 
-        this.buildingRequirement = new ResourceRequirement(5, 5, 1);
+        this.buildingRequirement = new ResourceRequirement(0, 10, 1);
 
         if (SimState.getSimState().equals("TileView"))
             this.setOpacity(0.5);
 
-        if (tileToBuildOn.tieToObject(this, Tile.getSize(buildingSprite)))
-            BuildingHandler.buildingsList.add(this);
+        if (tileToBuildOn.tieToObject(this, tileSize)) {
+            tileToBuildOn.getRegion().addAgriculturalBuilding(this);
+            buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
+        }
     }
 
     /**
@@ -60,7 +41,7 @@ public class SmallBuilding extends Building {
      */
     @Override
     public void contributeResource(String resourceContribution, int amountToBeUsed) {
-        ResourcesHandler.repurposeResource(buildingRequirement, resourceContribution, amountToBeUsed);
+        ResourcesHandler.repurposeResource(this.buildingRequirement, resourceContribution, amountToBeUsed);
 
         if (this.buildingRequirement.passesRequirements())
             finishConstruction();
@@ -70,8 +51,8 @@ public class SmallBuilding extends Building {
      * @inheritDoc
      */
     @Override
-    public void finishConstruction() {
-        this.setImage(buildingSprite);
+    void finishConstruction() {
+        this.setImage(this.buildingSprite);
         this.isConstructed = true;
     }
 
@@ -79,7 +60,7 @@ public class SmallBuilding extends Building {
      * @inheritDoc
      */
     @Override
-    public void addInhabitant(Cow inhabitant) {
+    void addInhabitant(Cow inhabitant) {
         this.currentInhabitants.add(inhabitant);
     }
 
@@ -87,7 +68,7 @@ public class SmallBuilding extends Building {
      * @inheritDoc
      */
     @Override
-    public void removeInhabitant(Cow inhabitant) {
+    void removeInhabitant(Cow inhabitant) {
         this.currentInhabitants.remove(inhabitant);
     }
 
@@ -117,18 +98,9 @@ public class SmallBuilding extends Building {
     /**
      * @inheritDoc
      */
-    @Contract(pure = true)
     @Override
     public String getStreetAddress() {
         return this.streetAddress;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public Tile getBuildingAsBuildingTile() {
-        return this;
     }
 
     /**

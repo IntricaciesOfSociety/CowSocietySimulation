@@ -1,26 +1,25 @@
-package menus;
+package menus.menuImplementations;
 
 import cowParts.Cow;
 import cowParts.CowHandler;
 import cowParts.cowThoughts.Social;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import metaControl.SimState;
+import menus.GenericMenu;
+import metaControl.main.SimState;
 import metaEnvironment.Playground;
 import metaEnvironment.logging.EventLogger;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class StatsViewMenu extends MenuCreation {
-
-    private static boolean isOpened;
+public class StatsViewMenu extends GenericMenu {
 
     private static Label topContent;
     private static Label bottomContent;
@@ -36,23 +35,22 @@ public class StatsViewMenu extends MenuCreation {
     private static ScrollPane socialRelationsScrollPane;
 
     private static Button exitButton;
-    private static Rectangle background;
 
     private static Text currentStatusText;
     private static Text idText;
 
     private static TreeView<Object> tree;
 
-    StatsViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        super(cowsPreviouslySelected);
+    public StatsViewMenu(ArrayList<Cow> cowsPreviouslySelected) {
+        createMenu(cowsPreviouslySelected);
     }
 
-    /**
-     * Creates the UI elements for the detailedView menu.
-     * @param cowsPreviouslySelected The cows previously selected when the detailedView was clicked to open
-     */
-    static void createDetailedViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        isOpened = true;
+    @Override
+    protected void createMenu(Object objectTie) {
+        this.isOpened = true;
+        this.stack = new Pane();
+        this.background = new Rectangle();
+        this.objectTie = objectTie;
 
         topContent = new Label();
         bottomContent = new Label();
@@ -67,11 +65,9 @@ public class StatsViewMenu extends MenuCreation {
 
         exitButton = new Button("EXIT");
 
-        background = new Rectangle();
-
-        currentStatusText = new Text("JOB: " + cowsPreviouslySelected.get(0).getJob()
-                + "    CURRENTLY: " + cowsPreviouslySelected.get(0).getCurrentAction());
-        idText = new Text(cowsPreviouslySelected.get(0).getId());
+        currentStatusText = new Text("JOB: " + ((ArrayList<Cow>)objectTie).get(0).getJob()
+                + "    CURRENTLY: " + ((ArrayList<Cow>)objectTie).get(0).getCurrentAction());
+        idText = new Text(((ArrayList<Cow>)objectTie).get(0).getId());
 
         topContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         bottomContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
@@ -82,11 +78,7 @@ public class StatsViewMenu extends MenuCreation {
         currentStatusText.setFill(Color.RED);
         idText.setFill(Color.RED);
 
-        exitButton.setOnAction(event -> {
-            SimState.setSimState("Playing");
-            Playground.setPlayground("Motion");
-            isOpened = false;
-        });
+        exitButton.setOnAction(event -> closeMenu());
 
         socialViewScrollPane.setContent(socialViewContent);
         socialViewScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -101,15 +93,17 @@ public class StatsViewMenu extends MenuCreation {
         bottomView.getChildren().addAll(bottomScrollPane);
         socialView.getChildren().addAll(socialViewContent, socialViewScrollPane);
 
-        Playground.playground.getChildren().addAll(background, idText, exitButton, topView, bottomView, socialView, currentStatusText);
+        stack.getChildren().addAll(background, idText, exitButton, topView, bottomView, socialView, currentStatusText);
+        Playground.playground.getChildren().add(stack);
 
-        createCognitionTree(cowsPreviouslySelected.get(0));
-        createSocialLinks(cowsPreviouslySelected);
+        createCognitionTree(((ArrayList<Cow>)objectTie).get(0));
+        createSocialLinks((ArrayList<Cow>)objectTie);
 
-        updateUIPlacements();
+        updateMenu();
     }
 
-    public static void updateUIPlacements() {
+    @Override
+    protected void updateMenu() {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
@@ -142,6 +136,22 @@ public class StatsViewMenu extends MenuCreation {
         topView.relocate(455, 50);
         bottomView.relocate(455, 185);
         socialView.relocate((socialRelationsScrollPane.getLayoutX() + 260), socialRelationsScrollPane.getLayoutY());
+    }
+
+    @Override
+    protected void closeMenu() {
+        SimState.setSimState("Playing");
+        Playground.setPlayground("Motion");
+        isOpened = false;
+    }
+
+    @Override
+    protected void openMenu() {
+    }
+
+    @Override
+    protected boolean getIsOpened() {
+        return this.isOpened;
     }
 
     /**
@@ -336,10 +346,5 @@ public class StatsViewMenu extends MenuCreation {
      */
     private static void switchSocialContent(String socialValue) {
         socialViewContent.setText((socialValue));
-    }
-
-    @Contract(pure = true)
-    public static boolean isOpened() {
-        return isOpened;
     }
 }

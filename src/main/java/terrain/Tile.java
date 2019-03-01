@@ -5,9 +5,10 @@ import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import menus.MenuHandler;
-import metaControl.LoadConfiguration;
+import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
+import metaEnvironment.Regioning.BinRegion;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,6 +26,7 @@ public class Tile extends ImageView {
     private static final int ROWTILES = (int) Playground.playground.getPrefWidth() / 400;
     private static final int COLTILES = (int) Playground.playground.getPrefHeight() / 400;
 
+    private BinRegion region;
     private boolean isDefaultTerrain = true;
 
     //The list that contains every tile
@@ -262,5 +264,9 @@ public class Tile extends ImageView {
             return tileToCheck.entrance;
         else
             return new Point2D(tileToCheck.getLayoutX(), tileToCheck.getLayoutY());
+    }
+
+    public BinRegion getRegion() {
+        return this.region;
     }
 }

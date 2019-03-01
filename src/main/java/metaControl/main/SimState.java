@@ -1,13 +1,16 @@
-package metaControl;
+package metaControl.main;
 
-import buildings.BuildingHandler;
+import infrastructure.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import menus.StatsViewMenu;
-import menus.StoryViewMenu;
+import menus.menuImplementations.StatsViewMenu;
+import menus.menuImplementations.StoryViewMenu;
+import metaEnvironment.LoadConfiguration;
+import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
@@ -25,12 +28,12 @@ import menus.MenuHandler;
 import societalProductivity.Issue;
 import societalProductivity.cityPlanning.CityControl;
 import terrain.Tile;
-import userInterface.PlaygroundUI;
+import userInterface.playgroundUI.PlaygroundUIControl;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import userInterface.ResourcesUI;
-import userInterface.StaticUI;
-import userInterface.TileUI;
+import userInterface.playgroundUI.ResourcesUI;
+import userInterface.playgroundUI.StaticUI;
+import userInterface.playgroundUI.TileUI;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -125,10 +128,12 @@ public class SimState extends Application {
 
         Issue.init();
         CowHandler.init();
-        PlaygroundUI.init();
+        PlaygroundUIControl.init();
 
-        root.getChildren().addAll(Playground.playground,
-                PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
+        Platform.runLater(() ->
+            root.getChildren().addAll(
+                    Playground.playground, PlaygroundUIControl.resourcesUI, PlaygroundUIControl.buildingUI, PlaygroundUIControl.staticUI
+            )
         );
 
         Input.enableInput(initialScene);
@@ -222,9 +227,9 @@ public class SimState extends Application {
             if (ResourcesUI.isOpened())
                 ResourcesUI.updateUIPlacements();
             if (StoryViewMenu.isOpened())
-                StoryViewMenu.updateUIPlacements();
+                StoryViewMenu.updateMenu();
             if (StatsViewMenu.isOpened())
-                StatsViewMenu.updateUIPlacements();
+                StatsViewMenu.updateMenu();
         };
 
         primaryStage.widthProperty().addListener(stageSizeListener);

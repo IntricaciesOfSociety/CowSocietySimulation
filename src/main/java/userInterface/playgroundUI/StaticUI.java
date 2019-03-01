@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.playgroundUI;
 
 import com.sun.istack.internal.NotNull;
 import cowParts.Cow;
@@ -11,9 +11,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import metaControl.CameraControl;
-import metaControl.Input;
-import metaControl.SimState;
+import metaControl.main.CameraControl;
+import metaControl.main.Input;
+import metaControl.main.SimState;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
@@ -157,7 +157,7 @@ public class StaticUI {
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
         differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton);
 
-        PlaygroundUI.staticUI.getChildren().addAll(
+        PlaygroundUIControl.staticUI.getChildren().addAll(
                  simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
         );
 
@@ -175,10 +175,10 @@ public class StaticUI {
 
         tileUIButton.setOnAction(event -> {
             SimState.setSimState("TileView");
-            PlaygroundUI.toggleTileUI();
+            PlaygroundUIControl.toggleTileUI();
         });
 
-        resourcesUIButton.setOnAction(event -> PlaygroundUI.toggleResourcesUI());
+        resourcesUIButton.setOnAction(event -> PlaygroundUIControl.toggleResourcesUI());
 
         trackingButton.setOnAction(event -> {
 

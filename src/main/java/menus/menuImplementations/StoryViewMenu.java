@@ -1,16 +1,18 @@
-package menus;
+package menus.menuImplementations;
 
 import cowParts.Cow;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import metaControl.SimState;
+import menus.GenericMenu;
+import metaControl.main.SimState;
 import metaEnvironment.Playground;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
@@ -18,32 +20,33 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class StoryViewMenu {
-    
-    private static boolean isOpened;
+public class StoryViewMenu extends GenericMenu {
 
     private static VBox logContent;
     private static ScrollPane logScroll;
     private static Button exitButton;
-    private static Rectangle background;
     private static Text idText;
-    
-    /**
-     * Creates the story view menu which displays the given cow's entire log
-     * @param cowsPreviouslySelected The cows selected when the story view was clicked to open.
-     */
-    static void createStoryViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        isOpened = true;
-        
+
+    public StoryViewMenu(ArrayList<Cow> cowsPreviouslySelected) {
+        createMenu(cowsPreviouslySelected);
+    }
+
+    @Override
+    protected void createMenu(Object objectTie) {
+        this.isOpened = true;
+        this.stack = new Pane();
+        this.background = new Rectangle(100, 50, Color.BLACK);
+        this.objectTie = objectTie;
+
         logContent = new VBox();
         logScroll = new ScrollPane();
 
-        Label logText = new Label(EventLogger.getEntireCowLog(cowsPreviouslySelected.get(0)));
+        Label logText = new Label(EventLogger.getEntireCowLog(((ArrayList<Cow>)objectTie).get(0)));
 
         exitButton = new Button("EXIT");
         background = new Rectangle();
 
-        idText = new Text(cowsPreviouslySelected.get(0).getId());
+        idText = new Text(((ArrayList<Cow>)objectTie).get(0).getId());
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
         idText.setFill(Color.RED);
 
@@ -51,25 +54,18 @@ public class StoryViewMenu {
         logScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         exitButton.setOnAction(event -> {
-            SimState.setSimState("Playing");
-            Playground.setPlayground("Motion");
-            isOpened = false;
+            closeMenu();
         });
 
         logContent.getChildren().addAll(logScroll, logText);
 
         Playground.playground.getChildren().addAll(background, idText, logContent, exitButton);
 
-        updateUIPlacements();
+        updateMenu();
     }
 
-
-    @Contract(pure = true)
-    public static boolean isOpened() {
-        return isOpened;
-    }
-
-    public static void updateUIPlacements() {
+    @Override
+    public void updateMenu() {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
@@ -86,5 +82,22 @@ public class StoryViewMenu {
         exitButton.relocate(75, screenOffsetY - 100);
 
         logContent.relocate(300, 50);
+    }
+
+    @Override
+    protected void closeMenu() {
+        SimState.setSimState("Playing");
+        Playground.setPlayground("Motion");
+        isOpened = false;
+    }
+
+    @Override
+    protected void openMenu() {
+
+    }
+
+    @Override
+    protected boolean getIsOpened() {
+        return isOpened;
     }
 }

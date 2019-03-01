@@ -1,8 +1,8 @@
 package societalProductivity.cityPlanning;
 
-import buildings.BuildingHandler;
-import metaControl.LoadConfiguration;
-import metaControl.SimState;
+import infrastructure.BuildingHandler;
+import metaEnvironment.LoadConfiguration;
+import metaControl.main.SimState;
 import metaControl.Time;
 import org.jetbrains.annotations.Contract;
 import org.slf4j.MDC;

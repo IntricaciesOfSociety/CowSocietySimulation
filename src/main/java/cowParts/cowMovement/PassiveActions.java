@@ -1,8 +1,8 @@
 package cowParts.cowMovement;
 
-import buildings.SmallBuilding;
+import infrastructure.SmallBuilding;
 import cowParts.Cow;
-import metaControl.LoadConfiguration;
+import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
 import terrain.Tile;
