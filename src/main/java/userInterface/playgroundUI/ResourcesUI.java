@@ -6,7 +6,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import metaControl.main.SimState;
 import org.jetbrains.annotations.Contract;
-import resourcesManagement.ResourceTemplate;
+import resourcesManagement.resourceTypes.GenericResource;
 import resourcesManagement.ResourcesHandler;
 
 /**
@@ -78,8 +78,8 @@ public class ResourcesUI {
     public static void updateUI() {
         if (TileUI.getSelectedTile() instanceof GenericBuilding)
             resourcesText.setText("RESOURCES UI        " + ((GenericBuilding) TileUI.getSelectedTile()).getResourceRequirement().toString());
-        else if (TileUI.getSelectedTile() instanceof ResourceTemplate)
-            resourcesText.setText("RESOURCES UI        " + ((ResourceTemplate) TileUI.getSelectedTile()).toString());
+        else if (TileUI.getSelectedTile() instanceof GenericResource)
+            resourcesText.setText("RESOURCES UI        " + ((GenericResource) TileUI.getSelectedTile()).toString());
         else
             resourcesText.setText("RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
     }

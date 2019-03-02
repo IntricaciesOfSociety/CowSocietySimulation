@@ -328,8 +328,6 @@ public class StaticUI {
      * Updates the idText variable to Input.selectedCow
      */
     public static void updateIdText() {
-        Input.updateSelectedCows();
-
         if (Input.selectedCows.size() > 1)
             idText.setText(Input.selectedCows.size() + " cows selected");
         else if (Input.selectedCows.size() == 1)

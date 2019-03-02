@@ -8,6 +8,10 @@ import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
+import menus.GenericMenu;
+import metaControl.main.Input;
+import metaEnvironment.Regioning.BinRegion;
+import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import javafx.scene.control.Hyperlink;
@@ -15,6 +19,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
+import terrain.Tile;
 import userInterface.playgroundUI.StaticUI;
 
 import java.util.ArrayList;
@@ -54,11 +59,9 @@ public class Cow extends ImageView {
     /* UI elements
     cowLink: The hyperlink that correlates to the cow
     cowMenu: The menu that correlates to the cow
-    menuIsOpened: If the menu is opened or not
      */
     private Hyperlink cowLink;
-    private MenuCreation cowMenu;
-    private boolean menuIsOpened = false;
+    private GenericMenu cowMenu;
 
     /* Logging elements
     currentAction: What the cow is currently doing within the sim
@@ -67,21 +70,14 @@ public class Cow extends ImageView {
 
     /* What makes a cow
     color: The color effects applied to the cow
-    sprite: The image being displayed
      */
     private ColorAdjust color = new ColorAdjust();
 
     //The job that this cow has
     private String job = "Spinning";
 
-    //TODO: Implement amount of work cow can do
-    private int workForce = 10;
-
     //If the cow has had a child or not
     boolean parent = false;
-
-    //Statuses
-    private boolean diseased = false;
 
     /* Tile Control variables
     livingSpace: Where the cow currently resides
@@ -89,6 +85,9 @@ public class Cow extends ImageView {
      */
     private GenericBuilding livingSpace;
     private GenericBuilding buildingIn;
+
+    //TODO:Implement moving between regions
+    private BinRegion regionIn = BinRegionHandler.binRegionMap.get(0);
     private Object destination;
     private boolean voted = false;
 
@@ -152,12 +151,13 @@ public class Cow extends ImageView {
      * cow's link from PlaygroundUIControl. Logs the death event as a city-wide important event.
      */
     public void kill() {
-        if (menuIsOpened)
+        if (cowMenu != null)
             MenuHandler.closeMenu(this.cowMenu);
 
         if (animation != null)
             animation.stop();
 
+        hidden = false;
         CowHandler.liveCowList.remove(this);
         Playground.playground.getChildren().remove(this);
 
@@ -171,7 +171,7 @@ public class Cow extends ImageView {
      * playground node. This cow cannot be directly selected while its hidden value is true.
      */
     public void hide() {
-        if (menuIsOpened)
+        if (cowMenu != null)
             MenuHandler.closeMenu(this.cowMenu);
 
         hidden = true;
@@ -204,7 +204,6 @@ public class Cow extends ImageView {
      * Diseases the cow that called this method. Causes the cow to be thirsty.
      */
     public void disease() {
-        diseased = true;
         self.setThirst(-100);
         color.setBrightness(-1.0);
     }
@@ -213,7 +212,7 @@ public class Cow extends ImageView {
      * Opens or closes the cow's menu dependant on if the menu is already opened or not.
      */
     public void switchMenuState() {
-        if (menuIsOpened)
+        if (cowMenu != null)
             closeMenu();
         else
             openMenu();
@@ -223,9 +222,9 @@ public class Cow extends ImageView {
      * Calls for the opening of the the stats menu for this cow, if the menu is not already open.
      */
     public void openMenu() {
-        if (!menuIsOpened) {
-            this.cowMenu = MenuHandler.createPopupMenu(this);
-            menuIsOpened = true;
+        if (cowMenu == null) {
+            this.cowMenu = MenuCreation.createCowPopup(this);
+            Input.addSelectedCow(this);
         }
     }
 
@@ -233,9 +232,10 @@ public class Cow extends ImageView {
      * Calls for the closing of the stats menu for this cow, if the menu is already opened.
      */
     public void closeMenu() {
-        if (menuIsOpened) {
+        if (cowMenu != null) {
             MenuHandler.closeMenu(this.cowMenu);
-            menuIsOpened = false;
+            Input.removeSelectedCow(this);
+            cowMenu = null;
         }
     }
 
@@ -244,13 +244,6 @@ public class Cow extends ImageView {
      */
     public String getCurrentAction() {
         return currentAction;
-    }
-
-    /**
-     * @return If the cow is diseased or not.
-     */
-    public boolean getDiseased() {
-        return diseased;
     }
 
     public String getJob() {
@@ -331,5 +324,9 @@ public class Cow extends ImageView {
 
     public void setHasVoted(boolean b) {
         voted = b;
+    }
+
+    public BinRegion getRegionIn() {
+        return regionIn;
     }
 }

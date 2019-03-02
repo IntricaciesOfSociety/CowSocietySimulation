@@ -1,16 +1,13 @@
 package infrastructure;
 
+import cowParts.Cow;
 import infrastructure.buildingTypes.GenericBuilding;
-import infrastructure.buildingTypes.IndustrialBuilding;
-import infrastructure.buildingTypes.ResidentialBuilding;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
-
-import java.util.LinkedList;
+import terrain.TileHandler;
 
 /**
  * Handles the management of infrastructure that have been given context within the simulation. Does not handle the building's
@@ -20,26 +17,23 @@ public class BuildingHandler {
 
     private static GenericBuilding defaultBuilding;
 
-    private static LinkedList<GenericBuilding> buildQueue = new LinkedList<>();
 
     /**
      * Creates the necessary infrastructure based off the situation chosen for the sim.
      */
     public static void init() {
-        defaultBuilding = BuildingCreation.createBuilding(
-                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(),
-                Tile.getRandomNotFullTile(4), ResidentialBuilding.class
+        defaultBuilding = BuildingCreation.createResidentialBuilding(
+                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandomNotFullTile(4)
         );
 
-        BuildingCreation.createBuilding(
+        BuildingCreation.createIndustrialBuilding(
                 AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),
-                Tile.getRandomNotFullTile(2, AssetLoading.desertTileFull, AssetLoading.flatTerrain), IndustrialBuilding.class
+                TileHandler.getRandomNotFullTile(2, AssetLoading.desertTileFull, AssetLoading.flatTerrain)
         );
 
         for (int i = 0; i < LoadConfiguration.getGroceryStores(); i++) {
-            BuildingCreation.createBuilding(
-                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(),
-                    Tile.getRandomNotFullTile(4), ResidentialBuilding.class
+            BuildingCreation.createCommercialBuilding(
+                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandomNotFullTile(4)
             );
         }
     }
@@ -76,13 +70,25 @@ public class BuildingHandler {
         return defaultBuilding;
     }
 
+    public static GenericBuilding getDefaultBuilding() {
+        return defaultBuilding;
+    }
+
     /**
-     * Finds and returns the next building that needs to be constructed. The last element in the list is the newest building
-     * and the first element is the oldest building.
-     * @return The oldest not constructed building
+     * TODO: Implement
+     * @param cowToCheck
+     * @return
      */
-    @Nullable
-    public static GenericBuilding nextToConstruct() {
-        return buildQueue.getFirst();
+    public static GenericBuilding getClosestGroceryStore(Cow cowToCheck) {
+        return defaultBuilding;
+    }
+
+    /**
+     * TODO: Implement
+     * @param cowToCheck
+     * @return
+     */
+    public static GenericBuilding getClosestVotingArea(Cow cowToCheck) {
+        return defaultBuilding;
     }
 }

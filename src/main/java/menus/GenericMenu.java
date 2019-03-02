@@ -11,8 +11,6 @@ public abstract class GenericMenu {
 
     protected Object objectTie;
 
-    protected static boolean isOpened;
-
     protected abstract void createMenu(Object objectTie);
 
     protected abstract void updateMenu();
@@ -20,6 +18,4 @@ public abstract class GenericMenu {
     protected abstract void closeMenu();
 
     protected abstract void openMenu();
-
-    protected abstract boolean getIsOpened();
 }

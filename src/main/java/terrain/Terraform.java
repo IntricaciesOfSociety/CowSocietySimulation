@@ -1,7 +1,8 @@
 package terrain;
 
-/**
- * TODO: Implement
- */
 public class Terraform {
+
+    private static void replaceBasicTile() {
+
+    }
 }

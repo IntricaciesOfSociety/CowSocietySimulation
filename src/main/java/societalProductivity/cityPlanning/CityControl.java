@@ -18,7 +18,7 @@ public class CityControl {
         cityName = LoadConfiguration.getCityName();
         createCityLog();
 
-        allSectors.add(new CitySector(BuildingHandler.getDefaultBuilding()));
+        //allSectors.add(new CitySector(BuildingHandler.get));
     }
 
     private static void createCityLog() {

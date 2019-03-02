@@ -2,7 +2,6 @@ package metaControl.main;
 
 import cowParts.Cow;
 import javafx.geometry.Bounds;
-import metaControl.main.SimState;
 import metaEnvironment.Playground;
 
 import java.util.Objects;
@@ -35,12 +34,8 @@ public class CameraControl {
         if (west) Playground.playground.setTranslateX(Playground.playground.getTranslateX() + MOVEMENTOFFSET);
 
         //Zooming
-        if (zoomIn) {
-            zoomCamera(true);
-        }
-        if (zoomOut) {
-            zoomCamera(false);
-        }
+        if (zoomIn) zoomCamera(true);
+        if (zoomOut) zoomCamera(false);
 
     }
 

@@ -11,6 +11,7 @@ import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import resourcesManagement.ResourcesHandler;
 import resourcesManagement.resourceTypes.WaterSource;
 import societalProductivity.Role;
 import societalProductivity.government.Economy;
@@ -60,7 +61,7 @@ class ActiveActions extends Action {
 
     @NotNull
     private static Movement getWater(Cow cowToCheck) {
-        return returnAction(cowToCheck, WaterSource.getClosestResource(cowToCheck), "Getting Water",
+        return returnAction(cowToCheck, ResourcesHandler.getClosestWaterSource(cowToCheck, cowToCheck.getRegionIn()), "Getting Water",
             () -> {
                 EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100 - cowToCheck.self.getThirst());
                 cowToCheck.self.setThirst(100);

@@ -1,16 +1,18 @@
-package resourcesManagement;
+package resourcesManagement.resourceTypes;
 
 import javafx.scene.image.Image;
+import metaEnvironment.Regioning.BinRegion;
 import org.jetbrains.annotations.NotNull;
 import terrain.Tile;
 
 /**
  * Defines what a resource is and how it is handled.
  */
-public abstract class ResourceTemplate extends Tile {
+public abstract class GenericResource extends Tile {
 
     //How much the resource can be mined.
     int resourceHealth;
+    BinRegion regionIn;
 
     /**
      * Constructs a resource based off of the class being called from, the sprite given, and the tile given.
@@ -30,7 +32,7 @@ public abstract class ResourceTemplate extends Tile {
      * @param resourceToDeplete The resource to deplete
      * @param depleteDelta The amount to deplete the resource by
      */
-    public static void depleteResource(@NotNull ResourceTemplate resourceToDeplete, int depleteDelta) {
+    public static void depleteResource(@NotNull GenericResource resourceToDeplete, int depleteDelta) {
         resourceToDeplete.deplete(depleteDelta);
     }
 

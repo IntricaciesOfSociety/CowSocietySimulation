@@ -28,6 +28,7 @@ import menus.MenuHandler;
 import societalProductivity.Issue;
 import societalProductivity.cityPlanning.CityControl;
 import terrain.Tile;
+import terrain.TileHandler;
 import userInterface.playgroundUI.PlaygroundUIControl;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -120,7 +121,7 @@ public class SimState extends Application {
         AssetLoading.loadBaseAssets();
         Playground.init();
 
-        Tile.createTiles();
+        TileHandler.init();
         BuildingHandler.init();
         ResourcesHandler.init();
 
@@ -226,10 +227,10 @@ public class SimState extends Application {
                 TileUI.updateUIPlacements();
             if (ResourcesUI.isOpened())
                 ResourcesUI.updateUIPlacements();
-            if (StoryViewMenu.isOpened())
-                StoryViewMenu.updateMenu();
-            if (StatsViewMenu.isOpened())
-                StatsViewMenu.updateMenu();
+            if (MenuHandler.getCurrentStoryMenu() != null)
+                MenuHandler.updateMenuOnce(MenuHandler.getCurrentStoryMenu());
+            if (MenuHandler.getCurrentStatsMenu() != null)
+                MenuHandler.updateMenuOnce(MenuHandler.getCurrentStatsMenu());
         };
 
         primaryStage.widthProperty().addListener(stageSizeListener);

@@ -13,11 +13,14 @@ import metaEnvironment.Playground;
 
 public class InhabitantsPopup extends GenericMenu {
 
-    Text numberOfInhabitants;
+    private Text numberOfInhabitants;
+
+    public InhabitantsPopup(GenericBuilding building) {
+        createMenu(building);
+    }
 
     @Override
     protected void createMenu(Object objectTie) {
-        this.isOpened = true;
         this.stack = new Pane();
         this.background = new Rectangle(100, 50, Color.BLACK);
         this.objectTie = objectTie;
@@ -35,22 +38,18 @@ public class InhabitantsPopup extends GenericMenu {
     }
 
     @Override
-    protected void updateMenu() {
+    public void updateMenu() {
         numberOfInhabitants.setText(Integer.toString(((GenericBuilding) objectTie).getCurrentInhabitants().size()));
     }
 
     @Override
     protected void closeMenu() {
-
+        stack.getChildren().clear();
+        Playground.playground.getChildren().remove(stack);
     }
 
     @Override
     protected void openMenu() {
 
-    }
-
-    @Override
-    protected boolean getIsOpened() {
-        return this.isOpened;
     }
 }

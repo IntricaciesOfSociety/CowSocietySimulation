@@ -6,7 +6,7 @@ import cowParts.Cow;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import resourcesManagement.ResourceTemplate;
+import resourcesManagement.resourceTypes.GenericResource;
 import resourcesManagement.ResourcesHandler;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WoodSource;
@@ -48,19 +48,19 @@ public class Role {
             case "Carpenter":
                 cowToCheck.currentAction = "Wood Constructing";
                 cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
-                return BuildingHandler.nextToConstruct();
+                return cowToCheck.getRegionIn().getNextToConstruct();
             case "Mason":
                 cowToCheck.currentAction = "Rock Constructing";
                 cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
-                return BuildingHandler.nextToConstruct();
+                return cowToCheck.getRegionIn().getNextToConstruct();
             case "Lumberjack":
                 cowToCheck.currentAction = "Chopping Wood";
                 cowToCheck.setImage(AssetLoading.loadCowRole("LumberJackCow"));
-                return WoodSource.getClosestResource(cowToCheck);
+                return ResourcesHandler.getClosestWoodSource(cowToCheck, cowToCheck.getRegionIn());
             case "Miner":
                 cowToCheck.currentAction = "Mining Rock";
                 cowToCheck.setImage(AssetLoading.loadCowRole("MinerCow"));
-                return RockSource.getClosestResource(cowToCheck);
+                return ResourcesHandler.getClosestRockSource(cowToCheck, cowToCheck.getRegionIn());
         }
         return null;
     }
@@ -83,13 +83,13 @@ public class Role {
             case "Lumberjack":
                 if ( !((WoodSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("wood", 5);
-                    ResourceTemplate.depleteResource((WoodSource) cowToCheck.getDestination(), 5);
+                    GenericResource.depleteResource((WoodSource) cowToCheck.getDestination(), 5);
                 }
                 break;
             case "Miner":
                 if ( !((RockSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("rock", 5);
-                    ResourceTemplate.depleteResource((RockSource) cowToCheck.getDestination(), 5);
+                    GenericResource.depleteResource((RockSource) cowToCheck.getDestination(), 5);
                 }
                 break;
         }

@@ -13,7 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import menus.MenuHandler;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.ResourcesUI;
@@ -27,6 +26,8 @@ import java.util.ArrayList;
  */
 public class Input {
 
+    private static boolean cowPopupMenuToggle = false;
+
     //Drag Box
     private static Rectangle dragBox = new Rectangle(-1,-1,0,0);
 
@@ -37,7 +38,7 @@ public class Input {
     private static double startYDrag;
 
     //The current selected cows
-    public static ArrayList<Cow> selectedCows = MenuHandler.getCowsWithOpenMenus();
+    public static ArrayList<Cow> selectedCows = new ArrayList<>();
 
     /**
      * Sets the listener for any key press or mouse event. Will update the corresponding object.
@@ -81,9 +82,8 @@ public class Input {
 
             //TODO: Remove debug
             if (keyPressed.equals(KeyCode.O)) {
-                for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
-                    System.out.println(CowHandler.liveCowList.get(i).self.getFitness());
-                }
+                System.out.println(Playground.playground.getWidth());
+                System.out.println(Playground.playground.getHeight());
             }
 
             //Pause/UnPause simulation
@@ -132,8 +132,7 @@ public class Input {
          */
         Playground.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
             ExecuteAction.dragBoxSelectionUpdate(dragBox);
-            dragBox.setHeight(-1);
-            dragBox.setWidth(-1);
+            dragBox.resize(-1, -1);
         });
 
         /*
@@ -188,26 +187,27 @@ public class Input {
      * Sets all cow menus to open or closed based off of the value of allCowMenusOpen.
      */
     private static void toggleAllCowMenus() {
-        if (MenuHandler.allCowMenusOpen) {
-            MenuHandler.allCowMenusOpen = false;
-            for (Cow cow : CowHandler.liveCowList) {
+        if (cowPopupMenuToggle) {
+            for (Cow cow : CowHandler.liveCowList)
                 cow.closeMenu();
-            }
+            cowPopupMenuToggle = false;
         }
         else {
-            MenuHandler.allCowMenusOpen = true;
             for (Cow cow : CowHandler.liveCowList) {
                 if (!cow.isHidden())
                     cow.openMenu();
             }
+            cowPopupMenuToggle = true;
         }
         StaticUI.cowClickEvent();
     }
 
-    /** TODO: Rework into a system that makes sense
-     * Refreshes the selected cow variable equal to the cows from the open menus list in menu handler.
-     */
-    public static void updateSelectedCows() {
-        selectedCows = MenuHandler.getCowsWithOpenMenus();
+    public static void addSelectedCow(Cow cow) {
+        if (!selectedCows.contains(cow))
+            selectedCows.add(cow);
+    }
+
+    public static void removeSelectedCow(Cow cow) {
+        selectedCows.remove(cow);
     }
 }

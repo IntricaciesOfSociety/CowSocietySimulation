@@ -33,7 +33,6 @@ public class StoryViewMenu extends GenericMenu {
 
     @Override
     protected void createMenu(Object objectTie) {
-        this.isOpened = true;
         this.stack = new Pane();
         this.background = new Rectangle(100, 50, Color.BLACK);
         this.objectTie = objectTie;
@@ -88,16 +87,10 @@ public class StoryViewMenu extends GenericMenu {
     protected void closeMenu() {
         SimState.setSimState("Playing");
         Playground.setPlayground("Motion");
-        isOpened = false;
     }
 
     @Override
     protected void openMenu() {
 
-    }
-
-    @Override
-    protected boolean getIsOpened() {
-        return isOpened;
     }
 }

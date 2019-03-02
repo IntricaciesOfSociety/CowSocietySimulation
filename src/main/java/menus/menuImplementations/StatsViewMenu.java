@@ -47,7 +47,6 @@ public class StatsViewMenu extends GenericMenu {
 
     @Override
     protected void createMenu(Object objectTie) {
-        this.isOpened = true;
         this.stack = new Pane();
         this.background = new Rectangle();
         this.objectTie = objectTie;
@@ -103,7 +102,7 @@ public class StatsViewMenu extends GenericMenu {
     }
 
     @Override
-    protected void updateMenu() {
+    public void updateMenu() {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
@@ -142,16 +141,12 @@ public class StatsViewMenu extends GenericMenu {
     protected void closeMenu() {
         SimState.setSimState("Playing");
         Playground.setPlayground("Motion");
-        isOpened = false;
+        stack.getChildren().clear();
+        Playground.playground.getChildren().remove(stack);
     }
 
     @Override
     protected void openMenu() {
-    }
-
-    @Override
-    protected boolean getIsOpened() {
-        return this.isOpened;
     }
 
     /**
@@ -159,7 +154,7 @@ public class StatsViewMenu extends GenericMenu {
      * cow(s) selected.
      * @param cowsPreviouslySelected The cows that were selected when the detailedView button was clicked.
      */
-    private static void createSocialLinks(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+    private void createSocialLinks(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         socialRelationsScrollPane = new ScrollPane();
         socialRelationsView = new VBox();
 
@@ -170,7 +165,6 @@ public class StatsViewMenu extends GenericMenu {
                     socialRelationsView.getChildren().add( createSocialLink(relation, cowsPreviouslySelected.get(0)) );
                 }
             }
-
         }
         else {
             for (int i = 1; i < cowsPreviouslySelected.size(); i++) {
@@ -182,7 +176,7 @@ public class StatsViewMenu extends GenericMenu {
         socialRelationsScrollPane.setContent(socialRelationsView);
         socialRelationsScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
-        Playground.playground.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
+        stack.getChildren().addAll(socialRelationsView, socialRelationsScrollPane);
     }
 
     /**
@@ -208,7 +202,7 @@ public class StatsViewMenu extends GenericMenu {
      * detailed view menu.
      * @param firstCow The first cow in the input array to have its stats be drawn.
      */
-    private static void createCognitionTree(@NotNull Cow firstCow) {
+    private void createCognitionTree(@NotNull Cow firstCow) {
         TreeItem<Object> treeTier = new TreeItem<>();
         TreeItem<Object> emotionLinks = new TreeItem<>(new Text("Emotions")),
                 financeLinks = new TreeItem<>(new Text("Finances")),
@@ -317,7 +311,7 @@ public class StatsViewMenu extends GenericMenu {
 
         tree = new TreeView<>(treeTier);
         tree.setShowRoot(false);
-        Playground.playground.getChildren().add(tree);
+        stack.getChildren().add(tree);
     }
 
     /**

@@ -19,13 +19,7 @@ public class CowFitnessPopup extends GenericMenu {
     }
 
     @Override
-    protected boolean getIsOpened() {
-        return this.isOpened;
-    }
-
-    @Override
     public void createMenu(Object objectTie) {
-        this.isOpened = true;
         this.objectTie = objectTie;
         this.background = new Rectangle(0,0, 110, 150);
         this.stack = new Pane();
@@ -76,13 +70,14 @@ public class CowFitnessPopup extends GenericMenu {
     }
 
     @Override
-    protected void updateMenu() {
+    public void updateMenu() {
         stack.relocate((((Cow)objectTie).getTranslateX() + 55), (((Cow)objectTie).getTranslateY() + 40));
     }
 
     @Override
     protected void closeMenu() {
-
+        stack.getChildren().clear();
+        Playground.playground.getChildren().remove(stack);
     }
 
     @Override

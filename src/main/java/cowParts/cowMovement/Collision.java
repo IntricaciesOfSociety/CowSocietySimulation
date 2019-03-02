@@ -32,7 +32,7 @@ class Collision {
                         cowToCowCollision(cowToMove, (Cow) possibleCollide);
                     else if (possibleCollide instanceof GenericBuilding)
                         cowToBuildingCollision(cowToMove, (GenericBuilding) possibleCollide);
-                    else if (possibleCollide instanceof ResourceTemplate)
+                    else if (possibleCollide instanceof GenericResource)
                         cowToResourceCollision(cowToMove, (Tile) possibleCollide);
                 }
             }

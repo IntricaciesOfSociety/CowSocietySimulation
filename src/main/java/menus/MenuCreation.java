@@ -1,25 +1,13 @@
 package menus;
 
 import infrastructure.buildingTypes.GenericBuilding;
-import javafx.scene.CacheHint;
 import menus.menuImplementations.CowFitnessPopup;
+import menus.menuImplementations.InhabitantsPopup;
 import menus.menuImplementations.StatsViewMenu;
 import menus.menuImplementations.StoryViewMenu;
-import metaControl.main.SimState;
 import cowParts.Cow;
-import metaEnvironment.Playground;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;
-import terrain.Tile;
-
 import java.util.ArrayList;
-
-import static menus.MenuHandler.createInhabitantsMenu;
 
 /**
  * A MenuCreation object is a StackPane menu that holds information based off of the object given. Used currently for the
@@ -31,28 +19,39 @@ public class MenuCreation {
      * Calls the creation of a new popup menu for the given cow.
      * @param cow The cow that the menu is to be created from
      */
-    MenuCreation(@NotNull Cow cow) {
-        new CowFitnessPopup(cow);
+    public static GenericMenu createCowPopup(@NotNull Cow cow) {
+        GenericMenu newPopup = new CowFitnessPopup(cow);
+        MenuHandler.addMenuToUpdateCycle(newPopup);
+        return newPopup;
     }
 
     /**
-     * Creates a new menu (detailedView) from the cows selected when the menu was opened.
+     * Creates a new story view menu from the cows selected when the menu was opened.
      * @param cowsPreviouslySelected The cows that were previously selected
      */
-    MenuCreation(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        if (SimState.getSimState().equals("DetailedView"))
-            new StatsViewMenu(cowsPreviouslySelected);
-        else if (SimState.getSimState().equals("StoryView"))
-            new StoryViewMenu(cowsPreviouslySelected);
+    public static GenericMenu createStoryViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        GenericMenu newStoryView = new StoryViewMenu(cowsPreviouslySelected);
+        MenuHandler.setCurrentStoryMenu(newStoryView);
+        return newStoryView;
+    }
+
+    /**
+     * Creates a new stats view menu from the cows selected when the menu was opened.
+     * @param cowsPreviouslySelected The cows that were previously selected
+     */
+    public static GenericMenu createStatsVeiwMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        GenericMenu newStatsView = new StatsViewMenu(cowsPreviouslySelected);
+        MenuHandler.setCurrentStatsMenu(newStatsView);
+        return newStatsView;
     }
 
     /**
      * Creates a new menu for the clicked on building showing the amount of inhabitants in the building.
      * @param buildingToCreateMenuFrom The building to create a menu for
      */
-    MenuCreation(GenericBuilding buildingToCreateMenuFrom) {
-        createInhabitantsMenu(buildingToCreateMenuFrom);
+   public static GenericMenu createInhabitantsMenu(GenericBuilding buildingToCreateMenuFrom) {
+       GenericMenu newInhabitantsMenu = new InhabitantsPopup(buildingToCreateMenuFrom);
+        MenuHandler.addMenuToUpdateCycle(newInhabitantsMenu);
+       return newInhabitantsMenu;
     }
-
-
 }

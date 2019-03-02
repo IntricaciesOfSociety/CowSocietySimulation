@@ -1,5 +1,6 @@
 package metaEnvironment;
 
+import menus.MenuCreation;
 import metaControl.*;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
@@ -34,10 +35,11 @@ public class Playground {
         if (LoadConfiguration.getFullscreen())
             SimState.initFullScreen();
 
+        int sideX = (LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
+        int sideY = (LoadConfiguration.isSquareRegionSet()) ? sideX :
+                (LoadConfiguration.getVerticalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
         playground = motion;
-        playground.setMinSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);
-        playground.setPrefSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);
-        playground.autosize();
+        playground.setPrefSize(sideX, sideY);
         motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();
 
@@ -67,7 +69,7 @@ public class Playground {
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenuView(Input.selectedCows);
+                MenuCreation.createStatsVeiwMenu(Input.selectedCows);
                 break;
 
             case "StoryView":
@@ -78,7 +80,7 @@ public class Playground {
                 CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenuView(Input.selectedCows);
+                MenuCreation.createStoryViewMenu(Input.selectedCows);
                 break;
 
             case "Motion":

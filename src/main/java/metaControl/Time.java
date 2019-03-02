@@ -114,8 +114,7 @@ public class Time {
     }
 
     private static void repopulateResources() {
-        if (WoodSource.getNumberOfSources() < (LoadConfiguration.getInitialLargeTrees() + LoadConfiguration.getInitialSmallTrees()))
-            WoodSource.repopulate();
+        WoodSource.repopulate();
     }
 
     /**

@@ -1,14 +1,22 @@
 package resourcesManagement;
 
+import cowParts.Cow;
 import cowParts.CowHandler;
+import cowParts.cowMovement.DecideActions;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.Regioning.BinRegion;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import resourcesManagement.resourceTypes.GenericResource;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
 import resourcesManagement.resourceTypes.WoodSource;
 import terrain.Tile;
+import terrain.TileHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles all the resource management for the city.
@@ -24,36 +32,36 @@ public class ResourcesHandler {
      */
     public static void init() {
         for (int i = 0; i < LoadConfiguration.getInitialWaterSources(); i++) {
-            new WaterSource(
+            ResourceCreation.createWaterSource(
                     AssetLoading.basicWatersource,
-                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.basicWatersource), AssetLoading.desertTileFull)
+                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.basicWatersource), AssetLoading.desertTileFull)
             );
         }
 
         for (int j = 0; j < LoadConfiguration.getInitialSmallRocks(); j++) {
-            new RockSource(
+            ResourceCreation.createRockSource(
                     AssetLoading.smallRock,
-                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallRock))
+                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallRock))
             );
         }
 
         for (int k = 0; k < LoadConfiguration.getInitialSmallTrees(); k++) {
-            new WoodSource(
+            ResourceCreation.createWoodSource(
                     AssetLoading.smallTree,
-                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         }
 
         for (int q = 0; q < LoadConfiguration.getInitialLargeTrees(); q++) {
-            new WoodSource(
+            ResourceCreation.createWoodSource(
                     AssetLoading.largeTree,
-                    Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         }
 
         for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++) {
-            new RockSource(
-                    AssetLoading.largeRock, Tile.getRandomNotFullTile(Tile.getSize(AssetLoading.largeRock))
+            ResourceCreation.createRockSource(
+                    AssetLoading.largeRock, TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeRock))
             );
         }
     }
@@ -114,5 +122,37 @@ public class ResourcesHandler {
      */
     public static void updatePower() {
         power = CowHandler.liveCowList.size() * 10;
+    }
+
+    public static RockSource getClosestRockSource(Cow cowToCheck, BinRegion regionToCheck) {
+        return (RockSource) getClosestResource(cowToCheck, regionToCheck.getAllRockSources());
+    }
+
+    public static WoodSource getClosestWoodSource(Cow cowToCheck, BinRegion regionToCheck) {
+        return (WoodSource) getClosestResource(cowToCheck, regionToCheck.getAllWoodSources());
+    }
+
+    public static WaterSource getClosestWaterSource(Cow cowToCheck, BinRegion regionToCheck) {
+        return (WaterSource) getClosestResource(cowToCheck, regionToCheck.getAllWaterSources());
+    }
+
+    private static GenericResource getClosestResource(Cow cowToCheck, List resources) {
+        if (resources.size() > 0) {
+            GenericResource closestResource = (GenericResource) resources.get(0);
+            int closestDistance = (int) DecideActions.findDistanceBetweenCowAndObject(cowToCheck, (GenericResource) resources.get(0));
+
+            for (Object resource : resources) {
+                int distance = (int) DecideActions.findDistanceBetweenCowAndObject(cowToCheck, (GenericResource) resource);
+                if (distance < closestDistance) {
+                    closestResource = (GenericResource) resource;
+                    closestDistance = distance;
+                }
+            }
+            return closestResource;
+        }
+        else  {
+            System.out.println("Cannot find closest resource");
+            return null;
+        }
     }
 }
