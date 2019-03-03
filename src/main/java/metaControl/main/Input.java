@@ -132,7 +132,8 @@ public class Input {
          */
         Playground.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
             ExecuteAction.dragBoxSelectionUpdate(dragBox);
-            dragBox.resize(-1, -1);
+            dragBox.setWidth(-1);
+            dragBox.setHeight(-1);
         });
 
         /*
@@ -193,10 +194,9 @@ public class Input {
             cowPopupMenuToggle = false;
         }
         else {
-            for (Cow cow : CowHandler.liveCowList) {
+            for (Cow cow : CowHandler.liveCowList)
                 if (!cow.isHidden())
                     cow.openMenu();
-            }
             cowPopupMenuToggle = true;
         }
         StaticUI.cowClickEvent();

@@ -12,7 +12,6 @@ public abstract class GenericResource extends Tile {
 
     //How much the resource can be mined.
     int resourceHealth;
-    BinRegion regionIn;
 
     /**
      * Constructs a resource based off of the class being called from, the sprite given, and the tile given.

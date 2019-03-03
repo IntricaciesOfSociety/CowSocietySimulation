@@ -1,7 +1,6 @@
 package societalProductivity;
 
 import infrastructure.buildingTypes.GenericBuilding;
-import infrastructure.BuildingHandler;
 import cowParts.Cow;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.NotNull;
@@ -56,15 +55,14 @@ public class Role {
             case "Lumberjack":
                 cowToCheck.currentAction = "Chopping Wood";
                 cowToCheck.setImage(AssetLoading.loadCowRole("LumberJackCow"));
-                return ResourcesHandler.getClosestWoodSource(cowToCheck, cowToCheck.getRegionIn());
+                return ResourcesHandler.getClosestWoodSource(cowToCheck, cowToCheck.getRegionIn().getBinId());
             case "Miner":
                 cowToCheck.currentAction = "Mining Rock";
                 cowToCheck.setImage(AssetLoading.loadCowRole("MinerCow"));
-                return ResourcesHandler.getClosestRockSource(cowToCheck, cowToCheck.getRegionIn());
+                return ResourcesHandler.getClosestRockSource(cowToCheck, cowToCheck.getRegionIn().getBinId());
         }
         return null;
     }
-
 
     public static void getRoleCompletionBehavior(@NotNull Cow cowToCheck) {
         switch (cowToCheck.getJob()) {

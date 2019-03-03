@@ -5,7 +5,7 @@ import javafx.scene.Group;
 /**
  * Creates and handles the UI for the playground.
  */
-public class PlaygroundUIControl {
+public class PlaygroundUIHandler {
 
     //The root nodes for all UI elements
     //TODO: Change scope to getters

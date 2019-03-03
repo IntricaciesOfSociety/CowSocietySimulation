@@ -34,10 +34,13 @@ class Movement extends Action {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
 
-            PathTransition newMovement = null;
+            PathTransition newMovement;
 
-            if (destination.startBehavior() instanceof Tile)
+            if (destination.startBehavior() instanceof Tile) {
+                cowToMove.setRegionIn(((Tile) destination.startBehavior()).getRegion());
                 newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            }
+
             else
                 newMovement = animateTowardsDestination(cowToMove, (Point2D) destination.startBehavior());
 

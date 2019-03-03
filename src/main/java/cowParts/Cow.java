@@ -86,8 +86,7 @@ public class Cow extends ImageView {
     private GenericBuilding livingSpace;
     private GenericBuilding buildingIn;
 
-    //TODO:Implement moving between regions
-    private BinRegion regionIn = BinRegionHandler.binRegionMap.get(0);
+    private BinRegion regionIn;
     private Object destination;
     private boolean voted = false;
 
@@ -148,7 +147,7 @@ public class Cow extends ImageView {
 
     /**
      * Removes the cow and any mention of the cow from the simulation by deleting the cow from the playground and the
-     * cow's link from PlaygroundUIControl. Logs the death event as a city-wide important event.
+     * cow's link from PlaygroundUIHandler. Logs the death event as a city-wide important event.
      */
     public void kill() {
         if (cowMenu != null)
@@ -328,5 +327,9 @@ public class Cow extends ImageView {
 
     public BinRegion getRegionIn() {
         return regionIn;
+    }
+
+    public void setRegionIn(BinRegion newRegion) {
+        regionIn = newRegion;
     }
 }

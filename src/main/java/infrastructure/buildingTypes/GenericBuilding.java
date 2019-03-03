@@ -20,8 +20,6 @@ import java.util.Random;
  */
 public abstract class GenericBuilding extends Tile {
 
-    BinRegion regionIn;
-
     //The random variable to be used to generate random street numbers.
     Random random = new Random();
 

@@ -37,7 +37,7 @@ public class TileUI {
         coordsText.setFill(Color.YELLOW);
 
 
-        PlaygroundUIControl.buildingUI.getChildren().addAll(background, tileText, coordsText);
+        PlaygroundUIHandler.buildingUI.getChildren().addAll(background, tileText, coordsText);
 
         BuildingHandler.highlightBuildings();
 
@@ -97,7 +97,7 @@ public class TileUI {
         opened = false;
         BuildingHandler.dehighlightBuildings();
         SimState.setSimState("Playing");
-        PlaygroundUIControl.buildingUI.getChildren().clear();
+        PlaygroundUIHandler.buildingUI.getChildren().clear();
     }
 
     /**

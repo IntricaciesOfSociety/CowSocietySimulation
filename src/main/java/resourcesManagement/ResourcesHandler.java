@@ -6,6 +6,7 @@ import cowParts.cowMovement.DecideActions;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegion;
+import metaEnvironment.Regioning.BinRegionHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.resourceTypes.GenericResource;
@@ -124,16 +125,16 @@ public class ResourcesHandler {
         power = CowHandler.liveCowList.size() * 10;
     }
 
-    public static RockSource getClosestRockSource(Cow cowToCheck, BinRegion regionToCheck) {
-        return (RockSource) getClosestResource(cowToCheck, regionToCheck.getAllRockSources());
+    public static RockSource getClosestRockSource(Cow cowToCheck, int regionId) {
+        return (RockSource) getClosestResource(cowToCheck, BinRegionHandler.getAdjacentRegionRockSources(regionId));
     }
 
-    public static WoodSource getClosestWoodSource(Cow cowToCheck, BinRegion regionToCheck) {
-        return (WoodSource) getClosestResource(cowToCheck, regionToCheck.getAllWoodSources());
+    public static WoodSource getClosestWoodSource(Cow cowToCheck, int regionId) {
+        return (WoodSource) getClosestResource(cowToCheck, BinRegionHandler.getAdjacentRegionWoodSources(regionId));
     }
 
-    public static WaterSource getClosestWaterSource(Cow cowToCheck, BinRegion regionToCheck) {
-        return (WaterSource) getClosestResource(cowToCheck, regionToCheck.getAllWaterSources());
+    public static WaterSource getClosestWaterSource(Cow cowToCheck, int regionId) {
+        return (WaterSource) getClosestResource(cowToCheck, BinRegionHandler.getAdjacentRegionWaterSources(regionId));
     }
 
     private static GenericResource getClosestResource(Cow cowToCheck, List resources) {

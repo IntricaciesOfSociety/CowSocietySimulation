@@ -32,7 +32,7 @@ public class ResourcesUI {
 
         resourcesText.setFill(Color.RED);
 
-        PlaygroundUIControl.resourcesUI.getChildren().addAll(background, resourcesText);
+        PlaygroundUIHandler.resourcesUI.getChildren().addAll(background, resourcesText);
 
         updateUIPlacements();
     }
@@ -61,7 +61,7 @@ public class ResourcesUI {
      */
     static void close() {
         opened = false;
-        PlaygroundUIControl.resourcesUI.getChildren().clear();
+        PlaygroundUIHandler.resourcesUI.getChildren().clear();
     }
 
     /**

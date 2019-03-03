@@ -12,10 +12,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.ResourcesHandler;
-import resourcesManagement.resourceTypes.WaterSource;
 import societalProductivity.Role;
 import societalProductivity.government.Economy;
 import societalProductivity.government.Government;
+import terrain.Tile;
 import userInterface.playgroundUI.StaticUI;
 
 import java.util.Random;
@@ -35,6 +35,7 @@ class ActiveActions extends Action {
             cowToMakeMovement.currentAction = currentAction;
 
         StaticUI.updateActionText();
+
         return (new Movement(
                 () -> destination,
                 finishBehavior,
@@ -61,7 +62,7 @@ class ActiveActions extends Action {
 
     @NotNull
     private static Movement getWater(Cow cowToCheck) {
-        return returnAction(cowToCheck, ResourcesHandler.getClosestWaterSource(cowToCheck, cowToCheck.getRegionIn()), "Getting Water",
+        return returnAction(cowToCheck, ResourcesHandler.getClosestWaterSource(cowToCheck, cowToCheck.getRegionIn().getBinId()), "Getting Water",
             () -> {
                 EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100 - cowToCheck.self.getThirst());
                 cowToCheck.self.setThirst(100);

@@ -30,7 +30,7 @@ public class AgriculturalBuilding extends GenericBuilding {
             this.setId(buildingName);
             this.buildingSprite = buildingSprite;
 
-            this.regionIn = tileToBuildOn.getRegion();
+            this.region = tileToBuildOn.getRegion();
             this.streetAddress = random.nextInt(500) + " Cow Drive";
 
             this.buildingRequirement = new ResourceRequirement(0, 10, 1);
@@ -63,7 +63,7 @@ public class AgriculturalBuilding extends GenericBuilding {
     void finishConstruction() {
         this.setImage(this.buildingSprite);
         this.isConstructed = true;
-        this.regionIn.removeFromConstructionQueue(this);
+        this.region.removeFromConstructionQueue(this);
     }
 
     /**

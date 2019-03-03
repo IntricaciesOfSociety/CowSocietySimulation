@@ -13,7 +13,7 @@ import java.util.LinkedList;
 
 public class BinRegion extends Group {
 
-    private String id;
+    private int id;
 
     private ArrayList<Tile> basicTileList = new ArrayList<>();
 
@@ -29,7 +29,11 @@ public class BinRegion extends Group {
     private ArrayList<RockSource> rockSources = new ArrayList<>();
     private ArrayList<WaterSource> waterSources = new ArrayList<>();
 
-    BinRegion(String id) {
+    BinRegion(int id) {
+        this.setId(id);
+    }
+
+    private void setId(int id) {
         this.id = id;
     }
 
@@ -90,15 +94,15 @@ public class BinRegion extends Group {
         this.getChildren().add(waterSource);
     }
 
-    public ArrayList<RockSource> getAllRockSources() {
+    ArrayList<RockSource> getAllRockSources() {
         return rockSources;
     }
 
-    public ArrayList<WoodSource> getAllWoodSources() {
+    ArrayList<WoodSource> getAllWoodSources() {
         return woodSources;
     }
 
-    public ArrayList<WaterSource> getAllWaterSources() {
+    ArrayList<WaterSource> getAllWaterSources() {
         return waterSources;
     }
 
@@ -136,5 +140,17 @@ public class BinRegion extends Group {
 
     public ArrayList<Tile> getBasicTiles() {
         return basicTileList;
+    }
+
+    public int getBinId() {
+        return id;
+    }
+
+    public int getMaxY() {
+        return (int) basicTileList.get(basicTileList.size() - 1).getLayoutX();
+    }
+
+    public int getMaxX() {
+        return (int) basicTileList.get(basicTileList.size() - 1).getLayoutY();
     }
 }

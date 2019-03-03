@@ -37,7 +37,7 @@ public class WoodSource extends GenericResource {
     public void constructSource(Image sourceSprite, Tile tileToBuildOn) {
         if (tileToBuildOn.tieToObject(this, TileHandler.getSize(sourceSprite))) {
             this.resourceHealth = TileHandler.getSize(sourceSprite) * 25;
-            this.regionIn = tileToBuildOn.getRegion();
+            this.region = tileToBuildOn.getRegion();
             this.setImage(sourceSprite);
         }
     }
@@ -50,7 +50,7 @@ public class WoodSource extends GenericResource {
         resourceHealth -= depleteDelta;
 
         if (resourceHealth <= 0) {
-            regionIn.removeWoodSource(this);
+            region.removeWoodSource(this);
             Playground.playground.getChildren().remove(this);
         }
     }

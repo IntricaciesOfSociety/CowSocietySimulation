@@ -5,7 +5,9 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.Group;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -40,7 +42,7 @@ public class StaticUI {
     private static ScrollPane cowLinkScrollBox = new ScrollPane();
 
     //Structure for sim speed buttons
-    private static Group simSpeedGroup = new Group();
+    private static HBox simSpeedGroup = new HBox();
 
     //Structure for the cow control buttons
     private static Group controlGroup = new Group();
@@ -59,7 +61,36 @@ public class StaticUI {
      * Handles the creation of all static elements within the playgroundStaticUI. Buttons, text, and containers.
      */
     static void init() {
-        createSpeedButtons();
+        ToggleGroup simSpeedButtons = new ToggleGroup();
+
+        ImageView halfSpeed = new ImageView(AssetLoading.loadUISprite("X0.5SpeedButton"));
+        ToggleButton speedButton1 = new ToggleButton();
+        halfSpeed.setScaleX(2.5);
+        halfSpeed.setScaleY(2.5);
+        speedButton1.setGraphic(halfSpeed);
+        speedButton1.setId(Long.toString(((long) ((double) 128_666_666L / 0.5))));
+        speedButton1.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
+        speedButton1.setToggleGroup(simSpeedButtons);
+
+        ImageView normalSpeed = new ImageView(AssetLoading.loadUISprite("X1SpeedButton"));
+        ToggleButton speedButton2 = new ToggleButton();
+        normalSpeed.setScaleX(2.5);
+        normalSpeed.setScaleY(2.5);
+        speedButton2.setGraphic(normalSpeed);
+        speedButton2.setId(Long.toString(((long) ((double) 128_666_666L / 1))));
+        speedButton2.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
+        speedButton2.setToggleGroup(simSpeedButtons);
+
+        ImageView doubleSpeed = new ImageView(AssetLoading.loadUISprite("X2SpeedButton"));
+        ToggleButton speedButton3 = new ToggleButton();
+        doubleSpeed.setScaleX(2.5);
+        doubleSpeed.setScaleY(2.5);
+        speedButton3.setGraphic(doubleSpeed);
+        speedButton3.setId(Long.toString(((long) ((double) 128_666_666L / 2))));
+        speedButton3.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
+        speedButton3.setToggleGroup(simSpeedButtons);
+
+        simSpeedGroup.setSpacing(5);
 
         populationText.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
         populationText.setFill(Color.RED);
@@ -75,17 +106,12 @@ public class StaticUI {
         heartAttackImage.setScaleX(2);
         heartAttackImage.setScaleY(2);
 
-       // heartAttackButton.setLayoutX(730);
-       // heartAttackButton.setLayoutY(20);
-
         heartAttackButton.setFocusTraversable(false);
         heartAttackButton.setGraphic(heartAttackImage);
 
         ImageView diseaseImage = new ImageView(AssetLoading.loadUISprite("Disease"));
         diseaseImage.setScaleX(2);
         diseaseImage.setScaleY(2);
-     //   diseaseButton.setLayoutX(730);
-    //    diseaseButton.setLayoutY(50);
 
         diseaseButton.setFocusTraversable(false);
         diseaseButton.setGraphic(diseaseImage);
@@ -106,18 +132,12 @@ public class StaticUI {
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         idText.setFill(Color.RED);
-      //  idText.setX(5);
-       // idText.setY(280);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setTextFill(Color.RED);
-      //  actionText.setLayoutX(5);
-       // actionText.setLayoutY(290);
 
         accommodationsText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         accommodationsText.setTextFill(Color.RED);
-       // accommodationsText.setLayoutX(5);
-       // accommodationsText.setLayoutY(330);
 
         actionText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         actionText.setTextFill(Color.RED);
@@ -128,16 +148,14 @@ public class StaticUI {
         ImageView tileImage = new ImageView(AssetLoading.loadUISprite("TileUI"));
         tileImage.setScaleX(2);
         tileImage.setScaleY(2);
-       // tileUIButton.setLayoutX(15);
-       // tileUIButton.setLayoutY(370);
+
         tileUIButton.setFocusTraversable(false);
         tileUIButton.setGraphic(tileImage);
 
         ImageView resourcesImage = new ImageView(AssetLoading.loadUISprite("ResourcesUI"));
         resourcesImage.setScaleX(2);
         resourcesImage.setScaleY(2);
-       // resourcesUIButton.setLayoutX(15);
-     //   resourcesUIButton.setLayoutY(400);
+
         resourcesUIButton.setFocusTraversable(false);
         resourcesUIButton.setGraphic(resourcesImage);
 
@@ -152,12 +170,12 @@ public class StaticUI {
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setFill(Color.RED);
 
-
+        simSpeedGroup.getChildren().addAll(speedButton1, speedButton2, speedButton3);
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
         differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton);
 
-        PlaygroundUIControl.staticUI.getChildren().addAll(
+        PlaygroundUIHandler.staticUI.getChildren().addAll(
                  simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
         );
 
@@ -175,10 +193,10 @@ public class StaticUI {
 
         tileUIButton.setOnAction(event -> {
             SimState.setSimState("TileView");
-            PlaygroundUIControl.toggleTileUI();
+            PlaygroundUIHandler.toggleTileUI();
         });
 
-        resourcesUIButton.setOnAction(event -> PlaygroundUIControl.toggleResourcesUI());
+        resourcesUIButton.setOnAction(event -> PlaygroundUIHandler.toggleResourcesUI());
 
         trackingButton.setOnAction(event -> {
 
@@ -192,19 +210,19 @@ public class StaticUI {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
+        simSpeedGroup.relocate(5,5);
+
         populationText.setX(5);
         populationText.setY(50);
 
         cowLinkScrollBox.setLayoutX(5);
         cowLinkScrollBox.setLayoutY(60);
 
-
         heartAttackButton.setLayoutX(screenOffsetX - 85);
         heartAttackButton.setLayoutY(20);
 
         diseaseButton.setLayoutX(screenOffsetX - 85);
         diseaseButton.setLayoutY(50);
-
 
         detailedViewButton.setLayoutX(15);
         detailedViewButton.setLayoutY(170);
@@ -231,34 +249,6 @@ public class StaticUI {
 
         timeOfDay.setLayoutY(screenOffsetY - 50);
 
-    }
-
-    /**
-     * Handles the creation and implementation of the three simSpeed control buttons. Sets the id of the buttons
-     * equal to the speed that they set the sim to.
-     */
-    private static void createSpeedButtons() {
-        /*
-        Creates the buttons used for setting the simSpeed. The id of the buttons is set to the corresponding speed
-        that the button sets simSpeed to. SpeedButton is mutated to the three different buttons.
-        */
-        ToggleGroup simSpeedButtons = new ToggleGroup();
-        ToggleButton speedButton;
-        int buttonOffset = 0;
-
-        for (double i = 0.5; i < 4; i *= 2) {
-            speedButton = new ToggleButton("x" + ((i == 0.5) ? "1/2" : (int) i + "   "));
-            speedButton.setFocusTraversable(false);
-            speedButton.setToggleGroup(simSpeedButtons);
-            speedButton.setSelected(i == 1);
-            speedButton.setLayoutX(5 + (buttonOffset * 35));
-            speedButton.setLayoutY(5);
-            speedButton.setId(Long.toString(((long) ((double) 128_666_666L / i))));
-            speedButton.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
-
-            simSpeedGroup.getChildren().add(speedButton);
-            buttonOffset++;
-        }
     }
 
     /**

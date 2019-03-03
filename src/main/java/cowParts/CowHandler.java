@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import metaEnvironment.LoadConfiguration;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.Regioning.BinRegion;
+import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
@@ -48,7 +50,7 @@ public class CowHandler {
 
     /**
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
-     * for the cow to be used in PlaygroundUIControl.
+     * for the cow to be used in PlaygroundUIHandler.
      */
     static Cow createCow(Cow parent1, Cow parent2) {
         Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
@@ -59,8 +61,12 @@ public class CowHandler {
         newCow.setColor(new ColorAdjust());
 
         newCow.setId("Cow" + ((char) (new Random().nextInt(26) + 'a')) + new Random().nextInt(10000));
-        newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
-        newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
+
+        BinRegion randRegion = BinRegionHandler.binRegionMap.get(random.nextInt(BinRegionHandler.newestRegionId));
+        newCow.setRegionIn(randRegion);
+        newCow.setTranslateX(random.nextInt(randRegion.getMaxX()));
+        newCow.setTranslateY(random.nextInt(randRegion.getMaxY()));
+
         newCow.setEffect(newCow.getColor());
         newCow.setSmooth(false);
 

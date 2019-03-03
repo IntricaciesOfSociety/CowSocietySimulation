@@ -66,7 +66,6 @@ public class Playground {
                 playground = detailedView;
 
                 StaticUI.disableUI();
-                CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
                 MenuCreation.createStatsVeiwMenu(Input.selectedCows);
@@ -77,7 +76,6 @@ public class Playground {
                 playground = storyView;
 
                 StaticUI.disableUI();
-                CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
                 MenuCreation.createStoryViewMenu(Input.selectedCows);
@@ -89,7 +87,6 @@ public class Playground {
 
                 StaticUI.enableUI();
                 SimState.addPlayground(playground);
-                CameraControl.enableCamera();
                 break;
         }
     }

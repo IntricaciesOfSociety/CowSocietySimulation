@@ -15,9 +15,9 @@ import java.util.Random;
  */
 public class Tile extends ImageView {
 
-    Random random = new Random();
+    private Random random = new Random();
 
-    private BinRegion region;
+    protected BinRegion region;
 
     int[][] placementArray = new int[4][4];
 
@@ -71,12 +71,12 @@ public class Tile extends ImageView {
             for (int i = 0; i < placementArray.length - (size - 1); i++)
                 for (int j = 0; j < placementArray.length - (size - 1); j++) {
                     broken = false;
-                    outerLoop:
+                    innerLoop:
                     for (int k = 0; k < size; k++)
                         for (int h = 0; h < size; h++)
                             if (placementArray[i + k][j + h] == 1) {
                                 broken = true;
-                                break outerLoop;
+                                break innerLoop;
                             }
                     if (!broken)
                         possiblePoints.add(new Point2D(i, j));
