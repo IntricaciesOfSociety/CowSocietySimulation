@@ -5,6 +5,7 @@ import infrastructure.BuildingHandler;
 import cowParts.cowMovement.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
+import metaEnvironment.LoadConfiguration;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -13,6 +14,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.Regioning.BinRegion;
+import metaEnvironment.Regioning.BinRegionHandler;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.ResourcesUI;
@@ -27,6 +30,9 @@ import java.util.ArrayList;
 public class Input {
 
     private static boolean cowPopupMenuToggle = false;
+
+    //TEST VARIABLE
+    private static boolean testToggle = false;
 
     //Drag Box
     private static Rectangle dragBox = new Rectangle(-1,-1,0,0);
@@ -82,8 +88,22 @@ public class Input {
 
             //TODO: Remove debug
             if (keyPressed.equals(KeyCode.O)) {
-                System.out.println(Playground.playground.getWidth());
-                System.out.println(Playground.playground.getHeight());
+                for (int i = 0; i < ((LoadConfiguration.isSquareRegionSet()) ? LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getHorizontalRegions() : LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getVerticalRegions()); i++) {
+                    if (!testToggle) {
+                        if (i % 2 != 0)
+                            Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(i));
+                        else
+                            Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(i));
+                    }
+                    else {
+                        if (i % 2 == 0)
+                            Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(i));
+                        else
+                            Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(i));
+                    }
+
+                }
+                testToggle = !testToggle;
             }
 
             //Pause/UnPause simulation

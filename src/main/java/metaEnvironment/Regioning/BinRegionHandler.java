@@ -24,8 +24,10 @@ public class BinRegionHandler {
     public static BinRegion createNewRegion() {
         BinRegion newRegion = new BinRegion(newestRegionId);
         binRegionMap.put(newestRegionId, newRegion);
+        if (newRegion.getBinId() % 2 == 0)
+            Playground.playground.getChildren().add(newRegion);
+
         newestRegionId++;
-        Playground.playground.getChildren().add(newRegion);
         return newRegion;
     }
 
