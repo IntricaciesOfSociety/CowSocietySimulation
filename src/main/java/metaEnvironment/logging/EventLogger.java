@@ -44,7 +44,6 @@ public class EventLogger {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static void logEvent(String message, String fileTarget) {

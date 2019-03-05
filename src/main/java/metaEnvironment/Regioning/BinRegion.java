@@ -147,10 +147,10 @@ public class BinRegion extends Group {
     }
 
     public int getMaxY() {
-        return (int) basicTileList.get(basicTileList.size() - 1).getLayoutY();
+        return (int) basicTileList.get(basicTileList.size() - 1).getLayoutY() + 400;
     }
 
     public int getMaxX() {
-        return (int) basicTileList.get(basicTileList.size() - 1).getLayoutX();
+        return (int) basicTileList.get(basicTileList.size() - 1).getLayoutX() + 400;
     }
 }
