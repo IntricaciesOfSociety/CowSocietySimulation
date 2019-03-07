@@ -1,9 +1,7 @@
 package terrain;
 
-import javafx.scene.shape.Rectangle;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.LoadConfiguration;
-import metaEnvironment.Playground;
 import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
 

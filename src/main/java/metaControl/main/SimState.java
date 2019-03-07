@@ -38,6 +38,8 @@ import userInterface.playgroundUI.ResourcesUI;
 import userInterface.playgroundUI.StaticUI;
 import userInterface.playgroundUI.TileUI;
 
+import java.util.ArrayList;
+
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
  */
@@ -212,17 +214,15 @@ public class SimState extends Application {
         primaryStage.setFullScreen(true);
     }
 
-    static void reDraw(Bounds viewport) {
-        /*for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++) {
-            System.out.println("Rectangle X: " + BinRegionHandler.ghostRegions.get(i).getLayoutX() + " Y: " + BinRegionHandler.ghostRegions.get(i).getLayoutY());
-            System.out.println("Region X: " + BinRegionHandler.binRegionMap.get(i).getLayoutX() + " Y: " + BinRegionHandler.binRegionMap.get(i).getLayoutY());
-            if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(viewport)) {
-                if (!Playground.playground.getChildren().contains(BinRegionHandler.binRegionMap.get(i)))
-                    Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(i));
-                else
-                    Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(i));
-            }
-        }*/
+    static void reDraw() {
+        ArrayList<Integer> toDraw = new ArrayList<>();
+
+        for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++)
+            if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight()))
+                toDraw.add(BinRegionHandler.binRegionMap.get(i).getBinId());
+
+        if (!toDraw.isEmpty())
+            BinRegionHandler.setActiveRegions(toDraw);
     }
 
     /**

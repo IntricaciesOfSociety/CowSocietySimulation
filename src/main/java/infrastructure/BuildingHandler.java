@@ -25,6 +25,7 @@ public class BuildingHandler {
         defaultBuilding = BuildingCreation.createResidentialBuilding(
                 AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandomNotFullTile(4)
         );
+        defaultBuilding.toFront();
 
         BuildingCreation.createIndustrialBuilding(
                 AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),

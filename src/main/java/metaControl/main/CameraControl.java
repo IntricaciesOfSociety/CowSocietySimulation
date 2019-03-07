@@ -27,37 +27,17 @@ public class CameraControl {
      * Updates the camera movement based off of the direction set to true.
      */
     static void updateCamera() {
-        Bounds viewport = new Rectangle(0,0, SimState.initialScene.getWidth(), SimState.initialScene.getHeight()).getBoundsInLocal();
-
         //DecideActions
-        if (north) { Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET); SimState.reDraw(viewport); }
-        if (east)  {Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET); SimState.reDraw(viewport); }
-        if (south)  { Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET); SimState.reDraw(viewport); }
-        if (west)  { Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET); SimState.reDraw(viewport); }
+        if (north) Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
+        if (east)  Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
+        if (south)  Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
+        if (west)  Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
 
         //Zooming
         if (zoomIn) zoomCamera(true);
         if (zoomOut) zoomCamera(false);
 
-        /*Rectangle testRec = new Rectangle(40000, 40000, 20000, 20000);
-        testRec.setOpacity(0);
-        Playground.playground.getChildren().add(testRec);
-        //testRec.setOpacity(0);
-        if (testRec.localToScene(testRec.getBoundsInLocal()).intersects(viewport)) {
-            if (!Playground.playground.getChildren().contains(BinRegionHandler.binRegionMap.get(12))) {
-                System.out.println("Here");
-                Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(12));
-            }
-        }
-        else {
-            Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(12));
-        }
-
-
-        if (Playground.playground.getChildren().contains(BinRegionHandler.binRegionMap.get(12)))
-            System.out.println("Drawing 5");
-        else
-            System.out.println("Not Drawing 5");*/
+        SimState.reDraw();
     }
 
     /**
@@ -75,14 +55,13 @@ public class CameraControl {
      * @param direction The direction that the camera is to move in
      */
     static void zoomCamera(boolean direction) {
-
         double delta = 1.2;
         double scale = Playground.playground.getScaleY();
         double oldScale = scale;
 
         if (direction && scale < 2.4)
             scale *= delta;
-        else if (!direction && scale > 200 / Playground.playground.getWidth() * 10)
+        else if (!direction && scale > 0.1)
             scale /= delta;
 
         double f = (scale / oldScale) - 1;

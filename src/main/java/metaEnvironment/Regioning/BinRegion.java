@@ -135,6 +135,7 @@ public class BinRegion extends Group {
 
     public void addTile(Tile tile) {
         basicTileList.add(tile);
+        tile.toBack();
         this.getChildren().add(tile);
     }
 
