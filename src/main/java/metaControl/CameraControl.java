@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class CameraControl {
 
-    private static final double MOVEMENTOFFSET = 10;
+    private static final double MOVEMENTOFFSET = 20;
 
     private static boolean cameraDisable = false;
 
@@ -65,7 +65,7 @@ public class CameraControl {
 
         if (direction && scale < 2.4)
             scale *= delta;
-        else if (!direction && scale > 200 / Playground.playground.getWidth() * 10)
+        else if (!direction && scale > 300 / Playground.playground.getWidth() * 10)
             scale /= delta;
 
         double f = (scale / oldScale) - 1;

@@ -166,7 +166,7 @@ public class AssetLoading {
     @Nullable
     public static Image loadCowRole(String imageName) {
         try {
-            return new Image(new FileInputStream("src/main/resources/Cows/Roles/" + imageName + ".png"), 0, 0, true, false);
+            return new Image(new FileInputStream("src/main/resources/Cows/Roles/" + imageName + ".png"), 37.5, 16.5, true, false);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

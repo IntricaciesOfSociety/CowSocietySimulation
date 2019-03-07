@@ -70,6 +70,8 @@ public class MenuHandler {
         openCowMenus.remove(menu);
 
         Playground.playground.getChildren().remove(menu.stack);
+
+
     }
 
     /**

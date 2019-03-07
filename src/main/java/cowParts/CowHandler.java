@@ -58,7 +58,7 @@ public class CowHandler {
         newCow.skinSprite = cowSprite;
         newCow.setColor(new ColorAdjust());
 
-        newCow.setId("Big Beefy" + new Random().nextInt(1000000));
+        newCow.setId("Cow" + ((char) (new Random().nextInt(26) + 'a')) + new Random().nextInt(10000));
         newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
         newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
         newCow.setEffect(newCow.getColor());

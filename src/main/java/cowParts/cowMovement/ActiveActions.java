@@ -151,6 +151,8 @@ class ActiveActions extends Action {
     static Movement goSpin(@NotNull Cow cowToCheck) {
         cowToCheck.currentAction = "Spinning";
         cowToCheck.setRotate(random.nextInt(360 + 1 + 360) - 360);
+        cowToCheck.self.setBoredom(1);
+        EventLogger.createLoggedEvent(cowToCheck, "Spinning", 0, "boredom", 1);
         cowToCheck.alreadyMoving = false;
         StaticUI.updateActionText();
         return null;
