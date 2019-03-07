@@ -7,9 +7,13 @@ import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Bounds;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import metaEnvironment.LoadConfiguration;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -204,8 +208,11 @@ public class SimState extends Application {
     }
 
     public static void initFullScreen() {
-
         primaryStage.setFullScreen(true);
+    }
+
+    static void reDraw(Bounds viewport) {
+
     }
 
     /**

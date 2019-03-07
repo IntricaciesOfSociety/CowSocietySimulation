@@ -1,7 +1,6 @@
 package metaEnvironment.Regioning;
 
 import metaEnvironment.LoadConfiguration;
-import metaEnvironment.Playground;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
 import resourcesManagement.resourceTypes.WoodSource;
@@ -24,9 +23,6 @@ public class BinRegionHandler {
     public static BinRegion createNewRegion() {
         BinRegion newRegion = new BinRegion(newestRegionId);
         binRegionMap.put(newestRegionId, newRegion);
-        if (newRegion.getBinId() % 2 == 0)
-            Playground.playground.getChildren().add(newRegion);
-
         newestRegionId++;
         return newRegion;
     }

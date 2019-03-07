@@ -2,6 +2,7 @@ package metaControl.main;
 
 import cowParts.Cow;
 import javafx.geometry.Bounds;
+import javafx.scene.shape.Rectangle;
 import metaEnvironment.Playground;
 
 import java.util.Objects;
@@ -25,11 +26,13 @@ public class CameraControl {
      * Updates the camera movement based off of the direction set to true.
      */
     static void updateCamera() {
+        Bounds viewport = new Rectangle(0,0, SimState.initialScene.getWidth(), SimState.initialScene.getHeight()).getBoundsInLocal();
+
         //DecideActions
-        if (north) Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
-        if (east) Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
-        if (south) Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
-        if (west) Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
+        if (north) { Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET); SimState.reDraw(viewport); }
+        if (east)  {Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET); SimState.reDraw(viewport); }
+        if (south)  { Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET); SimState.reDraw(viewport); }
+        if (west)  { Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET); SimState.reDraw(viewport); }
 
         //Zooming
         if (zoomIn) zoomCamera(true);
