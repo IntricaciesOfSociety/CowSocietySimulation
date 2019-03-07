@@ -104,7 +104,7 @@ public class Tile extends ImageView {
      * @return The coordinates for the entrence of the tile
      */
     public static Point2D getEntrance(@NotNull Tile tileToCheck) {
-        return new Point2D(tileToCheck.getLayoutX(),tileToCheck.getLayoutY());
+        return new Point2D(tileToCheck.getLayoutX() + tileToCheck.getRegion().getLayoutX(),tileToCheck.getLayoutY() + tileToCheck.getRegion().getLayoutY());
     }
 
     public BinRegion getRegion() {

@@ -54,9 +54,17 @@ public class BinRegion extends Group {
             return null;
     }
 
+    public ArrayList<AgriculturalBuilding> getAllAgriculturalBuildings() {
+        return agriculturalBuildings;
+    }
+
     public void addAgriculturalBuilding(AgriculturalBuilding agriculturalBuilding) {
         agriculturalBuildings.add(agriculturalBuilding);
         this.getChildren().add(agriculturalBuilding);
+    }
+
+    public ArrayList<CommercialBuilding> getAllCommercialBuildings() {
+        return commercialBuildings;
     }
 
     public void addCommercialBuilding(CommercialBuilding commercialBuilding) {
@@ -64,14 +72,26 @@ public class BinRegion extends Group {
         this.getChildren().add(commercialBuilding);
     }
 
+    public ArrayList<GovernmentalBuilding> getAllGovernmentalBuildings() {
+        return governmentalBuildings;
+    }
+
     public void addGovernmentalBuilding(GovernmentalBuilding governmentalBuilding) {
         governmentalBuildings.add(governmentalBuilding);
         this.getChildren().add(governmentalBuilding);
     }
 
+    public ArrayList<IndustrialBuilding> getAllIndustrialBuildings() {
+        return industrialBuildings;
+    }
+
     public void addIndustrialBuilding(IndustrialBuilding industrialBuilding) {
         industrialBuildings.add(industrialBuilding);
         this.getChildren().add(industrialBuilding);
+    }
+
+    public ArrayList<ResidentialBuilding> getAllResidentialBuildings() {
+        return residentialBuildings;
     }
 
     public void addResidentialBuilding(ResidentialBuilding residentialBuilding) {
@@ -94,15 +114,15 @@ public class BinRegion extends Group {
         this.getChildren().add(waterSource);
     }
 
-    ArrayList<RockSource> getAllRockSources() {
+    public ArrayList<RockSource> getAllRockSources() {
         return rockSources;
     }
 
-    ArrayList<WoodSource> getAllWoodSources() {
+    public ArrayList<WoodSource> getAllWoodSources() {
         return woodSources;
     }
 
-    ArrayList<WaterSource> getAllWaterSources() {
+    public ArrayList<WaterSource> getAllWaterSources() {
         return waterSources;
     }
 

@@ -65,6 +65,7 @@ public class CowFitnessPopup extends GenericMenu {
         stack.getChildren().addAll(background, idText, cognitiveAggregates);
 
         Playground.playground.getChildren().add(stack);
+        stack.toFront();
 
         updateMenu();
     }

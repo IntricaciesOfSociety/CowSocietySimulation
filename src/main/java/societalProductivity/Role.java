@@ -55,11 +55,11 @@ public class Role {
             case "Lumberjack":
                 cowToCheck.currentAction = "Chopping Wood";
                 cowToCheck.setImage(AssetLoading.loadCowRole("LumberJackCow"));
-                return ResourcesHandler.getClosestWoodSource(cowToCheck, cowToCheck.getRegionIn().getBinId());
+                return ResourcesHandler.getClosestWoodSource(cowToCheck);
             case "Miner":
                 cowToCheck.currentAction = "Mining Rock";
                 cowToCheck.setImage(AssetLoading.loadCowRole("MinerCow"));
-                return ResourcesHandler.getClosestRockSource(cowToCheck, cowToCheck.getRegionIn().getBinId());
+                return ResourcesHandler.getClosestRockSource(cowToCheck);
         }
         return null;
     }

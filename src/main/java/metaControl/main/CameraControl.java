@@ -1,6 +1,8 @@
 package metaControl.main;
 
 import cowParts.Cow;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
 import metaEnvironment.Playground;

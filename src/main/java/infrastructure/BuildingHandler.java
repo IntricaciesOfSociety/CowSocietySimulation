@@ -1,13 +1,19 @@
 package infrastructure;
 
 import cowParts.Cow;
+import infrastructure.buildingTypes.CommercialBuilding;
 import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.buildingTypes.GovernmentalBuilding;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
 import org.jetbrains.annotations.Contract;
+import resourcesManagement.resourceTypes.RockSource;
+import technology.CurrentEraTechnology;
 import terrain.Tile;
 import terrain.TileHandler;
+
+import java.util.ArrayList;
 
 /**
  * Handles the management of infrastructure that have been given context within the simulation. Does not handle the building's
@@ -25,7 +31,6 @@ public class BuildingHandler {
         defaultBuilding = BuildingCreation.createResidentialBuilding(
                 AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandomNotFullTile(4)
         );
-        defaultBuilding.toFront();
 
         BuildingCreation.createIndustrialBuilding(
                 AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),
@@ -61,6 +66,10 @@ public class BuildingHandler {
         );
     }
 
+    private static boolean checkBuildingName(GenericBuilding building, String buildingName) {
+        return building.getId().equals(buildingName);
+    }
+
     /**TODO: Implement
      * Assigns the given cow to it's building.
      * @param cowID The cow's ID to find the building assignment from
@@ -75,21 +84,23 @@ public class BuildingHandler {
         return defaultBuilding;
     }
 
-    /**
-     * TODO: Implement
-     * @param cowToCheck
-     * @return
-     */
     public static GenericBuilding getClosestGroceryStore(Cow cowToCheck) {
-        return defaultBuilding;
+        ArrayList<Tile> buildingList = new ArrayList<>();
+
+        for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
+            BinRegionHandler.binRegionMap.get(i).getAllCommercialBuildings().forEach(
+                (building) -> { if (BuildingHandler.checkBuildingName(building, CurrentEraTechnology.getGroceryStoreName())) buildingList.add(building); }
+            );
+
+        return (CommercialBuilding) TileHandler.getClosestTile(cowToCheck, buildingList);
     }
 
-    /**
-     * TODO: Implement
-     * @param cowToCheck
-     * @return
-     */
     public static GenericBuilding getClosestVotingArea(Cow cowToCheck) {
-        return defaultBuilding;
+        ArrayList<Tile> buildingList = new ArrayList<>();
+
+        for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
+            buildingList.addAll(BinRegionHandler.binRegionMap.get(i).getAllGovernmentalBuildings());
+
+        return (GovernmentalBuilding) TileHandler.getClosestTile(cowToCheck, buildingList);
     }
 }

@@ -77,7 +77,8 @@ public class Input {
 
                 GenericBuilding defaultBuilding = BuildingHandler.getDefaultBuilding();
                 CameraControl.moveCamera(
-                        defaultBuilding.getLayoutX(), defaultBuilding.getLayoutY());
+                        defaultBuilding.getLayoutX() + defaultBuilding.getRegion().getLayoutX(), defaultBuilding.getLayoutY() + defaultBuilding.getRegion().getLayoutY()
+                );
             }
 
             //Toggles all cow menus
@@ -88,22 +89,7 @@ public class Input {
 
             //TODO: Remove debug
             if (keyPressed.equals(KeyCode.O)) {
-                for (int i = 0; i < ((LoadConfiguration.isSquareRegionSet()) ? LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getHorizontalRegions() : LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getVerticalRegions()); i++) {
-                    if (!testToggle) {
-                        if (i % 2 != 0)
-                            Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(i));
-                        else
-                            Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(i));
-                    }
-                    else {
-                        if (i % 2 == 0)
-                            Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(i));
-                        else
-                            Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(i));
-                    }
-
-                }
-                testToggle = !testToggle;
+                System.out.println(Playground.playground.getChildren());
             }
 
             //Pause/UnPause simulation

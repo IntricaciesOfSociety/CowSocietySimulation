@@ -64,8 +64,8 @@ public class CowHandler {
 
         BinRegion randRegion = BinRegionHandler.binRegionMap.get(random.nextInt(BinRegionHandler.newestRegionId));
         newCow.setRegionIn(randRegion);
-        newCow.setTranslateX(random.nextInt(randRegion.getMaxX()));
-        newCow.setTranslateY(random.nextInt(randRegion.getMaxY()));
+        newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
+        newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
 
         newCow.setEffect(newCow.getColor());
         newCow.setSmooth(false);

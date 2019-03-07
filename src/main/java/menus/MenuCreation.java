@@ -51,7 +51,7 @@ public class MenuCreation {
      */
    public static GenericMenu createInhabitantsMenu(GenericBuilding buildingToCreateMenuFrom) {
        GenericMenu newInhabitantsMenu = new InhabitantsPopup(buildingToCreateMenuFrom);
-        MenuHandler.addMenuToUpdateCycle(newInhabitantsMenu);
+       MenuHandler.addMenuToUpdateCycle(newInhabitantsMenu);
        return newInhabitantsMenu;
     }
 }
