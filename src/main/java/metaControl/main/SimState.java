@@ -13,6 +13,7 @@ import javafx.stage.Screen;
 import metaEnvironment.LoadConfiguration;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
@@ -212,7 +213,16 @@ public class SimState extends Application {
     }
 
     static void reDraw(Bounds viewport) {
-
+        /*for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++) {
+            System.out.println("Rectangle X: " + BinRegionHandler.ghostRegions.get(i).getLayoutX() + " Y: " + BinRegionHandler.ghostRegions.get(i).getLayoutY());
+            System.out.println("Region X: " + BinRegionHandler.binRegionMap.get(i).getLayoutX() + " Y: " + BinRegionHandler.binRegionMap.get(i).getLayoutY());
+            if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(viewport)) {
+                if (!Playground.playground.getChildren().contains(BinRegionHandler.binRegionMap.get(i)))
+                    Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(i));
+                else
+                    Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(i));
+            }
+        }*/
     }
 
     /**

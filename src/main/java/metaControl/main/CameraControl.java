@@ -4,6 +4,7 @@ import cowParts.Cow;
 import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
 import metaEnvironment.Playground;
+import metaEnvironment.Regioning.BinRegionHandler;
 
 import java.util.Objects;
 
@@ -37,6 +38,26 @@ public class CameraControl {
         //Zooming
         if (zoomIn) zoomCamera(true);
         if (zoomOut) zoomCamera(false);
+
+        /*Rectangle testRec = new Rectangle(40000, 40000, 20000, 20000);
+        testRec.setOpacity(0);
+        Playground.playground.getChildren().add(testRec);
+        //testRec.setOpacity(0);
+        if (testRec.localToScene(testRec.getBoundsInLocal()).intersects(viewport)) {
+            if (!Playground.playground.getChildren().contains(BinRegionHandler.binRegionMap.get(12))) {
+                System.out.println("Here");
+                Playground.playground.getChildren().add(BinRegionHandler.binRegionMap.get(12));
+            }
+        }
+        else {
+            Playground.playground.getChildren().remove(BinRegionHandler.binRegionMap.get(12));
+        }
+
+
+        if (Playground.playground.getChildren().contains(BinRegionHandler.binRegionMap.get(12)))
+            System.out.println("Drawing 5");
+        else
+            System.out.println("Not Drawing 5");*/
     }
 
     /**

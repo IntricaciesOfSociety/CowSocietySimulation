@@ -1,6 +1,8 @@
 package metaEnvironment.Regioning;
 
+import javafx.scene.shape.Rectangle;
 import metaEnvironment.LoadConfiguration;
+import metaEnvironment.Playground;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
 import resourcesManagement.resourceTypes.WoodSource;
@@ -13,6 +15,7 @@ public class BinRegionHandler {
 
     public static ConcurrentHashMap<Integer, BinRegion> binRegionMap = new ConcurrentHashMap<>();
     private static ArrayList<BinRegion> activeRegions = new ArrayList<>();
+    public static ArrayList<Rectangle> ghostRegions = new ArrayList<>();
 
     public static int newestRegionId = 0;
 
@@ -79,5 +82,15 @@ public class BinRegionHandler {
         regionIds.add(((regionIds.get(3) != null) && (regionId <= ((newestRegionId - 1) - LoadConfiguration.getHorizontalRegions())) ? ((regionId + 1) + LoadConfiguration.getHorizontalRegions()) : null));
 
         return regionIds;
+    }
+
+    public static void createGhostRegion(int x, int y, int width, int height, int id) {
+        Rectangle newGhost = new Rectangle();
+        newGhost.relocate(x, y);
+        newGhost.resize(width, height);
+        newGhost.setId(Integer.toString(id));
+        newGhost.setOpacity(0);
+        ghostRegions.add(newGhost);
+        Playground.playground.getChildren().add(newGhost);
     }
 }
