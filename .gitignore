@@ -1,5 +1,22 @@
-.DS_Store
-.idea
-CowSocietySimulation.iml
+# IntellijJ files
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/encodings.xml
+# Gradle files
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+.idea/vcs.xml
+
+.gradle/
+/build/
+/out/
+
+# GitHub files
 README.md
 docs
