@@ -1,62 +1,50 @@
-package buildings;
+package infrastructure.buildingTypes;
 
 import cowParts.Cow;
 import javafx.geometry.Point2D;
-import javafx.scene.CacheHint;
 import javafx.scene.image.Image;
+import menus.MenuCreation;
 import menus.MenuHandler;
-import metaControl.SimState;
+import metaControl.main.SimState;
 import metaEnvironment.AssetLoading;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
 import resourcesManagement.ResourcesHandler;
 import terrain.Tile;
+import terrain.TileHandler;
 
 import java.util.ArrayList;
 
-/**
- * Handles the creation of large dwelling buildings. Called only if building prerequisites have been fulfilled
- * (resources and technology).
- */
-public class LargeBuilding extends Building {
+public class ResidentialBuilding extends GenericBuilding {
 
-    /**
-     * Calls for the creation of a building given an image.
-     * @param buildingSprite The image to create a building from
-     * @param name The name of the building
-     * @param tileToBuildOn The tile that the building will be built on
-     */
-    LargeBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
-        this.setCacheHint(CacheHint.SPEED);
-
-        if (tileToBuildOn != null)
-            constructBuilding(buildingSprite, name, tileToBuildOn);
-        else
-            System.out.println("Cannot construct " + name);
+    public ResidentialBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+        constructBuilding(buildingSprite, buildingName, tileToBuildOn);
     }
 
     /**
      * @inheritDoc
      */
     @Override
-    public void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
-        this.setId(buildingName);
+    void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+        int tileSize = TileHandler.getSize(buildingSprite);
 
-        this.buildingSprite = buildingSprite;
-        this.setImage(AssetLoading.largeUnderConstructionSprite);
+        if (tileToBuildOn.tieToObject(this, tileSize)) {
+            this.setImage((tileSize < 4) ? AssetLoading.smallUnderConstructionSprite : AssetLoading.largeUnderConstructionSprite);
+            this.setId(buildingName);
+            this.buildingSprite = buildingSprite;
 
-        this.streetAddress = random.nextInt(500) + " Cow Drive";
+            this.region = tileToBuildOn.getRegion();
+            this.streetAddress = random.nextInt(500) + " Cow Drive";
 
-        this.buildingRequirement = new ResourceRequirement(0, 10, 1);
+            this.buildingRequirement = new ResourceRequirement(0, 10, 1);
 
-        if (SimState.getSimState().equals("TileView"))
-            this.setOpacity(0.5);
+            if (SimState.getSimState().equals("TileView"))
+                this.setOpacity(0.5);
 
-        if (tileToBuildOn.tieToObject(this, Tile.getSize(buildingSprite))) {
-            BuildingHandler.buildingsList.add(this);
-            Building.setBuildingType(this);
+            tileToBuildOn.getRegion().addResidentialBuilding(this);
             buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
+
+            tileToBuildOn.getRegion().addToBuildQueue(this);
         }
     }
 
@@ -75,9 +63,10 @@ public class LargeBuilding extends Building {
      * @inheritDoc
      */
     @Override
-    public void finishConstruction() {
+    void finishConstruction() {
         this.setImage(this.buildingSprite);
         this.isConstructed = true;
+        this.region.removeFromConstructionQueue(this);
     }
 
     /**
@@ -109,31 +98,20 @@ public class LargeBuilding extends Building {
      */
     @Override
     public void toggleInhabitantsMenu() {
-        if (this.inhabitantsMenuOpened) {
+        if (inhabitantsMenu != null) {
             MenuHandler.closeMenu(this.inhabitantsMenu);
-            this.inhabitantsMenuOpened = false;
+            inhabitantsMenu = null;
         }
-        else {
-            this.inhabitantsMenu = MenuHandler.createInhabitantsMenu(this);
-            this.inhabitantsMenuOpened = true;
-        }
+        else if (this.isConstructed)
+            this.inhabitantsMenu = MenuCreation.createInhabitantsMenu(this);
     }
 
     /**
      * @inheritDoc
      */
-    @Contract(pure = true)
     @Override
     public String getStreetAddress() {
         return this.streetAddress;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Override
-    public Tile getBuildingAsBuildingTile() {
-        return this;
     }
 
     /**

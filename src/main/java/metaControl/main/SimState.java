@@ -1,14 +1,20 @@
-package metaControl;
+package metaControl.main;
 
-import buildings.BuildingHandler;
+import infrastructure.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowMovement.DecideActions;
 import cowParts.cowMovement.ExecuteAction;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import menus.StatsViewMenu;
-import menus.StoryViewMenu;
+import javafx.geometry.Bounds;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
+import metaEnvironment.LoadConfiguration;
+import metaControl.Time;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.Regioning.BinRegion;
+import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +30,15 @@ import javafx.stage.Stage;
 import menus.MenuHandler;
 import societalProductivity.Issue;
 import societalProductivity.cityPlanning.CityControl;
-import terrain.Tile;
-import userInterface.PlaygroundUI;
+import terrain.TileHandler;
+import userInterface.playgroundUI.PlaygroundUIHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import userInterface.ResourcesUI;
-import userInterface.StaticUI;
-import userInterface.TileUI;
+import userInterface.playgroundUI.ResourcesUI;
+import userInterface.playgroundUI.StaticUI;
+import userInterface.playgroundUI.TileUI;
+
+import java.util.ArrayList;
 
 /**
  * Controls all the main loops for the simulation: updating, drawing, menu management, and general javafx initialization
@@ -117,7 +125,7 @@ public class SimState extends Application {
         AssetLoading.loadBaseAssets();
         Playground.init();
 
-        Tile.createTiles();
+        TileHandler.init();
         BuildingHandler.init();
         ResourcesHandler.init();
 
@@ -125,10 +133,12 @@ public class SimState extends Application {
 
         Issue.init();
         CowHandler.init();
-        PlaygroundUI.init();
+        PlaygroundUIHandler.init();
 
-        root.getChildren().addAll(Playground.playground,
-                PlaygroundUI.resourcesUI, PlaygroundUI.buildingUI, PlaygroundUI.staticUI
+        Platform.runLater(() ->
+            root.getChildren().addAll(
+                    Playground.playground, PlaygroundUIHandler.resourcesUI, PlaygroundUIHandler.buildingUI, PlaygroundUIHandler.staticUI
+            )
         );
 
         Input.enableInput(initialScene);
@@ -201,8 +211,18 @@ public class SimState extends Application {
     }
 
     public static void initFullScreen() {
-
         primaryStage.setFullScreen(true);
+    }
+
+    static void reDraw() {
+        ArrayList<Integer> toDraw = new ArrayList<>();
+
+        for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++)
+            if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight()))
+                toDraw.add(BinRegionHandler.binRegionMap.get(i).getBinId());
+
+        if (!toDraw.isEmpty())
+            BinRegionHandler.setActiveRegions(toDraw);
     }
 
     /**
@@ -221,10 +241,10 @@ public class SimState extends Application {
                 TileUI.updateUIPlacements();
             if (ResourcesUI.isOpened())
                 ResourcesUI.updateUIPlacements();
-            if (StoryViewMenu.isOpened())
-                StoryViewMenu.updateUIPlacements();
-            if (StatsViewMenu.isOpened())
-                StatsViewMenu.updateUIPlacements();
+            if (MenuHandler.getCurrentStoryMenu() != null)
+                MenuHandler.updateMenuOnce(MenuHandler.getCurrentStoryMenu());
+            if (MenuHandler.getCurrentStatsMenu() != null)
+                MenuHandler.updateMenuOnce(MenuHandler.getCurrentStatsMenu());
         };
 
         primaryStage.widthProperty().addListener(stageSizeListener);

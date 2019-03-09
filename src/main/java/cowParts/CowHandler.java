@@ -1,19 +1,21 @@
 package cowParts;
 
-import buildings.BuildingHandler;
+import infrastructure.BuildingHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
-import metaControl.LoadConfiguration;
+import metaEnvironment.LoadConfiguration;
 import metaControl.Time;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.Regioning.BinRegion;
+import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.logging.EventLogger;
 import metaEnvironment.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import societalProductivity.Role;
-import userInterface.StaticUI;
+import userInterface.playgroundUI.StaticUI;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -48,7 +50,7 @@ public class CowHandler {
 
     /**
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
-     * for the cow to be used in PlaygroundUI.
+     * for the cow to be used in PlaygroundUIHandler.
      */
     static Cow createCow(Cow parent1, Cow parent2) {
         Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
@@ -59,8 +61,12 @@ public class CowHandler {
         newCow.setColor(new ColorAdjust());
 
         newCow.setId("Cow" + ((char) (new Random().nextInt(26) + 'a')) + new Random().nextInt(10000));
-        newCow.setTranslateX(random.nextInt( (int) Playground.playground.getPrefWidth()));
-        newCow.setTranslateY(random.nextInt( (int) Playground.playground.getPrefHeight()));
+
+        BinRegion randRegion = BinRegionHandler.binRegionMap.get(random.nextInt(BinRegionHandler.newestRegionId));
+        newCow.setRegionIn(randRegion);
+        newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
+        newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
+
         newCow.setEffect(newCow.getColor());
         newCow.setSmooth(false);
 

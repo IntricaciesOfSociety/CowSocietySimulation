@@ -1,8 +1,12 @@
-package metaControl;
+package metaControl.main;
 
 import cowParts.Cow;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
+import javafx.scene.shape.Rectangle;
 import metaEnvironment.Playground;
+import metaEnvironment.Regioning.BinRegionHandler;
 
 import java.util.Objects;
 
@@ -12,8 +16,6 @@ import java.util.Objects;
 public class CameraControl {
 
     private static final double MOVEMENTOFFSET = 10;
-
-    private static boolean cameraDisable = false;
 
     private static boolean
             north = false,
@@ -28,19 +30,16 @@ public class CameraControl {
      */
     static void updateCamera() {
         //DecideActions
-        if (north) Playground.playground.setTranslateY(Playground.playground.getTranslateY() + MOVEMENTOFFSET);
-        if (east) Playground.playground.setTranslateX(Playground.playground.getTranslateX() - MOVEMENTOFFSET);
-        if (south) Playground.playground.setTranslateY(Playground.playground.getTranslateY() - MOVEMENTOFFSET);
-        if (west) Playground.playground.setTranslateX(Playground.playground.getTranslateX() + MOVEMENTOFFSET);
+        if (north) Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
+        if (east)  Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
+        if (south)  Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
+        if (west)  Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
 
         //Zooming
-        if (zoomIn) {
-            zoomCamera(true);
-        }
-        if (zoomOut) {
-            zoomCamera(false);
-        }
+        if (zoomIn) zoomCamera(true);
+        if (zoomOut) zoomCamera(false);
 
+        SimState.reDraw();
     }
 
     /**
@@ -49,8 +48,8 @@ public class CameraControl {
      * @param yCoord The y coordinate to move to
      */
     static void moveCamera(double xCoord, double yCoord) {
-        Playground.playground.setTranslateX(-xCoord + SimState.initialScene.getWidth() / 2.0);
-        Playground.playground.setTranslateY(-yCoord + SimState.initialScene.getHeight() / 2.0);
+        Playground.playground.setLayoutX(-xCoord + SimState.initialScene.getWidth() / 2.0);
+        Playground.playground.setLayoutY(-yCoord + SimState.initialScene.getHeight() / 2.0);
     }
 
     /**
@@ -58,14 +57,13 @@ public class CameraControl {
      * @param direction The direction that the camera is to move in
      */
     static void zoomCamera(boolean direction) {
-
         double delta = 1.2;
         double scale = Playground.playground.getScaleY();
         double oldScale = scale;
 
         if (direction && scale < 2.4)
             scale *= delta;
-        else if (!direction && scale > 200 / Playground.playground.getWidth() * 10)
+        else if (!direction && scale > 0.1)
             scale /= delta;
 
         double f = (scale / oldScale) - 1;
@@ -80,8 +78,8 @@ public class CameraControl {
         Playground.playground.setScaleY(scale);
 
         //Applying the new translation
-        Playground.playground.setTranslateX(Playground.playground.getTranslateX() - f * dx);
-        Playground.playground.setTranslateY(Playground.playground.getTranslateY() - f * dy);
+        Playground.playground.setLayoutX(Playground.playground.getLayoutX() - f * dx);
+        Playground.playground.setLayoutY(Playground.playground.getLayoutY() - f * dy);
     }
 
     /**
@@ -98,21 +96,7 @@ public class CameraControl {
      */
     public static void moveCameraToCow(Cow cowToMoveTo) {
         resetZoom();
-        moveCamera(Objects.requireNonNull(cowToMoveTo).getTranslateX(), cowToMoveTo.getTranslateY());
-    }
-
-    /**
-     * Disables the 'camera' from moving
-     */
-    public static void disableCamera() {
-        cameraDisable = true;
-    }
-
-    /**
-     * Enables the 'camera' so that it can move again
-     */
-    public static void enableCamera() {
-        cameraDisable = false;
+        moveCamera(Objects.requireNonNull(cowToMoveTo).getLayoutX(), cowToMoveTo.getLayoutY());
     }
 
     static void setNorth(boolean moving) {

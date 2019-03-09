@@ -1,6 +1,7 @@
 package cowParts.cowMovement;
 
-import buildings.Building;
+import infrastructure.BuildingHandler;
+import infrastructure.buildingTypes.GenericBuilding;
 import cowParts.Cow;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
@@ -10,7 +11,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
-import metaControl.SimState;
+import metaControl.main.SimState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
@@ -34,10 +35,12 @@ class Movement extends Action {
             cowToMove.setDestination(destination.startBehavior());
             cowToMove.alreadyMoving = true;
 
-            PathTransition newMovement = null;
+            PathTransition newMovement;
 
-            if (destination.startBehavior() instanceof Tile)
+            if (destination.startBehavior() instanceof Tile) {
+                cowToMove.setRegionIn(((Tile) destination.startBehavior()).getRegion());
                 newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            }
             else
                 newMovement = animateTowardsDestination(cowToMove, (Point2D) destination.startBehavior());
 
@@ -81,7 +84,7 @@ class Movement extends Action {
 
     /**TODO: Move to an action?
      * 'Pauses' the movement of the current cow by setting an animation for however long was given. Used for staying within
-     * buildings along with making tasks take time.
+     * infrastructure along with making tasks take time.
      * @param stopDuration The duration that the 'empty' animation lasts. 0.01 of a second.
      */
     static void pauseMovement(int stopDuration, @NotNull Cow cowToMove) {
@@ -90,7 +93,7 @@ class Movement extends Action {
             cowToMove.alreadyMoving = false;
 
             if (cowToMove.isHidden())
-                Building.exitBuilding(cowToMove, cowToMove.getBuildingIn());
+                BuildingHandler.exitBuilding(cowToMove, cowToMove.getBuildingIn());
 
             cowToMove.setImage(cowToMove.skinSprite);
         });

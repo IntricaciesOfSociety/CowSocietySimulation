@@ -4,10 +4,11 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.effect.ColorAdjust;
+import metaEnvironment.LoadConfiguration;
 import org.jetbrains.annotations.Contract;
-import resourcesManagement.WoodSource;
+import resourcesManagement.resourceTypes.WoodSource;
 import societalProductivity.government.Government;
-import userInterface.StaticUI;
+import userInterface.playgroundUI.StaticUI;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,7 +20,7 @@ import java.util.Random;
  */
 public class Time {
 
-    static boolean timeHasStarted = false;
+    public static boolean timeHasStarted = false;
 
     Date date;
 
@@ -41,7 +42,7 @@ public class Time {
     /**
      * Updates the sim time according to the main loop.
      */
-    static void updateTime() {
+    public static void updateTime() {
         timeInDay += ((timeInDay < 2401) ? 1 : -timeInDay);
         if (timeInDay == 2400)
             newDayEvent();
@@ -113,8 +114,7 @@ public class Time {
     }
 
     private static void repopulateResources() {
-        if (WoodSource.getNumberOfSources() < (LoadConfiguration.getInitialLargeTrees() + LoadConfiguration.getInitialSmallTrees()))
-            WoodSource.repopulate();
+        WoodSource.repopulate();
     }
 
     /**
