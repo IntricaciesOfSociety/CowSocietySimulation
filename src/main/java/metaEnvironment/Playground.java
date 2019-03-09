@@ -1,12 +1,16 @@
 package metaEnvironment;
 
+import menus.MenuCreation;
 import metaControl.*;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import menus.MenuHandler;
+import metaControl.main.CameraControl;
+import metaControl.main.Input;
+import metaControl.main.SimState;
 import org.jetbrains.annotations.NotNull;
-import userInterface.StaticUI;
+import userInterface.playgroundUI.StaticUI;
 
 /**
  * Creates and handles the switching of the panes within the main window (the playground).
@@ -31,10 +35,11 @@ public class Playground {
         if (LoadConfiguration.getFullscreen())
             SimState.initFullScreen();
 
+        int sideX = (LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
+        int sideY = (LoadConfiguration.isSquareRegionSet()) ? sideX :
+                (LoadConfiguration.getVerticalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
         playground = motion;
-        playground.setMinSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);
-        playground.setPrefSize(LoadConfiguration.getStartingSize() * 400, LoadConfiguration.getStartingSize() * 400);
-        playground.autosize();
+        playground.setPrefSize(sideX, sideY);
         motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();
 
@@ -61,10 +66,9 @@ public class Playground {
                 playground = detailedView;
 
                 StaticUI.disableUI();
-                CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenuView(Input.selectedCows);
+                MenuCreation.createStatsVeiwMenu(Input.selectedCows);
                 break;
 
             case "StoryView":
@@ -72,10 +76,9 @@ public class Playground {
                 playground = storyView;
 
                 StaticUI.disableUI();
-                CameraControl.disableCamera();
 
                 SimState.addPlayground(playground);
-                MenuHandler.createMenuView(Input.selectedCows);
+                MenuCreation.createStoryViewMenu(Input.selectedCows);
                 break;
 
             case "Motion":
@@ -84,7 +87,6 @@ public class Playground {
 
                 StaticUI.enableUI();
                 SimState.addPlayground(playground);
-                CameraControl.enableCamera();
                 break;
         }
     }

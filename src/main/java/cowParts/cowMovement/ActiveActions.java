@@ -1,21 +1,21 @@
 package cowParts.cowMovement;
 
-import buildings.Building;
-import buildings.BuildingHandler;
+import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.BuildingHandler;
 import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import metaControl.SimState;
+import metaControl.main.SimState;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import resourcesManagement.WaterSource;
+import resourcesManagement.ResourcesHandler;
 import societalProductivity.Role;
 import societalProductivity.government.Economy;
 import societalProductivity.government.Government;
-import userInterface.StaticUI;
+import userInterface.playgroundUI.StaticUI;
 
 import java.util.Random;
 
@@ -34,6 +34,7 @@ class ActiveActions extends Action {
             cowToMakeMovement.currentAction = currentAction;
 
         StaticUI.updateActionText();
+
         return (new Movement(
                 () -> destination,
                 finishBehavior,
@@ -60,7 +61,7 @@ class ActiveActions extends Action {
 
     @NotNull
     private static Movement getWater(Cow cowToCheck) {
-        return returnAction(cowToCheck, WaterSource.getClosestResource(cowToCheck), "Getting Water",
+        return returnAction(cowToCheck, ResourcesHandler.getClosestWaterSource(cowToCheck), "Getting Water",
             () -> {
                 EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100 - cowToCheck.self.getThirst());
                 cowToCheck.self.setThirst(100);
@@ -100,7 +101,7 @@ class ActiveActions extends Action {
         cowToCheck.setHasVoted(true);
         return returnAction(cowToCheck, BuildingHandler.getClosestVotingArea(cowToCheck), "Voting",
             () -> {
-                Building.enterBuilding(cowToCheck, (Building) cowToCheck.getDestination());
+                BuildingHandler.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
                 Government.vote(CowHandler.liveCowList.get(random.nextInt(CowHandler.liveCowList.size())));
 
                 EventLogger.createLoggedEvent(cowToCheck, "Voting", 0, "trust", 10);
@@ -115,7 +116,7 @@ class ActiveActions extends Action {
     static Movement goHome(@NotNull Cow cowToCheck) {
         return returnAction(cowToCheck, cowToCheck.getLivingSpace(), "Going Home",
             () -> {
-                Building.enterBuilding(cowToCheck, (Building) cowToCheck.getDestination());
+                BuildingHandler.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
 
                 EventLogger.createLoggedEvent(cowToCheck, "Going home", 0, "sleepiness", 100 - cowToCheck.self.getSleepiness());
                 cowToCheck.self.setSleepiness(100);

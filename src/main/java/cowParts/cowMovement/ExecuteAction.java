@@ -4,7 +4,7 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.animation.PathTransition;
 import javafx.scene.shape.Rectangle;
-import userInterface.StaticUI;
+import userInterface.playgroundUI.StaticUI;
 
 public class ExecuteAction {
 

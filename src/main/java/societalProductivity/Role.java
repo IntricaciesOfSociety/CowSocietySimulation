@@ -1,15 +1,14 @@
 package societalProductivity;
 
-import buildings.Building;
-import buildings.BuildingHandler;
+import infrastructure.buildingTypes.GenericBuilding;
 import cowParts.Cow;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import resourcesManagement.Resource;
+import resourcesManagement.resourceTypes.GenericResource;
 import resourcesManagement.ResourcesHandler;
-import resourcesManagement.RockSource;
-import resourcesManagement.WoodSource;
+import resourcesManagement.resourceTypes.RockSource;
+import resourcesManagement.resourceTypes.WoodSource;
 import societalProductivity.government.Government;
 
 import java.util.Random;
@@ -48,48 +47,47 @@ public class Role {
             case "Carpenter":
                 cowToCheck.currentAction = "Wood Constructing";
                 cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
-                return BuildingHandler.nextHouseToConstruct();
+                return cowToCheck.getRegionIn().getNextToConstruct();
             case "Mason":
                 cowToCheck.currentAction = "Rock Constructing";
                 cowToCheck.setImage(AssetLoading.loadCowRole("ConstructionCow"));
-                return BuildingHandler.nextHouseToConstruct();
+                return cowToCheck.getRegionIn().getNextToConstruct();
             case "Lumberjack":
                 cowToCheck.currentAction = "Chopping Wood";
                 cowToCheck.setImage(AssetLoading.loadCowRole("LumberJackCow"));
-                return WoodSource.getClosestResource(cowToCheck);
+                return ResourcesHandler.getClosestWoodSource(cowToCheck);
             case "Miner":
                 cowToCheck.currentAction = "Mining Rock";
                 cowToCheck.setImage(AssetLoading.loadCowRole("MinerCow"));
-                return RockSource.getClosestResource(cowToCheck);
+                return ResourcesHandler.getClosestRockSource(cowToCheck);
         }
         return null;
     }
 
-
     public static void getRoleCompletionBehavior(@NotNull Cow cowToCheck) {
         switch (cowToCheck.getJob()) {
             case "Carpenter":
-                if ( !((Building) cowToCheck.getDestination()).isConstructed() ) {
-                    ((Building) cowToCheck.getDestination()).contributeResource("wood", 5);
-                    ((Building) cowToCheck.getDestination()).contributeResource("power", 1);
+                if ( !((GenericBuilding) cowToCheck.getDestination()).isConstructed() ) {
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("wood", 5);
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("power", 1);
                 }
                 break;
             case "Mason":
-                if ( !((Building) cowToCheck.getDestination()).isConstructed() ) {
-                    ((Building) cowToCheck.getDestination()).contributeResource("rock", 5);
-                    ((Building) cowToCheck.getDestination()).contributeResource("power", 1);
+                if ( !((GenericBuilding) cowToCheck.getDestination()).isConstructed() ) {
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("rock", 5);
+                    ((GenericBuilding) cowToCheck.getDestination()).contributeResource("power", 1);
                 }
                 break;
             case "Lumberjack":
                 if ( !((WoodSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("wood", 5);
-                    Resource.depleteResource((WoodSource) cowToCheck.getDestination(), 5);
+                    GenericResource.depleteResource((WoodSource) cowToCheck.getDestination(), 5);
                 }
                 break;
             case "Miner":
                 if ( !((RockSource) cowToCheck.getDestination()).isDestroyed() ) {
                     ResourcesHandler.modifyResource("rock", 5);
-                    Resource.depleteResource((RockSource) cowToCheck.getDestination(), 5);
+                    GenericResource.depleteResource((RockSource) cowToCheck.getDestination(), 5);
                 }
                 break;
         }

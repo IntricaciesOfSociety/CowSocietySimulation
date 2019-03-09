@@ -1,4 +1,4 @@
-package metaControl;
+package metaEnvironment;
 
 import org.ini4j.Ini;
 import org.jetbrains.annotations.Contract;
@@ -14,13 +14,16 @@ public class LoadConfiguration {
 
     //[Meta]
     private static boolean isFullscreen;
+    private static int binRegionSize;
 
     //[SituationConfig]
     private static String primaryEra = "";
     private static int initialPopulation;
-    private static int startingSize;
 
     //[Tiles]
+    private static boolean squareRegionSet;
+    private static int verticalRegions;
+    private static int horizontalRegions;
     private static String basicTileName;
     private static int mountainBiomes;
     private static int desertBiomes;
@@ -46,7 +49,7 @@ public class LoadConfiguration {
     /**
      * Loads the configuration file
      */
-    static void loadConfigurationFile() {
+    public static void loadConfigurationFile() {
         Ini ini = null;
         try {
             ini = new Ini(new File("src/main/configuration.ini"));
@@ -63,11 +66,14 @@ public class LoadConfiguration {
      */
     private static void setConfiguration(@NotNull Ini ini) {
         isFullscreen = Boolean.parseBoolean(ini.get("Meta", "fullscreen"));
+        binRegionSize = Integer.parseInt(ini.get("Meta", "binRegionSize"));
 
         primaryEra = ini.get("SituationConfig", "era");
         initialPopulation = Integer.parseInt(ini.get("SituationConfig", "population"));
-        startingSize = Integer.parseInt(ini.get("SituationConfig", "startingsize"));
 
+        squareRegionSet = Boolean.parseBoolean(ini.get("Tiles", "squareRegionSet"));
+        horizontalRegions = Integer.parseInt(ini.get("Tiles", "horizontalRegions"));
+        verticalRegions = Integer.parseInt(ini.get("Tiles", "verticalRegions"));
         basicTileName = ini.get("Tiles", "basictile");
         mountainBiomes = Integer.parseInt(ini.get("Tiles", "mountainBiomes"));
         desertBiomes = Integer.parseInt(ini.get("Tiles", "desertBiomes"));
@@ -127,11 +133,6 @@ public class LoadConfiguration {
         return basicLargeDwelling;
     }
 
-    @Contract(pure = true)
-    public static int getStartingSize() {
-        return startingSize;
-    }
-
     public static int getInitialLargeRocks() {
         return initialLargeRocks;
     }
@@ -164,7 +165,23 @@ public class LoadConfiguration {
         return cityName;
     }
 
-    public static boolean getFullscreen() {
+    static boolean getFullscreen() {
         return isFullscreen;
+    }
+
+    public static int getBinRegionSize() {
+        return binRegionSize;
+    }
+
+    public static boolean isSquareRegionSet() {
+        return squareRegionSet;
+    }
+
+    public static int getVerticalRegions() {
+        return verticalRegions;
+    }
+
+    public static int getHorizontalRegions() {
+        return horizontalRegions;
     }
 }

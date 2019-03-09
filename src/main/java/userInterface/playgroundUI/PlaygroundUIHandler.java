@@ -1,11 +1,11 @@
-package userInterface;
+package userInterface.playgroundUI;
 
 import javafx.scene.Group;
 
 /**
  * Creates and handles the UI for the playground.
  */
-public class PlaygroundUI {
+public class PlaygroundUIHandler {
 
     //The root nodes for all UI elements
     //TODO: Change scope to getters

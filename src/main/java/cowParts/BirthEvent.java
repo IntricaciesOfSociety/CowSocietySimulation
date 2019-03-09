@@ -18,7 +18,6 @@ public class BirthEvent {
     //TODO: Make an actual date (Not just a time)
     private Date birthDay;
 
-
     private int fertility = random.nextInt(100);
 
     private ArrayList<Cow> offspring = new ArrayList<>();
@@ -55,6 +54,7 @@ public class BirthEvent {
 
         Cow newCow = CowHandler.createCow(parent1, parent2);
 
+        newCow.setRegionIn(parent1.getRegionIn());
         newCow.self.setAge(-newCow.self.getAge() + 1);
 
         DecideActions.decideActions(newCow);
