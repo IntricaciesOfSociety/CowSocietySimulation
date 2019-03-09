@@ -66,13 +66,13 @@ public abstract class GenericBuilding extends Tile {
      * Adds as an inhabitant by adding the cow to the inhabitants list.
      * @param inhabitant The cow to be added as an inhabitant
      */
-    abstract void addInhabitant(Cow inhabitant);
+    public abstract void addInhabitant(Cow inhabitant);
 
     /**
      * Removes an inhabitant by removing the cow from the inhabitants list.
      * @param inhabitant The cow to be added as an inhabitant
      */
-    abstract void removeInhabitant(Cow inhabitant);
+    public abstract void removeInhabitant(Cow inhabitant);
 
     /**
      * Returns the list of all inhabitants within this building.
@@ -102,31 +102,4 @@ public abstract class GenericBuilding extends Tile {
      * @return If the building this method is called upon is constructed or not.
      */
     public abstract boolean isConstructed();
-
-    /**
-     * Adds the given cow to the given building and updates that cow's animation accordingly.
-     * @param cowToMove The cow to be added into the building
-     * @param buildingToMoveInto The building to add the cow into
-     */
-    public static void enterBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToMoveInto) {
-        cowToMove.hide();
-        cowToMove.setBuildingIn((GenericBuilding) buildingToMoveInto);
-
-        ((GenericBuilding) buildingToMoveInto).addInhabitant(cowToMove);
-    }
-
-    /**
-     * Removes the cow from the building that it is in.
-     * @param cowToMove The cow to remove from the building
-     * @param buildingToExitFrom The building to remove the given cow from
-     */
-    public static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
-        ((GenericBuilding)buildingToExitFrom).removeInhabitant(cowToMove);
-        cowToMove.setBuildingIn(null);
-
-        cowToMove.setTranslateX(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2);
-        cowToMove.setTranslateY(buildingToExitFrom.getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
-
-        cowToMove.show();
-    }
 }

@@ -25,7 +25,8 @@ public class InhabitantsPopup extends GenericMenu {
         this.background = new Rectangle(100, 50, Color.BLACK);
         this.objectTie = objectTie;
         this.stack.relocate(
-                ((GenericBuilding) objectTie).getLayoutX() + 175, ((GenericBuilding) objectTie).getLayoutY() + 175
+                ((GenericBuilding) objectTie).getLayoutX() + ((GenericBuilding) objectTie).getRegion().getLayoutX() + 175,
+                ((GenericBuilding) objectTie).getLayoutY() + ((GenericBuilding) objectTie).getRegion().getLayoutY() + 175
         );
 
         numberOfInhabitants = new Text(Integer.toString(((GenericBuilding) objectTie).getCurrentInhabitants().size()));

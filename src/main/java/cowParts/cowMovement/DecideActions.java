@@ -40,7 +40,6 @@ public class DecideActions {
      */
     public static void decideActions(@NotNull Cow cowToCheck) {
         cowToCheck.updateVitals();
-        Collision.checkForCollision(cowToCheck);
 
         //Only one movement action at a time
         if (!cowToCheck.alreadyMoving && decideMovement(cowToCheck) != null)

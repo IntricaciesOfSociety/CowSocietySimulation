@@ -73,7 +73,7 @@ public class ResidentialBuilding extends GenericBuilding {
      * @inheritDoc
      */
     @Override
-    void addInhabitant(Cow inhabitant) {
+    public void addInhabitant(Cow inhabitant) {
         this.currentInhabitants.add(inhabitant);
     }
 
@@ -81,7 +81,7 @@ public class ResidentialBuilding extends GenericBuilding {
      * @inheritDoc
      */
     @Override
-    void removeInhabitant(Cow inhabitant) {
+    public void removeInhabitant(Cow inhabitant) {
         this.currentInhabitants.remove(inhabitant);
     }
 
@@ -102,7 +102,7 @@ public class ResidentialBuilding extends GenericBuilding {
             MenuHandler.closeMenu(this.inhabitantsMenu);
             inhabitantsMenu = null;
         }
-        else
+        else if (this.isConstructed)
             this.inhabitantsMenu = MenuCreation.createInhabitantsMenu(this);
     }
 

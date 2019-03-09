@@ -8,7 +8,7 @@ import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
 import org.jetbrains.annotations.Contract;
-import resourcesManagement.resourceTypes.RockSource;
+import org.jetbrains.annotations.NotNull;
 import technology.CurrentEraTechnology;
 import terrain.Tile;
 import terrain.TileHandler;
@@ -53,6 +53,33 @@ public class BuildingHandler {
                         (building) -> building.setOpacity(0.5)
                 )
         );
+    }
+
+    /**
+     * Adds the given cow to the given building and updates that cow's animation accordingly.
+     * @param cowToMove The cow to be added into the building
+     * @param buildingToMoveInto The building to add the cow into
+     */
+    public static void enterBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToMoveInto) {
+        cowToMove.hide();
+        cowToMove.setBuildingIn((GenericBuilding) buildingToMoveInto);
+
+        ((GenericBuilding) buildingToMoveInto).addInhabitant(cowToMove);
+    }
+
+    /**
+     * Removes the cow from the building that it is in.
+     * @param cowToMove The cow to remove from the building
+     * @param buildingToExitFrom The building to remove the given cow from
+     */
+    public static void exitBuilding(@NotNull Cow cowToMove, @NotNull Tile buildingToExitFrom) {
+        ((GenericBuilding)buildingToExitFrom).removeInhabitant(cowToMove);
+        cowToMove.setBuildingIn(null);
+
+        cowToMove.setTranslateX(buildingToExitFrom.getLayoutX() + buildingToExitFrom.getRegion().getLayoutX() + buildingToExitFrom.getImage().getWidth() / 2);
+        cowToMove.setTranslateY(buildingToExitFrom.getLayoutY() + buildingToExitFrom.getRegion().getLayoutY() + buildingToExitFrom.getImage().getHeight() + 75);
+
+        cowToMove.show();
     }
 
     /**

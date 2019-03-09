@@ -150,8 +150,10 @@ public class Cow extends ImageView {
      * cow's link from PlaygroundUIHandler. Logs the death event as a city-wide important event.
      */
     public void kill() {
-        if (cowMenu != null)
+        if (cowMenu != null) {
             MenuHandler.closeMenu(this.cowMenu);
+            Input.selectedCows.remove(this);
+        }
 
         if (animation != null)
             animation.stop();

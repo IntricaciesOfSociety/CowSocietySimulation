@@ -1,5 +1,6 @@
 package cowParts.cowMovement;
 
+import infrastructure.BuildingHandler;
 import infrastructure.buildingTypes.GenericBuilding;
 import cowParts.Cow;
 import javafx.animation.PathTransition;
@@ -40,7 +41,6 @@ class Movement extends Action {
                 cowToMove.setRegionIn(((Tile) destination.startBehavior()).getRegion());
                 newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
             }
-
             else
                 newMovement = animateTowardsDestination(cowToMove, (Point2D) destination.startBehavior());
 
@@ -93,7 +93,7 @@ class Movement extends Action {
             cowToMove.alreadyMoving = false;
 
             if (cowToMove.isHidden())
-                GenericBuilding.exitBuilding(cowToMove, cowToMove.getBuildingIn());
+                BuildingHandler.exitBuilding(cowToMove, cowToMove.getBuildingIn());
 
             cowToMove.setImage(cowToMove.skinSprite);
         });

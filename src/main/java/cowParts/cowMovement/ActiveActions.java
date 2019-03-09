@@ -101,7 +101,7 @@ class ActiveActions extends Action {
         cowToCheck.setHasVoted(true);
         return returnAction(cowToCheck, BuildingHandler.getClosestVotingArea(cowToCheck), "Voting",
             () -> {
-                GenericBuilding.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
+                BuildingHandler.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
                 Government.vote(CowHandler.liveCowList.get(random.nextInt(CowHandler.liveCowList.size())));
 
                 EventLogger.createLoggedEvent(cowToCheck, "Voting", 0, "trust", 10);
@@ -116,7 +116,7 @@ class ActiveActions extends Action {
     static Movement goHome(@NotNull Cow cowToCheck) {
         return returnAction(cowToCheck, cowToCheck.getLivingSpace(), "Going Home",
             () -> {
-                GenericBuilding.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
+                BuildingHandler.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
 
                 EventLogger.createLoggedEvent(cowToCheck, "Going home", 0, "sleepiness", 100 - cowToCheck.self.getSleepiness());
                 cowToCheck.self.setSleepiness(100);
