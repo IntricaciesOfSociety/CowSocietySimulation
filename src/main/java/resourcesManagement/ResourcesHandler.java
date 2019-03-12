@@ -2,13 +2,11 @@ package resourcesManagement;
 
 import cowParts.Cow;
 import cowParts.CowHandler;
-import cowParts.cowMovement.DecideActions;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import resourcesManagement.resourceTypes.GenericResource;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
 import resourcesManagement.resourceTypes.WoodSource;
@@ -16,7 +14,6 @@ import terrain.Tile;
 import terrain.TileHandler;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Handles all the resource management for the city.

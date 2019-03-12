@@ -9,7 +9,7 @@ import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import technology.CurrentEraTechnology;
+import technology.CurrentTechnology;
 import terrain.Tile;
 import terrain.TileHandler;
 
@@ -116,7 +116,7 @@ public class BuildingHandler {
 
         for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
             BinRegionHandler.binRegionMap.get(i).getAllCommercialBuildings().forEach(
-                (building) -> { if (BuildingHandler.checkBuildingName(building, CurrentEraTechnology.getGroceryStoreName())) buildingList.add(building); }
+                (building) -> { if (BuildingHandler.checkBuildingName(building, CurrentTechnology.getGroceryStoreName())) buildingList.add(building); }
             );
 
         return (CommercialBuilding) TileHandler.getClosestTile(cowToCheck, buildingList);

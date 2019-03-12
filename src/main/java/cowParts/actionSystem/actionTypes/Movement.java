@@ -1,10 +1,11 @@
-package cowParts.cowMovement;
+package cowParts.actionSystem.actionTypes;
 
+import cowParts.actionSystem.action.EndAction;
 import infrastructure.BuildingHandler;
-import infrastructure.buildingTypes.GenericBuilding;
 import cowParts.Cow;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
 import javafx.scene.shape.LineTo;
@@ -16,35 +17,33 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
 
-class Movement extends Action {
+class Movement {
 
-    private Start destination;
-    private End endBehavior;
+    private PathTransition completeMovement;
 
-    Movement(Start startBehavior, @NotNull Finish endBehavior, Cow cowToMove) {
-        this.destination = startBehavior;
-        this.endBehavior = endBehavior::executeFinish;
+    Movement(Cow cowToMove, EndAction endOfMovement) {
+        completeMovement = createMovementAction(cowToMove);
 
-        completeAction = createMovementAction(cowToMove);
+        if (completeMovement != null)
+            completeMovement.setOnFinished(event -> endOfMovement.executeBehavior());
+        else
+            cowToMove.setDestination(null);
     }
 
     @Nullable
     private PathTransition createMovementAction(Cow cowToMove) {
 
-        if (destination.startBehavior() != null) {
-            cowToMove.setDestination(destination.startBehavior());
+        if (cowToMove.getDestination() != null) {
             cowToMove.alreadyMoving = true;
 
             PathTransition newMovement;
 
-            if (destination.startBehavior() instanceof Tile) {
-                cowToMove.setRegionIn(((Tile) destination.startBehavior()).getRegion());
-                newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) destination.startBehavior()));
+            if (cowToMove.getDestination() instanceof Tile) {
+                cowToMove.setRegionIn(((Tile) cowToMove.getDestination()).getRegion());
+                newMovement = animateTowardsDestination(cowToMove, Tile.getEntrance((Tile) cowToMove.getDestination()));
             }
             else
-                newMovement = animateTowardsDestination(cowToMove, (Point2D) destination.startBehavior());
-
-            newMovement.setOnFinished((event) -> endBehavior.endBehavior());
+                newMovement = animateTowardsDestination(cowToMove, (Point2D) cowToMove.getDestination());
 
             //TODO: Implement path redirection through executionBehavior
             cowToMove.setCacheHint(CacheHint.SPEED);
@@ -100,5 +99,9 @@ class Movement extends Action {
 
         cowToMove.animation = pause;
         pause.play();
+    }
+
+    PathTransition getCompleteMovement() {
+        return completeMovement;
     }
 }

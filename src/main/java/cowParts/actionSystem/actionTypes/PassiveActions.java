@@ -1,16 +1,15 @@
-package cowParts.cowMovement;
+package cowParts.actionSystem.actionTypes;
 
 import cowParts.Cow;
 import infrastructure.BuildingCreation;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;
-import terrain.Tile;
 import terrain.TileHandler;
 
-class PassiveActions {
+public class PassiveActions {
 
-    static void buyHouse(Cow cowToCheck) {
+    public static void buyHouse(Cow cowToCheck) {
         //If there is space available
         if (TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.basicSmallBuilding)) != null) {
             cowToCheck.setLivingSpace(BuildingCreation.createResidentialBuilding(

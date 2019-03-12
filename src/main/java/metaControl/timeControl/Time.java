@@ -1,4 +1,4 @@
-package metaControl;
+package metaControl.timeControl;
 
 import cowParts.Cow;
 import cowParts.CowHandler;

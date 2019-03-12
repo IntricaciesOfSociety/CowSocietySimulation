@@ -1,20 +1,15 @@
-package cowParts.cowMovement;
+package cowParts.actionSystem.action;
 
 import cowParts.Cow;
 import cowParts.CowHandler;
-import javafx.animation.PathTransition;
 import javafx.scene.shape.Rectangle;
 import userInterface.playgroundUI.StaticUI;
 
 public class ExecuteAction {
 
-     static void execute(Action newAction) {
-         if (newAction != null && newAction.completeAction != null) {
-             if (newAction instanceof Movement)
-                 ((PathTransition)((Movement) newAction).completeAction).play();
-             else
-                 newAction.execute();
-         }
+     public static void execute(GenericAction newAction) {
+         if (newAction != null)
+            newAction.executeAction();
     }
 
     /**

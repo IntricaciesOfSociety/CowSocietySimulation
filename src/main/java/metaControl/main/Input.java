@@ -2,10 +2,9 @@ package metaControl.main;
 
 import infrastructure.buildingTypes.GenericBuilding;
 import infrastructure.BuildingHandler;
-import cowParts.cowMovement.ExecuteAction;
+import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
-import metaEnvironment.LoadConfiguration;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -14,8 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import metaEnvironment.Regioning.BinRegion;
-import metaEnvironment.Regioning.BinRegionHandler;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.ResourcesUI;
@@ -58,7 +55,7 @@ public class Input {
 
             KeyCode keyPressed = key.getCode();
 
-            //DecideActions
+            //ActionHandler
             if (keyPressed.equals(KeyCode.W)) CameraControl.setNorth(true);
             if (keyPressed.equals(KeyCode.A)) CameraControl.setWest(true);
             if (keyPressed.equals(KeyCode.S)) CameraControl.setSouth(true);
@@ -102,7 +99,7 @@ public class Input {
         scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             KeyCode keyReleased = key.getCode();
 
-            //DecideActions
+            //ActionHandler
             if (keyReleased.equals(KeyCode.W)) CameraControl.setNorth(false);
             if (keyReleased.equals(KeyCode.A)) CameraControl.setWest(false);
             if (keyReleased.equals(KeyCode.S)) CameraControl.setSouth(false);

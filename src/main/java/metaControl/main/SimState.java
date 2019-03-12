@@ -1,19 +1,16 @@
 package metaControl.main;
 
+import cowParts.actionSystem.ActionHandler;
 import infrastructure.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import cowParts.cowMovement.DecideActions;
-import cowParts.cowMovement.ExecuteAction;
+import cowParts.actionSystem.action.ExecuteAction;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Bounds;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
+import metaControl.timeControl.EraHandler;
 import metaEnvironment.LoadConfiguration;
-import metaControl.Time;
+import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
@@ -29,7 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menus.MenuHandler;
 import societalProductivity.Issue;
-import societalProductivity.cityPlanning.CityControl;
+import societalProductivity.urbanPlanning.CivicControl;
 import terrain.TileHandler;
 import userInterface.playgroundUI.PlaygroundUIHandler;
 import org.jetbrains.annotations.Contract;
@@ -122,6 +119,7 @@ public class SimState extends Application {
         EventLogger.clearLogs();
 
         LoadConfiguration.loadConfigurationFile();
+        EraHandler.loadEra(LoadConfiguration.getPrimaryEra());
         AssetLoading.loadBaseAssets();
         Playground.init();
 
@@ -129,7 +127,7 @@ public class SimState extends Application {
         BuildingHandler.init();
         ResourcesHandler.init();
 
-        CityControl.init();
+        CivicControl.init();
 
         Issue.init();
         CowHandler.init();
@@ -189,7 +187,7 @@ public class SimState extends Application {
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             NaturalSelection.calculateFitness(CowHandler.liveCowList.get(i));
             if (!CowHandler.liveCowList.get(i).alreadyMoving)
-                DecideActions.decideActions(CowHandler.liveCowList.get(i));
+                ActionHandler.decideActions(CowHandler.liveCowList.get(i));
         }
         Time.updateTime();
     }

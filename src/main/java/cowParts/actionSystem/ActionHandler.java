@@ -1,14 +1,17 @@
-package cowParts.cowMovement;
+package cowParts.actionSystem;
 
+import cowParts.actionSystem.action.ExecuteAction;
+import cowParts.actionSystem.action.GenericAction;
+import cowParts.actionSystem.actionTypes.ActiveActions;
+import cowParts.actionSystem.actionTypes.PassiveActions;
 import infrastructure.BuildingHandler;
 import cowParts.Cow;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;
-import metaControl.Time;
+import metaControl.timeControl.Time;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import societalProductivity.government.Government;
-import terrain.Tile;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,11 +19,9 @@ import java.util.Random;
 /**
  * Handles all the movement decision and execution for all cows. Includes the handling of all animations.
  */
-public class DecideActions {
+public class ActionHandler {
 
     private static Random random = new Random();
-
-    static Tile tileStandingOn;
 
     /**
      * Finds the distance as one number between the given cow and the given object
@@ -42,27 +43,26 @@ public class DecideActions {
         cowToCheck.updateVitals();
 
         //Only one movement action at a time
-        if (!cowToCheck.alreadyMoving && decideMovement(cowToCheck) != null)
-            ExecuteAction.execute(decideMovement(cowToCheck));
+        if (!cowToCheck.alreadyMoving && decideActiveAction(cowToCheck) != null)
+            ExecuteAction.execute(decideActiveAction(cowToCheck));
 
         //Any action that is not a movement
-        //ExecuteAction.executeMultipleActions(createGeneralActions());
-        createGeneralActions(cowToCheck);
+        //ExecuteAction.executeMultipleActions(decidePassiveActions());
+        decidePassiveActions(cowToCheck);
     }
 
-    private static Movement decideMovement(@NotNull Cow cowToCheck) {
-
+    private static GenericAction decideActiveAction(@NotNull Cow cowToCheck) {
         //Vital actions
         if (cowToCheck.self.getThirst() <= 10 || cowToCheck.self.getHunger() <= 10)
             return ActiveActions.getVitalAction(cowToCheck);
 
-        //Economical/GovernmentalBuilding actions
+            //Economical/GovernmentalBuilding actions
         else if (cowToCheck.self.getSleepiness() > 0)
             return ActiveActions.goWork(cowToCheck);
         else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean())
             return ActiveActions.goVote(cowToCheck);
 
-        //Social actions
+            //Social actions
         else if (((Time.getHours() > 20 || Time.getHours() < 8) && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
             return ActiveActions.goHome(cowToCheck);
         else if (cowToCheck.birth.isFertile() && NaturalSelection.getMostFitAndFertile(cowToCheck) != null)
@@ -78,7 +78,7 @@ public class DecideActions {
      * @return
      */
     @Nullable
-    private static ArrayList<Action> createGeneralActions(@NotNull Cow cowToCheck) {
+    private static ArrayList<GenericAction> decidePassiveActions(@NotNull Cow cowToCheck) {
         /*
          * Static (for now) stats based decisions.
          */

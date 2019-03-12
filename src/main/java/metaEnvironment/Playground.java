@@ -1,14 +1,12 @@
 package metaEnvironment;
 
 import menus.MenuCreation;
-import metaControl.*;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import menus.MenuHandler;
-import metaControl.main.CameraControl;
 import metaControl.main.Input;
 import metaControl.main.SimState;
+import metaControl.timeControl.Time;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.StaticUI;
 

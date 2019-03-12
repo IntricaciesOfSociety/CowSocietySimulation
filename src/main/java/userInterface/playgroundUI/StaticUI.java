@@ -5,7 +5,6 @@ import cowParts.Cow;
 import cowParts.CowHandler;
 import javafx.scene.Group;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -16,7 +15,7 @@ import javafx.scene.text.Text;
 import metaControl.main.CameraControl;
 import metaControl.main.Input;
 import metaControl.main.SimState;
-import metaControl.Time;
+import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Playground;
 import resourcesManagement.ResourcesHandler;
@@ -333,7 +332,7 @@ public class StaticUI {
         if (Input.selectedCows.size() > 1)
             actionText.setText("Many actions");
         else if (Input.selectedCows.size() == 1)
-            actionText.setText(Input.selectedCows.get(0).getCurrentAction());
+            actionText.setText(Input.selectedCows.get(0).getcurrentBehavior());
         else
             actionText.setText("");
     }

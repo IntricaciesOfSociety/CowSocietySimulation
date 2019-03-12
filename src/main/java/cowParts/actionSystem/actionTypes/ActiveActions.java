@@ -1,5 +1,7 @@
-package cowParts.cowMovement;
+package cowParts.actionSystem.actionTypes;
 
+import cowParts.actionSystem.action.EndAction;
+import cowParts.actionSystem.action.GenericAction;
 import infrastructure.buildingTypes.GenericBuilding;
 import infrastructure.BuildingHandler;
 import cowParts.BirthEvent;
@@ -12,38 +14,32 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.ResourcesHandler;
-import societalProductivity.Role;
 import societalProductivity.government.Economy;
 import societalProductivity.government.Government;
 import userInterface.playgroundUI.StaticUI;
 
 import java.util.Random;
 
-interface Finish {
-    void executeFinish();
-}
-
-class ActiveActions extends Action {
+public class ActiveActions {
 
     private static Random random = new Random();
 
-    @NotNull
     @Contract("_, _, _, _ -> new")
-    private static Movement returnAction(@NotNull Cow cowToMakeMovement, Object destination, String currentAction, Finish finishBehavior) {
+    private static GenericAction returnAction(@NotNull Cow cowToMakeMovement, Object destination, String currentAction, EndAction endBehavior) {
         if (currentAction != null)
-            cowToMakeMovement.currentAction = currentAction;
+            cowToMakeMovement.setCurrentBehavior(currentAction);
 
         StaticUI.updateActionText();
 
-        return (new Movement(
-                () -> destination,
-                finishBehavior,
-                cowToMakeMovement)
-        );
+        cowToMakeMovement.setDestination(destination);
+
+        if (destination != null)
+            return new GenericAction(() -> destination, () -> new Movement(cowToMakeMovement, endBehavior).getCompleteMovement().play());
+        else
+            return null;
     }
 
-    @Nullable
-    static Movement getVitalAction(@NotNull Cow cowToCheck) {
+    public static GenericAction getVitalAction(@NotNull Cow cowToCheck) {
         int lowestVitalValue = 11;
 
         if (cowToCheck.self.getThirst() < lowestVitalValue)
@@ -59,8 +55,7 @@ class ActiveActions extends Action {
         return null;
     }
 
-    @NotNull
-    private static Movement getWater(Cow cowToCheck) {
+    private static GenericAction getWater(Cow cowToCheck) {
         return returnAction(cowToCheck, ResourcesHandler.getClosestWaterSource(cowToCheck), "Getting Water",
             () -> {
                 EventLogger.createLoggedEvent(cowToCheck, "Getting water", 0, "thirst", 100 - cowToCheck.self.getThirst());
@@ -70,8 +65,7 @@ class ActiveActions extends Action {
         );
     }
 
-    @NotNull
-    private static Movement getFood(Cow cowToCheck) {
+    private static GenericAction getFood(Cow cowToCheck) {
         return returnAction(cowToCheck, BuildingHandler.getClosestGroceryStore(cowToCheck), "Getting Food",
             () -> {
                 EventLogger.createLoggedEvent(cowToCheck, "Getting food", 0, "hunger", 100 - cowToCheck.self.getHunger());
@@ -81,11 +75,11 @@ class ActiveActions extends Action {
         );
     }
 
-    @NotNull
-    static Movement goWork(Cow cowToCheck) {
-        return returnAction(cowToCheck, Role.getRoleDestination(cowToCheck), null,
+    public static GenericAction goWork(Cow cowToCheck) {
+        cowToCheck.setImage(cowToCheck.getJob().getJobSprite());
+        return returnAction(cowToCheck, cowToCheck.getJob().generateJobDestination(), cowToCheck.getJob().getJobActionText(),
             () -> {
-                Role.getRoleCompletionBehavior(cowToCheck);
+                cowToCheck.getJob().completeJob();
 
                 EventLogger.createLoggedEvent(cowToCheck, "Working", 0, "sleepiness", -50);
                 cowToCheck.self.setSleepiness(-50);
@@ -96,8 +90,7 @@ class ActiveActions extends Action {
         );
     }
 
-    @NotNull
-    static Movement goVote(@NotNull Cow cowToCheck) {
+    public static GenericAction goVote(@NotNull Cow cowToCheck) {
         cowToCheck.setHasVoted(true);
         return returnAction(cowToCheck, BuildingHandler.getClosestVotingArea(cowToCheck), "Voting",
             () -> {
@@ -112,8 +105,7 @@ class ActiveActions extends Action {
         );
     }
 
-    @NotNull
-    static Movement goHome(@NotNull Cow cowToCheck) {
+    public static GenericAction goHome(@NotNull Cow cowToCheck) {
         return returnAction(cowToCheck, cowToCheck.getLivingSpace(), "Going Home",
             () -> {
                 BuildingHandler.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
@@ -127,7 +119,7 @@ class ActiveActions extends Action {
     }
 
     @Nullable
-    static Movement createChild(@NotNull Cow cowToCheck) {
+    public static GenericAction createChild(@NotNull Cow cowToCheck) {
         if (NaturalSelection.getMostFitAndFertile(cowToCheck) != null) {
             return returnAction(cowToCheck, CowHandler.findHalfwayPoint(cowToCheck, NaturalSelection.getMostFitAndFertile(cowToCheck)), "Creating Offspring",
                     () -> {
@@ -149,8 +141,8 @@ class ActiveActions extends Action {
     }
 
     @Nullable
-    static Movement goSpin(@NotNull Cow cowToCheck) {
-        cowToCheck.currentAction = "Spinning";
+    public static GenericAction goSpin(@NotNull Cow cowToCheck) {
+        cowToCheck.setCurrentBehavior("Spinning");
         cowToCheck.setRotate(random.nextInt(360 + 1 + 360) - 360);
         cowToCheck.self.setBoredom(1);
         EventLogger.createLoggedEvent(cowToCheck, "Spinning", 0, "boredom", 1);

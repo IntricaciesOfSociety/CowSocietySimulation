@@ -1,7 +1,7 @@
 package terrain;
 
 import cowParts.Cow;
-import cowParts.cowMovement.DecideActions;
+import cowParts.actionSystem.ActionHandler;
 import javafx.scene.image.Image;
 import metaEnvironment.Regioning.BinRegionHandler;
 import org.jetbrains.annotations.Contract;
@@ -82,10 +82,10 @@ public class TileHandler {
     public static Tile getClosestTile(Cow cowToCheck, List<Tile> resourceList) {
         if (!resourceList.isEmpty()) {
             Tile closestTile = resourceList.get(0);
-            int smallestDistance = (int) DecideActions.findDistanceBetweenCowAndObject(cowToCheck, resourceList.get(0));
+            int smallestDistance = (int) ActionHandler.findDistanceBetweenCowAndObject(cowToCheck, resourceList.get(0));
 
             for (Tile resource : resourceList) {
-                int tempDistance = (int) DecideActions.findDistanceBetweenCowAndObject(cowToCheck, resource);
+                int tempDistance = (int) ActionHandler.findDistanceBetweenCowAndObject(cowToCheck, resource);
                 if (tempDistance < smallestDistance) {
                     smallestDistance = tempDistance;
                     closestTile = resource;
