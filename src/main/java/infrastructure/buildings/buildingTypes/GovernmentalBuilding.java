@@ -1,4 +1,4 @@
-package infrastructure.buildingTypes;
+package infrastructure.buildings.buildingTypes;
 
 import cowParts.Cow;
 import javafx.geometry.Point2D;
@@ -15,9 +15,9 @@ import terrain.TileHandler;
 
 import java.util.ArrayList;
 
-public class IndustrialBuilding extends GenericBuilding {
+public class GovernmentalBuilding extends GenericBuilding {
 
-    public IndustrialBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+    public GovernmentalBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
         constructBuilding(buildingSprite, buildingName, tileToBuildOn);
     }
 
@@ -41,7 +41,7 @@ public class IndustrialBuilding extends GenericBuilding {
             if (SimState.getSimState().equals("TileView"))
                 this.setOpacity(0.5);
 
-            tileToBuildOn.getRegion().addIndustrialBuilding(this);
+            tileToBuildOn.getRegion().addGovernmentalBuilding(this);
             buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
 
             tileToBuildOn.getRegion().addToBuildQueue(this);

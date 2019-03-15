@@ -1,6 +1,6 @@
 package cowParts;
 
-import infrastructure.BuildingHandler;
+import infrastructure.buildings.BuildingHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;

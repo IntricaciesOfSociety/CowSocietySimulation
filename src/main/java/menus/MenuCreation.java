@@ -1,6 +1,6 @@
 package menus;
 
-import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import menus.menuImplementations.CowFitnessPopup;
 import menus.menuImplementations.InhabitantsPopup;
 import menus.menuImplementations.StatsViewMenu;

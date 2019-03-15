@@ -1,6 +1,6 @@
 package cowParts;
 
-import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import cowParts.cowThoughts.Cognition;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowThoughts.PersonalViews;

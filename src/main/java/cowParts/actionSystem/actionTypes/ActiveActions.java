@@ -2,8 +2,8 @@ package cowParts.actionSystem.actionTypes;
 
 import cowParts.actionSystem.action.EndAction;
 import cowParts.actionSystem.action.GenericAction;
-import infrastructure.buildingTypes.GenericBuilding;
-import infrastructure.BuildingHandler;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
+import infrastructure.buildings.BuildingHandler;
 import cowParts.BirthEvent;
 import cowParts.Cow;
 import cowParts.CowHandler;

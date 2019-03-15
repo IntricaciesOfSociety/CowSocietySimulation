@@ -1,6 +1,6 @@
-package infrastructure;
+package infrastructure.buildings;
 
-import infrastructure.buildingTypes.*;
+import infrastructure.buildings.buildingTypes.*;
 import javafx.scene.image.Image;
 import terrain.Tile;
 

@@ -1,11 +1,9 @@
-package infrastructure.buildingTypes;
+package infrastructure.buildings.buildingTypes;
 
 import cowParts.Cow;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import menus.GenericMenu;
-import menus.MenuCreation;
-import metaEnvironment.Regioning.BinRegion;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;

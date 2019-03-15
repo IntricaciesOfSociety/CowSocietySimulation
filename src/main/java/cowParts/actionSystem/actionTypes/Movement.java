@@ -1,11 +1,10 @@
 package cowParts.actionSystem.actionTypes;
 
 import cowParts.actionSystem.action.EndAction;
-import infrastructure.BuildingHandler;
+import infrastructure.buildings.BuildingHandler;
 import cowParts.Cow;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
-import javafx.animation.TranslateTransition;
 import javafx.geometry.Point2D;
 import javafx.scene.CacheHint;
 import javafx.scene.shape.LineTo;

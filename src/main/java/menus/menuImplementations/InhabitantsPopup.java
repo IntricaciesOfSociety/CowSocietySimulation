@@ -1,7 +1,7 @@
 package menus.menuImplementations;
 
 
-import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

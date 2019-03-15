@@ -1,7 +1,7 @@
 package cowParts.actionSystem.actionTypes;
 
 import cowParts.Cow;
-import infrastructure.BuildingCreation;
+import infrastructure.buildings.BuildingCreation;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.logging.EventLogger;

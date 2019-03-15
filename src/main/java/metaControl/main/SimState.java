@@ -1,7 +1,7 @@
 package metaControl.main;
 
 import cowParts.actionSystem.ActionHandler;
-import infrastructure.BuildingHandler;
+import infrastructure.buildings.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.actionSystem.action.ExecuteAction;

@@ -1,4 +1,4 @@
-package infrastructure.buildingTypes;
+package infrastructure.buildings.buildingTypes;
 
 import cowParts.Cow;
 import javafx.geometry.Point2D;
@@ -15,12 +15,15 @@ import terrain.TileHandler;
 
 import java.util.ArrayList;
 
-public class AgriculturalBuilding extends GenericBuilding {
+public class ResidentialBuilding extends GenericBuilding {
 
-    public AgriculturalBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
+    public ResidentialBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
         constructBuilding(buildingSprite, buildingName, tileToBuildOn);
     }
 
+    /**
+     * @inheritDoc
+     */
     @Override
     void constructBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
         int tileSize = TileHandler.getSize(buildingSprite);
@@ -38,7 +41,7 @@ public class AgriculturalBuilding extends GenericBuilding {
             if (SimState.getSimState().equals("TileView"))
                 this.setOpacity(0.5);
 
-            tileToBuildOn.getRegion().addAgriculturalBuilding(this);
+            tileToBuildOn.getRegion().addResidentialBuilding(this);
             buildingEntrance = new Point2D(this.getLayoutX() + buildingSprite.getWidth(), this.getLayoutY() + (buildingSprite.getHeight() / 2));
 
             tileToBuildOn.getRegion().addToBuildQueue(this);
@@ -95,7 +98,7 @@ public class AgriculturalBuilding extends GenericBuilding {
      */
     @Override
     public void toggleInhabitantsMenu() {
-        if (this.inhabitantsMenu != null) {
+        if (inhabitantsMenu != null) {
             MenuHandler.closeMenu(this.inhabitantsMenu);
             inhabitantsMenu = null;
         }

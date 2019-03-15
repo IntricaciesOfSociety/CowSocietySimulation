@@ -1,7 +1,7 @@
 package userInterface.playgroundUI;
 
-import infrastructure.*;
-import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
+import infrastructure.buildings.BuildingHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

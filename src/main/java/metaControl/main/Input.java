@@ -1,7 +1,7 @@
 package metaControl.main;
 
-import infrastructure.buildingTypes.GenericBuilding;
-import infrastructure.BuildingHandler;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
+import infrastructure.buildings.BuildingHandler;
 import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;

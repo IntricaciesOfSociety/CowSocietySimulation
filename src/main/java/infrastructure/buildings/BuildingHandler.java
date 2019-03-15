@@ -1,9 +1,9 @@
-package infrastructure;
+package infrastructure.buildings;
 
 import cowParts.Cow;
-import infrastructure.buildingTypes.CommercialBuilding;
-import infrastructure.buildingTypes.GenericBuilding;
-import infrastructure.buildingTypes.GovernmentalBuilding;
+import infrastructure.buildings.buildingTypes.CommercialBuilding;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
+import infrastructure.buildings.buildingTypes.GovernmentalBuilding;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;

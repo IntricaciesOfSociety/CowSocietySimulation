@@ -4,7 +4,7 @@ import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.actionSystem.action.GenericAction;
 import cowParts.actionSystem.actionTypes.ActiveActions;
 import cowParts.actionSystem.actionTypes.PassiveActions;
-import infrastructure.BuildingHandler;
+import infrastructure.buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;
@@ -12,6 +12,7 @@ import metaControl.timeControl.Time;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import societalProductivity.government.Government;
+import terrain.Tile;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -30,8 +31,17 @@ public class ActionHandler {
      * @return The distance between the given cow and object as a single number
      */
     public static double findDistanceBetweenCowAndObject(@NotNull Cow cowToCheck, @NotNull ImageView objectToCheck) {
-        double distanceX =  objectToCheck.getLayoutX() - cowToCheck.getTranslateX();
-        double distanceY = objectToCheck.getLayoutY() - cowToCheck.getTranslateY();
+        double distanceX;
+        double distanceY;
+
+        if (objectToCheck instanceof Tile) {
+            distanceX = (objectToCheck.getLayoutX() + ((Tile) objectToCheck).getRegion().getLayoutX()) - cowToCheck.getTranslateX();
+            distanceY = (objectToCheck.getLayoutY() + ((Tile) objectToCheck).getRegion().getLayoutY()) - cowToCheck.getTranslateY();
+        }
+        else {
+            distanceX = objectToCheck.getLayoutX() - cowToCheck.getTranslateX();
+            distanceY = objectToCheck.getLayoutY() - cowToCheck.getTranslateY();
+        }
         return Math.sqrt(distanceX * distanceX + distanceY * distanceY);
     }
 
