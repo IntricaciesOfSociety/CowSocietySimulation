@@ -63,11 +63,8 @@ public class CameraControl {
 
         if (direction && scale < 2.4)
             scale *= delta;
-<<<<<<< HEAD:src/main/java/metaControl/CameraControl.java
-        else if (!direction && scale > 300 / Playground.playground.getWidth() * 10)
-=======
+
         else if (!direction && scale > 0.1)
->>>>>>> 92cf90dbda36f28f492a897c4ad6181dc915c9a7:src/main/java/metaControl/main/CameraControl.java
             scale /= delta;
 
         double f = (scale / oldScale) - 1;

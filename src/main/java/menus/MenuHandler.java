@@ -26,21 +26,11 @@ public class MenuHandler {
      * Closes the given menu by removing it from its parent node
      * @param menu the menu to be closed
      */
-<<<<<<< HEAD
-    public static void closeMenu(@NotNull MenuCreation menu) {
-        menu.stack.getChildren().clear();
 
-        openCowMenus.remove(menu);
-
-        Playground.playground.getChildren().remove(menu.stack);
-
-
-=======
     public static void closeMenu(@NotNull GenericMenu menu) {
         menu.closeMenu();
         staticStatsMenu = null;
         staticStoryMenu = null;
->>>>>>> 92cf90dbda36f28f492a897c4ad6181dc915c9a7
     }
 
     /**

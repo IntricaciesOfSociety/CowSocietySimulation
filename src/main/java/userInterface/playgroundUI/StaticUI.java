@@ -56,6 +56,7 @@ public class StaticUI {
     private static Group differentUIGroup = new Group();
     private static Button tileUIButton = new Button();
     private static Button resourcesUIButton = new Button();
+    private static Button techTreeButton = new Button();
 
     /**
      * Handles the creation of all static elements within the playgroundStaticUI. Buttons, text, and containers.
@@ -167,13 +168,21 @@ public class StaticUI {
         trackingButton.setFocusTraversable(false);
         trackingButton.setGraphic(trackingImage);
 
+        ImageView techTreeButtonImage = new ImageView(AssetLoading.loadUISprite("techTreeButton"));
+        techTreeButtonImage.setScaleX(2);
+        techTreeButtonImage.setScaleY(2);
+        techTreeButton.setLayoutX(15);
+        techTreeButton.setLayoutY(260);
+        techTreeButton.setFocusTraversable(false);
+        techTreeButton.setGraphic(techTreeButtonImage);
+
         timeOfDay.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         timeOfDay.setFill(Color.RED);
 
         simSpeedGroup.getChildren().addAll(speedButton1, speedButton2, speedButton3);
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
-        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton);
+        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton, techTreeButton);
 
         PlaygroundUIHandler.staticUI.getChildren().addAll(
                  simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
@@ -199,6 +208,10 @@ public class StaticUI {
         resourcesUIButton.setOnAction(event -> PlaygroundUIHandler.toggleResourcesUI());
 
         trackingButton.setOnAction(event -> {
+
+        });
+
+        techTreeButton.setOnAction(event -> {
 
         });
 
@@ -231,19 +244,19 @@ public class StaticUI {
         storyViewButton.setLayoutY(200);
 
         idText.setX(5);
-        idText.setY(270);
+        idText.setY(300);
 
         actionText.setLayoutX(5);
-        actionText.setLayoutY(290);
+        actionText.setLayoutY(320);
 
         accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(310);
+        accommodationsText.setLayoutY(340);
 
         tileUIButton.setLayoutX(15);
-        tileUIButton.setLayoutY(350);
+        tileUIButton.setLayoutY(380);
 
         resourcesUIButton.setLayoutX(15);
-        resourcesUIButton.setLayoutY(380);
+        resourcesUIButton.setLayoutY(410);
 
         timeOfDay.setLayoutX(20);
 
