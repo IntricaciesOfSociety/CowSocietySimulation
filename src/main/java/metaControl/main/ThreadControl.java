@@ -1,4 +1,4 @@
-package metaControl;
+package metaControl.main;
 
 public class ThreadControl {
 }
