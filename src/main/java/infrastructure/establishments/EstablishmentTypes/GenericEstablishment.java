@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 public abstract class GenericEstablishment {
 
-    private Object leader;
-    private ArrayList<Cow> members = new ArrayList<>();
+    Object leader;
+    ArrayList<Cow> members = new ArrayList<>();
 
-    private GenericAction mainMemberAction;
+    GenericAction mainMemberAction;
 
-    private Object headquarters;
+    Object headquarters;
     ArrayList<Tile> locations = new ArrayList<>();
 
-    private String name;
+    String name;
 
     abstract public ArrayList<Cow> getMembers();
 

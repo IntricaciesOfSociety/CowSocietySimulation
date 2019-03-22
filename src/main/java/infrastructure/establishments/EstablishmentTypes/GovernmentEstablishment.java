@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class GovernmentEstablishment extends GenericEstablishment {
 
     public GovernmentEstablishment(String name, Cow leader) {
+        this.name = name;
+        this.leader = leader;
     }
 
     @Override

@@ -9,6 +9,10 @@ import java.util.ArrayList;
 public class BusinessEstablishment extends GenericEstablishment {
 
     public BusinessEstablishment(String businessName, GenericAction workerAction, CommercialBuilding hq, Cow owner) {
+        this.name = businessName;
+        this.mainMemberAction = workerAction;
+        this.headquarters = hq;
+        this.leader = owner;
     }
 
     @Override

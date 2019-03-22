@@ -5,6 +5,8 @@ import infrastructure.buildings.BuildingHandler;
 import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
+import infrastructure.buildings.buildingTypes.IndustrialBuilding;
+import metaControl.timeControl.EraHandler;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -13,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import technology.CurrentTechnology;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.ResourcesUI;
@@ -149,8 +152,12 @@ public class Input {
                 StaticUI.cowClickEvent();
             }
             else if (mouseEvent.getTarget() instanceof Tile) {
-                if (mouseEvent.getTarget() instanceof GenericBuilding)
+                if (mouseEvent.getTarget() instanceof GenericBuilding) {
                     ((GenericBuilding) mouseEvent.getTarget()).toggleInhabitantsMenu();
+                    if (mouseEvent.getTarget() instanceof IndustrialBuilding && ((IndustrialBuilding) mouseEvent.getTarget()).getId().equals(CurrentTechnology.getMineName()))
+                        Playground.openMines();
+                }
+
 
                 if (SimState.getSimState().equals("TileView")) {
                     TileUI.setSelectedTile((Tile) mouseEvent.getTarget());

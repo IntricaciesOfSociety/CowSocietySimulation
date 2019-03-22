@@ -20,6 +20,9 @@ public class Playground {
     //The pane that holds all of the cows (The simulation part of the simulation)
     private static Pane motion = new Pane();
 
+    //The pane that has the miens
+    private static Pane mines = new Pane();
+
     //The pane that holds the menu when a user clicks on a detailed view button
     private static Pane detailedView = new Pane();
 
@@ -33,9 +36,9 @@ public class Playground {
         if (LoadConfiguration.getFullscreen())
             SimState.initFullScreen();
 
-        int sideX = (LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
-        int sideY = (LoadConfiguration.isSquareRegionSet()) ? sideX :
-                (LoadConfiguration.getVerticalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
+        int sideX = (LoadConfiguration.getWorldHRegions() * LoadConfiguration.getBinRegionSize()) * 400;
+        int sideY = (LoadConfiguration.isWorldSquare()) ? sideX :
+                (LoadConfiguration.getWorldVRegions() * LoadConfiguration.getBinRegionSize()) * 400;
         playground = motion;
         playground.setPrefSize(sideX, sideY);
         motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -51,6 +54,10 @@ public class Playground {
     private static void createBorders() {
        playground.setBorder(new Border(new BorderStroke(Color.BLACK,
                             BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+    }
+
+    public static void openMines() {
+        setPlayground("Mines");
     }
 
     /**
@@ -82,6 +89,13 @@ public class Playground {
             case "Motion":
                 SimState.root.getChildren().remove(playground);
                 playground = motion;
+
+                StaticUI.enableUI();
+                SimState.addPlayground(playground);
+                break;
+            case "Mines":
+                SimState.root.getChildren().remove(playground);
+                playground = mines;
 
                 StaticUI.enableUI();
                 SimState.addPlayground(playground);

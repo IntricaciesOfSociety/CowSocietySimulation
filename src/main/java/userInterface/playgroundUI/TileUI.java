@@ -54,18 +54,7 @@ public class TileUI {
         tileText.relocate(background.getLayoutX() + 20, 30);
         coordsText.relocate(background.getLayoutX() + 20, 50);
     }
-    /*
-    public static void updateUIPlacements() {
-        int screenOffsetX = SimState.getScreenWidth();
-        int screenOffsetY = SimState.getScreenHeight();
 
-        tileText.setX(screenOffsetX / 2);
-        tileText.setY();
-
-        coordsText.setX(screenOffsetX / 2);
-        coordsText.setY();
-    }
-    */
     /**
      * Sets the tile that is currently selected within the UI. Set from Input.java.
      * @param target The selected tile

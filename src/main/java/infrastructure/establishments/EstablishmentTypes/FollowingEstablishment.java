@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class FollowingEstablishment extends GenericEstablishment {
 
     public FollowingEstablishment(String followingName, GenericAction memberAction, Cow followingLeader) {
+        this.name = followingName;
+        this.mainMemberAction = memberAction;
+        this.leader = followingLeader;
     }
 
     @Override

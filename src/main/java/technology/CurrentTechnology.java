@@ -9,4 +9,8 @@ public class CurrentTechnology {
     public static String getGroceryStoreName() {
         return LoadConfiguration.getBasicGroceryStore();
     }
+
+    public static String getMineName() {
+        return LoadConfiguration.getBasicMine();
+    }
 }

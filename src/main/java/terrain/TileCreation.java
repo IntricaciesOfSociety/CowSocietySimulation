@@ -15,8 +15,8 @@ class TileCreation {
     private static Random random = new Random();
 
     static void createBasicTiles() {
-        int horizontalRegions = LoadConfiguration.getHorizontalRegions();
-        int verticalRegions = (LoadConfiguration.isSquareRegionSet()) ? horizontalRegions : LoadConfiguration.getVerticalRegions();
+        int horizontalRegions = LoadConfiguration.getWorldHRegions();
+        int verticalRegions = (LoadConfiguration.isWorldSquare()) ? horizontalRegions : LoadConfiguration.getWorldVRegions();
         for (int i = 0; i < horizontalRegions; i++)
             for (int j = 0; j < verticalRegions; j++) {
                 BinRegion newRegion = BinRegionHandler.createNewRegion();
@@ -28,6 +28,11 @@ class TileCreation {
                         newRegion.addTile(new Tile(400 * k, 400 * h, AssetLoading.defaultTile, newRegion));
             }
         createBiomes();
+        createMines();
+    }
+
+    private static void createMines() {
+
     }
 
     private static void createBiomes() {

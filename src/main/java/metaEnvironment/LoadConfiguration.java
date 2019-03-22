@@ -21,9 +21,9 @@ public class LoadConfiguration {
     private static int initialPopulation;
 
     //[Tiles]
-    private static boolean squareRegionSet;
-    private static int verticalRegions;
-    private static int horizontalRegions;
+    private static boolean worldSquare;
+    private static int worldVRegions;
+    private static int worldHRegions;
     private static String basicTileName;
     private static int mountainBiomes;
     private static int desertBiomes;
@@ -71,12 +71,12 @@ public class LoadConfiguration {
         primaryEra = ini.get("SituationConfig", "era");
         initialPopulation = Integer.parseInt(ini.get("SituationConfig", "population"));
 
-        squareRegionSet = Boolean.parseBoolean(ini.get("Tiles", "squareRegionSet"));
-        horizontalRegions = Integer.parseInt(ini.get("Tiles", "horizontalRegions"));
-        verticalRegions = Integer.parseInt(ini.get("Tiles", "verticalRegions"));
-        basicTileName = ini.get("Tiles", "basictile");
-        mountainBiomes = Integer.parseInt(ini.get("Tiles", "mountainBiomes"));
-        desertBiomes = Integer.parseInt(ini.get("Tiles", "desertBiomes"));
+        worldSquare = Boolean.parseBoolean(ini.get("Overworld", "worldSquare"));
+        worldHRegions = Integer.parseInt(ini.get("Overworld", "worldHRegions"));
+        worldVRegions = Integer.parseInt(ini.get("Overworld", "worldVRegions"));
+        basicTileName = ini.get("Overworld", "basictile");
+        mountainBiomes = Integer.parseInt(ini.get("Overworld", "mountainBiomes"));
+        desertBiomes = Integer.parseInt(ini.get("Overworld", "desertBiomes"));
 
         basicSmallDwelling = ini.get("Buildings", "basicsmalldwelling");
         basicLargeDwelling = ini.get("Buildings", "basiclargedwelling");
@@ -173,15 +173,15 @@ public class LoadConfiguration {
         return binRegionSize;
     }
 
-    public static boolean isSquareRegionSet() {
-        return squareRegionSet;
+    public static boolean isWorldSquare() {
+        return worldSquare;
     }
 
-    public static int getVerticalRegions() {
-        return verticalRegions;
+    public static int getWorldVRegions() {
+        return worldVRegions;
     }
 
-    public static int getHorizontalRegions() {
-        return horizontalRegions;
+    public static int getWorldHRegions() {
+        return worldHRegions;
     }
 }
