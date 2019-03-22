@@ -41,6 +41,9 @@ public class LoadConfiguration {
     private static int initialWaterSources;
     private static int initialLargeRocks;
     private static int initialLargeTrees;
+    private static int initialClay;
+    private static int initialCopper;
+    private static int initialIron;
 
     //[Cows]
     //[City]
@@ -89,6 +92,9 @@ public class LoadConfiguration {
         initialLargeRocks = Integer.parseInt(ini.get("Resources", "largeRocks"));
         initialLargeTrees = Integer.parseInt(ini.get("Resources", "largeTrees"));
         initialWaterSources = Integer.parseInt(ini.get("Resources", "watersources"));
+        initialClay = Integer.parseInt(ini.get("Resources", "clay"));
+        initialCopper = Integer.parseInt(ini.get("Resources", "copper"));
+        initialIron = Integer.parseInt(ini.get("Resources", "iron"));
 
         cityName = ini.get("City", "cityName");
     }
@@ -111,6 +117,21 @@ public class LoadConfiguration {
     @Contract(pure = true)
     public static int getInitialWaterSources() {
         return initialWaterSources;
+    }
+
+    @Contract(pure = true)
+    public static int getInitialClay() {
+        return initialClay;
+    }
+
+    @Contract(pure = true)
+    public static int getInitialCopper() {
+        return initialCopper;
+    }
+
+    @Contract(pure = true)
+    public static int getInitialIron() {
+        return initialIron;
     }
 
     @Contract(pure = true)

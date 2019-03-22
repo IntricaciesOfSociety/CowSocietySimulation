@@ -37,6 +37,10 @@ public class AssetLoading {
     public static Image largeRock;
     public static Image largeTree;
 
+    public static Image clay;
+    public static Image copper;
+    public static Image iron;
+
     public static Image basicWatersource;
 
 
@@ -117,6 +121,9 @@ public class AssetLoading {
             smallTree = new Image(new FileInputStream("src/main/resources/Environment/SmallTree.png"),0, 0, true, false);
             largeRock = new Image(new FileInputStream("src/main/resources/Environment/LargeRock.png"),0, 0, true, false);
             largeTree = new Image(new FileInputStream("src/main/resources/Environment/LargeTree.png"),0, 0, true, false);
+            clay = new Image(new FileInputStream("src/main/resources/Environment/Clay.png"),0, 0, true, false);
+            copper = new Image(new FileInputStream("src/main/resources/Environment/Copper.png"),0, 0, true, false);
+            iron = new Image(new FileInputStream("src/main/resources/Environment/Iron.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
