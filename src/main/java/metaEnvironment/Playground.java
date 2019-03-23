@@ -4,6 +4,7 @@ import menus.MenuCreation;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import metaControl.main.CameraControl;
 import metaControl.main.Input;
 import metaControl.main.SimState;
 import metaControl.timeControl.Time;
@@ -41,7 +42,6 @@ public class Playground {
                 (LoadConfiguration.getWorldVRegions() * LoadConfiguration.getBinRegionSize()) * 400;
         playground = motion;
         playground.setPrefSize(sideX, sideY);
-        motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();
 
         Playground.playground.setEffect(Time.dayNightCycle);
@@ -56,49 +56,62 @@ public class Playground {
                             BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     }
 
-    public static void openMines() {
-        setPlayground("Mines");
-    }
-
     /**
      * Chnages the playground to be equal to the given string-corresponding pane.
      * @param grounds The string as the name of the pane to switch the playground to
      */
     public static void setPlayground(@NotNull String grounds) {
+        boolean removedOld = false;
         switch (grounds) {
             case "DetailedView":
-                SimState.root.getChildren().remove(playground);
+                removedOld = SimState.root.getChildren().remove(playground);
+
                 playground = detailedView;
 
                 StaticUI.disableUI();
 
-                SimState.addPlayground(playground);
                 MenuCreation.createStatsVeiwMenu(Input.selectedCows);
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
                 break;
 
             case "StoryView":
-                SimState.root.getChildren().remove(playground);
+                removedOld = SimState.root.getChildren().remove(playground);
+
                 playground = storyView;
 
                 StaticUI.disableUI();
 
-                SimState.addPlayground(playground);
                 MenuCreation.createStoryViewMenu(Input.selectedCows);
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
                 break;
 
             case "Motion":
-                SimState.root.getChildren().remove(playground);
+                removedOld = SimState.root.getChildren().remove(playground);
+
                 playground = motion;
 
                 StaticUI.enableUI();
-                SimState.addPlayground(playground);
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
                 break;
+
             case "Mines":
-                SimState.root.getChildren().remove(playground);
+                removedOld = SimState.root.getChildren().remove(playground);
+
                 playground = mines;
 
                 StaticUI.enableUI();
-                SimState.addPlayground(playground);
+                System.out.println("HERE " + playground.getChildren());
+                CameraControl.resetCamera();
+
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
                 break;
         }
     }

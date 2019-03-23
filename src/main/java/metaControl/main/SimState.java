@@ -139,6 +139,7 @@ public class SimState extends Application {
             )
         );
 
+
         Input.enableInput(initialScene);
         simLoop();
         Time.timeHasStarted = true;
@@ -215,9 +216,12 @@ public class SimState extends Application {
     static void reDraw() {
         ArrayList<Integer> toDraw = new ArrayList<>();
 
-        for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++)
-            if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight()))
-                toDraw.add(BinRegionHandler.binRegionMap.get(i).getBinId());
+        for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++) {
+            if (Playground.playground.getChildren().contains(BinRegionHandler.ghostRegions.get(i)))
+                if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight()))
+                    toDraw.add(BinRegionHandler.binRegionMap.get(i).getBinId());
+        }
+
 
         if (!toDraw.isEmpty())
             BinRegionHandler.setActiveRegions(toDraw);

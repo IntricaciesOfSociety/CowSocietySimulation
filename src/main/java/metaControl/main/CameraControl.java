@@ -52,6 +52,11 @@ public class CameraControl {
         Playground.playground.setLayoutY(-yCoord + SimState.initialScene.getHeight() / 2.0);
     }
 
+    public static void resetCamera() {
+        Playground.playground.setLayoutX(0);
+        Playground.playground.setLayoutY(0);
+    }
+
     /**
      * Zooms the camera in/out depending on the direction given by input.
      * @param direction The direction that the camera is to move in

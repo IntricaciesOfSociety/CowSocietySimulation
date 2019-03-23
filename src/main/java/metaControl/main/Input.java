@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.Regioning.BinRegionHandler;
 import technology.CurrentTechnology;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
@@ -88,9 +89,8 @@ public class Input {
             if (keyPressed.equals(KeyCode.F)) SimState.initFullScreen();
 
             //TODO: Remove debug
-            if (keyPressed.equals(KeyCode.O)) {
-                System.out.println(Playground.playground.getChildren());
-            }
+            if (keyPressed.equals(KeyCode.O))
+                System.out.println("DEBUG");
 
             //Pause/UnPause simulation
             if (keyPressed.equals(KeyCode.P)) {
@@ -155,7 +155,7 @@ public class Input {
                 if (mouseEvent.getTarget() instanceof GenericBuilding) {
                     ((GenericBuilding) mouseEvent.getTarget()).toggleInhabitantsMenu();
                     if (mouseEvent.getTarget() instanceof IndustrialBuilding && ((IndustrialBuilding) mouseEvent.getTarget()).getId().equals(CurrentTechnology.getMineName()))
-                        Playground.openMines();
+                        Playground.setPlayground("Mines");
                 }
 
 
