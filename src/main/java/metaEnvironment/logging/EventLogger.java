@@ -2,11 +2,11 @@ package metaEnvironment.logging;
 
 import cowParts.Cow;
 import metaControl.main.SimState;
-import metaControl.Time;
+import metaControl.timeControl.Time;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.MDC;
-import societalProductivity.cityPlanning.CityControl;
+import societalProductivity.urbanPlanning.CivicControl;
 
 import java.io.*;
 
@@ -34,7 +34,7 @@ public class EventLogger {
 
         if (importance >= 1) {
             logMessage.insert(0, cowToLogTo.getId() + ": ");
-            logEvent(logMessage.toString(), CityControl.getCityName());
+            logEvent(logMessage.toString(), CivicControl.getCityName());
         }
     }
 

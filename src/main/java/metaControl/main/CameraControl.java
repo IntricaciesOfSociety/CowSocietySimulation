@@ -29,7 +29,7 @@ public class CameraControl {
      * Updates the camera movement based off of the direction set to true.
      */
     static void updateCamera() {
-        //DecideActions
+        //ActionHandler
         if (north) Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
         if (east)  Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
         if (south)  Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
@@ -50,6 +50,11 @@ public class CameraControl {
     static void moveCamera(double xCoord, double yCoord) {
         Playground.playground.setLayoutX(-xCoord + SimState.initialScene.getWidth() / 2.0);
         Playground.playground.setLayoutY(-yCoord + SimState.initialScene.getHeight() / 2.0);
+    }
+
+    public static void resetCamera() {
+        Playground.playground.setLayoutX(0);
+        Playground.playground.setLayoutY(0);
     }
 
     /**

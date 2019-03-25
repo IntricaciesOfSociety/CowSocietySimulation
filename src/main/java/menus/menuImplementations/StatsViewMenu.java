@@ -64,8 +64,8 @@ public class StatsViewMenu extends GenericMenu {
 
         exitButton = new Button("EXIT");
 
-        currentStatusText = new Text("JOB: " + ((ArrayList<Cow>)objectTie).get(0).getJob()
-                + "    CURRENTLY: " + ((ArrayList<Cow>)objectTie).get(0).getCurrentAction());
+        currentStatusText = new Text("JOB: " + ((ArrayList<Cow>)objectTie).get(0).getJob().getJobName()
+                + "    CURRENTLY: " + ((ArrayList<Cow>)objectTie).get(0).getcurrentBehavior());
         idText = new Text(((ArrayList<Cow>)objectTie).get(0).getId());
 
         topContent.setFont(Font.font("Verdana", FontWeight.BOLD, 12));

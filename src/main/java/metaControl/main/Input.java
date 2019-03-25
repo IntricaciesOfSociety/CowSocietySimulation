@@ -1,11 +1,12 @@
 package metaControl.main;
 
-import infrastructure.buildingTypes.GenericBuilding;
-import infrastructure.BuildingHandler;
-import cowParts.cowMovement.ExecuteAction;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
+import infrastructure.buildings.BuildingHandler;
+import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
-import metaEnvironment.LoadConfiguration;
+import infrastructure.buildings.buildingTypes.IndustrialBuilding;
+import metaControl.timeControl.EraHandler;
 import metaEnvironment.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -14,8 +15,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
+import technology.CurrentTechnology;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.ResourcesUI;
@@ -58,7 +59,7 @@ public class Input {
 
             KeyCode keyPressed = key.getCode();
 
-            //DecideActions
+            //ActionHandler
             if (keyPressed.equals(KeyCode.W)) CameraControl.setNorth(true);
             if (keyPressed.equals(KeyCode.A)) CameraControl.setWest(true);
             if (keyPressed.equals(KeyCode.S)) CameraControl.setSouth(true);
@@ -88,9 +89,8 @@ public class Input {
             if (keyPressed.equals(KeyCode.F)) SimState.initFullScreen();
 
             //TODO: Remove debug
-            if (keyPressed.equals(KeyCode.O)) {
-                System.out.println(Playground.playground.getChildren());
-            }
+            if (keyPressed.equals(KeyCode.O))
+                System.out.println("DEBUG");
 
             //Pause/UnPause simulation
             if (keyPressed.equals(KeyCode.P)) {
@@ -102,7 +102,7 @@ public class Input {
         scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             KeyCode keyReleased = key.getCode();
 
-            //DecideActions
+            //ActionHandler
             if (keyReleased.equals(KeyCode.W)) CameraControl.setNorth(false);
             if (keyReleased.equals(KeyCode.A)) CameraControl.setWest(false);
             if (keyReleased.equals(KeyCode.S)) CameraControl.setSouth(false);
@@ -152,8 +152,12 @@ public class Input {
                 StaticUI.cowClickEvent();
             }
             else if (mouseEvent.getTarget() instanceof Tile) {
-                if (mouseEvent.getTarget() instanceof GenericBuilding)
+                if (mouseEvent.getTarget() instanceof GenericBuilding) {
                     ((GenericBuilding) mouseEvent.getTarget()).toggleInhabitantsMenu();
+                    if (mouseEvent.getTarget() instanceof IndustrialBuilding && ((IndustrialBuilding) mouseEvent.getTarget()).getId().equals(CurrentTechnology.getMineName()))
+                        Playground.setPlayground("Mines");
+                }
+
 
                 if (SimState.getSimState().equals("TileView")) {
                     TileUI.setSelectedTile((Tile) mouseEvent.getTarget());

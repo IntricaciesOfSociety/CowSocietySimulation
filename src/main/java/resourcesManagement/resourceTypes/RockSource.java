@@ -43,7 +43,6 @@ public class RockSource extends GenericResource {
             region.removeRockSource(this);
             Playground.playground.getChildren().remove(this);
         }
-
     }
 
     /**

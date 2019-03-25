@@ -1,14 +1,13 @@
 package metaEnvironment;
 
 import menus.MenuCreation;
-import metaControl.*;
 import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import menus.MenuHandler;
 import metaControl.main.CameraControl;
 import metaControl.main.Input;
 import metaControl.main.SimState;
+import metaControl.timeControl.Time;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.StaticUI;
 
@@ -21,6 +20,9 @@ public class Playground {
 
     //The pane that holds all of the cows (The simulation part of the simulation)
     private static Pane motion = new Pane();
+
+    //The pane that has the miens
+    private static Pane mines = new Pane();
 
     //The pane that holds the menu when a user clicks on a detailed view button
     private static Pane detailedView = new Pane();
@@ -35,12 +37,11 @@ public class Playground {
         if (LoadConfiguration.getFullscreen())
             SimState.initFullScreen();
 
-        int sideX = (LoadConfiguration.getHorizontalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
-        int sideY = (LoadConfiguration.isSquareRegionSet()) ? sideX :
-                (LoadConfiguration.getVerticalRegions() * LoadConfiguration.getBinRegionSize()) * 400;
+        int sideX = (LoadConfiguration.getWorldHRegions() * LoadConfiguration.getBinRegionSize()) * 400;
+        int sideY = (LoadConfiguration.isWorldSquare()) ? sideX :
+                (LoadConfiguration.getWorldVRegions() * LoadConfiguration.getBinRegionSize()) * 400;
         playground = motion;
         playground.setPrefSize(sideX, sideY);
-        motion.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
         createBorders();
 
         Playground.playground.setEffect(Time.dayNightCycle);
@@ -60,33 +61,57 @@ public class Playground {
      * @param grounds The string as the name of the pane to switch the playground to
      */
     public static void setPlayground(@NotNull String grounds) {
+        boolean removedOld = false;
         switch (grounds) {
             case "DetailedView":
-                SimState.root.getChildren().remove(playground);
+                removedOld = SimState.root.getChildren().remove(playground);
+
                 playground = detailedView;
 
                 StaticUI.disableUI();
 
-                SimState.addPlayground(playground);
                 MenuCreation.createStatsVeiwMenu(Input.selectedCows);
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
                 break;
 
             case "StoryView":
-                SimState.root.getChildren().remove(playground);
+                removedOld = SimState.root.getChildren().remove(playground);
+
                 playground = storyView;
 
                 StaticUI.disableUI();
 
-                SimState.addPlayground(playground);
                 MenuCreation.createStoryViewMenu(Input.selectedCows);
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
                 break;
 
             case "Motion":
-                SimState.root.getChildren().remove(playground);
+                removedOld = SimState.root.getChildren().remove(playground);
+
                 playground = motion;
 
                 StaticUI.enableUI();
-                SimState.addPlayground(playground);
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
+                break;
+
+            case "Mines":
+                removedOld = SimState.root.getChildren().remove(playground);
+
+                playground = mines;
+
+                StaticUI.enableUI();
+                System.out.println("HERE " + playground.getChildren());
+                CameraControl.resetCamera();
+
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
                 break;
         }
     }

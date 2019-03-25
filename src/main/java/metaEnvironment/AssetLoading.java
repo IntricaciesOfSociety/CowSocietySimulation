@@ -16,7 +16,8 @@ import java.util.ArrayList;
  */
 public class AssetLoading {
 
-    public static Image defaultTile;
+    public static Image defaultWorldTile;
+    public static Image defaultMineTile;
 
     public static Image flatTerrain;
     public static Image mountainTileFull;
@@ -70,22 +71,16 @@ public class AssetLoading {
                     + "RockTerrainHalf.png"),0, 0, true, false);
             desertTileFull = new Image(new FileInputStream("src/main/resources/Terrain/"
                     + "DesertTileFull.png"),0, 0, true, false);
-            loadDefaultTile();
+            loadDefaultTiles();
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
         }
     }
 
-    private static void loadDefaultTile() {
-        switch (LoadConfiguration.getBasicTileName()) {
-            case "RockTerrainFull":
-                defaultTile = mountainTileFull;
-                break;
-            case "FlatTerrain":
-                defaultTile = flatTerrain;
-                break;
-        }
+    private static void loadDefaultTiles() {
+        defaultWorldTile = flatTerrain;
+        defaultMineTile = mountainTileFull;
     }
 
     /**
