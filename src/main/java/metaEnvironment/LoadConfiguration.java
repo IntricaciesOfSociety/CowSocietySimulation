@@ -176,7 +176,7 @@ public class LoadConfiguration {
         return cityName;
     }
 
-    static boolean getFullscreen() {
+    public static boolean getFullscreen() {
         return isFullscreen;
     }
 

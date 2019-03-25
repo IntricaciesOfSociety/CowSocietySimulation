@@ -9,8 +9,9 @@ import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -80,7 +81,7 @@ public class CowHandler {
         newCow.setCowLink(StaticUI.cowCreationEvent(newCow.getId()));
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
-        Playground.playground.getChildren().add(newCow);
+        PlaygroundHandler.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
 
         return newCow;

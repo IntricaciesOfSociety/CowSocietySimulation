@@ -31,26 +31,26 @@ public class ResourcesHandler {
         for (int i = 0; i < LoadConfiguration.getInitialWaterSources(); i++)
             ResourceCreation.createWaterSource(
                     AssetLoading.basicWatersource,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.basicWatersource), AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicWatersource), AssetLoading.desertTileFull)
             );
         for (int j = 0; j < LoadConfiguration.getInitialSmallRocks(); j++)
             ResourceCreation.createRockSource(
                     AssetLoading.smallRock,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallRock))
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.smallRock))
             );
         for (int k = 0; k < LoadConfiguration.getInitialSmallTrees(); k++)
             ResourceCreation.createWoodSource(
                     AssetLoading.smallTree,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         for (int q = 0; q < LoadConfiguration.getInitialLargeTrees(); q++)
             ResourceCreation.createWoodSource(
                     AssetLoading.largeTree,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++)
             ResourceCreation.createRockSource(
-                    AssetLoading.largeRock, TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeRock))
+                    AssetLoading.largeRock, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.largeRock))
             );
     }
 

@@ -29,17 +29,17 @@ public class BuildingHandler {
      */
     public static void init() {
         defaultBuilding = BuildingCreation.createResidentialBuilding(
-                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandomNotFullTile(4)
+                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandRegionTile(4)
         );
 
         BuildingCreation.createIndustrialBuilding(
                 AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),
-                TileHandler.getRandomNotFullTile(2, AssetLoading.desertTileFull, AssetLoading.flatTerrain)
+                TileHandler.getRandRegionTile(2, AssetLoading.desertTileFull, AssetLoading.flatTerrain)
         );
 
         for (int i = 0; i < LoadConfiguration.getGroceryStores(); i++) {
             BuildingCreation.createCommercialBuilding(
-                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandomNotFullTile(4)
+                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandRegionTile(4)
             );
         }
     }

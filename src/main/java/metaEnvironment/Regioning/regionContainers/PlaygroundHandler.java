@@ -1,34 +1,31 @@
-package metaEnvironment;
+package metaEnvironment.Regioning.regionContainers;
 
-import menus.MenuCreation;
-import javafx.geometry.Insets;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import menus.MenuCreation;
 import metaControl.main.CameraControl;
 import metaControl.main.Input;
 import metaControl.main.SimState;
 import metaControl.timeControl.Time;
+import metaEnvironment.LoadConfiguration;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.StaticUI;
 
-/**
- * Creates and handles the switching of the panes within the main window (the playground).
- */
-public class Playground {
+public class PlaygroundHandler {
 
-    public static Pane playground;
+    public static Playground playground;
 
     //The pane that holds all of the cows (The simulation part of the simulation)
-    private static Pane motion = new Pane();
-
-    //The pane that has the miens
-    private static Pane mines = new Pane();
+    private static Playground motion = new Playground(0);
 
     //The pane that holds the menu when a user clicks on a detailed view button
-    private static Pane detailedView = new Pane();
+    private static Playground detailedView = new Playground(1);
 
     //The pane that holds the entire story view when a user clicks the story view button
-    private static Pane storyView = new Pane();
+    private static Playground storyView = new Playground(2);
+
+    //The pane that has the miens
+    private static Playground mines = new Playground(3);
 
     /**
      * Defaults the playground to the motion pane.
@@ -44,7 +41,7 @@ public class Playground {
         playground.setPrefSize(sideX, sideY);
         createBorders();
 
-        Playground.playground.setEffect(Time.dayNightCycle);
+        playground.setEffect(Time.dayNightCycle);
     }
 
     /**
@@ -52,8 +49,8 @@ public class Playground {
      * accordingly. Automatically updates.
      */
     private static void createBorders() {
-       playground.setBorder(new Border(new BorderStroke(Color.BLACK,
-                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        playground.setBorder(new Border(new BorderStroke(Color.BLACK,
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
     }
 
     /**
@@ -61,7 +58,7 @@ public class Playground {
      * @param grounds The string as the name of the pane to switch the playground to
      */
     public static void setPlayground(@NotNull String grounds) {
-        boolean removedOld = false;
+        boolean removedOld;
         switch (grounds) {
             case "DetailedView":
                 removedOld = SimState.root.getChildren().remove(playground);
@@ -114,5 +111,13 @@ public class Playground {
 
                 break;
         }
+    }
+
+    public static int getMaxBinId() {
+        return playground.getMaxBinRegionId();
+    }
+
+    public static int getMinBinId() {
+        return playground.getMinBinRegionId();
     }
 }

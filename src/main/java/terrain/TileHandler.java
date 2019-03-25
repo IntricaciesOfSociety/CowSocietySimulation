@@ -4,10 +4,13 @@ import cowParts.Cow;
 import cowParts.actionSystem.ActionHandler;
 import javafx.scene.image.Image;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,11 +34,11 @@ public class TileHandler {
      * @return The random tile that is not an exclusion and that has room
      */
     @Nullable
-    public static Tile getRandomNotFullTile(int size, @NotNull Image ... tilesToExclude) {
+    public static Tile getRandRegionTile(int size, @NotNull Image ... tilesToExclude) {
         List<Image> exclusions = Arrays.asList(tilesToExclude);
         ArrayList<Tile> possibleTiles = new ArrayList<>();
 
-        int startRegion = random.nextInt(BinRegionHandler.newestRegionId);
+        int startRegion = random.nextInt(PlaygroundHandler.getMaxBinId() + 1);
         int nextRegion = startRegion;
 
         boolean firstRegion = true;

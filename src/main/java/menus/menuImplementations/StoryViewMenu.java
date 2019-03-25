@@ -13,10 +13,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import menus.GenericMenu;
 import metaControl.main.SimState;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -58,7 +57,7 @@ public class StoryViewMenu extends GenericMenu {
 
         logContent.getChildren().addAll(logScroll, logText);
 
-        Playground.playground.getChildren().addAll(background, idText, logContent, exitButton);
+        PlaygroundHandler.playground.getChildren().addAll(background, idText, logContent, exitButton);
 
         updateMenu();
     }
@@ -86,7 +85,7 @@ public class StoryViewMenu extends GenericMenu {
     @Override
     protected void closeMenu() {
         SimState.setSimState("Playing");
-        Playground.setPlayground("Motion");
+        PlaygroundHandler.setPlayground("Motion");
     }
 
     @Override
