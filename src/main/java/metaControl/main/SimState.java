@@ -12,11 +12,12 @@ import metaEnvironment.LoadConfiguration;
 import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resourcesManagement.ResourcesHandler;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -121,7 +122,7 @@ public class SimState extends Application {
         LoadConfiguration.loadConfigurationFile();
         EraHandler.loadEra(LoadConfiguration.getPrimaryEra());
         AssetLoading.loadBaseAssets();
-        Playground.init();
+        PlaygroundHandler.init();
 
         TileHandler.init();
         BuildingHandler.init();
@@ -135,7 +136,7 @@ public class SimState extends Application {
 
         Platform.runLater(() ->
             root.getChildren().addAll(
-                    Playground.playground, PlaygroundUIHandler.resourcesUI, PlaygroundUIHandler.buildingUI, PlaygroundUIHandler.staticUI
+                    PlaygroundHandler.playground, PlaygroundUIHandler.resourcesUI, PlaygroundUIHandler.buildingUI, PlaygroundUIHandler.staticUI
             )
         );
 
@@ -216,10 +217,12 @@ public class SimState extends Application {
     static void reDraw() {
         ArrayList<Integer> toDraw = new ArrayList<>();
 
-        for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++) {
-            if (Playground.playground.getChildren().contains(BinRegionHandler.ghostRegions.get(i)))
-                if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight()))
-                    toDraw.add(BinRegionHandler.binRegionMap.get(i).getBinId());
+        for (int i = 0; i < ((PlaygroundHandler.getMaxBinId() - PlaygroundHandler.getMinBinId()) + 1); i++) {
+            if (BinRegionHandler.ghostRegions.get( (PlaygroundHandler.getMinBinId() + i) ).localToScene(
+                    BinRegionHandler.ghostRegions.get( (PlaygroundHandler.getMinBinId() + i) ).getBoundsInLocal()
+                ).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight())
+            )
+                toDraw.add(BinRegionHandler.binRegionMap.get( (PlaygroundHandler.getMinBinId() + i) ).getBinId());
         }
 
 

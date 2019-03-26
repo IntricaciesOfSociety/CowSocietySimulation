@@ -13,7 +13,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import menus.GenericMenu;
 import metaControl.main.SimState;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.NotNull;
 
@@ -93,7 +94,7 @@ public class StatsViewMenu extends GenericMenu {
         socialView.getChildren().addAll(socialViewContent, socialViewScrollPane);
 
         stack.getChildren().addAll(background, idText, exitButton, topView, bottomView, socialView, currentStatusText);
-        Playground.playground.getChildren().add(stack);
+        PlaygroundHandler.playground.getChildren().add(stack);
 
         createCognitionTree(((ArrayList<Cow>)objectTie).get(0));
         createSocialLinks((ArrayList<Cow>)objectTie);
@@ -140,9 +141,9 @@ public class StatsViewMenu extends GenericMenu {
     @Override
     protected void closeMenu() {
         SimState.setSimState("Playing");
-        Playground.setPlayground("Motion");
+        PlaygroundHandler.setPlayground("Motion");
         stack.getChildren().clear();
-        Playground.playground.getChildren().remove(stack);
+        PlaygroundHandler.playground.getChildren().remove(stack);
     }
 
     @Override

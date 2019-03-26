@@ -6,8 +6,7 @@ import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import infrastructure.buildings.buildingTypes.IndustrialBuilding;
-import metaControl.timeControl.EraHandler;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,7 +14,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import technology.CurrentTechnology;
 import terrain.Tile;
 import org.jetbrains.annotations.NotNull;
@@ -122,7 +121,7 @@ public class Input {
          * Saves the mouse drag point's coords anytime that the mouse is pressed based on the mouse's current coords
          * within the playground.
          */
-        Playground.playground.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+        PlaygroundHandler.playground.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             startXDrag = mouseEvent.getX();
             startYDrag = mouseEvent.getY();
         });
@@ -130,13 +129,13 @@ public class Input {
         /*
          * Handles any scrolling event within the playground and zooms in/out according to the direction of the scroll.
          */
-        Playground.playground.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> CameraControl.zoomCamera(scrollEvent.getDeltaY() > 0));
+        PlaygroundHandler.playground.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> CameraControl.zoomCamera(scrollEvent.getDeltaY() > 0));
 
         /*
          * Calls the check to see what cow nodes were within the dragBox, then sets the box coords and size to be out of
          * the way; all on the mouse released event in the playground.
          */
-        Playground.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
+        PlaygroundHandler.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
             ExecuteAction.dragBoxSelectionUpdate(dragBox);
             dragBox.setWidth(-1);
             dragBox.setHeight(-1);
@@ -154,10 +153,13 @@ public class Input {
             else if (mouseEvent.getTarget() instanceof Tile) {
                 if (mouseEvent.getTarget() instanceof GenericBuilding) {
                     ((GenericBuilding) mouseEvent.getTarget()).toggleInhabitantsMenu();
-                    if (mouseEvent.getTarget() instanceof IndustrialBuilding && ((IndustrialBuilding) mouseEvent.getTarget()).getId().equals(CurrentTechnology.getMineName()))
-                        Playground.setPlayground("Mines");
+                    if (mouseEvent.getTarget() instanceof IndustrialBuilding) {
+                        if (((IndustrialBuilding) mouseEvent.getTarget()).getId().equals(CurrentTechnology.getMineName()))
+                            PlaygroundHandler.setPlayground("Mines");
+                        else if (((IndustrialBuilding) mouseEvent.getTarget()).getId().equals("MineExit"))
+                            PlaygroundHandler.setPlayground("Motion");
+                    }
                 }
-
 
                 if (SimState.getSimState().equals("TileView")) {
                     TileUI.setSelectedTile((Tile) mouseEvent.getTarget());
@@ -173,7 +175,7 @@ public class Input {
          * Handles whenever the the mouse is dragged. Moves the dragBox within the playground depending on the start
          * coordinates of the drag and the current mouse coordinates relative to the playground.
          */
-        Playground.playground.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
+        PlaygroundHandler.playground.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
             xRight = mouseEvent.getX() > startXDrag;
             yUp = mouseEvent.getY() < startYDrag;
 
@@ -191,7 +193,7 @@ public class Input {
     private static void initDragBox() {
         dragBox.setFill(Color.BLACK);
         dragBox.setOpacity(0.5);
-        Playground.playground.getChildren().add(dragBox);
+        PlaygroundHandler.playground.getChildren().add(dragBox);
     }
 
     /**

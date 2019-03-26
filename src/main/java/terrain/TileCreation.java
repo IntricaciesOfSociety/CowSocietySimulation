@@ -3,9 +3,10 @@ package terrain;
 import javafx.scene.image.Image;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.LoadConfiguration;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ class TileCreation {
     static void createBasicTiles() {
         int horizontalRegions = LoadConfiguration.getWorldHRegions();
         int verticalRegions = (LoadConfiguration.isWorldSquare()) ? horizontalRegions : LoadConfiguration.getWorldVRegions();
-        for (int i = 0; i < horizontalRegions; i++)
+        for (int i = 0; i < horizontalRegions; i++) {
             for (int j = 0; j < verticalRegions; j++) {
                 BinRegion newRegion = BinRegionHandler.createNewRegion();
                 BinRegionHandler.createGhostRegion(i * (LoadConfiguration.getBinRegionSize() * 400), j * (LoadConfiguration.getBinRegionSize() * 400), LoadConfiguration.getBinRegionSize() * 400, LoadConfiguration.getBinRegionSize() * 400, newRegion.getBinId());
@@ -28,15 +29,18 @@ class TileCreation {
                     for (int h = 0; h < LoadConfiguration.getBinRegionSize(); h++)
                         newRegion.addTile(new Tile(400 * k, 400 * h, AssetLoading.defaultWorldTile, newRegion));
             }
+        }
+        PlaygroundHandler.playground.setBinRegionIds(0, BinRegionHandler.newestRegionId - 1);
         createBiomes();
         createMines();
     }
 
     private static void createMines() {
-        Playground.setPlayground("Mines");
+        PlaygroundHandler.setPlayground("Mines");
+        int minId = BinRegionHandler.newestRegionId;
         int horizontalRegions = LoadConfiguration.getMineHRegions();
         int verticalRegions = (LoadConfiguration.isMineSquare()) ? horizontalRegions : LoadConfiguration.getMineVRegions();
-        for (int i = 0; i < horizontalRegions; i++)
+        for (int i = 0; i < horizontalRegions; i++) {
             for (int j = 0; j < verticalRegions; j++) {
                 BinRegion newRegion = BinRegionHandler.createNewRegion();
                 BinRegionHandler.createGhostRegion(i * (LoadConfiguration.getBinRegionSize() * 400), j * (LoadConfiguration.getBinRegionSize() * 400), LoadConfiguration.getBinRegionSize() * 400, LoadConfiguration.getBinRegionSize() * 400, newRegion.getBinId());
@@ -46,7 +50,9 @@ class TileCreation {
                     for (int h = 0; h < LoadConfiguration.getBinRegionSize(); h++)
                         newRegion.addTile(new Tile(400 * k, 400 * h, AssetLoading.defaultMineTile, newRegion));
             }
-        Playground.setPlayground("Motion");
+        }
+        PlaygroundHandler.playground.setBinRegionIds(minId, (BinRegionHandler.newestRegionId - 1));
+        PlaygroundHandler.setPlayground("Motion");
     }
 
     private static void createBiomes() {

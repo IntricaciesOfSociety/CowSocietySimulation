@@ -10,7 +10,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import menus.GenericMenu;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 public class CowFitnessPopup extends GenericMenu {
 
@@ -64,7 +65,7 @@ public class CowFitnessPopup extends GenericMenu {
         cognitiveAggregates.getChildren().addAll(overallEmotion, overallFinance, overallSocial, overallPhysical, overallMental, overallAcademic);
         stack.getChildren().addAll(background, idText, cognitiveAggregates);
 
-        Playground.playground.getChildren().add(stack);
+        PlaygroundHandler.playground.getChildren().add(stack);
         stack.toFront();
 
         updateMenu();
@@ -78,7 +79,7 @@ public class CowFitnessPopup extends GenericMenu {
     @Override
     protected void closeMenu() {
         stack.getChildren().clear();
-        Playground.playground.getChildren().remove(stack);
+        PlaygroundHandler.playground.getChildren().remove(stack);
     }
 
     @Override

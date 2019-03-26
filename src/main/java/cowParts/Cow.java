@@ -11,8 +11,9 @@ import javafx.scene.image.Image;
 import menus.GenericMenu;
 import metaControl.main.Input;
 import metaEnvironment.Regioning.BinRegion;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -134,7 +135,7 @@ public class Cow extends ImageView {
 
         hidden = false;
         CowHandler.liveCowList.remove(this);
-        Playground.playground.getChildren().remove(this);
+        PlaygroundHandler.playground.getChildren().remove(this);
 
         StaticUI.cowDeathEventUpdate(cowLink);
 
@@ -150,7 +151,7 @@ public class Cow extends ImageView {
             MenuHandler.closeMenu(this.cowMenu);
 
         hidden = true;
-        Playground.playground.getChildren().remove(this);
+        PlaygroundHandler.playground.getChildren().remove(this);
         StaticUI.updateIdText();
     }
 
@@ -161,8 +162,8 @@ public class Cow extends ImageView {
         if (hidden) {
             hidden = false;
 
-            if (!Playground.playground.getChildren().contains(this))
-                Playground.playground.getChildren().add(this);
+            if (!PlaygroundHandler.playground.getChildren().contains(this))
+                PlaygroundHandler.playground.getChildren().add(this);
             else
                 System.out.println("Duplicate???? " + this.getId());
         }
