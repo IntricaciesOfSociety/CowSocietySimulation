@@ -26,6 +26,7 @@ public class MenuHandler {
      * Closes the given menu by removing it from its parent node
      * @param menu the menu to be closed
      */
+
     public static void closeMenu(@NotNull GenericMenu menu) {
         menu.closeMenu();
         staticStatsMenu = null;

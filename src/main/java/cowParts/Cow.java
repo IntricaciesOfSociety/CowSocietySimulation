@@ -1,6 +1,6 @@
 package cowParts;
 
-import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import cowParts.cowThoughts.Cognition;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.cowThoughts.PersonalViews;
@@ -11,15 +11,15 @@ import javafx.scene.image.Image;
 import menus.GenericMenu;
 import metaControl.main.Input;
 import metaEnvironment.Regioning.BinRegion;
-import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import menus.MenuCreation;
 import menus.MenuHandler;
-import terrain.Tile;
+import societalProductivity.jobs.Occupation;
 import userInterface.playgroundUI.StaticUI;
 
 import java.util.ArrayList;
@@ -31,64 +31,39 @@ import java.util.Random;
  */
 public class Cow extends ImageView {
 
-    /* What makes a cow */
+    /* ImageView/General java properties */
+    public Image skinSprite;
+    private ColorAdjust color = new ColorAdjust();
+    private Random random = new Random();
+
+    /* Menu and UI elements */
+    private Hyperlink cowLink;
+    private GenericMenu cowMenu;
+    private String currentBehavior = "";
+
+    /* The mind/self of a cow */
     public Cognition self;
     public BirthEvent birth;
     public Social socialRelations;
     public PersonalViews views;
-    public Image skinSprite;
+    private Occupation job;
 
+    /* Misc Control flags */
     private int numberOfVotes;
-
-    /* Control flags
-    alreadyMoving: If an animation is to be ran or not (therefor if the cow is to be moved or not)
-    delayTimer: The animation timer that is created to delay movement
-    counter: A counter that updates based of the main loop ticks
-    hidden: If the cow is to be updated from the liveCowList or not
-     */
-    public boolean alreadyMoving = false;
+    private boolean voted = false;
     private int counter = 0;
-    private boolean hidden = false;
-
-    //Contains any animation that the cow is using
-    public Transition animation;
-
-    //Used for relation value changing logic
-    private Random random = new Random();
-
-    /* UI elements
-    cowLink: The hyperlink that correlates to the cow
-    cowMenu: The menu that correlates to the cow
-     */
-    private Hyperlink cowLink;
-    private GenericMenu cowMenu;
-
-    /* Logging elements
-    currentAction: What the cow is currently doing within the sim
-     */
-    public String currentAction = "";
-
-    /* What makes a cow
-    color: The color effects applied to the cow
-     */
-    private ColorAdjust color = new ColorAdjust();
-
-    //The job that this cow has
-    private String job = "Spinning";
-
-    //If the cow has had a child or not
     boolean parent = false;
 
-    /* Tile Control variables
-    livingSpace: Where the cow currently resides
-    buildingTime: How long to stay in the next building
-     */
+    /* Movement */
+    public boolean alreadyMoving = false;
+    public Transition animation;
+    private Object destination;
+    private boolean hidden = false;
+
+    /* Tile Members*/
     private GenericBuilding livingSpace;
     private GenericBuilding buildingIn;
-
     private BinRegion regionIn;
-    private Object destination;
-    private boolean voted = false;
 
     Cow(Cow parent1, Cow parent2) {
         if (parent1 != null)
@@ -160,7 +135,7 @@ public class Cow extends ImageView {
 
         hidden = false;
         CowHandler.liveCowList.remove(this);
-        Playground.playground.getChildren().remove(this);
+        PlaygroundHandler.playground.getChildren().remove(this);
 
         StaticUI.cowDeathEventUpdate(cowLink);
 
@@ -176,7 +151,7 @@ public class Cow extends ImageView {
             MenuHandler.closeMenu(this.cowMenu);
 
         hidden = true;
-        Playground.playground.getChildren().remove(this);
+        PlaygroundHandler.playground.getChildren().remove(this);
         StaticUI.updateIdText();
     }
 
@@ -187,8 +162,8 @@ public class Cow extends ImageView {
         if (hidden) {
             hidden = false;
 
-            if (!Playground.playground.getChildren().contains(this))
-                Playground.playground.getChildren().add(this);
+            if (!PlaygroundHandler.playground.getChildren().contains(this))
+                PlaygroundHandler.playground.getChildren().add(this);
             else
                 System.out.println("Duplicate???? " + this.getId());
         }
@@ -243,16 +218,16 @@ public class Cow extends ImageView {
     /**
      * @return The action that the cow is currently doing.
      */
-    public String getCurrentAction() {
-        return currentAction;
+    public String getcurrentBehavior() {
+        return currentBehavior;
     }
 
-    public String getJob() {
+    public Occupation getJob() {
         return job;
     }
 
-    public void setJob(String job) {
-        this.job = job;
+    public void setJob(Occupation newJob) {
+        this.job = newJob;
     }
 
     public Social getSocialRelations() {
@@ -333,5 +308,9 @@ public class Cow extends ImageView {
 
     public void setRegionIn(BinRegion newRegion) {
         regionIn = newRegion;
+    }
+
+    public void setCurrentBehavior(String newBehavior) {
+        this.currentBehavior = newBehavior;
     }
 }

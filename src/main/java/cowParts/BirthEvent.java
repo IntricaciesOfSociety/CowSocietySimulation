@@ -1,7 +1,7 @@
 package cowParts;
 
 import cowParts.cowAI.NaturalSelection;
-import cowParts.cowMovement.DecideActions;
+import cowParts.actionSystem.ActionHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class BirthEvent {
         newCow.setRegionIn(parent1.getRegionIn());
         newCow.self.setAge(-newCow.self.getAge() + 1);
 
-        DecideActions.decideActions(newCow);
+        ActionHandler.decideActions(newCow);
         newCow.setTranslateX(parent1.getTranslateX());
         newCow.setTranslateY(parent1.getTranslateY());
 

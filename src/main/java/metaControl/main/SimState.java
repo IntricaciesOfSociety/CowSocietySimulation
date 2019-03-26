@@ -1,25 +1,23 @@
 package metaControl.main;
 
-import infrastructure.BuildingHandler;
+import cowParts.actionSystem.ActionHandler;
+import infrastructure.buildings.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import cowParts.cowMovement.DecideActions;
-import cowParts.cowMovement.ExecuteAction;
+import cowParts.actionSystem.action.ExecuteAction;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Bounds;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
+import metaControl.timeControl.EraHandler;
 import metaEnvironment.LoadConfiguration;
-import metaControl.Time;
+import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resourcesManagement.ResourcesHandler;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -29,7 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import menus.MenuHandler;
 import societalProductivity.Issue;
-import societalProductivity.cityPlanning.CityControl;
+import societalProductivity.urbanPlanning.CivicControl;
 import terrain.TileHandler;
 import userInterface.playgroundUI.PlaygroundUIHandler;
 import org.jetbrains.annotations.Contract;
@@ -122,14 +120,15 @@ public class SimState extends Application {
         EventLogger.clearLogs();
 
         LoadConfiguration.loadConfigurationFile();
+        EraHandler.loadEra(LoadConfiguration.getPrimaryEra());
         AssetLoading.loadBaseAssets();
-        Playground.init();
+        PlaygroundHandler.init();
 
         TileHandler.init();
         BuildingHandler.init();
         ResourcesHandler.init();
 
-        CityControl.init();
+        CivicControl.init();
 
         Issue.init();
         CowHandler.init();
@@ -137,9 +136,10 @@ public class SimState extends Application {
 
         Platform.runLater(() ->
             root.getChildren().addAll(
-                    Playground.playground, PlaygroundUIHandler.resourcesUI, PlaygroundUIHandler.buildingUI, PlaygroundUIHandler.staticUI
+                    PlaygroundHandler.playground, PlaygroundUIHandler.resourcesUI, PlaygroundUIHandler.buildingUI, PlaygroundUIHandler.staticUI
             )
         );
+
 
         Input.enableInput(initialScene);
         simLoop();
@@ -189,7 +189,7 @@ public class SimState extends Application {
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             NaturalSelection.calculateFitness(CowHandler.liveCowList.get(i));
             if (!CowHandler.liveCowList.get(i).alreadyMoving)
-                DecideActions.decideActions(CowHandler.liveCowList.get(i));
+                ActionHandler.decideActions(CowHandler.liveCowList.get(i));
         }
         Time.updateTime();
     }
@@ -217,9 +217,14 @@ public class SimState extends Application {
     static void reDraw() {
         ArrayList<Integer> toDraw = new ArrayList<>();
 
-        for (int i = 0; i < BinRegionHandler.ghostRegions.size(); i++)
-            if (BinRegionHandler.ghostRegions.get(i).localToScene(BinRegionHandler.ghostRegions.get(i).getBoundsInLocal()).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight()))
-                toDraw.add(BinRegionHandler.binRegionMap.get(i).getBinId());
+        for (int i = 0; i < ((PlaygroundHandler.getMaxBinId() - PlaygroundHandler.getMinBinId()) + 1); i++) {
+            if (BinRegionHandler.ghostRegions.get( (PlaygroundHandler.getMinBinId() + i) ).localToScene(
+                    BinRegionHandler.ghostRegions.get( (PlaygroundHandler.getMinBinId() + i) ).getBoundsInLocal()
+                ).intersects(0, 0, initialScene.getWidth(), initialScene.getHeight())
+            )
+                toDraw.add(BinRegionHandler.binRegionMap.get( (PlaygroundHandler.getMinBinId() + i) ).getBinId());
+        }
+
 
         if (!toDraw.isEmpty())
             BinRegionHandler.setActiveRegions(toDraw);

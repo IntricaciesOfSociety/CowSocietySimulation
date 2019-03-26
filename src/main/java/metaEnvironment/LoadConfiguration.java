@@ -21,12 +21,18 @@ public class LoadConfiguration {
     private static int initialPopulation;
 
     //[Tiles]
-    private static boolean squareRegionSet;
-    private static int verticalRegions;
-    private static int horizontalRegions;
-    private static String basicTileName;
+    private static boolean worldSquare;
+    private static int worldVRegions;
+    private static int worldHRegions;
+    private static String basicWorldTile;
     private static int mountainBiomes;
     private static int desertBiomes;
+
+    //[Mines]
+    private static boolean mineSquare;
+    private static int mineHRegions;
+    private static int mineVRegions;
+    private static String basicMineTile;
 
     //[Buildings]
     private static String basicSmallDwelling;
@@ -41,6 +47,9 @@ public class LoadConfiguration {
     private static int initialWaterSources;
     private static int initialLargeRocks;
     private static int initialLargeTrees;
+    private static int initialClay;
+    private static int initialCopper;
+    private static int initialIron;
 
     //[Cows]
     //[City]
@@ -71,12 +80,17 @@ public class LoadConfiguration {
         primaryEra = ini.get("SituationConfig", "era");
         initialPopulation = Integer.parseInt(ini.get("SituationConfig", "population"));
 
-        squareRegionSet = Boolean.parseBoolean(ini.get("Tiles", "squareRegionSet"));
-        horizontalRegions = Integer.parseInt(ini.get("Tiles", "horizontalRegions"));
-        verticalRegions = Integer.parseInt(ini.get("Tiles", "verticalRegions"));
-        basicTileName = ini.get("Tiles", "basictile");
-        mountainBiomes = Integer.parseInt(ini.get("Tiles", "mountainBiomes"));
-        desertBiomes = Integer.parseInt(ini.get("Tiles", "desertBiomes"));
+        worldSquare = Boolean.parseBoolean(ini.get("Overworld", "squareRegionSet"));
+        worldHRegions = Integer.parseInt(ini.get("Overworld", "horizontalRegions"));
+        worldVRegions = Integer.parseInt(ini.get("Overworld", "verticalRegions"));
+        basicWorldTile = ini.get("Overworld", "basictile");
+        mountainBiomes = Integer.parseInt(ini.get("Overworld", "mountainBiomes"));
+        desertBiomes = Integer.parseInt(ini.get("Overworld", "desertBiomes"));
+
+        mineSquare =  Boolean.parseBoolean(ini.get("Mines", "squareRegionSet"));
+        mineHRegions = Integer.parseInt(ini.get("Mines", "horizontalRegions"));
+        mineVRegions = Integer.parseInt(ini.get("Mines", "verticalRegions"));
+        basicMineTile = ini.get("Mines", "basictile");
 
         basicSmallDwelling = ini.get("Buildings", "basicsmalldwelling");
         basicLargeDwelling = ini.get("Buildings", "basiclargedwelling");
@@ -89,6 +103,9 @@ public class LoadConfiguration {
         initialLargeRocks = Integer.parseInt(ini.get("Resources", "largeRocks"));
         initialLargeTrees = Integer.parseInt(ini.get("Resources", "largeTrees"));
         initialWaterSources = Integer.parseInt(ini.get("Resources", "watersources"));
+        initialClay = Integer.parseInt(ini.get("Resources", "clay"));
+        initialCopper = Integer.parseInt(ini.get("Resources", "copper"));
+        initialIron = Integer.parseInt(ini.get("Resources", "iron"));
 
         cityName = ini.get("City", "cityName");
     }
@@ -114,13 +131,28 @@ public class LoadConfiguration {
     }
 
     @Contract(pure = true)
+    public static int getInitialClay() {
+        return initialClay;
+    }
+
+    @Contract(pure = true)
+    public static int getInitialCopper() {
+        return initialCopper;
+    }
+
+    @Contract(pure = true)
+    public static int getInitialIron() {
+        return initialIron;
+    }
+
+    @Contract(pure = true)
     public static String getPrimaryEra() {
         return primaryEra;
     }
 
     @Contract(pure = true)
-    public static String getBasicTileName() {
-        return basicTileName;
+    static String getBasicWorldTile() {
+        return basicWorldTile;
     }
 
     @Contract(pure = true)
@@ -165,7 +197,7 @@ public class LoadConfiguration {
         return cityName;
     }
 
-    static boolean getFullscreen() {
+    public static boolean getFullscreen() {
         return isFullscreen;
     }
 
@@ -173,15 +205,31 @@ public class LoadConfiguration {
         return binRegionSize;
     }
 
-    public static boolean isSquareRegionSet() {
-        return squareRegionSet;
+    public static boolean isWorldSquare() {
+        return worldSquare;
     }
 
-    public static int getVerticalRegions() {
-        return verticalRegions;
+    public static int getWorldVRegions() {
+        return worldVRegions;
     }
 
-    public static int getHorizontalRegions() {
-        return horizontalRegions;
+    public static int getWorldHRegions() {
+        return worldHRegions;
+    }
+
+    public static boolean isMineSquare() {
+        return mineSquare;
+    }
+
+    public static int getMineHRegions() {
+        return mineHRegions;
+    }
+
+    public static int getMineVRegions() {
+        return mineVRegions;
+    }
+
+    public static String getBasicMineTile() {
+        return basicMineTile;
     }
 }

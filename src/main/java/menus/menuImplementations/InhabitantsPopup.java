@@ -1,7 +1,7 @@
 package menus.menuImplementations;
 
 
-import infrastructure.buildingTypes.GenericBuilding;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -9,7 +9,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import menus.GenericMenu;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 public class InhabitantsPopup extends GenericMenu {
 
@@ -35,7 +36,7 @@ public class InhabitantsPopup extends GenericMenu {
         numberOfInhabitants.setFont(Font.font("Verdana", FontWeight.BOLD, 48));
 
         stack.getChildren().addAll(background, numberOfInhabitants);
-        Playground.playground.getChildren().add(stack);
+        PlaygroundHandler.playground.getChildren().add(stack);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class InhabitantsPopup extends GenericMenu {
     @Override
     protected void closeMenu() {
         stack.getChildren().clear();
-        Playground.playground.getChildren().remove(stack);
+        PlaygroundHandler.playground.getChildren().remove(stack);
     }
 
     @Override

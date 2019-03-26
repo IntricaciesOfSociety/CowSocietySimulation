@@ -1,20 +1,21 @@
 package cowParts;
 
-import infrastructure.BuildingHandler;
+import infrastructure.buildings.BuildingHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import metaEnvironment.LoadConfiguration;
-import metaControl.Time;
+import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import societalProductivity.Role;
+import societalProductivity.jobs.JobHandler;
 import userInterface.playgroundUI.StaticUI;
 
 import java.util.ArrayList;
@@ -75,12 +76,12 @@ public class CowHandler {
 
         newCow.setLivingSpace(BuildingHandler.getBuildingAssignment(newCow.getId()));
 
-        new Role(newCow);
+        JobHandler.assignRandomJob(newCow);
 
         newCow.setCowLink(StaticUI.cowCreationEvent(newCow.getId()));
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
-        Playground.playground.getChildren().add(newCow);
+        PlaygroundHandler.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
 
         return newCow;

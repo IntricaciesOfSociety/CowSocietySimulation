@@ -2,7 +2,7 @@ package societalProductivity.government;
 
 import cowParts.Cow;
 import cowParts.CowHandler;
-import metaControl.Time;
+import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

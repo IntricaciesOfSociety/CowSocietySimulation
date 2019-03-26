@@ -1,6 +1,6 @@
 package metaEnvironment.Regioning;
 
-import infrastructure.buildingTypes.*;
+import infrastructure.buildings.buildingTypes.*;
 import javafx.scene.Group;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.resourceTypes.RockSource;
