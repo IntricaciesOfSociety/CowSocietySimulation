@@ -59,7 +59,7 @@ public class NaturalSelection {
 
     private static void mutate(Cognition crossoverCog) {
         //Mutate first
-        if (random.nextInt(1) == 0)
+        if (random.nextInt(3) == 0)
             crossoverCog.setPhysicalHealth(random.nextInt(100));
         if (random.nextInt(3) == 0)
             crossoverCog.setIntelligence(random.nextInt(100));
@@ -90,7 +90,7 @@ public class NaturalSelection {
     @Nullable
     public static Cow getMostFitAndFertile(Cow cowToCheck) {
         for (int i = 0; i < CowHandler.liveCowList.size(); i++ ) {
-            if (CowHandler.liveCowList.get(i).birth.isFertile())
+            if (CowHandler.liveCowList.get(i) != cowToCheck && CowHandler.liveCowList.get(i).birth.isFertile())
                 return CowHandler.liveCowList.get(i);
         }
         return null;

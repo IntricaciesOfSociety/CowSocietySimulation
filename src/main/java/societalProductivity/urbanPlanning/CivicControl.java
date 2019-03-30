@@ -11,14 +11,13 @@ import java.util.ArrayList;
 
 public class CivicControl {
 
-    private static String cityName = LoadConfiguration.getCityName();
+    private static String cityName;
 
     private static ArrayList<CivicSector> allSectors = new ArrayList<>();
+
     public static void init() {
         cityName = LoadConfiguration.getCityName();
         createCityLog();
-
-        //allSectors.add(new CivicSector(BuildingHandler.get));
     }
 
     private static void createCityLog() {

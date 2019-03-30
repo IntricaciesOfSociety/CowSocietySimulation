@@ -12,10 +12,10 @@ public class PassiveActions {
 
     public static void buyHouse(Cow cowToCheck) {
         //If there is space available
-        if (TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.playground) != null) {
+        if (TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.getMotion()) != null) {
             cowToCheck.setLivingSpace(BuildingCreation.createResidentialBuilding(
                     AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(),
-                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.playground)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.getMotion())
             ));
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);

@@ -42,7 +42,7 @@ public class WaterSource extends GenericResource {
 
         if (resourceHealth <= 0) {
             region.removeWaterSource(this);
-            PlaygroundHandler.playground.getChildren().remove(this);
+            this.region.getPlayground().getChildren().remove(this);
         }
 
     }

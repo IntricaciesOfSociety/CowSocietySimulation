@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.ResourcesHandler;
 import societalProductivity.government.Economy;
-import societalProductivity.government.Government;
+import societalProductivity.government.GovernmentExecution;
 import userInterface.playgroundUI.StaticUI;
 
 import java.util.Random;
@@ -95,7 +95,7 @@ public class ActiveActions {
         return returnAction(cowToCheck, BuildingHandler.getClosestVotingArea(cowToCheck), "Voting",
             () -> {
                 BuildingHandler.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
-                Government.vote(CowHandler.liveCowList.get(random.nextInt(CowHandler.liveCowList.size())));
+                //GovernmentExecution.vote(CowHandler.liveCowList.get(random.nextInt(CowHandler.liveCowList.size())));
 
                 EventLogger.createLoggedEvent(cowToCheck, "Voting", 0, "trust", 10);
                 cowToCheck.self.setTrust(10);

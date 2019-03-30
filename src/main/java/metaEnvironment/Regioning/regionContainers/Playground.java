@@ -1,5 +1,6 @@
 package metaEnvironment.Regioning.regionContainers;
 
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.*;
 
 /**
@@ -10,9 +11,11 @@ public class Playground extends Pane {
     private int regionId;
     private int minBinRegionId;
     private int maxBinRegionId;
+    private ColorAdjust brightnessAdjust = new ColorAdjust();
 
     Playground(int id) {
         this.regionId = id;
+        this.setEffect(brightnessAdjust);
     }
 
     public void setBinRegionIds(int min, int max) {
@@ -20,11 +23,15 @@ public class Playground extends Pane {
         maxBinRegionId = max;
     }
 
-    int getMinBinRegionId() {
+    public void setBrightness(double newBrightness) {
+        brightnessAdjust.setBrightness(newBrightness);
+    }
+
+    public int getMinBinRegionId() {
         return minBinRegionId;
     }
 
-    int getMaxBinRegionId() {
+    public int getMaxBinRegionId() {
         return maxBinRegionId;
     }
 

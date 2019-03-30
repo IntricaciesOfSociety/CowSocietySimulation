@@ -4,8 +4,6 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.Random;
 
-
-
 /**
  * Holds all the cognitive values for each cow. Also contains the getters and setters for each value.
  */

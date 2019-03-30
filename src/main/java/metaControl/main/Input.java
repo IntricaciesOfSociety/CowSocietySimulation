@@ -6,7 +6,6 @@ import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import infrastructure.buildings.buildingTypes.IndustrialBuilding;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -14,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import technology.CurrentTechnology;
 import terrain.Tile;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 public class Input {
 
     private static boolean cowPopupMenuToggle = false;
+    private static boolean mineToggle = false;
 
     //TEST VARIABLE
     private static boolean testToggle = false;
@@ -69,6 +70,17 @@ public class Input {
             if (keyPressed.equals(KeyCode.DOWN)) CameraControl.setSouth(true);
             if (keyPressed.equals(KeyCode.RIGHT)) CameraControl.setEast(true);
 
+            if (keyPressed.equals(KeyCode.M)) {
+                if (mineToggle) {
+                    PlaygroundHandler.setPlayground("Motion");
+                    mineToggle = false;
+                }
+                else {
+                    PlaygroundHandler.setPlayground("Mines");
+                    mineToggle = true;
+                }
+            }
+
             //Zooming
             if (keyPressed.equals(KeyCode.Z)) CameraControl.setZoomIn(true);
             if (keyPressed.equals(KeyCode.X)) CameraControl.setZoomOut(true);
@@ -88,8 +100,11 @@ public class Input {
             if (keyPressed.equals(KeyCode.F)) SimState.initFullScreen();
 
             //TODO: Remove debug
-            if (keyPressed.equals(KeyCode.O))
+            if (keyPressed.equals(KeyCode.O)) {
+
                 System.out.println("DEBUG");
+            }
+
 
             //Pause/UnPause simulation
             if (keyPressed.equals(KeyCode.P)) {
@@ -153,11 +168,16 @@ public class Input {
             else if (mouseEvent.getTarget() instanceof Tile) {
                 if (mouseEvent.getTarget() instanceof GenericBuilding) {
                     ((GenericBuilding) mouseEvent.getTarget()).toggleInhabitantsMenu();
-                    if (mouseEvent.getTarget() instanceof IndustrialBuilding) {
-                        if (((IndustrialBuilding) mouseEvent.getTarget()).getId().equals(CurrentTechnology.getMineName()))
+                    if (mouseEvent.getTarget() instanceof IndustrialBuilding  && ((IndustrialBuilding) mouseEvent.getTarget()).isConstructed()) {
+                        if (((IndustrialBuilding) mouseEvent.getTarget()).getId().equals(CurrentTechnology.getMineName())) {
                             PlaygroundHandler.setPlayground("Mines");
-                        else if (((IndustrialBuilding) mouseEvent.getTarget()).getId().equals("MineExit"))
+                            mineToggle = true;
+                        }
+
+                        else if (((IndustrialBuilding) mouseEvent.getTarget()).getId().equals("MineExit")) {
                             PlaygroundHandler.setPlayground("Motion");
+                            mineToggle = false;
+                        }
                     }
                 }
 

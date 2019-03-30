@@ -11,18 +11,14 @@ import javafx.scene.image.ImageView;
 import metaControl.timeControl.Time;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import societalProductivity.government.Government;
 import terrain.Tile;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Handles all the movement decision and execution for all cows. Includes the handling of all animations.
  */
 public class ActionHandler {
-
-    private static Random random = new Random();
 
     /**
      * Finds the distance as one number between the given cow and the given object
@@ -66,13 +62,11 @@ public class ActionHandler {
         if (cowToCheck.self.getThirst() <= 10 || cowToCheck.self.getHunger() <= 10)
             return ActiveActions.getVitalAction(cowToCheck);
 
-            //Economical/GovernmentalBuilding actions
+        //Economical/GovernmentalBuilding actions
         else if (cowToCheck.self.getSleepiness() > 0)
             return ActiveActions.goWork(cowToCheck);
-        else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean())
-            return ActiveActions.goVote(cowToCheck);
 
-            //Social actions
+        //Social actions
         else if (((Time.getHours() > 20 || Time.getHours() < 8) && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
             return ActiveActions.goHome(cowToCheck);
         else if (cowToCheck.birth.isFertile() && NaturalSelection.getMostFitAndFertile(cowToCheck) != null)

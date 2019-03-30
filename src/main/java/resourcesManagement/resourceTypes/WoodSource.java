@@ -51,7 +51,7 @@ public class WoodSource extends GenericResource {
 
         if (resourceHealth <= 0) {
             region.removeWoodSource(this);
-            PlaygroundHandler.playground.getChildren().remove(this);
+            this.region.getPlayground().getChildren().remove(this);
         }
     }
 

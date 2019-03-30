@@ -1,5 +1,6 @@
 package cowParts;
 
+import cowParts.cowThoughts.Traits;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import cowParts.cowThoughts.Cognition;
 import cowParts.cowAI.NaturalSelection;
@@ -46,6 +47,7 @@ public class Cow extends ImageView {
     public BirthEvent birth;
     public Social socialRelations;
     public PersonalViews views;
+    public Traits personality;
     private Occupation job;
 
     /* Misc Control flags */
@@ -66,14 +68,19 @@ public class Cow extends ImageView {
     private BinRegion regionIn;
 
     Cow(Cow parent1, Cow parent2) {
-        if (parent1 != null)
+        if (parent1 != null) {
             self = NaturalSelection.crossover(parent1, parent2);
-        else
+            personality = Traits.crossover(parent1, parent2);
+        }
+        else {
             self = new Cognition();
+            personality = new Traits();
+        }
 
         birth = new BirthEvent();
         socialRelations = new Social();
         views = new PersonalViews();
+
     }
 
     /**
@@ -135,7 +142,7 @@ public class Cow extends ImageView {
 
         hidden = false;
         CowHandler.liveCowList.remove(this);
-        PlaygroundHandler.playground.getChildren().remove(this);
+        regionIn.getPlayground().getChildren().remove(this);
 
         StaticUI.cowDeathEventUpdate(cowLink);
 
@@ -151,7 +158,7 @@ public class Cow extends ImageView {
             MenuHandler.closeMenu(this.cowMenu);
 
         hidden = true;
-        PlaygroundHandler.playground.getChildren().remove(this);
+        regionIn.getPlayground().getChildren().remove(this);
         StaticUI.updateIdText();
     }
 
@@ -162,8 +169,8 @@ public class Cow extends ImageView {
         if (hidden) {
             hidden = false;
 
-            if (!PlaygroundHandler.playground.getChildren().contains(this))
-                PlaygroundHandler.playground.getChildren().add(this);
+            if (!regionIn.getPlayground().getChildren().contains(this))
+                regionIn.getPlayground().getChildren().add(this);
             else
                 System.out.println("Duplicate???? " + this.getId());
         }
@@ -312,5 +319,10 @@ public class Cow extends ImageView {
 
     public void setCurrentBehavior(String newBehavior) {
         this.currentBehavior = newBehavior;
+    }
+
+    public void rescale(double scaleX, double scaleY) {
+        this.setScaleX(scaleX);
+        this.setScaleY(scaleY);
     }
 }

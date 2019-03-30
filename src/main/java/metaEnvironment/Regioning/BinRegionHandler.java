@@ -19,8 +19,8 @@ public class BinRegionHandler {
         return activeRegions;
     }
 
-    public static BinRegion createNewRegion() {
-        BinRegion newRegion = new BinRegion(newestRegionId);
+    public static BinRegion createNewRegion(Playground playgroundParent) {
+        BinRegion newRegion = new BinRegion(newestRegionId, playgroundParent);
         binRegionMap.put(newestRegionId, newRegion);
         newestRegionId++;
         return newRegion;

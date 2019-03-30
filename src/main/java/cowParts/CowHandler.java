@@ -81,7 +81,7 @@ public class CowHandler {
         newCow.setCowLink(StaticUI.cowCreationEvent(newCow.getId()));
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
-        PlaygroundHandler.playground.getChildren().add(newCow);
+        parent1.getRegionIn().getPlayground().getChildren().add(newCow);
         liveCowList.add(newCow);
 
         return newCow;

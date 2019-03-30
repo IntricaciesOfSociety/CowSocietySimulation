@@ -17,7 +17,6 @@ import metaEnvironment.logging.EventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import resourcesManagement.ResourcesHandler;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -81,25 +80,13 @@ public class SimState extends Application {
     public static void setSimState(@NotNull String newState) {
         playState = newState;
 
-        switch (newState) {
-            case "Paused":
-                ExecuteAction.pauseAllAnimation();
-                paused = true;
-                break;
-            case "Playing":
-                ExecuteAction.startAllAnimation();
-                paused = false;
-                break;
-            case "DetailedView":
-                ExecuteAction.pauseAllAnimation();
-                paused = true;
-                break;
-            case "StoryView":
-                ExecuteAction.pauseAllAnimation();
-                paused = true;
-                break;
-            case "TileView":
-                break;
+        if (newState.equals("Playing")) {
+            ExecuteAction.startAllAnimation();
+            paused = false;
+        }
+        else {
+            ExecuteAction.pauseAllAnimation();
+            paused = true;
         }
     }
 
@@ -140,10 +127,8 @@ public class SimState extends Application {
             )
         );
 
-
         Input.enableInput(initialScene);
         simLoop();
-        Time.timeHasStarted = true;
     }
 
     /**

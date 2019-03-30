@@ -13,7 +13,6 @@ class Platform {
     private ArrayList allIssueOpinions = new ArrayList<Opinion>();
     private ArrayList primaryFocuses = new ArrayList<Opinion>();
 
-
     void setNewLeaderPlatform(Cow leader) {
         allIssueOpinions = Opinion.getCurrentIssueOpinions(leader);
         primaryFocuses.add(allIssueOpinions.get(0));

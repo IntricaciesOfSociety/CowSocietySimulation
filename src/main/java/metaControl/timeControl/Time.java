@@ -3,11 +3,9 @@ package metaControl.timeControl;
 import cowParts.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import javafx.scene.effect.ColorAdjust;
-import metaEnvironment.LoadConfiguration;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import resourcesManagement.resourceTypes.WoodSource;
-import societalProductivity.government.Government;
 import userInterface.playgroundUI.StaticUI;
 
 import java.text.ParseException;
@@ -20,8 +18,6 @@ import java.util.Random;
  */
 public class Time {
 
-    public static boolean timeHasStarted = false;
-
     Date date;
 
     private static Random random = new Random();
@@ -33,11 +29,8 @@ public class Time {
     private static int months = 1;
     private static int years = 1;
 
-    //The brightness of the whole sim.
-    public static ColorAdjust dayNightCycle = new ColorAdjust();
-
     //0.2 max brightness, -0.7 max darkness
-    private static double brightnessValue = 0;
+    private static double dayNightBrightnessValue = 0;
 
     /**
      * Updates the sim time according to the main loop.
@@ -51,7 +44,7 @@ public class Time {
         NaturalSelection.rankFitness();
 
         updateBrightness();
-        dayNightCycle.setBrightness(brightnessValue);
+        PlaygroundHandler.getMotion().setBrightness(dayNightBrightnessValue);
     }
 
     /**TODO: Implement
@@ -59,9 +52,9 @@ public class Time {
      */
     private static void updateBrightness() {
         if (timeInDay <= 800 || timeInDay >= 2000)
-            brightnessValue = -0.7;
+            dayNightBrightnessValue = -0.7;
         else
-            brightnessValue = 0;
+            dayNightBrightnessValue = 0;
     }
 
     /**
@@ -80,36 +73,20 @@ public class Time {
             }
         }
 
-        if (days == Government.nextElectionDay()) {
-            Government.startElection();
-            System.out.println("Started Election");
-        }
-
-        if (Government.getPreviousElectionDay() + Government.getPollsOpenLength() == days) {
-            Government.stopElection();
-            System.out.println("Ended Election");
-        }
-
         Cow cowLife;
         for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
             cowLife = CowHandler.liveCowList.get(i);
             cowLife.self.setAge(1);
             cowLife.birth.updateFertility();
 
-            if (cowLife.self.getAge() == 5) {
-                cowLife.setScaleX(1.5);
-                cowLife.setScaleY(1.5);
-            }
-            else if (cowLife.self.getAge() == 10) {
-                cowLife.setScaleX(2);
-                cowLife.setScaleY(2);
-            }
+            if (cowLife.self.getAge() == 5)
+                cowLife.rescale(1.5, 1.5);
+            else if (cowLife.self.getAge() == 10)
+                cowLife.rescale(2, 2);
 
-            if (cowLife.self.getAge() > random.nextInt((100 - 50) + 1) + 50) {
+            if (cowLife.self.getAge() > random.nextInt((100 - 50) + 1) + 50)
                 cowLife.kill();
-            }
         }
-
         repopulateResources();
     }
 
@@ -153,9 +130,5 @@ public class Time {
     @Contract(pure = true)
     public static int getHours() {
         return hours;
-    }
-
-    public static boolean hasStarted() {
-        return timeHasStarted;
     }
 }

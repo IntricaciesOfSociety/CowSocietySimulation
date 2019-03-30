@@ -12,6 +12,7 @@ import userInterface.playgroundUI.StaticUI;
 
 public class PlaygroundHandler {
 
+    //MUTATED depending on what the user is looking at
     public static Playground playground;
 
     //The pane that holds all of the cows (The simulation part of the simulation)
@@ -39,8 +40,6 @@ public class PlaygroundHandler {
         playground = motion;
         playground.setPrefSize(sideX, sideY);
         createBorders();
-
-        playground.setEffect(Time.dayNightCycle);
     }
 
     /**
@@ -128,5 +127,9 @@ public class PlaygroundHandler {
 
     public static Playground getMines() {
         return mines;
+    }
+
+    public static Playground getMotion() {
+        return motion;
     }
 }

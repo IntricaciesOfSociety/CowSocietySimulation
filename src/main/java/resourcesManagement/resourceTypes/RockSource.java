@@ -42,7 +42,7 @@ public class RockSource extends GenericResource {
 
         if (resourceHealth <= 0) {
             region.removeRockSource(this);
-            PlaygroundHandler.playground.getChildren().remove(this);
+            this.region.getPlayground().getChildren().remove(this);
         }
     }
 

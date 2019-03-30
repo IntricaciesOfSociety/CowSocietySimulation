@@ -189,13 +189,13 @@ public class StaticUI {
         );
 
         detailedViewButton.setOnAction(event -> {
-            SimState.setSimState("DetailedView");
+            SimState.setSimState("Paused");
             PlaygroundHandler.setPlayground("DetailedView");
             controlGroup.setDisable(true);
         });
 
         storyViewButton.setOnAction(event ->  {
-            SimState.setSimState("StoryView");
+            SimState.setSimState("Paused");
             PlaygroundHandler.setPlayground("StoryView");
             controlGroup.setDisable(true);
         });
