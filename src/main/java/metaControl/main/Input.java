@@ -72,10 +72,14 @@ public class Input {
 
             if (keyPressed.equals(KeyCode.M)) {
                 if (mineToggle) {
+                    cowPopupMenuToggle = true;
+                    toggleAllCowMenus();
                     PlaygroundHandler.setPlayground("Motion");
                     mineToggle = false;
                 }
                 else {
+                    cowPopupMenuToggle = true;
+                    toggleAllCowMenus();
                     PlaygroundHandler.setPlayground("Mines");
                     mineToggle = true;
                 }
@@ -87,7 +91,7 @@ public class Input {
             if (keyPressed.equals(KeyCode.C)) {
                 CameraControl.resetZoom();
 
-                GenericBuilding defaultBuilding = BuildingHandler.getDefaultBuilding();
+                GenericBuilding defaultBuilding = PlaygroundHandler.playground.getDefaultBuilding();
                 CameraControl.moveCamera(
                         defaultBuilding.getLayoutX() + defaultBuilding.getRegion().getLayoutX(), defaultBuilding.getLayoutY() + defaultBuilding.getRegion().getLayoutY()
                 );
@@ -221,13 +225,15 @@ public class Input {
      */
     private static void toggleAllCowMenus() {
         if (cowPopupMenuToggle) {
-            for (Cow cow : CowHandler.liveCowList)
-                cow.closeMenu();
+            for (Cow cow : CowHandler.liveCowList) {
+                if (cow.getRegionIn().getPlayground() == PlaygroundHandler.playground)
+                    cow.closeMenu();
+            }
             cowPopupMenuToggle = false;
         }
         else {
             for (Cow cow : CowHandler.liveCowList)
-                if (!cow.isHidden())
+                if (!cow.isHidden() && cow.getRegionIn().getPlayground() == PlaygroundHandler.playground)
                     cow.openMenu();
             cowPopupMenuToggle = true;
         }

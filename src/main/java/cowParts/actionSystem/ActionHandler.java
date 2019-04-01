@@ -9,6 +9,7 @@ import cowParts.Cow;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;
 import metaControl.timeControl.Time;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import terrain.Tile;
@@ -87,7 +88,7 @@ public class ActionHandler {
          * Static (for now) stats based decisions.
          */
         if (cowToCheck.self.getDebt() <= 10 && cowToCheck.self.getSavings() > 30
-                && (BuildingHandler.getDefaultBuilding() == cowToCheck.getLivingSpace())) {
+                && (PlaygroundHandler.getMotion().getDefaultBuilding() == cowToCheck.getLivingSpace())) {
             PassiveActions.buyHouse(cowToCheck);
         }
         return null;

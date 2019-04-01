@@ -24,16 +24,13 @@ import java.util.ArrayList;
  */
 public class BuildingHandler {
 
-    private static GenericBuilding defaultBuilding;
-
-
     /**
      * Creates the necessary infrastructure based off the situation chosen for the sim.
      */
     public static void init() {
-        defaultBuilding = BuildingCreation.createResidentialBuilding(
+        PlaygroundHandler.getMotion().setDefaultBuilding(BuildingCreation.createResidentialBuilding(
                 AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandRegionTile(4, PlaygroundHandler.getMotion())
-        );
+        ));
 
         for (int j = 0; j < 100; j++)
             BuildingCreation.createIndustrialBuilding(
@@ -54,6 +51,7 @@ public class BuildingHandler {
         if (mineExit != null) {
             mineExit.finishConstruction();
             mineExit.disableMenu();
+            PlaygroundHandler.getMines().setDefaultBuilding(mineExit);
         }
     }
 
@@ -117,11 +115,7 @@ public class BuildingHandler {
      */
     @Contract(pure = true)
     public static GenericBuilding getBuildingAssignment(String cowID) {
-        return defaultBuilding;
-    }
-
-    public static GenericBuilding getDefaultBuilding() {
-        return defaultBuilding;
+        return PlaygroundHandler.getMotion().getDefaultBuilding();
     }
 
     public static GenericBuilding getClosestGroceryStore(Cow cowToCheck) {

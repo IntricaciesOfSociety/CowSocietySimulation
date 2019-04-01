@@ -63,10 +63,19 @@ public class CowHandler {
 
         newCow.setId("Cow" + ((char) (new Random().nextInt(26) + 'a')) + new Random().nextInt(10000));
 
-        BinRegion randRegion = BinRegionHandler.binRegionMap.get(random.nextInt(BinRegionHandler.newestRegionId));
-        newCow.setRegionIn(randRegion);
-        newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
-        newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
+        if (parent1 != null) {
+            newCow.setRegionIn(parent1.getRegionIn());
+            newCow.setTranslateX(parent1.getTranslateX());
+            newCow.setTranslateY(parent1.getTranslateY());
+            parent1.getRegionIn().getPlayground().getChildren().add(newCow);
+        }
+        else {
+            BinRegion randRegion = BinRegionHandler.getRandomRegion(PlaygroundHandler.getMotion());
+            newCow.setRegionIn(randRegion);
+            newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
+            newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
+            PlaygroundHandler.getMotion().getChildren().add(newCow);
+        }
 
         newCow.setEffect(newCow.getColor());
         newCow.setSmooth(false);
@@ -81,7 +90,6 @@ public class CowHandler {
         newCow.setCowLink(StaticUI.cowCreationEvent(newCow.getId()));
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
-        parent1.getRegionIn().getPlayground().getChildren().add(newCow);
         liveCowList.add(newCow);
 
         return newCow;

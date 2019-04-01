@@ -1,5 +1,6 @@
 package metaEnvironment.Regioning.regionContainers;
 
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.*;
 
@@ -12,6 +13,7 @@ public class Playground extends Pane {
     private int minBinRegionId;
     private int maxBinRegionId;
     private ColorAdjust brightnessAdjust = new ColorAdjust();
+    private GenericBuilding defaultBuilding;
 
     Playground(int id) {
         this.regionId = id;
@@ -37,5 +39,13 @@ public class Playground extends Pane {
 
     public int getRegionId() {
         return regionId;
+    }
+
+    public void setDefaultBuilding(GenericBuilding building) {
+        defaultBuilding = building;
+    }
+
+    public GenericBuilding getDefaultBuilding() {
+        return defaultBuilding;
     }
 }
