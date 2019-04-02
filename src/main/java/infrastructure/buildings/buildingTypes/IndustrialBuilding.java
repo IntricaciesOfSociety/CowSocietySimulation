@@ -17,6 +17,8 @@ import java.util.ArrayList;
 
 public class IndustrialBuilding extends GenericBuilding {
 
+    private boolean menuDisabled = false;
+
     public IndustrialBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
         constructBuilding(buildingSprite, buildingName, tileToBuildOn);
     }
@@ -63,7 +65,7 @@ public class IndustrialBuilding extends GenericBuilding {
      * @inheritDoc
      */
     @Override
-    void finishConstruction() {
+    public void finishConstruction() {
         this.setImage(this.buildingSprite);
         this.isConstructed = true;
         this.region.removeFromConstructionQueue(this);
@@ -98,12 +100,14 @@ public class IndustrialBuilding extends GenericBuilding {
      */
     @Override
     public void toggleInhabitantsMenu() {
-        if (inhabitantsMenu != null) {
-            MenuHandler.closeMenu(this.inhabitantsMenu);
-            inhabitantsMenu = null;
+        if (!menuDisabled) {
+            if (inhabitantsMenu != null) {
+                MenuHandler.closeMenu(this.inhabitantsMenu);
+                inhabitantsMenu = null;
+            }
+            else if (this.isConstructed)
+                this.inhabitantsMenu = MenuCreation.createInhabitantsMenu(this);
         }
-        else if (this.isConstructed)
-            this.inhabitantsMenu = MenuCreation.createInhabitantsMenu(this);
     }
 
     /**
@@ -128,5 +132,9 @@ public class IndustrialBuilding extends GenericBuilding {
     @Override
     public boolean isConstructed() {
         return this.isConstructed;
+    }
+
+    public void disableMenu() {
+        menuDisabled = true;
     }
 }

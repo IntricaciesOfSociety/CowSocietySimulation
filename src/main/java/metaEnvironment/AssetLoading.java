@@ -42,6 +42,8 @@ public class AssetLoading {
     public static Image copper;
     public static Image iron;
 
+    public static Image mineExit;
+
     public static Image basicWatersource;
 
 
@@ -100,6 +102,7 @@ public class AssetLoading {
                     + LoadConfiguration.getBasicGroceryStore() + ".png"),0, 0, true, false);
             basicMineBuilding = new Image(new FileInputStream("src/main/resources/Buildings/"
                     + LoadConfiguration.getBasicMine() + ".png"),0, 0, true, false);
+            mineExit = new Image(new FileInputStream("src/main/resources/Buildings/MineExit.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
@@ -111,14 +114,14 @@ public class AssetLoading {
      */
     private static void loadResources() {
         try {
-            smallRock = new Image(new FileInputStream("src/main/resources/Environment/SmallRock.png"),0, 0, true, false);
-            basicWatersource = new Image(new FileInputStream("src/main/resources/Environment/WateringHole.png"),0, 0, true, false);
-            smallTree = new Image(new FileInputStream("src/main/resources/Environment/SmallTree.png"),0, 0, true, false);
-            largeRock = new Image(new FileInputStream("src/main/resources/Environment/LargeRock.png"),0, 0, true, false);
-            largeTree = new Image(new FileInputStream("src/main/resources/Environment/LargeTree.png"),0, 0, true, false);
-            clay = new Image(new FileInputStream("src/main/resources/Environment/Clay.png"),0, 0, true, false);
-            copper = new Image(new FileInputStream("src/main/resources/Environment/Copper.png"),0, 0, true, false);
-            iron = new Image(new FileInputStream("src/main/resources/Environment/Iron.png"),0, 0, true, false);
+            smallRock = new Image(new FileInputStream("src/main/resources/Environment/Minerals/SmallRock.png"),0, 0, true, false);
+            basicWatersource = new Image(new FileInputStream("src/main/resources/Environment/Water/WateringHole.png"),0, 0, true, false);
+            smallTree = new Image(new FileInputStream("src/main/resources/Environment/Wood/SmallTree.png"),0, 0, true, false);
+            largeRock = new Image(new FileInputStream("src/main/resources/Environment/Minerals/LargeRock.png"),0, 0, true, false);
+            largeTree = new Image(new FileInputStream("src/main/resources/Environment/Wood/LargeTree.png"),0, 0, true, false);
+            clay = new Image(new FileInputStream("src/main/resources/Environment/Minerals/Clay.png"),0, 0, true, false);
+            copper = new Image(new FileInputStream("src/main/resources/Environment/Minerals/Copper.png"),0, 0, true, false);
+            iron = new Image(new FileInputStream("src/main/resources/Environment/Minerals/Iron.png"),0, 0, true, false);
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();

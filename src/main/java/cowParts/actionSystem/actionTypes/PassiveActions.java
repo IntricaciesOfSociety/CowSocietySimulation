@@ -4,6 +4,7 @@ import cowParts.Cow;
 import infrastructure.buildings.BuildingCreation;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
 import terrain.TileHandler;
 
@@ -11,10 +12,10 @@ public class PassiveActions {
 
     public static void buyHouse(Cow cowToCheck) {
         //If there is space available
-        if (TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.basicSmallBuilding)) != null) {
+        if (TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.playground) != null) {
             cowToCheck.setLivingSpace(BuildingCreation.createResidentialBuilding(
                     AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(),
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.basicSmallBuilding))
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.playground)
             ));
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);

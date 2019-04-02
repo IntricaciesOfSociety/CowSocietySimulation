@@ -17,7 +17,8 @@ import metaControl.main.Input;
 import metaControl.main.SimState;
 import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import resourcesManagement.ResourcesHandler;
 
 import java.text.SimpleDateFormat;
@@ -188,13 +189,13 @@ public class StaticUI {
 
         detailedViewButton.setOnAction(event -> {
             SimState.setSimState("DetailedView");
-            Playground.setPlayground("DetailedView");
+            PlaygroundHandler.setPlayground("DetailedView");
             controlGroup.setDisable(true);
         });
 
         storyViewButton.setOnAction(event ->  {
             SimState.setSimState("StoryView");
-            Playground.setPlayground("StoryView");
+            PlaygroundHandler.setPlayground("StoryView");
             controlGroup.setDisable(true);
         });
 

@@ -5,6 +5,7 @@ import cowParts.CowHandler;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.resourceTypes.RockSource;
@@ -31,26 +32,39 @@ public class ResourcesHandler {
         for (int i = 0; i < LoadConfiguration.getInitialWaterSources(); i++)
             ResourceCreation.createWaterSource(
                     AssetLoading.basicWatersource,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.basicWatersource), AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicWatersource), PlaygroundHandler.playground, AssetLoading.desertTileFull)
             );
         for (int j = 0; j < LoadConfiguration.getInitialSmallRocks(); j++)
             ResourceCreation.createRockSource(
                     AssetLoading.smallRock,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallRock))
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.smallRock), PlaygroundHandler.playground)
             );
         for (int k = 0; k < LoadConfiguration.getInitialSmallTrees(); k++)
             ResourceCreation.createWoodSource(
                     AssetLoading.smallTree,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.smallTree), PlaygroundHandler.playground, AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         for (int q = 0; q < LoadConfiguration.getInitialLargeTrees(); q++)
             ResourceCreation.createWoodSource(
                     AssetLoading.largeTree,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.largeTree), PlaygroundHandler.playground, AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++)
             ResourceCreation.createRockSource(
-                    AssetLoading.largeRock, TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeRock))
+                    AssetLoading.largeRock, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.largeRock), PlaygroundHandler.playground)
+            );
+
+        for (int a = 0; a < LoadConfiguration.getInitialClay(); a++)
+            ResourceCreation.createRockSource(
+                    AssetLoading.clay, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.clay), PlaygroundHandler.getMines())
+            );
+        for (int b = 0; b < LoadConfiguration.getInitialCopper(); b++)
+            ResourceCreation.createRockSource(
+                    AssetLoading.copper, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.copper), PlaygroundHandler.getMines())
+            );
+        for (int c = 0; c < LoadConfiguration.getInitialIron(); c++)
+            ResourceCreation.createRockSource(
+                    AssetLoading.iron, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.iron), PlaygroundHandler.getMines())
             );
     }
 

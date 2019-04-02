@@ -2,7 +2,7 @@ package resourcesManagement.resourceTypes;
 
 import javafx.scene.image.Image;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import terrain.Tile;
 import terrain.TileHandler;
 
@@ -26,7 +26,7 @@ public class WoodSource extends GenericResource {
     public static void repopulate() {
         int popIncrease = new Random().nextInt(100);
         for (int i = 0; i < popIncrease; i++) {
-            new WoodSource(AssetLoading.smallTree, TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull));
+            new WoodSource(AssetLoading.smallTree, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.smallTree), PlaygroundHandler.playground, AssetLoading.mountainTileFull, AssetLoading.desertTileFull));
         }
     }
 
@@ -51,7 +51,7 @@ public class WoodSource extends GenericResource {
 
         if (resourceHealth <= 0) {
             region.removeWoodSource(this);
-            Playground.playground.getChildren().remove(this);
+            PlaygroundHandler.playground.getChildren().remove(this);
         }
     }
 

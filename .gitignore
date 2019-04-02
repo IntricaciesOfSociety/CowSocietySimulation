@@ -19,3 +19,5 @@
 
 # GitHub files
 README.md
+/src/main/logs
+/src/main/configuration.ini

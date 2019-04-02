@@ -4,9 +4,11 @@ import cowParts.Cow;
 import infrastructure.buildings.buildingTypes.CommercialBuilding;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import infrastructure.buildings.buildingTypes.GovernmentalBuilding;
+import infrastructure.buildings.buildingTypes.IndustrialBuilding;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import technology.CurrentTechnology;
@@ -29,18 +31,27 @@ public class BuildingHandler {
      */
     public static void init() {
         defaultBuilding = BuildingCreation.createResidentialBuilding(
-                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandomNotFullTile(4)
+                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandRegionTile(4, PlaygroundHandler.playground)
         );
 
-        BuildingCreation.createIndustrialBuilding(
-                AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),
-                TileHandler.getRandomNotFullTile(2, AssetLoading.desertTileFull, AssetLoading.flatTerrain)
-        );
-
-        for (int i = 0; i < LoadConfiguration.getGroceryStores(); i++) {
-            BuildingCreation.createCommercialBuilding(
-                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandomNotFullTile(4)
+        for (int j = 0; j < 100; j++)
+            BuildingCreation.createIndustrialBuilding(
+                    AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),
+                    TileHandler.getRandRegionTile(2, PlaygroundHandler.playground, AssetLoading.desertTileFull, AssetLoading.flatTerrain)
             );
+
+        //TODO: Remove size from creation methods
+        BuildingCreation.createCommercialBuilding(
+                AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandRegionTile(4, PlaygroundHandler.playground)
+        );
+
+        IndustrialBuilding mineExit = (IndustrialBuilding) BuildingCreation.createIndustrialBuilding(
+                AssetLoading.mineExit, "MineExit",
+                TileHandler.getRandRegionTile(2, PlaygroundHandler.getMines(), AssetLoading.desertTileFull, AssetLoading.flatTerrain)
+        );
+        if (mineExit != null) {
+            mineExit.finishConstruction();
+            mineExit.disableMenu();
         }
     }
 

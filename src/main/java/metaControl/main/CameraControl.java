@@ -1,12 +1,9 @@
 package metaControl.main;
 
 import cowParts.Cow;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
-import javafx.scene.shape.Rectangle;
-import metaEnvironment.Playground;
-import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 import java.util.Objects;
 
@@ -30,10 +27,10 @@ public class CameraControl {
      */
     static void updateCamera() {
         //ActionHandler
-        if (north) Playground.playground.setLayoutY(Playground.playground.getLayoutY() + MOVEMENTOFFSET);
-        if (east)  Playground.playground.setLayoutX(Playground.playground.getLayoutX() - MOVEMENTOFFSET);
-        if (south)  Playground.playground.setLayoutY(Playground.playground.getLayoutY() - MOVEMENTOFFSET);
-        if (west)  Playground.playground.setLayoutX(Playground.playground.getLayoutX() + MOVEMENTOFFSET);
+        if (north) PlaygroundHandler.playground.setLayoutY(PlaygroundHandler.playground.getLayoutY() + MOVEMENTOFFSET);
+        if (east)  PlaygroundHandler.playground.setLayoutX(PlaygroundHandler.playground.getLayoutX() - MOVEMENTOFFSET);
+        if (south)  PlaygroundHandler.playground.setLayoutY(PlaygroundHandler.playground.getLayoutY() - MOVEMENTOFFSET);
+        if (west)  PlaygroundHandler.playground.setLayoutX(PlaygroundHandler.playground.getLayoutX() + MOVEMENTOFFSET);
 
         //Zooming
         if (zoomIn) zoomCamera(true);
@@ -48,13 +45,8 @@ public class CameraControl {
      * @param yCoord The y coordinate to move to
      */
     static void moveCamera(double xCoord, double yCoord) {
-        Playground.playground.setLayoutX(-xCoord + SimState.initialScene.getWidth() / 2.0);
-        Playground.playground.setLayoutY(-yCoord + SimState.initialScene.getHeight() / 2.0);
-    }
-
-    public static void resetCamera() {
-        Playground.playground.setLayoutX(0);
-        Playground.playground.setLayoutY(0);
+        PlaygroundHandler.playground.setLayoutX(-xCoord + SimState.initialScene.getWidth() / 2.0);
+        PlaygroundHandler.playground.setLayoutY(-yCoord + SimState.initialScene.getHeight() / 2.0);
     }
 
     /**
@@ -63,7 +55,7 @@ public class CameraControl {
      */
     static void zoomCamera(boolean direction) {
         double delta = 1.2;
-        double scale = Playground.playground.getScaleY();
+        double scale = PlaygroundHandler.playground.getScaleY();
         double oldScale = scale;
 
         if (direction && scale < 2.4)
@@ -75,25 +67,25 @@ public class CameraControl {
         double f = (scale / oldScale) - 1;
 
         //Determining the shift in position of the camera as it zooms in on the center of the screen
-        Bounds bounds = Playground.playground.localToScene(Playground.playground.getBoundsInLocal());
+        Bounds bounds = PlaygroundHandler.playground.localToScene(PlaygroundHandler.playground.getBoundsInLocal());
         double dx = (SimState.initialScene.getWidth()/2.0 - (bounds.getWidth() / 2 + bounds.getMinX()));
         double dy = (SimState.initialScene.getHeight()/2.0 - (bounds.getHeight() / 2 + bounds.getMinY()));
 
         //Applying the new scale
-        Playground.playground.setScaleX(scale);
-        Playground.playground.setScaleY(scale);
+        PlaygroundHandler.playground.setScaleX(scale);
+        PlaygroundHandler.playground.setScaleY(scale);
 
         //Applying the new translation
-        Playground.playground.setLayoutX(Playground.playground.getLayoutX() - f * dx);
-        Playground.playground.setLayoutY(Playground.playground.getLayoutY() - f * dy);
+        PlaygroundHandler.playground.setLayoutX(PlaygroundHandler.playground.getLayoutX() - f * dx);
+        PlaygroundHandler.playground.setLayoutY(PlaygroundHandler.playground.getLayoutY() - f * dy);
     }
 
     /**
      * Sets the zoom scale back to the default value of one.
      */
     static void resetZoom() {
-        Playground.playground.setScaleX(1.0);
-        Playground.playground.setScaleY(1.0);
+        PlaygroundHandler.playground.setScaleX(1.0);
+        PlaygroundHandler.playground.setScaleY(1.0);
     }
 
     /**

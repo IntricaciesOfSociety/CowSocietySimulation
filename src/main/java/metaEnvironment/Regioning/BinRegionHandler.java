@@ -1,7 +1,8 @@
 package metaEnvironment.Regioning;
 
 import javafx.scene.shape.Rectangle;
-import metaEnvironment.Playground;
+import metaEnvironment.Regioning.regionContainers.Playground;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,16 +32,16 @@ public class BinRegionHandler {
         newGhost.setOpacity(0);
         newGhost.setMouseTransparent(true);
         ghostRegions.add(newGhost);
-        Playground.playground.getChildren().add(newGhost);
+        PlaygroundHandler.playground.getChildren().add(newGhost);
     }
 
     public static void setActiveRegions(ArrayList<Integer> toDraw) {
         toDraw.forEach((index) -> activeRegions.add(binRegionMap.get(index)));
         for (int i = 0; i < binRegionMap.size(); i++) {
-            if (toDraw.contains(i) && !Playground.playground.getChildren().contains(binRegionMap.get(i)))
-                Playground.playground.getChildren().add(0, binRegionMap.get(i));
+            if (toDraw.contains(i) && !PlaygroundHandler.playground.getChildren().contains(binRegionMap.get(i)))
+                PlaygroundHandler.playground.getChildren().add(0, binRegionMap.get(i));
             else if (!toDraw.contains(i))
-                Playground.playground.getChildren().remove(binRegionMap.get(i));
+                PlaygroundHandler.playground.getChildren().remove(binRegionMap.get(i));
         }
     }
 }
