@@ -32,7 +32,7 @@ public class BuildingHandler {
                 AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandRegionTile(4, PlaygroundHandler.getMotion())
         ));
 
-        for (int j = 0; j < 100; j++)
+        for (int j = 0; j < LoadConfiguration.getNumberOfMines(); j++)
             BuildingCreation.createIndustrialBuilding(
                     AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),
                     TileHandler.getRandRegionTile(2, PlaygroundHandler.getMotion(), AssetLoading.desertTileFull, AssetLoading.flatTerrain)

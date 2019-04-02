@@ -222,7 +222,7 @@ public class SimState extends Application {
     @Override
     public void start(Stage primaryStage) {
         SimState.primaryStage = primaryStage;
-        primaryStage.setTitle("Release01");
+        primaryStage.setTitle("Release 0.2");
 
         ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) -> {
             StaticUI.updateUIPlacements();

@@ -4,7 +4,6 @@ import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.actionSystem.action.GenericAction;
 import cowParts.actionSystem.actionTypes.ActiveActions;
 import cowParts.actionSystem.actionTypes.PassiveActions;
-import infrastructure.buildings.BuildingHandler;
 import cowParts.Cow;
 import cowParts.cowAI.NaturalSelection;
 import javafx.scene.image.ImageView;

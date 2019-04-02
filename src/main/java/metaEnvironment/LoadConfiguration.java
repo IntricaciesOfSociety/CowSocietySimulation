@@ -40,6 +40,7 @@ public class LoadConfiguration {
     private static String basicGroceryStore;
     private static int groceryStores;
     private static String basicMine;
+    private static int numberOfMines;
 
     //[Resources]
     private static int initialSmallRocks;
@@ -97,6 +98,7 @@ public class LoadConfiguration {
         basicGroceryStore = ini.get("Buildings", "basicGroceryStoreBuilding");
         groceryStores = Integer.parseInt(ini.get("Buildings", "numberOfGroceryStores"));
         basicMine = ini.get("Buildings", "basicMineBuliding");
+        numberOfMines = Integer.parseInt(ini.get("Buildings", "numberOfMines"));
 
         initialSmallRocks = Integer.parseInt(ini.get("Resources", "smallRocks"));
         initialSmallTrees = Integer.parseInt(ini.get("Resources", "smallTrees"));
@@ -231,5 +233,9 @@ public class LoadConfiguration {
 
     public static String getBasicMineTile() {
         return basicMineTile;
+    }
+
+    public static int getNumberOfMines() {
+        return numberOfMines;
     }
 }

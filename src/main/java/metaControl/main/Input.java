@@ -1,7 +1,6 @@
 package metaControl.main;
 
 import infrastructure.buildings.buildingTypes.GenericBuilding;
-import infrastructure.buildings.BuildingHandler;
 import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.Cow;
 import cowParts.CowHandler;
@@ -13,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import technology.CurrentTechnology;
 import terrain.Tile;
@@ -108,7 +106,6 @@ public class Input {
 
                 System.out.println("DEBUG");
             }
-
 
             //Pause/UnPause simulation
             if (keyPressed.equals(KeyCode.P)) {
