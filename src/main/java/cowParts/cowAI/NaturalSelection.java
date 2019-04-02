@@ -57,7 +57,7 @@ public class NaturalSelection {
         return crossoverCog;
     }
 
-    private static void mutate(Cognition crossoverCog) {
+    public static void mutate(Cognition crossoverCog) {
         //Mutate first
         if (random.nextInt(1) == 0)
             crossoverCog.setPhysicalHealth(random.nextInt(100));
