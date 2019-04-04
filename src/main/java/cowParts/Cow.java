@@ -145,8 +145,16 @@ public class Cow extends ImageView {
         StaticUI.cowDeathEventUpdate(cowLink);
 
         EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
-    }
 
+    }
+/*
+    public void physicalHealth() {
+        if (physicalHealth() == 0) {
+            kill();
+        }
+        return void
+    }
+*/
     /**
      * Closes the cows menu if applicable then stops the cow from being updated by removing it from the liveCowList and
      * playground node. This cow cannot be directly selected while its hidden value is true.
