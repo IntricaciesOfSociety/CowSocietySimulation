@@ -57,7 +57,6 @@ public class BirthEvent {
         newCow.setRegionIn(parent1.getRegionIn());
         newCow.self.setAge(-newCow.self.getAge() + 1);
 
-        ActionHandler.decideActions(newCow);
         newCow.setTranslateX(parent1.getTranslateX());
         newCow.setTranslateY(parent1.getTranslateY());
 

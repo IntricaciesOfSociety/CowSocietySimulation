@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 import menus.MenuCreation;
 import metaControl.main.Input;
 import metaControl.main.SimState;
-import metaControl.timeControl.Time;
 import metaEnvironment.LoadConfiguration;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.StaticUI;
@@ -65,7 +64,7 @@ public class PlaygroundHandler {
 
                 StaticUI.disableUI();
 
-                MenuCreation.createStatsVeiwMenu(Input.selectedCows);
+                MenuCreation.createStatsViewMenu(Input.selectedCows);
                 if (removedOld)
                     SimState.addPlayground(playground);
 

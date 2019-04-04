@@ -7,7 +7,7 @@ import infrastructure.establishments.EstablishmentTypes.GovernmentEstablishment;
 
 import java.util.ArrayList;
 
-class EstablishmentHandler {
+public class EstablishmentHandler {
 
     private static ArrayList<BusinessEstablishment> businesses = new ArrayList<>();
     private static ArrayList<GovernmentEstablishment> governments = new ArrayList<>();
@@ -22,15 +22,15 @@ class EstablishmentHandler {
             followings.add((FollowingEstablishment) newEstablishment);
     }
 
-    public ArrayList<BusinessEstablishment> getBusinesses() {
+    public static ArrayList<BusinessEstablishment> getBusinesses() {
         return businesses;
     }
 
-    public ArrayList<GovernmentEstablishment> getGovernments() {
+    public static ArrayList<GovernmentEstablishment> getGovernments() {
         return governments;
     }
 
-    public ArrayList<FollowingEstablishment> getFollowings() {
+    public static ArrayList<FollowingEstablishment> getFollowings() {
         return followings;
     }
 

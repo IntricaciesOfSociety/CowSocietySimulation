@@ -12,6 +12,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import menus.MenuCreation;
+import menus.MenuHandler;
 import metaControl.main.CameraControl;
 import metaControl.main.Input;
 import metaControl.main.SimState;
@@ -51,6 +53,7 @@ public class StaticUI {
     private static Button detailedViewButton = new Button();
     private static Button storyViewButton = new Button();
     private static Button trackingButton = new Button();
+    private static Button TEMP_BUTTON = new Button();
 
     //Structure for buttons that open the other UIs
     private static Group differentUIGroup = new Group();
@@ -129,6 +132,8 @@ public class StaticUI {
         storyViewButton.setFocusTraversable(false);
         storyViewButton.setGraphic(storyImage);
 
+        TEMP_BUTTON.setFocusTraversable(false);
+
         controlGroup.setDisable(true);
 
         idText.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
@@ -182,7 +187,7 @@ public class StaticUI {
         simSpeedGroup.getChildren().addAll(speedButton1, speedButton2, speedButton3);
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
-        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton, techTreeButton);
+        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton, techTreeButton, TEMP_BUTTON);
 
         PlaygroundUIHandler.staticUI.getChildren().addAll(
                  simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
@@ -213,6 +218,12 @@ public class StaticUI {
 
         techTreeButton.setOnAction(event -> {
 
+        });
+
+        TEMP_BUTTON.setOnAction(event -> {
+            SimState.setSimState("Paused");
+            controlGroup.setDisable(true);
+            MenuCreation.createEstablishmentsMenu();
         });
 
         updatePopulationText();
@@ -257,6 +268,8 @@ public class StaticUI {
 
         resourcesUIButton.setLayoutX(15);
         resourcesUIButton.setLayoutY(410);
+
+        TEMP_BUTTON.relocate(15, 440);
 
         timeOfDay.setLayoutX(20);
 

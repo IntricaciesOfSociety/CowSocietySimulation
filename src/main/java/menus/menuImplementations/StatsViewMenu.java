@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import menus.GenericMenu;
+import menus.MenuHandler;
 import metaControl.main.SimState;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
@@ -77,7 +78,7 @@ public class StatsViewMenu extends GenericMenu {
         currentStatusText.setFill(Color.RED);
         idText.setFill(Color.RED);
 
-        exitButton.setOnAction(event -> closeMenu());
+        exitButton.setOnAction(event -> MenuHandler.closeMenu(this));
 
         socialViewScrollPane.setContent(socialViewContent);
         socialViewScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
