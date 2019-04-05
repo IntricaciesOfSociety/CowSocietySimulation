@@ -1,11 +1,8 @@
 package cowParts;
 
-import cowParts.cowThoughts.Traits;
+import cowParts.cowThoughts.*;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
-import cowParts.cowThoughts.Cognition;
 import cowParts.cowAI.NaturalSelection;
-import cowParts.cowThoughts.PersonalViews;
-import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
@@ -46,6 +43,7 @@ public class Cow extends ImageView {
     public Social socialRelations;
     public PersonalViews views;
     public Traits personality;
+    public Interests interests;
     private Occupation job;
 
     /* Misc Control flags */
@@ -75,6 +73,7 @@ public class Cow extends ImageView {
             personality = new Traits();
         }
 
+        interests = new Interests();
         birth = new BirthEvent();
         socialRelations = new Social();
         views = new PersonalViews();
