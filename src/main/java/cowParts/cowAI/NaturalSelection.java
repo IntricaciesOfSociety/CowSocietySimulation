@@ -36,7 +36,7 @@ public class NaturalSelection {
         cowToCheck.self.setFitness(survivalFitness + fameFitness);
     }
 
-    public static Cognition crossover(Cow parent1, Cow parent2) {
+    public static Cognition crossover(@NotNull Cow parent1, @NotNull Cow parent2) {
         Cognition crossoverCog = new Cognition();
         crossoverCog.clear();
 
@@ -57,7 +57,7 @@ public class NaturalSelection {
         return crossoverCog;
     }
 
-    private static void mutate(Cognition crossoverCog) {
+    public static void mutate(Cognition crossoverCog) {
         //Mutate first
         if (random.nextInt(3) == 0)
             crossoverCog.setPhysicalHealth(random.nextInt(100));

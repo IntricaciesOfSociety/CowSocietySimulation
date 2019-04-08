@@ -1,12 +1,13 @@
 package cowParts.creation;
 
+<<<<<<< HEAD:src/main/java/cowParts/creation/Cow.java
 import cowParts.CowHandler;
 import cowParts.cowThoughts.Traits;
+=======
+import cowParts.cowThoughts.*;
+>>>>>>> 87ac300bf768066473dd56160736cd5090649157:src/main/java/cowParts/Cow.java
 import infrastructure.buildings.buildingTypes.GenericBuilding;
-import cowParts.cowThoughts.Cognition;
 import cowParts.cowAI.NaturalSelection;
-import cowParts.cowThoughts.PersonalViews;
-import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
@@ -47,6 +48,7 @@ public class Cow extends ImageView {
     public Social socialRelations;
     public PersonalViews views;
     public Traits personality;
+    public Interests interests;
     private Occupation job;
 
     /* Misc Control flags */
@@ -77,6 +79,7 @@ public class Cow extends ImageView {
             personality = new Traits();
         }
 
+        interests = new Interests();
         birth = new BirthEvent();
         socialRelations = new Social();
         views = new PersonalViews();
@@ -147,8 +150,16 @@ public class Cow extends ImageView {
         StaticUI.cowDeathEventUpdate(cowLink);
 
         EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
-    }
 
+    }
+/*
+    public void physicalHealth() {
+        if (physicalHealth() == 0) {
+            kill();
+        }
+        return void
+    }
+*/
     /**
      * Closes the cows menu if applicable then stops the cow from being updated by removing it from the liveCowList and
      * playground node. This cow cannot be directly selected while its hidden value is true.
