@@ -1,6 +1,6 @@
 package menus.menuImplementations;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import javafx.scene.CacheHint;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -10,7 +10,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import menus.GenericMenu;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 public class CowFitnessPopup extends GenericMenu {

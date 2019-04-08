@@ -4,8 +4,8 @@ import cowParts.actionSystem.action.EndAction;
 import cowParts.actionSystem.action.GenericAction;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import infrastructure.buildings.BuildingHandler;
-import cowParts.BirthEvent;
-import cowParts.Cow;
+import cowParts.creation.BirthEvent;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import metaControl.main.SimState;
@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.ResourcesHandler;
 import societalProductivity.government.Economy;
-import societalProductivity.government.GovernmentExecution;
 import userInterface.playgroundUI.StaticUI;
 
 import java.util.Random;

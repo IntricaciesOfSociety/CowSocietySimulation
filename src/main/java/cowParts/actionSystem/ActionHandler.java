@@ -4,8 +4,9 @@ import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.actionSystem.action.GenericAction;
 import cowParts.actionSystem.actionTypes.ActiveActions;
 import cowParts.actionSystem.actionTypes.PassiveActions;
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.cowAI.NaturalSelection;
+import infrastructure.establishments.EstablishmentCreation;
 import javafx.scene.image.ImageView;
 import metaControl.timeControl.Time;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
@@ -90,6 +91,11 @@ public class ActionHandler {
                 && (PlaygroundHandler.getMotion().getDefaultBuilding() == cowToCheck.getLivingSpace())) {
             PassiveActions.buyHouse(cowToCheck);
         }
+        if (!cowToCheck.isLeader() && cowToCheck.self.getCompanionship() > 95 && cowToCheck.personality.getSociability() == 10 && cowToCheck.personality.getHarmony() == 10) {
+            EstablishmentCreation.createFollowing(cowToCheck.getId() + " 's support group", null, cowToCheck);
+            cowToCheck.setIsLeader(true);
+        }
+
         return null;
     }
 }

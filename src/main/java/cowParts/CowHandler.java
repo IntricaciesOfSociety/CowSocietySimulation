@@ -1,5 +1,6 @@
 package cowParts;
 
+import cowParts.creation.Cow;
 import infrastructure.buildings.BuildingHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
@@ -20,12 +21,12 @@ import userInterface.playgroundUI.StaticUI;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static cowParts.BirthEvent.random;
-
 /**
  * Handles the creation and initialization of cows.
  */
 public class CowHandler {
+
+    private static Random random = new Random();
 
     //List that holds every created cow
     public static ArrayList<Cow> liveCowList = new ArrayList<>();
@@ -52,7 +53,7 @@ public class CowHandler {
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
      * for the cow to be used in PlaygroundUIHandler.
      */
-    static Cow createCow(Cow parent1, Cow parent2) {
+    public static Cow createCow(Cow parent1, Cow parent2) {
         Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
 
         Cow newCow = new Cow(parent1, parent2);

@@ -4,6 +4,7 @@ import infrastructure.establishments.EstablishmentTypes.BusinessEstablishment;
 import infrastructure.establishments.EstablishmentTypes.FollowingEstablishment;
 import infrastructure.establishments.EstablishmentTypes.GenericEstablishment;
 import infrastructure.establishments.EstablishmentTypes.GovernmentEstablishment;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
@@ -22,14 +23,17 @@ public class EstablishmentHandler {
             followings.add((FollowingEstablishment) newEstablishment);
     }
 
+    @Contract(pure = true)
     public static ArrayList<BusinessEstablishment> getBusinesses() {
         return businesses;
     }
 
+    @Contract(pure = true)
     public static ArrayList<GovernmentEstablishment> getGovernments() {
         return governments;
     }
 
+    @Contract(pure = true)
     public static ArrayList<FollowingEstablishment> getFollowings() {
         return followings;
     }

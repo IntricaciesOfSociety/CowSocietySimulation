@@ -1,6 +1,6 @@
 package cowParts.cowThoughts;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 
 import java.util.Random;
 
@@ -51,12 +51,12 @@ public class Traits {
     }
 
     private void randomizeTraits() {
-        carefulness = random.nextInt(10);
-        creativeness = random.nextInt(10);
-        sensitivity = random.nextInt(10);
-        sociability = random.nextInt(10);
-        harmony = random.nextInt(10);
-        neuroticism = random.nextInt(10);
+        carefulness = random.nextInt(11);
+        creativeness = random.nextInt(11);
+        sensitivity = random.nextInt(11);
+        sociability = random.nextInt(11);
+        harmony = random.nextInt(11);
+        neuroticism = random.nextInt(11);
     }
 
     public int getCarefulness() {

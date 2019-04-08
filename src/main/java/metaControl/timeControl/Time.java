@@ -1,6 +1,6 @@
 package metaControl.timeControl;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;

@@ -2,7 +2,7 @@ package menus;
 
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import menus.menuImplementations.*;
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 

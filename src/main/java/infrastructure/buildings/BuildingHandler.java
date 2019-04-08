@@ -1,6 +1,6 @@
 package infrastructure.buildings;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import infrastructure.buildings.buildingTypes.CommercialBuilding;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import infrastructure.buildings.buildingTypes.GovernmentalBuilding;
@@ -17,8 +17,6 @@ import terrain.Tile;
 import terrain.TileHandler;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Handles the management of infrastructure that have been given context within the simulation. Does not handle the building's

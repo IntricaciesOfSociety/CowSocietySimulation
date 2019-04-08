@@ -2,7 +2,7 @@ package metaControl.main;
 
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import cowParts.actionSystem.action.ExecuteAction;
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import infrastructure.buildings.buildingTypes.IndustrialBuilding;
 import javafx.scene.Scene;

@@ -1,6 +1,6 @@
 package infrastructure.buildings.buildingTypes;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import menus.GenericMenu;

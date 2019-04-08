@@ -12,38 +12,38 @@ public class Cognition {
     private Random random = new Random();
 
     //Emotions: 0 is low 100 is high
-    private int anger = random.nextInt(100);
-    private int anticipation = random.nextInt(100);
-    private int disgust = random.nextInt(100);
-    private int fear = random.nextInt(100);
-    private int happiness = random.nextInt(100);
-    private int surprise = random.nextInt(100);
-    private int trust = random.nextInt(100);
+    private int anger = random.nextInt(101);
+    private int anticipation = random.nextInt(101);
+    private int disgust = random.nextInt(101);
+    private int fear = random.nextInt(101);
+    private int happiness = random.nextInt(101);
+    private int surprise = random.nextInt(101);
+    private int trust = random.nextInt(101);
 
     //Finances 0 is low 100 is high
     private int income = 0;
     private int bills = 0;
     private int taxes = 0;
-    private int savings = random.nextInt(100);
-    private int debt = random.nextInt(100);
+    private int savings = random.nextInt(101);
+    private int debt = random.nextInt(101);
 
     //Social 0 is low 100 is high
-    private int boredom = random.nextInt(100);
-    private int companionship = random.nextInt(100);
+    private int boredom = random.nextInt(101);
+    private int companionship = random.nextInt(101);
 
     //Physical 0 is low 100 is high
-    private int hunger = random.nextInt(100);
-    private int thirst = random.nextInt(100);
-    private int age = random.nextInt(100) * 360;
-    private int physicalHealth = random.nextInt(100);
+    private int hunger = random.nextInt(101);
+    private int thirst = random.nextInt(101);
+    private int age = random.nextInt(101) * 360;
+    private int physicalHealth = random.nextInt(101);
     private int sleepiness = 100;
 
     //Mental 0 is low 100 is high
-    private int faith = random.nextInt(100);
-    private int mentalHealth = random.nextInt(100);
+    private int faith = random.nextInt(101);
+    private int mentalHealth = random.nextInt(101);
 
     //Academic 0 is low 100 is high
-    private int intelligence = random.nextInt(100);
+    private int intelligence = random.nextInt(101);
 
     private int fitness = random.nextInt(900);
 

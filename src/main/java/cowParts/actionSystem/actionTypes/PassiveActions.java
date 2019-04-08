@@ -1,6 +1,6 @@
 package cowParts.actionSystem.actionTypes;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import infrastructure.buildings.BuildingCreation;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;

@@ -1,7 +1,7 @@
-package cowParts;
+package cowParts.creation;
 
+import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import cowParts.actionSystem.ActionHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class BirthEvent {
      * Sets the birth date of a new cow.
      * @param date The date of the new cow's birth
      */
-    void setBirthday(Date date) {
+    public void setBirthday(Date date) {
         birthDay = date;
     }
 

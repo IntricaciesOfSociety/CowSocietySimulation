@@ -1,6 +1,6 @@
 package menus.menuImplementations;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;

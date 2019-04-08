@@ -40,20 +40,21 @@ public class EstablishmentsMenu extends GenericMenu {
 
         ArrayList<BusinessEstablishment> business = EstablishmentHandler.getBusinesses();
         for (int i = 0; i < business.size(); i++) {
-            listContent.setText(listContent.getText().concat(business.toString()));
+            listContent.setText(listContent.getText().concat(business.toString() + "\n"));
         }
 
         ArrayList<FollowingEstablishment> following = EstablishmentHandler.getFollowings();
-        for (int i = 0; i < business.size(); i++) {
-            listContent.setText(listContent.getText().concat(following.toString()));
+        for (int i = 0; i < following.size(); i++) {
+            listContent.setText(listContent.getText().concat(following.toString() + "\n"));
         }
 
         ArrayList<GovernmentEstablishment> government = EstablishmentHandler.getGovernments();
-        for (int i = 0; i < business.size(); i++) {
-            listContent.setText(listContent.getText().concat(government.toString()));
+        for (int i = 0; i < government.size(); i++) {
+            listContent.setText(listContent.getText().concat(government.toString() + "\n"));
         }
 
         exitButton = new Button("EXIT");
+
         background = new Rectangle();
 
         listScroll.setContent(listContent);
@@ -96,6 +97,5 @@ public class EstablishmentsMenu extends GenericMenu {
 
     @Override
     protected void openMenu() {
-
     }
 }

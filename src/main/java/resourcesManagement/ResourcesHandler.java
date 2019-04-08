@@ -1,6 +1,6 @@
 package resourcesManagement;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;

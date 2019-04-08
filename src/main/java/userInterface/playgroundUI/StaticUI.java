@@ -1,7 +1,7 @@
 package userInterface.playgroundUI;
 
 import com.sun.istack.internal.NotNull;
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import javafx.scene.Group;
 import javafx.scene.control.*;
@@ -12,14 +12,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import menus.MenuCreation;
-import menus.MenuHandler;
 import metaControl.main.CameraControl;
 import metaControl.main.Input;
 import metaControl.main.SimState;
 import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import resourcesManagement.ResourcesHandler;
 
@@ -53,7 +50,7 @@ public class StaticUI {
     private static Button detailedViewButton = new Button();
     private static Button storyViewButton = new Button();
     private static Button trackingButton = new Button();
-    private static Button TEMP_BUTTON = new Button();
+    private static Button establishmentViewButton = new Button();
 
     //Structure for buttons that open the other UIs
     private static Group differentUIGroup = new Group();
@@ -132,7 +129,7 @@ public class StaticUI {
         storyViewButton.setFocusTraversable(false);
         storyViewButton.setGraphic(storyImage);
 
-        TEMP_BUTTON.setFocusTraversable(false);
+        establishmentViewButton.setFocusTraversable(false);
 
         controlGroup.setDisable(true);
 
@@ -187,7 +184,7 @@ public class StaticUI {
         simSpeedGroup.getChildren().addAll(speedButton1, speedButton2, speedButton3);
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
-        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton, techTreeButton, TEMP_BUTTON);
+        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton, techTreeButton, establishmentViewButton);
 
         PlaygroundUIHandler.staticUI.getChildren().addAll(
                  simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
@@ -220,10 +217,10 @@ public class StaticUI {
 
         });
 
-        TEMP_BUTTON.setOnAction(event -> {
+        establishmentViewButton.setOnAction(event -> {
             SimState.setSimState("Paused");
+            PlaygroundHandler.setPlayground("EstablishmentView");
             controlGroup.setDisable(true);
-            MenuCreation.createEstablishmentsMenu();
         });
 
         updatePopulationText();
@@ -269,7 +266,7 @@ public class StaticUI {
         resourcesUIButton.setLayoutX(15);
         resourcesUIButton.setLayoutY(410);
 
-        TEMP_BUTTON.relocate(15, 440);
+        establishmentViewButton.relocate(15, 440);
 
         timeOfDay.setLayoutX(20);
 

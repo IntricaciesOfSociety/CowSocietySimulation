@@ -1,6 +1,6 @@
 package societalProductivity.jobs;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.actionSystem.action.ActionDestination;
 import cowParts.actionSystem.action.EndAction;
 import javafx.scene.image.Image;

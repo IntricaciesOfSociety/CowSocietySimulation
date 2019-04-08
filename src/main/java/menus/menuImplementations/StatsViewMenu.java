@@ -1,6 +1,6 @@
 package menus.menuImplementations;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowThoughts.Social;
 import javafx.scene.control.*;

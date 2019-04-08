@@ -1,6 +1,6 @@
 package societalProductivity.government;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import infrastructure.establishments.EstablishmentTypes.GovernmentEstablishment;
 import org.jetbrains.annotations.Contract;
 

@@ -1,6 +1,6 @@
 package cowParts.actionSystem.action;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import javafx.scene.shape.Rectangle;
 import userInterface.playgroundUI.StaticUI;

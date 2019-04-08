@@ -26,6 +26,9 @@ public class PlaygroundHandler {
     //The pane that has the miens
     private static Playground mines = new Playground(3);
 
+    //The pane that holds the establishmentView
+    private static Playground establishmentView = new Playground(4);
+
     /**
      * Defaults the playground to the motion pane.
      */
@@ -101,6 +104,19 @@ public class PlaygroundHandler {
 
                 StaticUI.enableUI();
 
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
+                break;
+
+            case "EstablishmentView":
+                removedOld = SimState.root.getChildren().remove(playground);
+
+                playground = establishmentView;
+
+                StaticUI.disableUI();
+
+                MenuCreation.createEstablishmentsMenu();
                 if (removedOld)
                     SimState.addPlayground(playground);
 

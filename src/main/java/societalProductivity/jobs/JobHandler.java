@@ -1,6 +1,6 @@
 package societalProductivity.jobs;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 
 import java.util.Random;
 

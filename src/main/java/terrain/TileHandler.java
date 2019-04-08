@@ -1,6 +1,6 @@
 package terrain;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.actionSystem.ActionHandler;
 import javafx.scene.image.Image;
 import metaEnvironment.Regioning.BinRegionHandler;
@@ -10,12 +10,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class TileHandler {
 

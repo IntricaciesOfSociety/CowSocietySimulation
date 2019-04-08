@@ -1,5 +1,6 @@
-package cowParts;
+package cowParts.creation;
 
+import cowParts.CowHandler;
 import cowParts.cowThoughts.Traits;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import cowParts.cowThoughts.Cognition;
@@ -53,6 +54,7 @@ public class Cow extends ImageView {
     private boolean voted = false;
     private int counter = 0;
     boolean parent = false;
+    private boolean leader = false;
 
     /* Movement */
     public boolean alreadyMoving = false;
@@ -65,7 +67,7 @@ public class Cow extends ImageView {
     private GenericBuilding buildingIn;
     private BinRegion regionIn;
 
-    Cow(Cow parent1, Cow parent2) {
+    public Cow(Cow parent1, Cow parent2) {
         if (parent1 != null) {
             self = NaturalSelection.crossover(parent1, parent2);
             personality = Traits.crossover(parent1, parent2);
@@ -263,7 +265,7 @@ public class Cow extends ImageView {
         this.destination = destination;
     }
 
-    void setCowLink(Hyperlink cowCreationEvent) {
+    public void setCowLink(Hyperlink cowCreationEvent) {
         cowLink = cowCreationEvent;
     }
 
@@ -279,11 +281,11 @@ public class Cow extends ImageView {
         return birth.getSpouse();
     }
 
-    Effect getColor() {
+    public Effect getColor() {
         return color;
     }
 
-    void setColor(ColorAdjust colorAdjust) {
+    public void setColor(ColorAdjust colorAdjust) {
         color = colorAdjust;
     }
 
@@ -322,5 +324,13 @@ public class Cow extends ImageView {
     public void rescale(double scaleX, double scaleY) {
         this.setScaleX(scaleX);
         this.setScaleY(scaleY);
+    }
+
+    public boolean isLeader() {
+        return leader;
+    }
+
+    public void setIsLeader(boolean isLeader) {
+        leader = isLeader;
     }
 }

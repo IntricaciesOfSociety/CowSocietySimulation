@@ -1,6 +1,6 @@
 package cowParts.cowAI;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowThoughts.Cognition;
 import org.jetbrains.annotations.NotNull;

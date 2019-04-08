@@ -1,6 +1,6 @@
 package societalProductivity.government;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import societalProductivity.Opinion;
 
 import java.util.ArrayList;

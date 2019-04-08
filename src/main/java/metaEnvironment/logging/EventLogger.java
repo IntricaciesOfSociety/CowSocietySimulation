@@ -1,6 +1,6 @@
 package metaEnvironment.logging;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import metaControl.main.SimState;
 import metaControl.timeControl.Time;
 import org.apache.commons.io.FileUtils;

@@ -1,6 +1,6 @@
 package infrastructure.establishments.EstablishmentTypes;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.actionSystem.action.GenericAction;
 import infrastructure.buildings.buildingTypes.CommercialBuilding;
 

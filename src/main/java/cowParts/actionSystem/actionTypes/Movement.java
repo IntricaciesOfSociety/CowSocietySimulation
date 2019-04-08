@@ -2,7 +2,7 @@ package cowParts.actionSystem.actionTypes;
 
 import cowParts.actionSystem.action.EndAction;
 import infrastructure.buildings.BuildingHandler;
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import javafx.animation.PathTransition;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Point2D;
