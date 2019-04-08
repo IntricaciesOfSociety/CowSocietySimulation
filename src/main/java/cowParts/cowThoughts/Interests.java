@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Contract;
 public class Interests {
 
     @Contract(pure = true)
-    private Interests() {
+    public Interests() {
 
     }
 

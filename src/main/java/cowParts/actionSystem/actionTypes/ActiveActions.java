@@ -1,13 +1,13 @@
 package cowParts.actionSystem.actionTypes;
 
+import cowParts.CowHandler;
 import cowParts.actionSystem.action.EndAction;
 import cowParts.actionSystem.action.GenericAction;
-import infrastructure.buildings.buildingTypes.GenericBuilding;
-import infrastructure.buildings.BuildingHandler;
+import cowParts.cowAI.NaturalSelection;
 import cowParts.creation.BirthEvent;
 import cowParts.creation.Cow;
-import cowParts.CowHandler;
-import cowParts.cowAI.NaturalSelection;
+import infrastructure.buildings.BuildingHandler;
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import metaControl.main.SimState;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
@@ -114,6 +114,20 @@ public class ActiveActions {
 
                 Movement.pauseMovement((int) (SimState.getDeltaTime() * 5000), cowToCheck);
             }
+        );
+    }
+
+    @Contract("_ -> new")
+    public static GenericAction converse(@NotNull Cow cowToCheck) {
+        return returnAction(cowToCheck, cowToCheck.getLivingSpace(), "Going Home",
+                () -> {
+                    BuildingHandler.enterBuilding(cowToCheck, (GenericBuilding) cowToCheck.getDestination());
+
+                    EventLogger.createLoggedEvent(cowToCheck, "Going home", 0, "sleepiness", 100 - cowToCheck.self.getSleepiness());
+                    cowToCheck.self.setSleepiness(100);
+
+                    Movement.pauseMovement((int) (SimState.getDeltaTime() * 5000), cowToCheck);
+                }
         );
     }
 

@@ -1,13 +1,7 @@
 package userInterface.playgroundUI;
 
-<<<<<<< HEAD
-import com.sun.istack.internal.NotNull;
-import cowParts.creation.Cow;
-=======
-//import com.sun.istack.internal.NotNull;
-import cowParts.Cow;
->>>>>>> 87ac300bf768066473dd56160736cd5090649157
 import cowParts.CowHandler;
+import cowParts.creation.Cow;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;

@@ -131,8 +131,10 @@ public class CowHandler {
     @Contract("_, _ -> new")
     public static Point2D findHalfwayPoint(@NotNull Cow cowToCheck, @NotNull Cow otherCow) {
         return new Point2D(
-                (cowToCheck.getLayoutX() + cowToCheck.getTranslateX() + otherCow.getLayoutX() + otherCow.getTranslateX()) / 2,
-                (cowToCheck.getLayoutY() + cowToCheck.getTranslateY() + otherCow.getLayoutY() + otherCow.getTranslateY()) / 2
+                ( ( (cowToCheck.getLayoutX() + cowToCheck.getTranslateX() + cowToCheck.getRegionIn().getLayoutX())
+                        + (otherCow.getLayoutX() + otherCow.getTranslateX() + otherCow.getRegionIn().getLayoutX()) ) / 2),
+                ( ( (cowToCheck.getLayoutY() + cowToCheck.getTranslateY() + cowToCheck.getRegionIn().getLayoutY())
+                        + (otherCow.getLayoutY() + otherCow.getTranslateY() + otherCow.getRegionIn().getLayoutY()) ) / 2)
         );
     }
 }

@@ -21,7 +21,6 @@ public class TileHandler {
 
     public static void init() {
         TileCreation.createBasicTiles();
-
     }
 
     @Contract(pure = true)
@@ -82,7 +81,8 @@ public class TileHandler {
         return null;
     }
 
-    public static Tile getClosestTile(Cow cowToCheck, List<Tile> resourceList) {
+    @Nullable
+    public static Tile getClosestTile(Cow cowToCheck, @NotNull List<Tile> resourceList) {
         if (!resourceList.isEmpty()) {
             Tile closestTile = resourceList.get(0);
             int smallestDistance = (int) ActionHandler.findDistanceBetweenCowAndObject(cowToCheck, resourceList.get(0));

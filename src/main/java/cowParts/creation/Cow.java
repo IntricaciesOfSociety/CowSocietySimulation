@@ -1,11 +1,7 @@
 package cowParts.creation;
 
-<<<<<<< HEAD:src/main/java/cowParts/creation/Cow.java
 import cowParts.CowHandler;
-import cowParts.cowThoughts.Traits;
-=======
 import cowParts.cowThoughts.*;
->>>>>>> 87ac300bf768066473dd56160736cd5090649157:src/main/java/cowParts/Cow.java
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import cowParts.cowAI.NaturalSelection;
 import javafx.animation.Transition;
