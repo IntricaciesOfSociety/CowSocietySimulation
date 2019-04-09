@@ -74,7 +74,7 @@ public class ActiveActions {
         );
     }
 
-    public static GenericAction goWork(Cow cowToCheck) {
+    public static GenericAction goWork(@NotNull Cow cowToCheck) {
         cowToCheck.setImage(cowToCheck.getJob().getJobSprite());
         return returnAction(cowToCheck, cowToCheck.getJob().generateJobDestination(), cowToCheck.getJob().getJobActionText(),
             () -> {
@@ -104,6 +104,7 @@ public class ActiveActions {
         );
     }
 
+    @Contract("_ -> new")
     public static GenericAction goHome(@NotNull Cow cowToCheck) {
         return returnAction(cowToCheck, cowToCheck.getLivingSpace(), "Going Home",
             () -> {
@@ -117,6 +118,7 @@ public class ActiveActions {
         );
     }
 
+    //TODO: Implement
     @Contract("_ -> new")
     public static GenericAction converse(@NotNull Cow cowToCheck) {
         return returnAction(cowToCheck, cowToCheck.getLivingSpace(), "Going Home",

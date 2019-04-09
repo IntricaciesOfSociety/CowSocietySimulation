@@ -1,4 +1,4 @@
-package cowParts.cowThoughts;
+package cowParts.cowThoughts.traitsSystem;
 
 import org.jetbrains.annotations.Contract;
 import societalProductivity.Issue;

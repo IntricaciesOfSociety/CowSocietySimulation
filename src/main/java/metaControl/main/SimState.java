@@ -84,7 +84,7 @@ public class SimState extends Application {
             ExecuteAction.startAllAnimation();
             paused = false;
         }
-        else {
+        else if (!newState.equals("TileView") && !newState.equals("ResourcesView")){
             ExecuteAction.pauseAllAnimation();
             paused = true;
         }
@@ -141,7 +141,7 @@ public class SimState extends Application {
 
             @Override
             public void handle(long frameTime) {
-                if (getSimState().equals("Paused") || getSimState().equals("Playing") || getSimState().equals("TileView")) {
+                if (getSimState().equals("Paused") || getSimState().equals("Playing") || SimState.getSimState().equals("TileView") || SimState.getSimState().equals("ResourcesView")) {
                     CameraControl.updateCamera();
 
                     MenuHandler.updateOpenMenus();

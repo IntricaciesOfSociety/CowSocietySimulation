@@ -1,6 +1,7 @@
-package cowParts.cowThoughts;
+package cowParts.cowThoughts.traitsSystem;
 
 import cowParts.creation.Cow;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -20,7 +21,7 @@ public class Traits {
         randomizeTraits();
     }
 
-    public static Traits crossover(Cow parent1, Cow parent2) {
+    public static Traits crossover(@NotNull Cow parent1, @NotNull Cow parent2) {
         Traits crossoverTraits = new Traits();
         crossoverTraits.clear();
 
@@ -114,5 +115,11 @@ public class Traits {
         sociability = 0;
         harmony = 0;
         neuroticism = 0;
+    }
+
+    public boolean meetsThresholds(@NotNull Interests interestToCheck) {
+        return interestToCheck.getCarefulness() <= carefulness && interestToCheck.getCreativeness() <= creativeness &&
+                interestToCheck.getSensitivity() <= sensitivity && interestToCheck.getSociability() <= sociability &&
+                interestToCheck.getHarmony() <= harmony && interestToCheck.getNeuroticism() <= neuroticism;
     }
 }

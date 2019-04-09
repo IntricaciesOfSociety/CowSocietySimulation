@@ -2,6 +2,8 @@ package cowParts.creation;
 
 import cowParts.CowHandler;
 import cowParts.cowThoughts.*;
+import cowParts.cowThoughts.traitsSystem.PersonalViews;
+import cowParts.cowThoughts.traitsSystem.Traits;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import cowParts.cowAI.NaturalSelection;
 import javafx.animation.Transition;
@@ -44,7 +46,6 @@ public class Cow extends ImageView {
     public Social socialRelations;
     public PersonalViews views;
     public Traits personality;
-    public Interests interests;
     private Occupation job;
 
     /* Misc Control flags */
@@ -75,7 +76,6 @@ public class Cow extends ImageView {
             personality = new Traits();
         }
 
-        interests = new Interests();
         birth = new BirthEvent();
         socialRelations = new Social();
         views = new PersonalViews();
@@ -139,7 +139,11 @@ public class Cow extends ImageView {
         if (animation != null)
             animation.stop();
 
+        if (buildingIn != null)
+            buildingIn.removeInhabitant(this);
+
         hidden = false;
+        animation = null;
         CowHandler.liveCowList.remove(this);
         regionIn.getPlayground().getChildren().remove(this);
 

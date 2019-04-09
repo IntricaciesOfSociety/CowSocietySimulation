@@ -17,14 +17,16 @@ public class PlaygroundHandler {
     //The pane that holds all of the cows (The simulation part of the simulation)
     private static Playground motion = new Playground(0);
 
+    //The pane that has the miens
+    private static Playground mines = new Playground(1);
+
+
+
     //The pane that holds the menu when a user clicks on a detailed view button
-    private static Playground detailedView = new Playground(1);
+    private static Playground detailedView = new Playground(2);
 
     //The pane that holds the entire story view when a user clicks the story view button
-    private static Playground storyView = new Playground(2);
-
-    //The pane that has the miens
-    private static Playground mines = new Playground(3);
+    private static Playground storyView = new Playground(3);
 
     //The pane that holds the establishmentView
     private static Playground establishmentView = new Playground(4);
@@ -59,6 +61,10 @@ public class PlaygroundHandler {
      */
     public static void setPlayground(@NotNull String grounds) {
         boolean removedOld;
+
+        if (playground.getRegionId() == 0 || playground.getRegionId() == 1)
+            playground.resetDragBox();
+        
         switch (grounds) {
             case "DetailedView":
                 removedOld = SimState.root.getChildren().remove(playground);

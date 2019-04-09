@@ -189,13 +189,13 @@ public class StaticUI {
         );
 
         detailedViewButton.setOnAction(event -> {
-            SimState.setSimState("Paused");
+            SimState.setSimState("DetailedView");
             PlaygroundHandler.setPlayground("DetailedView");
             controlGroup.setDisable(true);
         });
 
         storyViewButton.setOnAction(event ->  {
-            SimState.setSimState("Paused");
+            SimState.setSimState("StoryView");
             PlaygroundHandler.setPlayground("StoryView");
             controlGroup.setDisable(true);
         });
@@ -205,7 +205,10 @@ public class StaticUI {
             PlaygroundUIHandler.toggleTileUI();
         });
 
-        resourcesUIButton.setOnAction(event -> PlaygroundUIHandler.toggleResourcesUI());
+        resourcesUIButton.setOnAction(event -> {
+            SimState.setSimState("ResourcesView");
+            PlaygroundUIHandler.toggleResourcesUI();
+        });
 
         trackingButton.setOnAction(event -> {
 
@@ -216,7 +219,7 @@ public class StaticUI {
         });
 
         establishmentViewButton.setOnAction(event -> {
-            SimState.setSimState("Paused");
+            SimState.setSimState("EstablishmentView");
             PlaygroundHandler.setPlayground("EstablishmentView");
             controlGroup.setDisable(true);
         });

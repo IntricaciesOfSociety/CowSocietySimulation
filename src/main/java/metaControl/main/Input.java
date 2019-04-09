@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import technology.CurrentTechnology;
 import terrain.Tile;
@@ -27,20 +28,11 @@ import java.util.ArrayList;
  */
 public class Input {
 
+    //Drag Box
+    private static Rectangle dragBox;
+
     private static boolean cowPopupMenuToggle = false;
     private static boolean mineToggle = false;
-
-    //TEST VARIABLE
-    private static boolean testToggle = false;
-
-    //Drag Box
-    private static Rectangle dragBox = new Rectangle(-1,-1,0,0);
-
-    //Directions relating to the direction that the dragBox is being created in.
-    private static boolean xRight;
-    private static boolean yUp;
-    private static double startXDrag;
-    private static double startYDrag;
 
     //The current selected cows
     public static ArrayList<Cow> selectedCows = new ArrayList<>();
@@ -51,52 +43,58 @@ public class Input {
      */
     static void enableInput(@NotNull Scene scene) {
 
-        initDragBox();
-
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
 
             KeyCode keyPressed = key.getCode();
 
-            //ActionHandler
-            if (keyPressed.equals(KeyCode.W)) CameraControl.setNorth(true);
-            if (keyPressed.equals(KeyCode.A)) CameraControl.setWest(true);
-            if (keyPressed.equals(KeyCode.S)) CameraControl.setSouth(true);
-            if (keyPressed.equals(KeyCode.D)) CameraControl.setEast(true);
+            if (SimState.getSimState().equals("Playing") || SimState.getSimState().equals("Paused") || SimState.getSimState().equals("TileView") || SimState.getSimState().equals("ResourcesView")) {
 
-            if (keyPressed.equals(KeyCode.UP)) CameraControl.setNorth(true);
-            if (keyPressed.equals(KeyCode.LEFT)) CameraControl.setWest(true);
-            if (keyPressed.equals(KeyCode.DOWN)) CameraControl.setSouth(true);
-            if (keyPressed.equals(KeyCode.RIGHT)) CameraControl.setEast(true);
+                //ActionHandler
+                if (keyPressed.equals(KeyCode.W)) CameraControl.setNorth(true);
+                if (keyPressed.equals(KeyCode.A)) CameraControl.setWest(true);
+                if (keyPressed.equals(KeyCode.S)) CameraControl.setSouth(true);
+                if (keyPressed.equals(KeyCode.D)) CameraControl.setEast(true);
 
-            if (keyPressed.equals(KeyCode.M)) {
-                if (mineToggle) {
-                    cowPopupMenuToggle = true;
-                    toggleAllCowMenus();
-                    PlaygroundHandler.setPlayground("Motion");
-                    mineToggle = false;
+                if (keyPressed.equals(KeyCode.UP)) CameraControl.setNorth(true);
+                if (keyPressed.equals(KeyCode.LEFT)) CameraControl.setWest(true);
+                if (keyPressed.equals(KeyCode.DOWN)) CameraControl.setSouth(true);
+                if (keyPressed.equals(KeyCode.RIGHT)) CameraControl.setEast(true);
+
+                if (keyPressed.equals(KeyCode.M)) {
+                    if (mineToggle) {
+                        cowPopupMenuToggle = true;
+                        toggleAllCowMenus();
+                        PlaygroundHandler.setPlayground("Motion");
+                        mineToggle = false;
+                    } else {
+                        cowPopupMenuToggle = true;
+                        toggleAllCowMenus();
+                        PlaygroundHandler.setPlayground("Mines");
+                        mineToggle = true;
+                    }
                 }
-                else {
-                    cowPopupMenuToggle = true;
-                    toggleAllCowMenus();
-                    PlaygroundHandler.setPlayground("Mines");
-                    mineToggle = true;
+
+                //Pause/UnPause simulation
+                if (keyPressed.equals(KeyCode.P)) {
+                    if (!SimState.getSimState().equals("Paused")) SimState.setSimState("Paused");
+                    else SimState.setSimState("Playing");
                 }
+
+                //Zooming
+                if (keyPressed.equals(KeyCode.Z)) CameraControl.setZoomIn(true);
+                if (keyPressed.equals(KeyCode.X)) CameraControl.setZoomOut(true);
+                if (keyPressed.equals(KeyCode.C)) {
+                    CameraControl.resetZoom();
+
+                    GenericBuilding defaultBuilding = PlaygroundHandler.playground.getDefaultBuilding();
+                    CameraControl.moveCamera(
+                            defaultBuilding.getLayoutX() + defaultBuilding.getRegion().getLayoutX(), defaultBuilding.getLayoutY() + defaultBuilding.getRegion().getLayoutY()
+                    );
+                }
+
+                //Toggles all cow menus
+                if (keyPressed.equals(KeyCode.N)) toggleAllCowMenus();
             }
-
-            //Zooming
-            if (keyPressed.equals(KeyCode.Z)) CameraControl.setZoomIn(true);
-            if (keyPressed.equals(KeyCode.X)) CameraControl.setZoomOut(true);
-            if (keyPressed.equals(KeyCode.C)) {
-                CameraControl.resetZoom();
-
-                GenericBuilding defaultBuilding = PlaygroundHandler.playground.getDefaultBuilding();
-                CameraControl.moveCamera(
-                        defaultBuilding.getLayoutX() + defaultBuilding.getRegion().getLayoutX(), defaultBuilding.getLayoutY() + defaultBuilding.getRegion().getLayoutY()
-                );
-            }
-
-            //Toggles all cow menus
-            if (keyPressed.equals(KeyCode.N)) toggleAllCowMenus();
 
             //Fullscreens the sim window
             if (keyPressed.equals(KeyCode.F)) SimState.initFullScreen();
@@ -105,12 +103,6 @@ public class Input {
             if (keyPressed.equals(KeyCode.O)) {
 
                 System.out.println("DEBUG");
-            }
-
-            //Pause/UnPause simulation
-            if (keyPressed.equals(KeyCode.P)) {
-                if (!SimState.getSimState().equals("Paused")) SimState.setSimState("Paused");
-                else SimState.setSimState("Playing");
             }
         });
 
@@ -131,30 +123,6 @@ public class Input {
             //Zooming
             if (keyReleased.equals(KeyCode.Z)) CameraControl.setZoomIn(false);
             if (keyReleased.equals(KeyCode.X)) CameraControl.setZoomOut(false);
-        });
-
-        /*
-         * Saves the mouse drag point's coords anytime that the mouse is pressed based on the mouse's current coords
-         * within the playground.
-         */
-        PlaygroundHandler.playground.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-            startXDrag = mouseEvent.getX();
-            startYDrag = mouseEvent.getY();
-        });
-
-        /*
-         * Handles any scrolling event within the playground and zooms in/out according to the direction of the scroll.
-         */
-        PlaygroundHandler.playground.addEventFilter(ScrollEvent.SCROLL, scrollEvent -> CameraControl.zoomCamera(scrollEvent.getDeltaY() > 0));
-
-        /*
-         * Calls the check to see what cow nodes were within the dragBox, then sets the box coords and size to be out of
-         * the way; all on the mouse released event in the playground.
-         */
-        PlaygroundHandler.playground.addEventFilter(MouseEvent.MOUSE_RELEASED, mouseEvent -> {
-            ExecuteAction.dragBoxSelectionUpdate(dragBox);
-            dragBox.setWidth(-1);
-            dragBox.setHeight(-1);
         });
 
         /*
@@ -191,30 +159,6 @@ public class Input {
                 }
             }
         });
-
-        /*
-         * Handles whenever the the mouse is dragged. Moves the dragBox within the playground depending on the start
-         * coordinates of the drag and the current mouse coordinates relative to the playground.
-         */
-        PlaygroundHandler.playground.addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
-            xRight = mouseEvent.getX() > startXDrag;
-            yUp = mouseEvent.getY() < startYDrag;
-
-            //Sets the x y width and height of the drag box based on what direction the mouse is moving.
-            dragBox.setX((xRight) ? startXDrag : mouseEvent.getX());
-            dragBox.setWidth((xRight) ? (mouseEvent.getX() - startXDrag) : (startXDrag - mouseEvent.getX()));
-            dragBox.setY((yUp) ? mouseEvent.getY() : startYDrag);
-            dragBox.setHeight((yUp) ? (startYDrag - mouseEvent.getY()) : (mouseEvent.getY() - startYDrag));
-        });
-    }
-
-    /**
-     * Initializes the dragBox rectangle and adds it into the playground node.
-     */
-    private static void initDragBox() {
-        dragBox.setFill(Color.BLACK);
-        dragBox.setOpacity(0.5);
-        PlaygroundHandler.playground.getChildren().add(dragBox);
     }
 
     /**
