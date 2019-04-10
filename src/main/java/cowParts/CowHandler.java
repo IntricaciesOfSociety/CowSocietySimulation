@@ -130,11 +130,15 @@ public class CowHandler {
     @NotNull
     @Contract("_, _ -> new")
     public static Point2D findHalfwayPoint(@NotNull Cow cowToCheck, @NotNull Cow otherCow) {
+        System.out.println("X: " + ( ( (cowToCheck.getTranslateX() + cowToCheck.getRegionIn().getLayoutX())
+                + (otherCow.getTranslateX() + otherCow.getRegionIn().getLayoutX()) ) / 2));
+        System.out.println("Y: " + ( ( (cowToCheck.getTranslateY() + cowToCheck.getRegionIn().getLayoutY())
+                + (otherCow.getTranslateY() + otherCow.getRegionIn().getLayoutY()) ) / 2));
         return new Point2D(
-                ( ( (cowToCheck.getLayoutX() + cowToCheck.getTranslateX() + cowToCheck.getRegionIn().getLayoutX())
-                        + (otherCow.getLayoutX() + otherCow.getTranslateX() + otherCow.getRegionIn().getLayoutX()) ) / 2),
-                ( ( (cowToCheck.getLayoutY() + cowToCheck.getTranslateY() + cowToCheck.getRegionIn().getLayoutY())
-                        + (otherCow.getLayoutY() + otherCow.getTranslateY() + otherCow.getRegionIn().getLayoutY()) ) / 2)
+                ( ( (cowToCheck.getTranslateX() + cowToCheck.getRegionIn().getLayoutX())
+                        + (otherCow.getTranslateX() + otherCow.getRegionIn().getLayoutX()) ) / 2),
+                ( ( (cowToCheck.getTranslateY() + cowToCheck.getRegionIn().getLayoutY())
+                        + (otherCow.getTranslateY() + otherCow.getRegionIn().getLayoutY()) ) / 2)
         );
     }
 }
