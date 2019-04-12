@@ -11,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import menus.GenericMenu;
 import menus.MenuHandler;
 import metaControl.main.SimState;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
@@ -88,7 +87,7 @@ public class EstablishmentsMenu extends GenericMenu {
     }
 
     @Override
-    protected void closeMenu() {
+    public void closeMenu() {
         stack.getChildren().clear();
         PlaygroundHandler.playground.getChildren().remove(stack);
         SimState.setSimState("Playing");

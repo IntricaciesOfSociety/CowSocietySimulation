@@ -9,7 +9,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import menus.GenericMenu;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 public class CowFitnessPopup extends GenericMenu {
@@ -76,7 +75,7 @@ public class CowFitnessPopup extends GenericMenu {
     }
 
     @Override
-    protected void closeMenu() {
+    public void closeMenu() {
         stack.getChildren().clear();
         PlaygroundHandler.playground.getChildren().remove(stack);
     }

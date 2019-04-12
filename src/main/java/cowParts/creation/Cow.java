@@ -9,7 +9,7 @@ import cowParts.cowAI.NaturalSelection;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
-import menus.GenericMenu;
+import menus.menuImplementations.GenericMenu;
 import metaControl.main.Input;
 import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.logging.EventLogger;

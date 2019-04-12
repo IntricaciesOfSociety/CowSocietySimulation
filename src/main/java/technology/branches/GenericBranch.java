@@ -1,4 +1,4 @@
 package technology.branches;
 
-public class GenericBranch {
+public abstract class GenericBranch {
 }

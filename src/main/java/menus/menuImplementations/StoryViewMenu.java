@@ -11,7 +11,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import menus.GenericMenu;
 import menus.MenuHandler;
 import metaControl.main.SimState;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
@@ -82,7 +81,7 @@ public class StoryViewMenu extends GenericMenu {
     }
 
     @Override
-    protected void closeMenu() {
+    public void closeMenu() {
         SimState.setSimState("Playing");
         PlaygroundHandler.setPlayground("Motion");
         stack.getChildren().clear();

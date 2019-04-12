@@ -3,7 +3,7 @@ package infrastructure.buildings.buildingTypes;
 import cowParts.creation.Cow;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import menus.GenericMenu;
+import menus.menuImplementations.GenericMenu;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
