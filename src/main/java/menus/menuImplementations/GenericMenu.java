@@ -1,21 +1,21 @@
-package menus;
+package menus.menuImplementations;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
 public abstract class GenericMenu {
 
-    protected Pane stack;
+    Pane stack;
 
-    protected Rectangle background;
+    Rectangle background;
 
-    protected Object objectTie;
+    Object objectTie;
 
     protected abstract void createMenu(Object objectTie);
 
-    protected abstract void updateMenu();
+    public abstract void updateMenu();
 
-    protected abstract void closeMenu();
+    public abstract void closeMenu();
 
     protected abstract void openMenu();
 }

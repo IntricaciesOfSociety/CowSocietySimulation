@@ -1,8 +1,7 @@
 package metaControl.main;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import javafx.geometry.Bounds;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 
 import java.util.Objects;
@@ -53,7 +52,7 @@ public class CameraControl {
      * Zooms the camera in/out depending on the direction given by input.
      * @param direction The direction that the camera is to move in
      */
-    static void zoomCamera(boolean direction) {
+    public static void zoomCamera(boolean direction) {
         double delta = 1.2;
         double scale = PlaygroundHandler.playground.getScaleY();
         double oldScale = scale;

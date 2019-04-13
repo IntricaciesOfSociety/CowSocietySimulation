@@ -2,6 +2,7 @@ package metaEnvironment.Regioning;
 
 import infrastructure.buildings.buildingTypes.*;
 import javafx.scene.Group;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
@@ -29,8 +30,11 @@ public class BinRegion extends Group {
     private ArrayList<RockSource> rockSources = new ArrayList<>();
     private ArrayList<WaterSource> waterSources = new ArrayList<>();
 
-    BinRegion(int id) {
+    private Playground playgroundParent;
+
+    BinRegion(int id, Playground playgroundParent) {
         this.setId(id);
+        this.playgroundParent = playgroundParent;
     }
 
     private void setId(int id) {
@@ -173,5 +177,9 @@ public class BinRegion extends Group {
 
     public int getMaxX() {
         return (int) basicTileList.get(basicTileList.size() - 1).getLayoutX() + 400;
+    }
+
+    public Playground getPlayground() {
+        return playgroundParent;
     }
 }

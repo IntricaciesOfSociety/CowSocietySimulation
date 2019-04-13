@@ -1,6 +1,6 @@
 package societalProductivity;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

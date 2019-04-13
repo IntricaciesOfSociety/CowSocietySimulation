@@ -4,25 +4,23 @@ import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.actionSystem.action.GenericAction;
 import cowParts.actionSystem.actionTypes.ActiveActions;
 import cowParts.actionSystem.actionTypes.PassiveActions;
-import infrastructure.buildings.BuildingHandler;
-import cowParts.Cow;
+import cowParts.cowThoughts.traitsSystem.Interests;
+import cowParts.creation.Cow;
 import cowParts.cowAI.NaturalSelection;
+import infrastructure.establishments.EstablishmentCreation;
 import javafx.scene.image.ImageView;
 import metaControl.timeControl.Time;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import societalProductivity.government.Government;
 import terrain.Tile;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Handles all the movement decision and execution for all cows. Includes the handling of all animations.
  */
 public class ActionHandler {
-
-    private static Random random = new Random();
 
     /**
      * Finds the distance as one number between the given cow and the given object
@@ -66,13 +64,11 @@ public class ActionHandler {
         if (cowToCheck.self.getThirst() <= 10 || cowToCheck.self.getHunger() <= 10)
             return ActiveActions.getVitalAction(cowToCheck);
 
-            //Economical/GovernmentalBuilding actions
+        //Economical/GovernmentalBuilding actions
         else if (cowToCheck.self.getSleepiness() > 0)
             return ActiveActions.goWork(cowToCheck);
-        else if (Government.isElectionRunning() && !cowToCheck.hasVoted() && random.nextBoolean())
-            return ActiveActions.goVote(cowToCheck);
 
-            //Social actions
+        //Social actions
         else if (((Time.getHours() > 20 || Time.getHours() < 8) && cowToCheck.self.getSleepiness() < 33) && cowToCheck.getLivingSpace().isConstructed())
             return ActiveActions.goHome(cowToCheck);
         else if (cowToCheck.birth.isFertile() && NaturalSelection.getMostFitAndFertile(cowToCheck) != null)
@@ -93,8 +89,12 @@ public class ActionHandler {
          * Static (for now) stats based decisions.
          */
         if (cowToCheck.self.getDebt() <= 10 && cowToCheck.self.getSavings() > 30
-                && (BuildingHandler.getDefaultBuilding() == cowToCheck.getLivingSpace())) {
+                && (PlaygroundHandler.getMotion().getDefaultBuilding() == cowToCheck.getLivingSpace())) {
             PassiveActions.buyHouse(cowToCheck);
+        }
+        if (!cowToCheck.isLeader() && cowToCheck.self.getCompanionship() > 95 && cowToCheck.personality.meetsThresholds(Interests.LEADERSHIP)) {
+            EstablishmentCreation.createFollowing(cowToCheck.getId() + " 's support group", null, cowToCheck);
+            cowToCheck.setIsLeader(true);
         }
         return null;
     }

@@ -46,9 +46,7 @@ public class AssetLoading {
 
     public static Image basicWatersource;
 
-
     public static ArrayList<Image> basicCows = new ArrayList<>();
-
 
     /**
      * Calls the loading for all base assets.

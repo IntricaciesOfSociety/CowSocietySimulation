@@ -1,6 +1,6 @@
 package societalProductivity.jobs;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import metaControl.timeControl.currentEra.JobSprites;
 import resourcesManagement.ResourcesHandler;

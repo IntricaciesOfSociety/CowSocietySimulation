@@ -1,6 +1,6 @@
 package terrain;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.actionSystem.ActionHandler;
 import javafx.scene.image.Image;
 import metaEnvironment.Regioning.BinRegionHandler;
@@ -10,12 +10,10 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.management.PlatformLoggingMXBean;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class TileHandler {
 
@@ -23,7 +21,6 @@ public class TileHandler {
 
     public static void init() {
         TileCreation.createBasicTiles();
-
     }
 
     @Contract(pure = true)
@@ -84,7 +81,8 @@ public class TileHandler {
         return null;
     }
 
-    public static Tile getClosestTile(Cow cowToCheck, List<Tile> resourceList) {
+    @Nullable
+    public static Tile getClosestTile(Cow cowToCheck, @NotNull List<Tile> resourceList) {
         if (!resourceList.isEmpty()) {
             Tile closestTile = resourceList.get(0);
             int smallestDistance = (int) ActionHandler.findDistanceBetweenCowAndObject(cowToCheck, resourceList.get(0));

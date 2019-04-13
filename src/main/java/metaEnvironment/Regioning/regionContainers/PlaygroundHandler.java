@@ -5,26 +5,31 @@ import javafx.scene.paint.Color;
 import menus.MenuCreation;
 import metaControl.main.Input;
 import metaControl.main.SimState;
-import metaControl.timeControl.Time;
 import metaEnvironment.LoadConfiguration;
 import org.jetbrains.annotations.NotNull;
 import userInterface.playgroundUI.StaticUI;
 
 public class PlaygroundHandler {
 
+    //MUTATED depending on what the user is looking at
     public static Playground playground;
 
     //The pane that holds all of the cows (The simulation part of the simulation)
     private static Playground motion = new Playground(0);
 
+    //The pane that has the miens
+    private static Playground mines = new Playground(1);
+
+
+
     //The pane that holds the menu when a user clicks on a detailed view button
-    private static Playground detailedView = new Playground(1);
+    private static Playground detailedView = new Playground(2);
 
     //The pane that holds the entire story view when a user clicks the story view button
-    private static Playground storyView = new Playground(2);
+    private static Playground storyView = new Playground(3);
 
-    //The pane that has the miens
-    private static Playground mines = new Playground(3);
+    //The pane that holds the establishmentView
+    private static Playground establishmentView = new Playground(4);
 
     /**
      * Defaults the playground to the motion pane.
@@ -39,8 +44,6 @@ public class PlaygroundHandler {
         playground = motion;
         playground.setPrefSize(sideX, sideY);
         createBorders();
-
-        playground.setEffect(Time.dayNightCycle);
     }
 
     /**
@@ -58,6 +61,10 @@ public class PlaygroundHandler {
      */
     public static void setPlayground(@NotNull String grounds) {
         boolean removedOld;
+
+        if (playground.getRegionId() == 0 || playground.getRegionId() == 1)
+            playground.resetDragBox();
+        
         switch (grounds) {
             case "DetailedView":
                 removedOld = SimState.root.getChildren().remove(playground);
@@ -66,7 +73,7 @@ public class PlaygroundHandler {
 
                 StaticUI.disableUI();
 
-                MenuCreation.createStatsVeiwMenu(Input.selectedCows);
+                MenuCreation.createStatsViewMenu(Input.selectedCows);
                 if (removedOld)
                     SimState.addPlayground(playground);
 
@@ -107,6 +114,19 @@ public class PlaygroundHandler {
                     SimState.addPlayground(playground);
 
                 break;
+
+            case "EstablishmentView":
+                removedOld = SimState.root.getChildren().remove(playground);
+
+                playground = establishmentView;
+
+                StaticUI.disableUI();
+
+                MenuCreation.createEstablishmentsMenu();
+                if (removedOld)
+                    SimState.addPlayground(playground);
+
+                break;
         }
     }
 
@@ -128,5 +148,9 @@ public class PlaygroundHandler {
 
     public static Playground getMines() {
         return mines;
+    }
+
+    public static Playground getMotion() {
+        return motion;
     }
 }

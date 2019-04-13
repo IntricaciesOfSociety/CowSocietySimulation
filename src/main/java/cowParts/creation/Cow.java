@@ -1,19 +1,18 @@
-package cowParts;
+package cowParts.creation;
 
+import cowParts.CowHandler;
+import cowParts.cowThoughts.*;
+import cowParts.cowThoughts.traitsSystem.PersonalViews;
+import cowParts.cowThoughts.traitsSystem.Traits;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
-import cowParts.cowThoughts.Cognition;
 import cowParts.cowAI.NaturalSelection;
-import cowParts.cowThoughts.PersonalViews;
-import cowParts.cowThoughts.Social;
 import javafx.animation.Transition;
 import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
-import menus.GenericMenu;
+import menus.menuImplementations.GenericMenu;
 import metaControl.main.Input;
 import metaEnvironment.Regioning.BinRegion;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -46,6 +45,7 @@ public class Cow extends ImageView {
     public BirthEvent birth;
     public Social socialRelations;
     public PersonalViews views;
+    public Traits personality;
     private Occupation job;
 
     /* Misc Control flags */
@@ -53,6 +53,7 @@ public class Cow extends ImageView {
     private boolean voted = false;
     private int counter = 0;
     boolean parent = false;
+    private boolean leader = false;
 
     /* Movement */
     public boolean alreadyMoving = false;
@@ -65,15 +66,20 @@ public class Cow extends ImageView {
     private GenericBuilding buildingIn;
     private BinRegion regionIn;
 
-    Cow(Cow parent1, Cow parent2) {
-        if (parent1 != null)
+    public Cow(Cow parent1, Cow parent2) {
+        if (parent1 != null) {
             self = NaturalSelection.crossover(parent1, parent2);
-        else
+            personality = Traits.crossover(parent1, parent2);
+        }
+        else {
             self = new Cognition();
+            personality = new Traits();
+        }
 
         birth = new BirthEvent();
         socialRelations = new Social();
         views = new PersonalViews();
+
     }
 
     /**
@@ -133,15 +139,27 @@ public class Cow extends ImageView {
         if (animation != null)
             animation.stop();
 
+        if (buildingIn != null)
+            buildingIn.removeInhabitant(this);
+
         hidden = false;
+        animation = null;
         CowHandler.liveCowList.remove(this);
-        PlaygroundHandler.playground.getChildren().remove(this);
+        regionIn.getPlayground().getChildren().remove(this);
 
         StaticUI.cowDeathEventUpdate(cowLink);
 
         EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
-    }
 
+    }
+/*
+    public void physicalHealth() {
+        if (physicalHealth() == 0) {
+            kill();
+        }
+        return void
+    }
+*/
     /**
      * Closes the cows menu if applicable then stops the cow from being updated by removing it from the liveCowList and
      * playground node. This cow cannot be directly selected while its hidden value is true.
@@ -151,7 +169,7 @@ public class Cow extends ImageView {
             MenuHandler.closeMenu(this.cowMenu);
 
         hidden = true;
-        PlaygroundHandler.playground.getChildren().remove(this);
+        regionIn.getPlayground().getChildren().remove(this);
         StaticUI.updateIdText();
     }
 
@@ -162,8 +180,8 @@ public class Cow extends ImageView {
         if (hidden) {
             hidden = false;
 
-            if (!PlaygroundHandler.playground.getChildren().contains(this))
-                PlaygroundHandler.playground.getChildren().add(this);
+            if (!regionIn.getPlayground().getChildren().contains(this))
+                regionIn.getPlayground().getChildren().add(this);
             else
                 System.out.println("Duplicate???? " + this.getId());
         }
@@ -258,7 +276,7 @@ public class Cow extends ImageView {
         this.destination = destination;
     }
 
-    void setCowLink(Hyperlink cowCreationEvent) {
+    public void setCowLink(Hyperlink cowCreationEvent) {
         cowLink = cowCreationEvent;
     }
 
@@ -274,11 +292,11 @@ public class Cow extends ImageView {
         return birth.getSpouse();
     }
 
-    Effect getColor() {
+    public Effect getColor() {
         return color;
     }
 
-    void setColor(ColorAdjust colorAdjust) {
+    public void setColor(ColorAdjust colorAdjust) {
         color = colorAdjust;
     }
 
@@ -312,5 +330,18 @@ public class Cow extends ImageView {
 
     public void setCurrentBehavior(String newBehavior) {
         this.currentBehavior = newBehavior;
+    }
+
+    public void rescale(double scaleX, double scaleY) {
+        this.setScaleX(scaleX);
+        this.setScaleY(scaleY);
+    }
+
+    public boolean isLeader() {
+        return leader;
+    }
+
+    public void setIsLeader(boolean isLeader) {
+        leader = isLeader;
     }
 }

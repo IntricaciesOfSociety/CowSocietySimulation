@@ -5,20 +5,19 @@ import metaControl.main.SimState;
 import metaControl.timeControl.Time;
 import org.jetbrains.annotations.Contract;
 import org.slf4j.MDC;
-import societalProductivity.urbanPlanning.zoning.CivicSector;
+import societalProductivity.urbanPlanning.zoning.implementations.ZoningSector;
 
 import java.util.ArrayList;
 
 public class CivicControl {
 
-    private static String cityName = LoadConfiguration.getCityName();
+    private static String cityName;
 
-    private static ArrayList<CivicSector> allSectors = new ArrayList<>();
+    private static ArrayList<ZoningSector> allSectors = new ArrayList<>();
+
     public static void init() {
         cityName = LoadConfiguration.getCityName();
         createCityLog();
-
-        //allSectors.add(new CivicSector(BuildingHandler.get));
     }
 
     private static void createCityLog() {

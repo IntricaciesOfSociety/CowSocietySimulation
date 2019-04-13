@@ -1,5 +1,6 @@
-package cowParts.cowThoughts;
+package cowParts.cowThoughts.traitsSystem;
 
+import org.jetbrains.annotations.Contract;
 import societalProductivity.Issue;
 import societalProductivity.Opinion;
 
@@ -8,6 +9,7 @@ import societalProductivity.Opinion;
  */
 public class PersonalViews {
 
+    @Contract(pure = true)
     public PersonalViews() {
 
     }

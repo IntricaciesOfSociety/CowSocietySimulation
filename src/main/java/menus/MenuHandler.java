@@ -1,5 +1,6 @@
 package menus;
 
+import menus.menuImplementations.GenericMenu;
 import org.jetbrains.annotations.*;
 
 import java.util.ArrayList;

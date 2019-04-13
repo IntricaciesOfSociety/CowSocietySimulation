@@ -1,6 +1,6 @@
 package cowParts.cowAI;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowThoughts.Cognition;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +36,7 @@ public class NaturalSelection {
         cowToCheck.self.setFitness(survivalFitness + fameFitness);
     }
 
-    public static Cognition crossover(Cow parent1, Cow parent2) {
+    public static Cognition crossover(@NotNull Cow parent1, @NotNull Cow parent2) {
         Cognition crossoverCog = new Cognition();
         crossoverCog.clear();
 
@@ -57,9 +57,9 @@ public class NaturalSelection {
         return crossoverCog;
     }
 
-    private static void mutate(Cognition crossoverCog) {
+    public static void mutate(Cognition crossoverCog) {
         //Mutate first
-        if (random.nextInt(1) == 0)
+        if (random.nextInt(3) == 0)
             crossoverCog.setPhysicalHealth(random.nextInt(100));
         if (random.nextInt(3) == 0)
             crossoverCog.setIntelligence(random.nextInt(100));
@@ -90,7 +90,7 @@ public class NaturalSelection {
     @Nullable
     public static Cow getMostFitAndFertile(Cow cowToCheck) {
         for (int i = 0; i < CowHandler.liveCowList.size(); i++ ) {
-            if (CowHandler.liveCowList.get(i).birth.isFertile())
+            if (CowHandler.liveCowList.get(i) != cowToCheck && CowHandler.liveCowList.get(i).birth.isFertile())
                 return CowHandler.liveCowList.get(i);
         }
         return null;

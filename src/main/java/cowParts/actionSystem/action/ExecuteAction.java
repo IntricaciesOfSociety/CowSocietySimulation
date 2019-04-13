@@ -1,8 +1,9 @@
 package cowParts.actionSystem.action;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import javafx.scene.shape.Rectangle;
+import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import userInterface.playgroundUI.StaticUI;
 
 public class ExecuteAction {
@@ -18,11 +19,13 @@ public class ExecuteAction {
      */
     public static void dragBoxSelectionUpdate(Rectangle dragBox) {
         Cow possibleCollide;
-        for (int i = 0; i < CowHandler.liveCowList.size(); i++) {
-            possibleCollide = CowHandler.liveCowList.get(i);
-            if (possibleCollide.getBoundsInParent().intersects(dragBox.getBoundsInParent())) {
-                possibleCollide.openMenu();
-                StaticUI.cowClickEvent();
+        for (int i = 0; i < PlaygroundHandler.playground.getChildren().size(); i++) {
+            if (PlaygroundHandler.playground.getChildren().get(i) instanceof Cow) {
+                possibleCollide = (Cow) PlaygroundHandler.playground.getChildren().get(i);
+                if (possibleCollide.getBoundsInParent().intersects(dragBox.getBoundsInParent())) {
+                    possibleCollide.openMenu();
+                    StaticUI.cowClickEvent();
+                }
             }
         }
     }

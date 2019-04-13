@@ -1,6 +1,6 @@
 package menus.menuImplementations;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowThoughts.Social;
 import javafx.scene.control.*;
@@ -11,9 +11,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import menus.GenericMenu;
+import menus.MenuHandler;
 import metaControl.main.SimState;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.NotNull;
@@ -78,7 +77,7 @@ public class StatsViewMenu extends GenericMenu {
         currentStatusText.setFill(Color.RED);
         idText.setFill(Color.RED);
 
-        exitButton.setOnAction(event -> closeMenu());
+        exitButton.setOnAction(event -> MenuHandler.closeMenu(this));
 
         socialViewScrollPane.setContent(socialViewContent);
         socialViewScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -139,7 +138,7 @@ public class StatsViewMenu extends GenericMenu {
     }
 
     @Override
-    protected void closeMenu() {
+    public void closeMenu() {
         SimState.setSimState("Playing");
         PlaygroundHandler.setPlayground("Motion");
         stack.getChildren().clear();

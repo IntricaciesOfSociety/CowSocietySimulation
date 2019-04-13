@@ -1,5 +1,6 @@
 package cowParts;
 
+import cowParts.creation.Cow;
 import infrastructure.buildings.BuildingHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
@@ -11,7 +12,6 @@ import metaEnvironment.Regioning.BinRegion;
 import metaEnvironment.Regioning.BinRegionHandler;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,12 +21,12 @@ import userInterface.playgroundUI.StaticUI;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static cowParts.BirthEvent.random;
-
 /**
  * Handles the creation and initialization of cows.
  */
 public class CowHandler {
+
+    private static Random random = new Random();
 
     //List that holds every created cow
     public static ArrayList<Cow> liveCowList = new ArrayList<>();
@@ -53,7 +53,7 @@ public class CowHandler {
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
      * for the cow to be used in PlaygroundUIHandler.
      */
-    static Cow createCow(Cow parent1, Cow parent2) {
+    public static Cow createCow(Cow parent1, Cow parent2) {
         Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
 
         Cow newCow = new Cow(parent1, parent2);
@@ -63,10 +63,19 @@ public class CowHandler {
 
         newCow.setId("Cow" + ((char) (new Random().nextInt(26) + 'a')) + new Random().nextInt(10000));
 
-        BinRegion randRegion = BinRegionHandler.binRegionMap.get(random.nextInt(BinRegionHandler.newestRegionId));
-        newCow.setRegionIn(randRegion);
-        newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
-        newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
+        if (parent1 != null) {
+            newCow.setRegionIn(parent1.getRegionIn());
+            newCow.setTranslateX(parent1.getTranslateX());
+            newCow.setTranslateY(parent1.getTranslateY());
+            parent1.getRegionIn().getPlayground().getChildren().add(newCow);
+        }
+        else {
+            BinRegion randRegion = BinRegionHandler.getRandomRegion(PlaygroundHandler.getMotion());
+            newCow.setRegionIn(randRegion);
+            newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
+            newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
+            PlaygroundHandler.getMotion().getChildren().add(newCow);
+        }
 
         newCow.setEffect(newCow.getColor());
         newCow.setSmooth(false);
@@ -81,7 +90,6 @@ public class CowHandler {
         newCow.setCowLink(StaticUI.cowCreationEvent(newCow.getId()));
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
-        PlaygroundHandler.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
 
         return newCow;
@@ -123,8 +131,8 @@ public class CowHandler {
     @Contract("_, _ -> new")
     public static Point2D findHalfwayPoint(@NotNull Cow cowToCheck, @NotNull Cow otherCow) {
         return new Point2D(
-                (cowToCheck.getLayoutX() + cowToCheck.getTranslateX() + otherCow.getLayoutX() + otherCow.getTranslateX()) / 2,
-                (cowToCheck.getLayoutY() + cowToCheck.getTranslateY() + otherCow.getLayoutY() + otherCow.getTranslateY()) / 2
+                ((cowToCheck.getTranslateX() + otherCow.getTranslateX()) / 2),
+                ((cowToCheck.getTranslateY() + otherCow.getTranslateY()) / 2)
         );
     }
 }

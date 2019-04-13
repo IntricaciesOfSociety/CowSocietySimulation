@@ -1,6 +1,6 @@
 package societalProductivity.government;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import societalProductivity.Opinion;
 
 import java.util.ArrayList;
@@ -12,7 +12,6 @@ class Platform {
 
     private ArrayList allIssueOpinions = new ArrayList<Opinion>();
     private ArrayList primaryFocuses = new ArrayList<Opinion>();
-
 
     void setNewLeaderPlatform(Cow leader) {
         allIssueOpinions = Opinion.getCurrentIssueOpinions(leader);

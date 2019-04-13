@@ -1,6 +1,6 @@
 package menus.menuImplementations;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -11,9 +11,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import menus.GenericMenu;
+import menus.MenuHandler;
 import metaControl.main.SimState;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaEnvironment.logging.EventLogger;
 
@@ -51,13 +50,12 @@ public class StoryViewMenu extends GenericMenu {
         logScroll.setContent(logText);
         logScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
-        exitButton.setOnAction(event -> {
-            closeMenu();
-        });
+        exitButton.setOnAction(event -> MenuHandler.closeMenu(this));
 
         logContent.getChildren().addAll(logScroll, logText);
 
-        PlaygroundHandler.playground.getChildren().addAll(background, idText, logContent, exitButton);
+        stack.getChildren().addAll(background, idText, logContent, exitButton);
+        PlaygroundHandler.playground.getChildren().add(stack);
 
         updateMenu();
     }
@@ -67,10 +65,10 @@ public class StoryViewMenu extends GenericMenu {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
-        background.setLayoutX(150);
+        background.setLayoutX(0);
         background.setLayoutY(0);
-        background.setWidth(650);
-        background.setHeight(600);
+        background.setWidth(screenOffsetX);
+        background.setHeight(screenOffsetY);
 
         idText.relocate(200, 10);
 
@@ -83,9 +81,11 @@ public class StoryViewMenu extends GenericMenu {
     }
 
     @Override
-    protected void closeMenu() {
+    public void closeMenu() {
         SimState.setSimState("Playing");
         PlaygroundHandler.setPlayground("Motion");
+        stack.getChildren().clear();
+        PlaygroundHandler.playground.getChildren().remove(stack);
     }
 
     @Override

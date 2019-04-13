@@ -1,8 +1,7 @@
 package userInterface.playgroundUI;
 
-import com.sun.istack.internal.NotNull;
-import cowParts.Cow;
 import cowParts.CowHandler;
+import cowParts.creation.Cow;
 import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -17,7 +16,6 @@ import metaControl.main.Input;
 import metaControl.main.SimState;
 import metaControl.timeControl.Time;
 import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import resourcesManagement.ResourcesHandler;
 
@@ -51,6 +49,7 @@ public class StaticUI {
     private static Button detailedViewButton = new Button();
     private static Button storyViewButton = new Button();
     private static Button trackingButton = new Button();
+    private static Button establishmentViewButton = new Button();
 
     //Structure for buttons that open the other UIs
     private static Group differentUIGroup = new Group();
@@ -66,8 +65,8 @@ public class StaticUI {
 
         ImageView halfSpeed = new ImageView(AssetLoading.loadUISprite("X0.5SpeedButton"));
         ToggleButton speedButton1 = new ToggleButton();
-        halfSpeed.setScaleX(2.5);
-        halfSpeed.setScaleY(2.5);
+        halfSpeed.setScaleX(2.0);
+        halfSpeed.setScaleY(2.0);
         speedButton1.setGraphic(halfSpeed);
         speedButton1.setId(Long.toString(((long) ((double) 128_666_666L / 0.5))));
         speedButton1.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
@@ -75,8 +74,8 @@ public class StaticUI {
 
         ImageView normalSpeed = new ImageView(AssetLoading.loadUISprite("X1SpeedButton"));
         ToggleButton speedButton2 = new ToggleButton();
-        normalSpeed.setScaleX(2.5);
-        normalSpeed.setScaleY(2.5);
+        normalSpeed.setScaleX(2.0);
+        normalSpeed.setScaleY(2.0);
         speedButton2.setGraphic(normalSpeed);
         speedButton2.setId(Long.toString(((long) ((double) 128_666_666L / 1))));
         speedButton2.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
@@ -84,8 +83,8 @@ public class StaticUI {
 
         ImageView doubleSpeed = new ImageView(AssetLoading.loadUISprite("X2SpeedButton"));
         ToggleButton speedButton3 = new ToggleButton();
-        doubleSpeed.setScaleX(2.5);
-        doubleSpeed.setScaleY(2.5);
+        doubleSpeed.setScaleX(2.0);
+        doubleSpeed.setScaleY(2.0);
         speedButton3.setGraphic(doubleSpeed);
         speedButton3.setId(Long.toString(((long) ((double) 128_666_666L / 2))));
         speedButton3.setOnAction(event -> SimState.setSimSpeed(((ToggleButton) event.getTarget()).getId()));
@@ -100,20 +99,18 @@ public class StaticUI {
 
         cowLinkScrollBox.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         cowLinkScrollBox.setContent(cowLinkBox);
-        cowLinkScrollBox.setPrefHeight(100);
+        cowLinkScrollBox.setPrefHeight(105);
         cowLinkScrollBox.setFocusTraversable(false);
 
         ImageView heartAttackImage = new ImageView(AssetLoading.loadUISprite("HeartAttack"));
         heartAttackImage.setScaleX(2);
         heartAttackImage.setScaleY(2);
-
         heartAttackButton.setFocusTraversable(false);
         heartAttackButton.setGraphic(heartAttackImage);
 
         ImageView diseaseImage = new ImageView(AssetLoading.loadUISprite("Disease"));
         diseaseImage.setScaleX(2);
         diseaseImage.setScaleY(2);
-
         diseaseButton.setFocusTraversable(false);
         diseaseButton.setGraphic(diseaseImage);
 
@@ -128,6 +125,8 @@ public class StaticUI {
         storyImage.setScaleY(2);
         storyViewButton.setFocusTraversable(false);
         storyViewButton.setGraphic(storyImage);
+
+        establishmentViewButton.setFocusTraversable(false);
 
         controlGroup.setDisable(true);
 
@@ -156,7 +155,6 @@ public class StaticUI {
         ImageView resourcesImage = new ImageView(AssetLoading.loadUISprite("ResourcesUI"));
         resourcesImage.setScaleX(2);
         resourcesImage.setScaleY(2);
-
         resourcesUIButton.setFocusTraversable(false);
         resourcesUIButton.setGraphic(resourcesImage);
 
@@ -164,15 +162,17 @@ public class StaticUI {
         trackingImage.setScaleX(2);
         trackingImage.setScaleY(2);
         trackingButton.setLayoutX(15);
-        trackingButton.setLayoutY(230);
+        trackingButton.setLayoutY(240);
         trackingButton.setFocusTraversable(false);
         trackingButton.setGraphic(trackingImage);
 
         ImageView techTreeButtonImage = new ImageView(AssetLoading.loadUISprite("techTreeButton"));
         techTreeButtonImage.setScaleX(2);
         techTreeButtonImage.setScaleY(2);
+        techTreeButtonImage.setFitHeight(15);
+        techTreeButtonImage.setPreserveRatio(true);
         techTreeButton.setLayoutX(15);
-        techTreeButton.setLayoutY(260);
+        techTreeButton.setLayoutY(270);
         techTreeButton.setFocusTraversable(false);
         techTreeButton.setGraphic(techTreeButtonImage);
 
@@ -182,7 +182,7 @@ public class StaticUI {
         simSpeedGroup.getChildren().addAll(speedButton1, speedButton2, speedButton3);
         controlGroup.getChildren().addAll(trackingButton, heartAttackButton, diseaseButton, detailedViewButton, storyViewButton);
         UIText.getChildren().addAll(populationText, idText, actionText, accommodationsText, timeOfDay);
-        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton, techTreeButton);
+        differentUIGroup.getChildren().addAll(tileUIButton, resourcesUIButton, techTreeButton, establishmentViewButton);
 
         PlaygroundUIHandler.staticUI.getChildren().addAll(
                  simSpeedGroup, cowLinkBox, cowLinkScrollBox, UIText, controlGroup, differentUIGroup
@@ -205,7 +205,10 @@ public class StaticUI {
             PlaygroundUIHandler.toggleTileUI();
         });
 
-        resourcesUIButton.setOnAction(event -> PlaygroundUIHandler.toggleResourcesUI());
+        resourcesUIButton.setOnAction(event -> {
+            SimState.setSimState("ResourcesView");
+            PlaygroundUIHandler.toggleResourcesUI();
+        });
 
         trackingButton.setOnAction(event -> {
 
@@ -213,6 +216,12 @@ public class StaticUI {
 
         techTreeButton.setOnAction(event -> {
 
+        });
+
+        establishmentViewButton.setOnAction(event -> {
+            SimState.setSimState("EstablishmentView");
+            PlaygroundHandler.setPlayground("EstablishmentView");
+            controlGroup.setDisable(true);
         });
 
         updatePopulationText();
@@ -226,10 +235,10 @@ public class StaticUI {
         simSpeedGroup.relocate(5,5);
 
         populationText.setX(5);
-        populationText.setY(50);
+        populationText.setY(60);
 
         cowLinkScrollBox.setLayoutX(5);
-        cowLinkScrollBox.setLayoutY(60);
+        cowLinkScrollBox.setLayoutY(70);
 
         heartAttackButton.setLayoutX(screenOffsetX - 85);
         heartAttackButton.setLayoutY(20);
@@ -238,29 +247,30 @@ public class StaticUI {
         diseaseButton.setLayoutY(50);
 
         detailedViewButton.setLayoutX(15);
-        detailedViewButton.setLayoutY(170);
+        detailedViewButton.setLayoutY(180);
 
         storyViewButton.setLayoutX(15);
-        storyViewButton.setLayoutY(200);
+        storyViewButton.setLayoutY(210);
 
         idText.setX(5);
-        idText.setY(300);
+        idText.setY(310);
 
         actionText.setLayoutX(5);
-        actionText.setLayoutY(320);
+        actionText.setLayoutY(330);
 
         accommodationsText.setLayoutX(5);
-        accommodationsText.setLayoutY(340);
+        accommodationsText.setLayoutY(350);
 
         tileUIButton.setLayoutX(15);
-        tileUIButton.setLayoutY(380);
+        tileUIButton.setLayoutY(390);
 
         resourcesUIButton.setLayoutX(15);
-        resourcesUIButton.setLayoutY(410);
+        resourcesUIButton.setLayoutY(420);
+
+        establishmentViewButton.relocate(15, 440);
 
         timeOfDay.setLayoutX(20);
-
-        timeOfDay.setLayoutY(screenOffsetY - 50);
+        timeOfDay.setLayoutY(screenOffsetY - 25);
 
     }
 
@@ -301,7 +311,7 @@ public class StaticUI {
      * Centers the camera around the animal in the clicked hyperlink, updates the corresponding UI, and opens up that
      * cow's menu.
      */
-    private static void cowLinkClickEvent(@org.jetbrains.annotations.NotNull @NotNull String clickedCowLinkId) {
+    private static void cowLinkClickEvent(@org.jetbrains.annotations.NotNull String clickedCowLinkId) {
         Cow cowFromId = CowHandler.findCow(clickedCowLinkId.substring(5));
         Objects.requireNonNull(cowFromId).openMenu();
 

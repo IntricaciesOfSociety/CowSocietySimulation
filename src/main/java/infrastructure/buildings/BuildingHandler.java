@@ -1,6 +1,6 @@
 package infrastructure.buildings;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import infrastructure.buildings.buildingTypes.CommercialBuilding;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import infrastructure.buildings.buildingTypes.GovernmentalBuilding;
@@ -8,6 +8,7 @@ import infrastructure.buildings.buildingTypes.IndustrialBuilding;
 import metaEnvironment.LoadConfiguration;
 import metaEnvironment.AssetLoading;
 import metaEnvironment.Regioning.BinRegionHandler;
+import metaEnvironment.Regioning.regionContainers.Playground;
 import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -23,27 +24,25 @@ import java.util.ArrayList;
  */
 public class BuildingHandler {
 
-    private static GenericBuilding defaultBuilding;
-
-
     /**
      * Creates the necessary infrastructure based off the situation chosen for the sim.
      */
     public static void init() {
-        defaultBuilding = BuildingCreation.createResidentialBuilding(
-                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandRegionTile(4, PlaygroundHandler.playground)
-        );
+        PlaygroundHandler.getMotion().setDefaultBuilding(BuildingCreation.createResidentialBuilding(
+                AssetLoading.basicLargeBuilding, LoadConfiguration.getBasicLargeDwelling(), TileHandler.getRandRegionTile(4, PlaygroundHandler.getMotion())
+        ));
 
-        for (int j = 0; j < 100; j++)
+        for (int j = 0; j < LoadConfiguration.getNumberOfMines(); j++)
             BuildingCreation.createIndustrialBuilding(
                     AssetLoading.basicMineBuilding, LoadConfiguration.getBasicMine(),
-                    TileHandler.getRandRegionTile(2, PlaygroundHandler.playground, AssetLoading.desertTileFull, AssetLoading.flatTerrain)
+                    TileHandler.getRandRegionTile(2, PlaygroundHandler.getMotion(), AssetLoading.desertTileFull, AssetLoading.flatTerrain)
             );
 
         //TODO: Remove size from creation methods
-        BuildingCreation.createCommercialBuilding(
-                AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandRegionTile(4, PlaygroundHandler.playground)
-        );
+        for (int k = 0; k < LoadConfiguration.getGroceryStores(); k++)
+            BuildingCreation.createCommercialBuilding(
+                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandRegionTile(4, PlaygroundHandler.getMotion())
+            );
 
         IndustrialBuilding mineExit = (IndustrialBuilding) BuildingCreation.createIndustrialBuilding(
                 AssetLoading.mineExit, "MineExit",
@@ -52,6 +51,7 @@ public class BuildingHandler {
         if (mineExit != null) {
             mineExit.finishConstruction();
             mineExit.disableMenu();
+            PlaygroundHandler.getMines().setDefaultBuilding(mineExit);
         }
     }
 
@@ -115,18 +115,15 @@ public class BuildingHandler {
      */
     @Contract(pure = true)
     public static GenericBuilding getBuildingAssignment(String cowID) {
-        return defaultBuilding;
-    }
-
-    public static GenericBuilding getDefaultBuilding() {
-        return defaultBuilding;
+        return PlaygroundHandler.getMotion().getDefaultBuilding();
     }
 
     public static GenericBuilding getClosestGroceryStore(Cow cowToCheck) {
         ArrayList<Tile> buildingList = new ArrayList<>();
+        Playground resourcePool = cowToCheck.getRegionIn().getPlayground();
 
-        for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
-            BinRegionHandler.binRegionMap.get(i).getAllCommercialBuildings().forEach(
+        for (int i = 0; i < (resourcePool.getMaxBinRegionId() - resourcePool.getMinBinRegionId()); i++)
+            BinRegionHandler.binRegionMap.get(resourcePool.getMinBinRegionId() + i).getAllCommercialBuildings().forEach(
                 (building) -> { if (BuildingHandler.checkBuildingName(building, CurrentTechnology.getGroceryStoreName())) buildingList.add(building); }
             );
 
@@ -135,9 +132,10 @@ public class BuildingHandler {
 
     public static GenericBuilding getClosestVotingArea(Cow cowToCheck) {
         ArrayList<Tile> buildingList = new ArrayList<>();
+        Playground resourcePool = cowToCheck.getRegionIn().getPlayground();
 
-        for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
-            buildingList.addAll(BinRegionHandler.binRegionMap.get(i).getAllGovernmentalBuildings());
+        for (int i = 0; i < (resourcePool.getMaxBinRegionId() - resourcePool.getMinBinRegionId()); i++)
+            buildingList.addAll(BinRegionHandler.binRegionMap.get(resourcePool.getMinBinRegionId() + i).getAllGovernmentalBuildings());
 
         return (GovernmentalBuilding) TileHandler.getClosestTile(cowToCheck, buildingList);
     }

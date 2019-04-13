@@ -1,11 +1,8 @@
 package menus;
 
 import infrastructure.buildings.buildingTypes.GenericBuilding;
-import menus.menuImplementations.CowFitnessPopup;
-import menus.menuImplementations.InhabitantsPopup;
-import menus.menuImplementations.StatsViewMenu;
-import menus.menuImplementations.StoryViewMenu;
-import cowParts.Cow;
+import menus.menuImplementations.*;
+import cowParts.creation.Cow;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
@@ -25,6 +22,10 @@ public class MenuCreation {
         return newPopup;
     }
 
+    public static GenericMenu createEstablishmentsMenu() {
+        return new EstablishmentsMenu();
+    }
+
     /**
      * Creates a new story view menu from the cows selected when the menu was opened.
      * @param cowsPreviouslySelected The cows that were previously selected
@@ -39,7 +40,7 @@ public class MenuCreation {
      * Creates a new stats view menu from the cows selected when the menu was opened.
      * @param cowsPreviouslySelected The cows that were previously selected
      */
-    public static GenericMenu createStatsVeiwMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+    public static GenericMenu createStatsViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
         GenericMenu newStatsView = new StatsViewMenu(cowsPreviouslySelected);
         MenuHandler.setCurrentStatsMenu(newStatsView);
         return newStatsView;
@@ -49,9 +50,9 @@ public class MenuCreation {
      * Creates a new menu for the clicked on building showing the amount of inhabitants in the building.
      * @param buildingToCreateMenuFrom The building to create a menu for
      */
-   public static GenericMenu createInhabitantsMenu(GenericBuilding buildingToCreateMenuFrom) {
-       GenericMenu newInhabitantsMenu = new InhabitantsPopup(buildingToCreateMenuFrom);
-       MenuHandler.addMenuToUpdateCycle(newInhabitantsMenu);
-       return newInhabitantsMenu;
+    public static GenericMenu createInhabitantsMenu(GenericBuilding buildingToCreateMenuFrom) {
+        GenericMenu newInhabitantsMenu = new InhabitantsPopup(buildingToCreateMenuFrom);
+        MenuHandler.addMenuToUpdateCycle(newInhabitantsMenu);
+        return newInhabitantsMenu;
     }
 }
