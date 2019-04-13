@@ -2,14 +2,25 @@ package infrastructure.establishments.EstablishmentTypes;
 
 import cowParts.creation.Cow;
 import cowParts.actionSystem.action.GenericAction;
+import societalProductivity.government.territory.Territory;
 
 import java.util.ArrayList;
 
 public class GovernmentEstablishment extends GenericEstablishment {
 
-    public GovernmentEstablishment(String name, Cow leader) {
+    ArrayList<Territory> territories = new ArrayList<>();
+
+    public GovernmentEstablishment(String name, Cow leader, Territory initialTerritory) {
         this.name = name;
         this.leader = leader;
+    }
+
+    public void addTerritory(Territory newTerritory) {
+        territories.add(newTerritory);
+    }
+
+    public ArrayList<Territory> getTerritories() {
+        return territories;
     }
 
     @Override

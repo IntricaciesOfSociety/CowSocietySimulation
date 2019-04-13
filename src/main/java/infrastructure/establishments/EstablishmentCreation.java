@@ -6,6 +6,8 @@ import infrastructure.buildings.buildingTypes.CommercialBuilding;
 import infrastructure.establishments.EstablishmentTypes.BusinessEstablishment;
 import infrastructure.establishments.EstablishmentTypes.FollowingEstablishment;
 import infrastructure.establishments.EstablishmentTypes.GovernmentEstablishment;
+import metaEnvironment.LoadConfiguration;
+import societalProductivity.government.territory.Territory;
 
 public class EstablishmentCreation {
 
@@ -23,7 +25,7 @@ public class EstablishmentCreation {
 
     //TODO: Implement
     public static GovernmentEstablishment createGovernment(FollowingEstablishment following) {
-        GovernmentEstablishment newGovernment = new GovernmentEstablishment(following.getName(), (Cow) following.getLeader());
+        GovernmentEstablishment newGovernment = new GovernmentEstablishment(following.getName(), (Cow) following.getLeader(), new Territory(0, LoadConfiguration.getWorldHRegions(), 0, LoadConfiguration.getWorldVRegions()));
         EstablishmentHandler.establishNewEstablishment(newGovernment);
         return newGovernment;
     }
