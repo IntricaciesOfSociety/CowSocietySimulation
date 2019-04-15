@@ -20,6 +20,8 @@ public class ResourcesUI {
     private static boolean opened = false;
 
     private static Rectangle background;
+    private static Rectangle backgroundTwo;
+    private static Rectangle backgroundThree;
 
     private static Text resourcesText;
 
@@ -36,7 +38,9 @@ public class ResourcesUI {
     private static void init() {
 
         background = new Rectangle();
-        resourcesText = new Text("RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
+        backgroundTwo = new Rectangle();
+        backgroundThree = new Rectangle();
+        resourcesText = new Text(ResourcesHandler.getResourcesAsString());
         clayIcon = new ImageView(AssetLoading.loadUISprite("ClayIcon"));
         coalIcon = new ImageView(AssetLoading.loadUISprite("CoalIcon"));
         copperIcon = new ImageView(AssetLoading.loadUISprite("CopperIcon"));
@@ -46,7 +50,7 @@ public class ResourcesUI {
 
         resourcesText.setFill(Color.RED);
 
-        PlaygroundUIHandler.resourcesUI.getChildren().addAll(background, resourcesText, clayIcon, coalIcon, copperIcon, ironIcon, rockIcon, woodIcon);
+        PlaygroundUIHandler.resourcesUI.getChildren().addAll(background, backgroundTwo, backgroundThree, resourcesText, clayIcon, coalIcon, copperIcon, ironIcon, rockIcon, woodIcon);
 
         updateUIPlacements();
     }
@@ -55,14 +59,21 @@ public class ResourcesUI {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
-        background.setWidth(500);
+        background.setWidth(100);
         background.setHeight(50);
-        background.relocate((screenOffsetX / 2) - background.getWidth() / 2, screenOffsetY - 100);
-        clayIcon.relocate(background.getLayoutX() + 30, background.getLayoutY() + 25);
-        coalIcon.relocate(background.getLayoutX() + 55, background.getLayoutY() + 25);
-        copperIcon.relocate(background.getLayoutX() + 80, background.getLayoutY() + 25);
-        ironIcon.relocate(background.getLayoutX() + 105, background.getLayoutY() + 25);
-        rockIcon.relocate(background.getLayoutX() + 130, background.getLayoutY() + 25);
+        backgroundTwo.setWidth(200);
+        backgroundTwo.setHeight(50);
+        backgroundThree.setWidth(75);
+        backgroundThree.setHeight(50);
+        background.relocate((screenOffsetX / 2) - background.getWidth() / 2 - 500, screenOffsetY - 50);
+        backgroundTwo.relocate((screenOffsetX / 2) - background.getWidth() / 2, screenOffsetY - 50);
+        backgroundThree.relocate((screenOffsetX / 2) - background.getWidth() / 2 + 300, screenOffsetY - 50);
+        //background.relocate((screenOffsetX / 2) - background.getWidth() / 2, screenOffsetY - 100);
+        clayIcon.relocate(backgroundTwo.getLayoutX() + 30, background.getLayoutY() + 25);
+        coalIcon.relocate(backgroundTwo.getLayoutX() + 55, background.getLayoutY() + 25);
+        copperIcon.relocate(backgroundTwo.getLayoutX() + 80, background.getLayoutY() + 25);
+        ironIcon.relocate(backgroundTwo.getLayoutX() + 105, background.getLayoutY() + 25);
+        rockIcon.relocate(backgroundTwo.getLayoutX() + 130, background.getLayoutY() + 25);
         woodIcon.relocate(background.getLayoutX() + 155, background.getLayoutY() + 25);
 
         resourcesText.relocate(background.getLayoutX() + 20, background.getLayoutY() + 15);
@@ -97,10 +108,10 @@ public class ResourcesUI {
      */
     public static void updateUI() {
         if (TileUI.getSelectedTile() instanceof GenericBuilding)
-            resourcesText.setText("RESOURCES UI        " + ((GenericBuilding) TileUI.getSelectedTile()).getResourceRequirement().toString());
+            resourcesText.setText(((GenericBuilding) TileUI.getSelectedTile()).getResourceRequirement().toString());
         else if (TileUI.getSelectedTile() instanceof GenericResource)
-            resourcesText.setText("RESOURCES UI        " + ((GenericResource) TileUI.getSelectedTile()).toString());
+            resourcesText.setText(((GenericResource) TileUI.getSelectedTile()).toString());
         else
-            resourcesText.setText("RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
+            resourcesText.setText(ResourcesHandler.getResourcesAsString());
     }
 }
