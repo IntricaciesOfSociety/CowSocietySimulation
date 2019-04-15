@@ -24,6 +24,10 @@ public class ResourcesHandler {
 
     private static int rock = 0;
     private static int wood = 0;
+    private static int clay = 0;
+    private static int coal = 0;
+    private static int copper = 0;
+    private static int iron = 0;
     private static int power = 0;
 
     /**
@@ -99,6 +103,14 @@ public class ResourcesHandler {
     public static int getPowerAmount() {
         return power;
     }
+
+    public static int getClayAmount() { return clay; }
+
+    public static int getCoalAmount() { return coal; }
+
+    public static int getCopperAmount() { return copper; }
+
+    public static int getIronAmount() { return iron; }
 
     /**
      * Consumes city resources to build towards a buliding requirement.

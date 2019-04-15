@@ -30,23 +30,52 @@ public class ResourcesUI {
     private static ImageView rockIcon;
     private static ImageView woodIcon;
 
+    private static Text clayText;
+    private static Text coalText;
+    private static Text copperText;
+    private static Text ironText;
+    private static Text rockText;
+    private static Text woodText;
+    private static Text powerText;
+
     /**
      * Creates the core components of the resourcesUI.
      */
     private static void init() {
 
         background = new Rectangle();
-        resourcesText = new Text("RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
+        resourcesText = new Text();
+
+        clayText = new Text("" + ResourcesHandler.getClayAmount());
+        coalText = new Text("" + ResourcesHandler.getCoalAmount());
+        copperText = new Text("" + ResourcesHandler.getCopperAmount());
+        ironText = new Text("" + ResourcesHandler.getIronAmount());
+        rockText = new Text("" + ResourcesHandler.getRockAmount());
+        woodText = new Text("" + ResourcesHandler.getWoodAmount());
+        powerText = new Text("" + ResourcesHandler.getPowerAmount());
+
         clayIcon = new ImageView(AssetLoading.loadUISprite("ClayIcon"));
         coalIcon = new ImageView(AssetLoading.loadUISprite("CoalIcon"));
         copperIcon = new ImageView(AssetLoading.loadUISprite("CopperIcon"));
         ironIcon = new ImageView(AssetLoading.loadUISprite("IronIcon"));
         rockIcon = new ImageView(AssetLoading.loadUISprite("RockIcon"));
         woodIcon = new ImageView(AssetLoading.loadUISprite("WoodIcon"));
+        //powerIcon = new ImageView();
+
+        clayText.setFill(Color.RED);
+        coalText.setFill(Color.RED);
+        copperText.setFill(Color.RED);
+        ironText.setFill(Color.RED);
+        rockText.setFill(Color.RED);
+        woodText.setFill(Color.RED);
+        powerText.setFill(Color.RED);
 
         resourcesText.setFill(Color.RED);
 
-        PlaygroundUIHandler.resourcesUI.getChildren().addAll(background, resourcesText, clayIcon, coalIcon, copperIcon, ironIcon, rockIcon, woodIcon);
+        PlaygroundUIHandler.resourcesUI.getChildren().addAll(
+                background, resourcesText, clayIcon, coalIcon, copperIcon, ironIcon, rockIcon, woodIcon, clayText, coalText,
+                copperText, ironText, rockText, woodText, powerText
+        );
 
         updateUIPlacements();
     }
@@ -58,6 +87,7 @@ public class ResourcesUI {
         background.setWidth(500);
         background.setHeight(50);
         background.relocate((screenOffsetX / 2) - background.getWidth() / 2, screenOffsetY - 100);
+
         clayIcon.relocate(background.getLayoutX() + 30, background.getLayoutY() + 25);
         coalIcon.relocate(background.getLayoutX() + 55, background.getLayoutY() + 25);
         copperIcon.relocate(background.getLayoutX() + 80, background.getLayoutY() + 25);
@@ -66,6 +96,13 @@ public class ResourcesUI {
         woodIcon.relocate(background.getLayoutX() + 155, background.getLayoutY() + 25);
 
         resourcesText.relocate(background.getLayoutX() + 20, background.getLayoutY() + 15);
+
+        clayText.relocate(background.getLayoutX() + 30, background.getLayoutY() + 25);
+        coalText.relocate(background.getLayoutX() + 55, background.getLayoutY() + 25);
+        copperText.relocate(background.getLayoutX() + 80, background.getLayoutY() + 25);
+        ironText.relocate(background.getLayoutX() + 105, background.getLayoutY() + 25);
+        rockText.relocate(background.getLayoutX() + 130, background.getLayoutY() + 25);
+        woodText.relocate(background.getLayoutX() + 155, background.getLayoutY() + 25);
     }
 
     /**
@@ -97,10 +134,18 @@ public class ResourcesUI {
      */
     public static void updateUI() {
         if (TileUI.getSelectedTile() instanceof GenericBuilding)
-            resourcesText.setText("RESOURCES UI        " + ((GenericBuilding) TileUI.getSelectedTile()).getResourceRequirement().toString());
+            resourcesText.setText(((GenericBuilding) TileUI.getSelectedTile()).getResourceRequirement().toString());
         else if (TileUI.getSelectedTile() instanceof GenericResource)
-            resourcesText.setText("RESOURCES UI        " + ((GenericResource) TileUI.getSelectedTile()).toString());
-        else
-            resourcesText.setText("RESOURCES UI        " + ResourcesHandler.getResourcesAsString());
+            resourcesText.setText(TileUI.getSelectedTile().toString());
+        else {
+            clayText.setText("" + ResourcesHandler.getClayAmount());
+            coalText.setText("" + ResourcesHandler.getCoalAmount());
+            copperText.setText("" + ResourcesHandler.getCopperAmount());
+            ironText.setText("" + ResourcesHandler.getIronAmount());
+            rockText.setText("" + ResourcesHandler.getRockAmount());
+            woodText.setText("" + ResourcesHandler.getWoodAmount());
+            powerText.setText("" + ResourcesHandler.getPowerAmount());
+        }
+
     }
 }
