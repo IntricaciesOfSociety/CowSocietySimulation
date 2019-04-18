@@ -2,12 +2,12 @@ package technology.branches;
 
 import java.util.ArrayList;
 
-public class Physics implements GenericTree {
+public class Mathematics implements GenericTree {
 
     private static ArrayList branchTree;
 
-    public Physics(BranchSelection physics) {
-        branchTree = GenericTree.populate(physics);
+    public Mathematics(BranchSelection mathematics) {
+        branchTree = GenericTree.populate(mathematics);
     }
 
     @Override
