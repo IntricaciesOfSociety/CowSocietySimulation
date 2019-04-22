@@ -1,10 +1,10 @@
 package resourcesManagement.resourceTypes;
 
 import javafx.scene.image.Image;
-import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
-import terrain.Tile;
-import terrain.TileHandler;
+import metaControl.metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 import java.util.Random;
 

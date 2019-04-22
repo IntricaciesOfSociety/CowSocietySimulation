@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
 import resourcesManagement.resourceTypes.WoodSource;
-import terrain.Tile;
+import infrastructure.terrain.Tile;
 
 class ResourceCreation {
 

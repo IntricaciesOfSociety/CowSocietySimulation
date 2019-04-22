@@ -2,18 +2,18 @@ package resourcesManagement;
 
 import cowParts.creation.Cow;
 import cowParts.CowHandler;
-import metaEnvironment.LoadConfiguration;
-import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.BinRegionHandler;
-import metaEnvironment.Regioning.regionContainers.Playground;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.metaEnvironment.LoadConfiguration;
+import metaControl.metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.Regioning.BinRegionHandler;
+import metaControl.metaEnvironment.Regioning.regionContainers.Playground;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
 import resourcesManagement.resourceTypes.WoodSource;
-import terrain.Tile;
-import terrain.TileHandler;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 import java.util.ArrayList;
 

@@ -2,11 +2,11 @@ package cowParts.actionSystem.actionTypes;
 
 import cowParts.creation.Cow;
 import infrastructure.buildings.BuildingCreation;
-import metaEnvironment.LoadConfiguration;
-import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
-import metaEnvironment.logging.EventLogger;
-import terrain.TileHandler;
+import metaControl.metaEnvironment.LoadConfiguration;
+import metaControl.metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.metaEnvironment.logging.EventLogger;
+import infrastructure.terrain.TileHandler;
 
 public class PassiveActions {
 

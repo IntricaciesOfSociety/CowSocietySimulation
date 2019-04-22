@@ -5,22 +5,22 @@ import infrastructure.buildings.buildingTypes.CommercialBuilding;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import infrastructure.buildings.buildingTypes.GovernmentalBuilding;
 import infrastructure.buildings.buildingTypes.IndustrialBuilding;
-import metaEnvironment.LoadConfiguration;
-import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.BinRegionHandler;
-import metaEnvironment.Regioning.regionContainers.Playground;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.metaEnvironment.LoadConfiguration;
+import metaControl.metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.Regioning.BinRegionHandler;
+import metaControl.metaEnvironment.Regioning.regionContainers.Playground;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import technology.CurrentTechnology;
-import terrain.Tile;
-import terrain.TileHandler;
+import societyProduction.technology.CurrentTechnology;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 import java.util.ArrayList;
 
 /**
  * Handles the management of infrastructure that have been given context within the simulation. Does not handle the building's
- * menus.
+ * metaControl.menus.
  */
 public class BuildingHandler {
 

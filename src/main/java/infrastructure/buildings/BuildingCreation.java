@@ -2,11 +2,11 @@ package infrastructure.buildings;
 
 import infrastructure.buildings.buildingTypes.*;
 import javafx.scene.image.Image;
-import terrain.Tile;
+import infrastructure.terrain.Tile;
 
 /**
  * Handles the creation of large dwelling infrastructure. Called only if building prerequisites have been fulfilled
- * (resources and technology).
+ * (resources and societyProduction.technology).
  */
 public class BuildingCreation {
 

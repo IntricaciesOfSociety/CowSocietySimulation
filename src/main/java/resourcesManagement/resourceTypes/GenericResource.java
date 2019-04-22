@@ -1,9 +1,8 @@
 package resourcesManagement.resourceTypes;
 
 import javafx.scene.image.Image;
-import metaEnvironment.Regioning.BinRegion;
 import org.jetbrains.annotations.NotNull;
-import terrain.Tile;
+import infrastructure.terrain.Tile;
 
 /**
  * Defines what a resource is and how it is handled.

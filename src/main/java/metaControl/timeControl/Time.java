@@ -3,10 +3,10 @@ package metaControl.timeControl;
 import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import resourcesManagement.resourceTypes.WoodSource;
-import userInterface.playgroundUI.StaticUI;
+import metaControl.menus.userInterface.playgroundUI.StaticUI;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

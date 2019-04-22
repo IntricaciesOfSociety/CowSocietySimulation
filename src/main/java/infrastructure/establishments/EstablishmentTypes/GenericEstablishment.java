@@ -2,7 +2,7 @@ package infrastructure.establishments.EstablishmentTypes;
 
 import cowParts.creation.Cow;
 import cowParts.actionSystem.action.GenericAction;
-import terrain.Tile;
+import infrastructure.terrain.Tile;
 
 import java.util.ArrayList;
 

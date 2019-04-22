@@ -6,8 +6,8 @@ import infrastructure.buildings.buildingTypes.CommercialBuilding;
 import infrastructure.establishments.EstablishmentTypes.BusinessEstablishment;
 import infrastructure.establishments.EstablishmentTypes.FollowingEstablishment;
 import infrastructure.establishments.EstablishmentTypes.GovernmentEstablishment;
-import metaEnvironment.LoadConfiguration;
-import societalProductivity.government.territory.Territory;
+import metaControl.metaEnvironment.LoadConfiguration;
+import societyProduction.government.territory.Territory;
 
 public class EstablishmentCreation {
 
