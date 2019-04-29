@@ -5,6 +5,10 @@ import java.util.Arrays;
 
 public class BranchElement {
 
+    private int progress = 0;
+
+    private boolean discovered = false;
+
     private int id;
 
     private String name;
@@ -38,5 +42,13 @@ public class BranchElement {
 
     void addDependency(String newDependency) {
         dependencies.add(newDependency);
+    }
+
+    private void increaseProgress(int increaseAmount) {
+        progress += increaseAmount;
+    }
+
+    private void discover() {
+        discovered = true;
     }
 }

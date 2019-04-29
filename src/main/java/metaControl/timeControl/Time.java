@@ -63,7 +63,7 @@ public class Time {
     private static void newDayEvent() {
         days++;
 
-        if (days == 31) {
+        if (days == 1) {
             days = 1;
             months++;
 
@@ -111,11 +111,11 @@ public class Time {
         hours = Integer.parseInt(timeAsString.substring(0, 2));
 
         timeAsString.insert(2, ':');
-        timeAsString.insert(0, years + "/" + months + "/" + days + "/");
+        timeAsString.insert(0, years + "0/" + months + "0/" + days + "0/");
 
         Date date = null;
         try {
-            date = new SimpleDateFormat("y/m/d/HH:mm").parse(timeAsString.toString());
+            date = new SimpleDateFormat("yy/MM/dd/HH:mm").parse(timeAsString.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }

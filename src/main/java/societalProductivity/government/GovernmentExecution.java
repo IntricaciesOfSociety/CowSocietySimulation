@@ -3,6 +3,7 @@ package societalProductivity.government;
 import cowParts.creation.Cow;
 import infrastructure.establishments.EstablishmentTypes.GovernmentEstablishment;
 import org.jetbrains.annotations.Contract;
+import societalProductivity.government.territory.Territory;
 
 /**
  * TODO: Implement me!
@@ -13,8 +14,8 @@ public class GovernmentExecution extends GovernmentEstablishment {
     private Election electionProcess;
     private Platform currentPlatform;
 
-    public GovernmentExecution(String name, Cow leader) {
-        super(name, leader);
+    public GovernmentExecution(String name, Cow leader, Territory initialTerritory) {
+        super(name, leader, initialTerritory);
     }
 
     public void startGovernment() {

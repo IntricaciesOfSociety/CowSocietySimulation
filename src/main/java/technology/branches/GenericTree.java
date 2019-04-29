@@ -15,21 +15,24 @@ interface GenericTree {
         try {
             br = new BufferedReader(new FileReader(selection.getFilePath()));
 
-            String line = br.readLine();
-            while (line != null) {
-                String[] values = line.split("[,]");
+            if (br.ready()) {
+                String line = br.readLine();
+                while (line != null) {
+                    String[] values = line.split("[,]");
 
-                BranchElement newElement = new BranchElement(Integer.parseInt(values[0]), values[1]);
-                if (values.length > 2) {
-                    for (int i = 2; i < values.length; i++) {
-                        newElement.addDependency(values[i]);
+                    BranchElement newElement = new BranchElement(Integer.parseInt(values[0]), values[1]);
+                    if (values.length > 2) {
+                        for (int i = 2; i < values.length; i++) {
+                            newElement.addDependency(values[i]);
+                        }
                     }
+                    tree.add(newElement);
+                    line = br.readLine();
                 }
-                tree.add(newElement);
-                line = br.readLine();
+                System.out.println(tree);
             }
         } catch (IOException e) {
-            System.out.println("FILE NOT FOUND (or parse error)????");
+            System.out.println("FILE NOT FOUND (or parse error)???? " + selection.getFilePath());
         }
 
         return tree;

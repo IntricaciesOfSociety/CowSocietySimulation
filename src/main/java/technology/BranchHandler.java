@@ -1,5 +1,6 @@
 package technology;
 
+import metaControl.main.SaveHandler;
 import technology.branches.*;
 
 public class BranchHandler {
@@ -17,7 +18,7 @@ public class BranchHandler {
     }
 
     private static void createBranchFiles() {
-
+        SaveHandler.initNewSimSave();
     }
 
     private static void createBranches() {

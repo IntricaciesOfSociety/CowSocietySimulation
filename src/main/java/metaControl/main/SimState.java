@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import menus.MenuHandler;
 import societalProductivity.Issue;
 import societalProductivity.urbanPlanning.CivicControl;
+import technology.BranchHandler;
 import terrain.TileHandler;
 import userInterface.playgroundUI.PlaygroundUIHandler;
 import org.jetbrains.annotations.Contract;
@@ -108,14 +109,15 @@ public class SimState extends Application {
 
         LoadConfiguration.loadConfigurationFile();
         EraHandler.loadEra(LoadConfiguration.getPrimaryEra());
+        CivicControl.init();
+        BranchHandler.init();
+
         AssetLoading.loadBaseAssets();
         PlaygroundHandler.init();
 
         TileHandler.init();
         BuildingHandler.init();
         ResourcesHandler.init();
-
-        CivicControl.init();
 
         Issue.init();
         CowHandler.init();
