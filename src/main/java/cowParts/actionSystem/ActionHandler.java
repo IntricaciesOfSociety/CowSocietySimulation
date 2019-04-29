@@ -10,10 +10,10 @@ import cowParts.cowAI.NaturalSelection;
 import infrastructure.establishments.EstablishmentCreation;
 import javafx.scene.image.ImageView;
 import metaControl.timeControl.Time;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import terrain.Tile;
+import infrastructure.terrain.Tile;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,8 @@
 package cowParts.cowThoughts.traitsSystem;
 
 import org.jetbrains.annotations.Contract;
-import societalProductivity.Issue;
-import societalProductivity.Opinion;
+import societyProduction.Issue;
+import societyProduction.Opinion;
 
 /**
  * Handles all opinions and preferences that a cow can have.

@@ -2,7 +2,7 @@ package metaControl.timeControl.currentEra;
 
 import javafx.scene.image.Image;
 import metaControl.timeControl.Era;
-import metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.AssetLoading;
 
 public class JobSprites {
 

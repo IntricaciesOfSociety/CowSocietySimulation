@@ -9,13 +9,13 @@ import cowParts.creation.Cow;
 import infrastructure.buildings.BuildingHandler;
 import infrastructure.buildings.buildingTypes.GenericBuilding;
 import metaControl.main.SimState;
-import metaEnvironment.logging.EventLogger;
+import metaControl.metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import resourcesManagement.ResourcesHandler;
-import societalProductivity.government.Economy;
-import userInterface.playgroundUI.StaticUI;
+import societyProduction.government.Economy;
+import metaControl.menus.userInterface.playgroundUI.StaticUI;
 
 import java.util.Random;
 

@@ -14,7 +14,7 @@ import javafx.util.Duration;
 import metaControl.main.SimState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import terrain.Tile;
+import infrastructure.terrain.Tile;
 
 class Movement {
 

@@ -3,15 +3,15 @@ package infrastructure.buildings.buildingTypes;
 import cowParts.creation.Cow;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import menus.MenuCreation;
-import menus.MenuHandler;
+import metaControl.menus.MenuCreation;
+import metaControl.menus.MenuHandler;
 import metaControl.main.SimState;
-import metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.AssetLoading;
 import org.jetbrains.annotations.NotNull;
 import resourcesManagement.ResourceRequirement;
 import resourcesManagement.ResourcesHandler;
-import terrain.Tile;
-import terrain.TileHandler;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 import java.util.ArrayList;
 
