@@ -57,6 +57,6 @@ public class MenuCreation {
     }
 
     public static GenericMenu createTechTreeView() {
-        return new TechTreeView();
+        return new TechTreeMenu();
     }
 }

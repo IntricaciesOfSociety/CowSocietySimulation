@@ -63,7 +63,7 @@ public class Time {
     private static void newDayEvent() {
         days++;
 
-        if (days == 31) {
+        if (days == 1) {
             days = 1;
             months++;
 

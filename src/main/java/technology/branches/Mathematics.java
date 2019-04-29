@@ -1,17 +1,13 @@
-package societyProduction.technology.branches;
-
-import technology.branches.BranchElement;
-import technology.branches.BranchSelection;
-import technology.branches.GenericTree;
+package technology.branches;
 
 import java.util.ArrayList;
 
-public class Material implements GenericTree {
+public class Mathematics implements GenericTree {
 
     private static ArrayList branchTree;
 
-    public Material(BranchSelection material) {
-        branchTree = GenericTree.populate(material);
+    public Mathematics(BranchSelection mathematics) {
+        branchTree = GenericTree.populate(mathematics);
     }
 
     @Override

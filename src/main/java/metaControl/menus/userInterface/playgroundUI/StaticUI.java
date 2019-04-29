@@ -385,7 +385,7 @@ public class StaticUI {
      * Updates the timeOfDay text equal to the time given by SimState.getDate.
      */
     public static void updateTimeOfDayText(int timeInDay) {
-        timeOfDay.setText(new SimpleDateFormat("d/hh:mm").format(Time.getTime())
+        timeOfDay.setText(new SimpleDateFormat("d/HH:mm").format(Time.getTime())
                 + ((timeInDay <= 1200) ? " AM" : " PM"));
     }
 

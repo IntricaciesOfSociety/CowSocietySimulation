@@ -5,8 +5,11 @@ import infrastructure.buildings.BuildingHandler;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
 import cowParts.actionSystem.action.ExecuteAction;
+import infrastructure.terrain.TileHandler;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
+import metaControl.menus.MenuHandler;
+import metaControl.menus.userInterface.playgroundUI.PlaygroundUIHandler;
 import metaControl.timeControl.EraHandler;
 import metaControl.metaEnvironment.LoadConfiguration;
 import metaControl.timeControl.Time;
@@ -24,16 +27,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import metaControl.menus.MenuHandler;
-import societyProduction.Issue;
-import societyProduction.urbanPlanning.CivicControl;
-import infrastructure.terrain.TileHandler;
-import metaControl.menus.userInterface.playgroundUI.PlaygroundUIHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import metaControl.menus.userInterface.playgroundUI.ResourcesUI;
 import metaControl.menus.userInterface.playgroundUI.StaticUI;
 import metaControl.menus.userInterface.playgroundUI.TileUI;
+import societyProduction.Issue;
+import societyProduction.urbanPlanning.CivicControl;
+import technology.BranchHandler;
 
 import java.util.ArrayList;
 
@@ -108,14 +109,15 @@ public class SimState extends Application {
 
         LoadConfiguration.loadConfigurationFile();
         EraHandler.loadEra(LoadConfiguration.getPrimaryEra());
+        CivicControl.init();
+        BranchHandler.init();
+
         AssetLoading.loadBaseAssets();
         PlaygroundHandler.init();
 
         TileHandler.init();
         BuildingHandler.init();
         ResourcesHandler.init();
-
-        CivicControl.init();
 
         Issue.init();
         CowHandler.init();
