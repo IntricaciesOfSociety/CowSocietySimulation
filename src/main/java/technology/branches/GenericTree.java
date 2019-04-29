@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-interface GenericTree {
+public interface GenericTree {
 
     static ArrayList<BranchElement> populate(BranchSelection selection) {
 

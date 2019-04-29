@@ -1,10 +1,8 @@
 package resourcesManagement.resourceTypes;
 
 import javafx.scene.image.Image;
-import metaEnvironment.Regioning.regionContainers.Playground;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
-import terrain.Tile;
-import terrain.TileHandler;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 /**
  * Creates and handles any rockSource resource.

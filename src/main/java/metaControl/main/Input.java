@@ -1,7 +1,6 @@
 package metaControl.main;
 
 import infrastructure.buildings.buildingTypes.GenericBuilding;
-import cowParts.actionSystem.action.ExecuteAction;
 import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import infrastructure.buildings.buildingTypes.IndustrialBuilding;
@@ -9,17 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import metaEnvironment.Regioning.regionContainers.Playground;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
-import technology.CurrentTechnology;
-import terrain.Tile;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import societyProduction.technology.CurrentTechnology;
+import infrastructure.terrain.Tile;
 import org.jetbrains.annotations.NotNull;
-import userInterface.playgroundUI.ResourcesUI;
-import userInterface.playgroundUI.StaticUI;
-import userInterface.playgroundUI.TileUI;
+import metaControl.menus.userInterface.playgroundUI.ResourcesUI;
+import metaControl.menus.userInterface.playgroundUI.StaticUI;
+import metaControl.menus.userInterface.playgroundUI.TileUI;
 
 import java.util.ArrayList;
 
@@ -92,7 +88,7 @@ public class Input {
                     );
                 }
 
-                //Toggles all cow menus
+                //Toggles all cow metaControl.menus
                 if (keyPressed.equals(KeyCode.N)) toggleAllCowMenus();
             }
 
@@ -162,7 +158,7 @@ public class Input {
     }
 
     /**
-     * Sets all cow menus to open or closed based off of the value of allCowMenusOpen.
+     * Sets all cow metaControl.menus to open or closed based off of the value of allCowMenusOpen.
      */
     private static void toggleAllCowMenus() {
         if (cowPopupMenuToggle) {

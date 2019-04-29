@@ -1,7 +1,7 @@
 package metaControl.main;
 
 import org.apache.commons.io.FileUtils;
-import societalProductivity.urbanPlanning.CivicControl;
+import societyProduction.urbanPlanning.CivicControl;
 
 import java.io.File;
 import java.io.IOException;

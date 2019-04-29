@@ -3,10 +3,10 @@ package metaControl.timeControl;
 import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import cowParts.cowAI.NaturalSelection;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import resourcesManagement.resourceTypes.WoodSource;
-import userInterface.playgroundUI.StaticUI;
+import metaControl.menus.userInterface.playgroundUI.StaticUI;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -111,11 +111,11 @@ public class Time {
         hours = Integer.parseInt(timeAsString.substring(0, 2));
 
         timeAsString.insert(2, ':');
-        timeAsString.insert(0, years + "0/" + months + "0/" + days + "0/");
+        timeAsString.insert(0, years + "/" + months + "/" + days + "/");
 
         Date date = null;
         try {
-            date = new SimpleDateFormat("yy/MM/dd/HH:mm").parse(timeAsString.toString());
+            date = new SimpleDateFormat("y/m/d/HH:mm").parse(timeAsString.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }

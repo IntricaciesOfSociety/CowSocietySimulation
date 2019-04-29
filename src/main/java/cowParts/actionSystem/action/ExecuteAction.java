@@ -3,8 +3,8 @@ package cowParts.actionSystem.action;
 import cowParts.creation.Cow;
 import cowParts.CowHandler;
 import javafx.scene.shape.Rectangle;
-import metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
-import userInterface.playgroundUI.StaticUI;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.menus.userInterface.playgroundUI.StaticUI;
 
 public class ExecuteAction {
 
