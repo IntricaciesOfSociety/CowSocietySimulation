@@ -16,10 +16,12 @@ import resourcesManagement.ResourcesHandler;
  * building resources throughout the city.
  */
 public class ResourcesUI {
-    
+
     private static boolean opened = false;
 
     private static Rectangle background;
+    private static Rectangle backgroundTwo;
+    private static Rectangle backgroundThree;
 
     private static Text resourcesText;
 
@@ -29,6 +31,7 @@ public class ResourcesUI {
     private static ImageView ironIcon;
     private static ImageView rockIcon;
     private static ImageView woodIcon;
+    private static ImageView powerIcon;
 
     private static Text clayText;
     private static Text coalText;
@@ -44,6 +47,10 @@ public class ResourcesUI {
     private static void init() {
 
         background = new Rectangle();
+        backgroundTwo = new Rectangle();
+        backgroundThree = new Rectangle();
+
+        resourcesText = new Text(ResourcesHandler.getResourcesAsString());
         resourcesText = new Text();
 
         clayText = new Text("" + ResourcesHandler.getClayAmount());
@@ -60,6 +67,7 @@ public class ResourcesUI {
         ironIcon = new ImageView(AssetLoading.loadUISprite("IronIcon"));
         rockIcon = new ImageView(AssetLoading.loadUISprite("RockIcon"));
         woodIcon = new ImageView(AssetLoading.loadUISprite("WoodIcon"));
+        powerIcon = new ImageView(AssetLoading.loadUISprite("PowerIcon"));
         //powerIcon = new ImageView();
 
         clayText.setFill(Color.RED);
@@ -73,8 +81,8 @@ public class ResourcesUI {
         resourcesText.setFill(Color.RED);
 
         PlaygroundUIHandler.resourcesUI.getChildren().addAll(
-                background, resourcesText, clayIcon, coalIcon, copperIcon, ironIcon, rockIcon, woodIcon, clayText, coalText,
-                copperText, ironText, rockText, woodText, powerText
+                background, backgroundTwo, backgroundThree, resourcesText, clayIcon, coalIcon, copperIcon, ironIcon, rockIcon, woodIcon, clayText, coalText,
+                copperText, ironText, rockText, woodText, powerText, powerIcon
         );
 
         updateUIPlacements();
@@ -84,25 +92,39 @@ public class ResourcesUI {
         int screenOffsetX = SimState.getScreenWidth();
         int screenOffsetY = SimState.getScreenHeight();
 
-        background.setWidth(500);
+        background.setWidth(300);
         background.setHeight(50);
-        background.relocate((screenOffsetX / 2) - background.getWidth() / 2, screenOffsetY - 100);
+        background.relocate((screenOffsetX / 2) - background.getWidth() / 2 + 50, screenOffsetY - 75);
 
-        clayIcon.relocate(background.getLayoutX() + 30, background.getLayoutY() + 25);
-        coalIcon.relocate(background.getLayoutX() + 55, background.getLayoutY() + 25);
-        copperIcon.relocate(background.getLayoutX() + 80, background.getLayoutY() + 25);
-        ironIcon.relocate(background.getLayoutX() + 105, background.getLayoutY() + 25);
-        rockIcon.relocate(background.getLayoutX() + 130, background.getLayoutY() + 25);
-        woodIcon.relocate(background.getLayoutX() + 155, background.getLayoutY() + 25);
+        backgroundTwo.setWidth(75);
+        backgroundTwo.setHeight(50);
+        backgroundTwo.relocate((screenOffsetX / 2) - background.getWidth() + 175 / 2, screenOffsetY - 75);
 
-        resourcesText.relocate(background.getLayoutX() + 20, background.getLayoutY() + 15);
+        backgroundThree.setWidth(110);
+        backgroundThree.setHeight(50);
+        backgroundThree.relocate((screenOffsetX / 2) - background.getWidth() / 2 + 400, screenOffsetY - 75);
 
-        clayText.relocate(background.getLayoutX() + 30, background.getLayoutY() + 25);
-        coalText.relocate(background.getLayoutX() + 55, background.getLayoutY() + 25);
-        copperText.relocate(background.getLayoutX() + 80, background.getLayoutY() + 25);
-        ironText.relocate(background.getLayoutX() + 105, background.getLayoutY() + 25);
-        rockText.relocate(background.getLayoutX() + 130, background.getLayoutY() + 25);
-        woodText.relocate(background.getLayoutX() + 155, background.getLayoutY() + 25);
+        clayIcon.relocate(background.getLayoutX() + 15, background.getLayoutY() + 10);
+        coalIcon.relocate(background.getLayoutX() + 65, background.getLayoutY() + 10);
+        copperIcon.relocate(background.getLayoutX() + 120, background.getLayoutY() + 10);
+        ironIcon.relocate(background.getLayoutX() + 185, background.getLayoutY() + 10);
+        rockIcon.relocate(background.getLayoutX() + 230, background.getLayoutY() + 10);
+
+        woodIcon.relocate(backgroundTwo.getLayoutX() + 20, backgroundTwo.getLayoutY() + 10);
+
+        powerIcon.relocate(backgroundThree.getLayoutX() + 30, backgroundThree.getLayoutY() + 10);
+
+        resourcesText.relocate(background.getLayoutX() + 25, background.getLayoutY() + 15);
+
+        clayText.relocate(background.getLayoutX() + 10, background.getLayoutY() + 30);
+        coalText.relocate(background.getLayoutX() + 60, background.getLayoutY() + 30);
+        copperText.relocate(background.getLayoutX() + 110, background.getLayoutY() + 30);
+        ironText.relocate(background.getLayoutX() + 180, background.getLayoutY() + 30);
+        rockText.relocate(background.getLayoutX() + 225, background.getLayoutY() + 30);
+
+        woodText.relocate(backgroundTwo.getLayoutX() + 10, backgroundTwo.getLayoutY() + 30);
+
+        powerText.relocate(backgroundThree. getLayoutX() + 10, backgroundThree.getLayoutY() + 30);
     }
 
     /**
@@ -136,16 +158,17 @@ public class ResourcesUI {
         if (TileUI.getSelectedTile() instanceof GenericBuilding)
             resourcesText.setText(((GenericBuilding) TileUI.getSelectedTile()).getResourceRequirement().toString());
         else if (TileUI.getSelectedTile() instanceof GenericResource)
-            resourcesText.setText(TileUI.getSelectedTile().toString());
-        else {
-            clayText.setText("" + ResourcesHandler.getClayAmount());
-            coalText.setText("" + ResourcesHandler.getCoalAmount());
-            copperText.setText("" + ResourcesHandler.getCopperAmount());
-            ironText.setText("" + ResourcesHandler.getIronAmount());
-            rockText.setText("" + ResourcesHandler.getRockAmount());
-            woodText.setText("" + ResourcesHandler.getWoodAmount());
-            powerText.setText("" + ResourcesHandler.getPowerAmount());
-        }
 
+            resourcesText.setText(((GenericResource) TileUI.getSelectedTile()).toString());
+
+        else {
+            clayText.setText("Clay: " + ResourcesHandler.getClayAmount());
+            coalText.setText("Coal: " + ResourcesHandler.getCoalAmount());
+            copperText.setText("Copper: " + ResourcesHandler.getCopperAmount());
+            ironText.setText("Iron: " + ResourcesHandler.getIronAmount());
+            rockText.setText("Rock: " + ResourcesHandler.getRockAmount());
+            woodText.setText("Wood: " + ResourcesHandler.getWoodAmount());
+            powerText.setText("Cow Power: " + ResourcesHandler.getPowerAmount());
+        }
     }
 }
