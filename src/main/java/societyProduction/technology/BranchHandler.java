@@ -1,8 +1,7 @@
-package technology;
+package societyProduction.technology;
 
 import metaControl.main.SaveHandler;
 import societyProduction.technology.branches.*;
-import technology.branches.*;
 
 public class BranchHandler {
 

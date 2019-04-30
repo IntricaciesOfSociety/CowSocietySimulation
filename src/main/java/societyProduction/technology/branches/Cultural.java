@@ -1,9 +1,5 @@
 package societyProduction.technology.branches;
 
-import technology.branches.BranchElement;
-import technology.branches.BranchSelection;
-import technology.branches.GenericTree;
-
 import java.util.ArrayList;
 
 public class Cultural implements GenericTree {

@@ -1,4 +1,4 @@
-package technology.branches;
+package societyProduction.technology.branches;
 
 import java.util.ArrayList;
 import java.util.Arrays;

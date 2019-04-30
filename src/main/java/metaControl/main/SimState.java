@@ -34,7 +34,7 @@ import metaControl.menus.userInterface.playgroundUI.StaticUI;
 import metaControl.menus.userInterface.playgroundUI.TileUI;
 import societyProduction.Issue;
 import societyProduction.urbanPlanning.CivicControl;
-import technology.BranchHandler;
+import societyProduction.technology.BranchHandler;
 
 import java.util.ArrayList;
 

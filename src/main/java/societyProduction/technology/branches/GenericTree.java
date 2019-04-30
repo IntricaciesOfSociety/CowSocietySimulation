@@ -1,4 +1,4 @@
-package technology.branches;
+package societyProduction.technology.branches;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
