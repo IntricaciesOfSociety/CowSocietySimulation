@@ -20,6 +20,9 @@ public class LoadConfiguration {
     private static String primaryEra = "";
     private static int initialPopulation;
 
+    private static boolean startGovernment;
+    private static String startGovernmentType;
+
     //[Tiles]
     private static boolean worldSquare;
     private static int worldVRegions;
@@ -80,6 +83,8 @@ public class LoadConfiguration {
 
         primaryEra = ini.get("SituationConfig", "era");
         initialPopulation = Integer.parseInt(ini.get("SituationConfig", "population"));
+        startGovernment = Boolean.parseBoolean(ini.get("SituationConfig", "startGovernment"));
+        startGovernmentType = ini.get("SituationConfig", "startGovernmentType");
 
         worldSquare = Boolean.parseBoolean(ini.get("Overworld", "squareRegionSet"));
         worldHRegions = Integer.parseInt(ini.get("Overworld", "horizontalRegions"));
@@ -237,5 +242,13 @@ public class LoadConfiguration {
 
     public static int getNumberOfMines() {
         return numberOfMines;
+    }
+
+    public static boolean isStartGovernment() {
+        return startGovernment;
+    }
+
+    public static String getStartGovernmentType() {
+        return startGovernmentType;
     }
 }
