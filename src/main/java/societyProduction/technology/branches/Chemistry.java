@@ -4,10 +4,15 @@ import java.util.ArrayList;
 
 public class Chemistry implements GenericTree {
 
-    private static ArrayList branchTree;
+    private static ArrayList<BranchElement> branchTree;
 
     public Chemistry(BranchSelection chemistry) {
         branchTree = GenericTree.populate(chemistry);
+    }
+
+    @Override
+    public ArrayList<BranchElement> getTreeArray() {
+        return branchTree;
     }
 
     @Override

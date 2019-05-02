@@ -25,7 +25,7 @@ public class BranchElement {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
@@ -48,7 +48,15 @@ public class BranchElement {
         progress += increaseAmount;
     }
 
-    private void discover() {
+    public void discover() {
         discovered = true;
+    }
+
+    public boolean isDiscovered() {
+        return discovered;
+    }
+
+    public int getProgress() {
+        return progress;
     }
 }

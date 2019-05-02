@@ -22,28 +22,24 @@ public class MenuCreation {
         return newPopup;
     }
 
-    public static GenericMenu createEstablishmentsMenu() {
-        return new EstablishmentsMenu();
+    public static void createEstablishmentsViewMenu() {
+        MenuHandler.setOpenViewMenu(new EstablishmentsMenu());
     }
 
     /**
      * Creates a new story view menu from the cows selected when the menu was opened.
      * @param cowsPreviouslySelected The cows that were previously selected
      */
-    public static GenericMenu createStoryViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        GenericMenu newStoryView = new StoryViewMenu(cowsPreviouslySelected);
-        MenuHandler.setCurrentStoryMenu(newStoryView);
-        return newStoryView;
+    public static void createStoryViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        MenuHandler.setOpenViewMenu(new StoryViewMenu(cowsPreviouslySelected));
     }
 
     /**
      * Creates a new stats view menu from the cows selected when the menu was opened.
      * @param cowsPreviouslySelected The cows that were previously selected
      */
-    public static GenericMenu createStatsViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
-        GenericMenu newStatsView = new StatsViewMenu(cowsPreviouslySelected);
-        MenuHandler.setCurrentStatsMenu(newStatsView);
-        return newStatsView;
+    public static void createStatsViewMenu(@NotNull ArrayList<Cow> cowsPreviouslySelected) {
+        MenuHandler.setOpenViewMenu(new StatsViewMenu(cowsPreviouslySelected));
     }
 
     /**
@@ -56,7 +52,7 @@ public class MenuCreation {
         return newInhabitantsMenu;
     }
 
-    public static GenericMenu createTechTreeView() {
-        return new TechTreeMenu();
+    public static void createTechTreeViewMenu() {
+        MenuHandler.setOpenViewMenu(new TechTreeMenu());
     }
 }

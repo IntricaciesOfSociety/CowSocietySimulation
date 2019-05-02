@@ -19,7 +19,7 @@ public class BuildingCreation {
         }
     }
 
-    public static GenericBuilding createCommercialBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
+    static GenericBuilding createCommercialBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
         if (tileToBuildOn != null)
             return new CommercialBuilding(buildingSprite, name, tileToBuildOn);
         else {
@@ -37,7 +37,7 @@ public class BuildingCreation {
         }
     }
 
-    public static GenericBuilding createIndustrialBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
+    static GenericBuilding createIndustrialBuilding(Image buildingSprite, String name, Tile tileToBuildOn) {
         if (tileToBuildOn != null)
             return new IndustrialBuilding(buildingSprite, name, tileToBuildOn);
         else {

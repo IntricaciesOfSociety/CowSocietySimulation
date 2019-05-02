@@ -326,7 +326,7 @@ public class StaticUI {
         controlGroup.setDisable(false);
 
         if (Input.selectedCows.size() > 1) {
-            heartAttackButton.setOnAction(event ->  CowHandler.killAll(Input.selectedCows));
+            heartAttackButton.setOnAction(event -> CowHandler.killAll(Input.selectedCows));
             diseaseButton.setOnAction(event -> CowHandler.diseaseAll(Input.selectedCows));
         }
         else if (Input.selectedCows.size() == 1) {

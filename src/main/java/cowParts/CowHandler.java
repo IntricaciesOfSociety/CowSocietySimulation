@@ -2,6 +2,7 @@ package cowParts;
 
 import cowParts.creation.Cow;
 import infrastructure.buildings.BuildingHandler;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -119,12 +120,13 @@ public class CowHandler {
     }
 
     /**
-     * Kills a whole list of cows
+     * Kills a whole list of given cows
      * @param killList The list of cows to kill
      */
     public static void killAll(@NotNull ArrayList<Cow> killList) {
-        for (Cow cowToKill : killList)
-            cowToKill.kill();
+        while (!killList.isEmpty()) {
+            killList.get(0).kill();
+        }
     }
 
     @NotNull
