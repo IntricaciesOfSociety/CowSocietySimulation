@@ -12,8 +12,7 @@ public class MenuHandler {
 
     private static ArrayList<GenericMenu> menusToUpdate = new ArrayList<>();
 
-    private static GenericMenu staticStatsMenu;
-    private static GenericMenu staticStoryMenu;
+    private static GenericMenu openViewMenu;
 
     static void addMenuToUpdateCycle(GenericMenu menuToUpdate) {
         menusToUpdate.add(menuToUpdate);
@@ -30,8 +29,6 @@ public class MenuHandler {
 
     public static void closeMenu(@NotNull GenericMenu menu) {
         menu.closeMenu();
-        staticStatsMenu = null;
-        staticStoryMenu = null;
     }
 
     /**
@@ -43,19 +40,11 @@ public class MenuHandler {
         }
     }
 
-    static void setCurrentStoryMenu(GenericMenu storyMenu) {
-        staticStoryMenu = storyMenu;
+    static void setOpenViewMenu(GenericMenu newOpenMenu) {
+        openViewMenu = newOpenMenu;
     }
 
-    static void setCurrentStatsMenu(GenericMenu statsMenu) {
-        staticStatsMenu = statsMenu;
-    }
-
-    public static GenericMenu getCurrentStoryMenu() {
-        return staticStoryMenu;
-    }
-
-    public static GenericMenu getCurrentStatsMenu() {
-        return staticStatsMenu;
+    public static GenericMenu getOpenViewMenu() {
+        return openViewMenu;
     }
 }

@@ -8,7 +8,6 @@ import metaControl.main.SimState;
 import metaControl.metaEnvironment.LoadConfiguration;
 import org.jetbrains.annotations.NotNull;
 import metaControl.menus.userInterface.playgroundUI.StaticUI;
-import societyProduction.technology.TechnologyTree;
 
 public class PlaygroundHandler {
 
@@ -20,8 +19,6 @@ public class PlaygroundHandler {
 
     //The pane that has the miens
     private static Playground mines = new Playground(1);
-
-
 
     //The pane that holds the menu when a user clicks on a detailed view button
     private static Playground detailedView = new Playground(2);
@@ -63,8 +60,6 @@ public class PlaygroundHandler {
      * @param grounds The string as the name of the pane to switch the playground to
      */
     public static void setPlayground(@NotNull String grounds) {
-
-
         if (playground.getRegionId() == 0 || playground.getRegionId() == 1)
             playground.resetDragBox();
         
@@ -98,14 +93,14 @@ public class PlaygroundHandler {
             case "TechTreeView":
                 switchPlayground(techTree);
                 StaticUI.disableUI();
-                MenuCreation.createTechTreeView();
+                MenuCreation.createTechTreeViewMenu();
 
                 break;
 
             case "EstablishmentView":
                 switchPlayground(establishmentView);
                 StaticUI.disableUI();
-                MenuCreation.createEstablishmentsMenu();
+                MenuCreation.createEstablishmentsViewMenu();
 
                 break;
         }

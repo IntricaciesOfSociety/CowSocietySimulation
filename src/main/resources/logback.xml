@@ -1,5 +1,4 @@
 <configuration>
-
     <appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>logName</key>

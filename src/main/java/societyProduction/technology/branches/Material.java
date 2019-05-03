@@ -34,4 +34,9 @@ public class Material implements GenericTree {
     public void elementLookup(int elementId) {
 
     }
+
+    @Override
+    public ArrayList<BranchElement> getTreeArray() {
+        return branchTree;
+    }
 }

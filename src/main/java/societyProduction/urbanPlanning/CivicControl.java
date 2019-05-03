@@ -5,15 +5,10 @@ import metaControl.main.SimState;
 import metaControl.timeControl.Time;
 import org.jetbrains.annotations.Contract;
 import org.slf4j.MDC;
-import societyProduction.urbanPlanning.zoning.implementations.ZoningSector;
-
-import java.util.ArrayList;
 
 public class CivicControl {
 
     private static String cityName;
-
-    private static ArrayList<ZoningSector> allSectors = new ArrayList<>();
 
     public static void init() {
         cityName = LoadConfiguration.getCityName();
