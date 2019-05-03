@@ -131,6 +131,8 @@ public class Cow extends ImageView {
      * cow's link from PlaygroundUIHandler. Logs the death event as a city-wide important event.
      */
     public void kill() {
+        CowHandler.liveCowList.remove(this);
+
         if (cowMenu != null) {
             MenuHandler.closeMenu(this.cowMenu);
             Input.selectedCows.remove(this);
@@ -144,7 +146,6 @@ public class Cow extends ImageView {
 
         hidden = false;
         animation = null;
-        CowHandler.liveCowList.remove(this);
         regionIn.getPlayground().getChildren().remove(this);
 
         StaticUI.cowDeathEventUpdate(cowLink);
@@ -152,14 +153,7 @@ public class Cow extends ImageView {
         EventLogger.createLoggedEvent(this, "death", 2, "N/A", 0);
 
     }
-/*
-    public void physicalHealth() {
-        if (physicalHealth() == 0) {
-            kill();
-        }
-        return void
-    }
-*/
+
     /**
      * Closes the cows menu if applicable then stops the cow from being updated by removing it from the liveCowList and
      * playground node. This cow cannot be directly selected while its hidden value is true.

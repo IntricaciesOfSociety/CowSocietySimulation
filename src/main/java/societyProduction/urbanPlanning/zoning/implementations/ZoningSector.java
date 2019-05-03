@@ -1,5 +1,6 @@
 package societyProduction.urbanPlanning.zoning.implementations;
 
+import infrastructure.buildings.buildingTypes.GenericBuilding;
 import org.jetbrains.annotations.NotNull;
 import infrastructure.terrain.Tile;
 
@@ -8,14 +9,12 @@ import java.util.Arrays;
 
 public abstract class ZoningSector {
 
-    private ArrayList<Tile> sectorTiles = new ArrayList<>();
+    ArrayList<Tile> sectorTiles = new ArrayList<>();
+    ArrayList<GenericBuilding> sectorMembers = new ArrayList<>();
 
-    private int sectorSize;
-    private int openTiles;
+    int sectorSize;
 
-    ZoningSector(@NotNull Tile ... sectorTiles) {
-        sectorSize = sectorTiles.length;
-        openTiles = sectorTiles.length;
-        this.sectorTiles.addAll(Arrays.asList(sectorTiles));
-    }
+    public abstract void zoneBuilding(GenericBuilding buildingToAdd);
+
+    public abstract boolean hasRoom(int buildingSize);
 }

@@ -126,7 +126,13 @@ public class StaticUI {
         storyViewButton.setFocusTraversable(false);
         storyViewButton.setGraphic(storyImage);
 
+        ImageView establishmentButtonImage = new ImageView(AssetLoading.loadUISprite("Establishments"));
+        establishmentButtonImage.setScaleX(2);
+        establishmentButtonImage.setScaleY(2);
+        establishmentButtonImage.setFitHeight(14);
+        establishmentButtonImage.setPreserveRatio(true);
         establishmentViewButton.setFocusTraversable(false);
+        establishmentViewButton.setGraphic(establishmentButtonImage);
 
         controlGroup.setDisable(true);
 
@@ -267,7 +273,7 @@ public class StaticUI {
         resourcesUIButton.setLayoutX(15);
         resourcesUIButton.setLayoutY(420);
 
-        establishmentViewButton.relocate(15, 440);
+        establishmentViewButton.relocate(15, 450);
 
         timeOfDay.setLayoutX(20);
         timeOfDay.setLayoutY(screenOffsetY - 25);
@@ -326,7 +332,7 @@ public class StaticUI {
         controlGroup.setDisable(false);
 
         if (Input.selectedCows.size() > 1) {
-            heartAttackButton.setOnAction(event ->  CowHandler.killAll(Input.selectedCows));
+            heartAttackButton.setOnAction(event -> CowHandler.killAll(Input.selectedCows));
             diseaseButton.setOnAction(event -> CowHandler.diseaseAll(Input.selectedCows));
         }
         else if (Input.selectedCows.size() == 1) {

@@ -12,6 +12,8 @@ import resourcesManagement.ResourceRequirement;
 import resourcesManagement.ResourcesHandler;
 import infrastructure.terrain.Tile;
 import infrastructure.terrain.TileHandler;
+import societyProduction.government.GovernmentHandler;
+import societyProduction.urbanPlanning.zoning.ZoningHandler;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,10 @@ public class GovernmentalBuilding extends GenericBuilding {
 
     public GovernmentalBuilding(Image buildingSprite, String buildingName, @NotNull Tile tileToBuildOn) {
         constructBuilding(buildingSprite, buildingName, tileToBuildOn);
+
+        if (GovernmentHandler.checkJurisdiction(this)) {
+            ZoningHandler.zoneBuilding(this);
+        }
     }
 
     /**

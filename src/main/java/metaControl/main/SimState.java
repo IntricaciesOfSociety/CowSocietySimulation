@@ -233,10 +233,8 @@ public class SimState extends Application {
                 TileUI.updateUIPlacements();
             if (ResourcesUI.isOpened())
                 ResourcesUI.updateUIPlacements();
-            if (MenuHandler.getCurrentStoryMenu() != null)
-                MenuHandler.updateMenuOnce(MenuHandler.getCurrentStoryMenu());
-            if (MenuHandler.getCurrentStatsMenu() != null)
-                MenuHandler.updateMenuOnce(MenuHandler.getCurrentStatsMenu());
+            if (MenuHandler.getOpenViewMenu() != null)
+                MenuHandler.updateMenuOnce(MenuHandler.getOpenViewMenu());
         };
 
         primaryStage.widthProperty().addListener(stageSizeListener);

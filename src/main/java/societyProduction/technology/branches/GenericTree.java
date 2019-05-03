@@ -47,4 +47,6 @@ public interface GenericTree {
     void regressElement(BranchElement element, int regressionAmount);
 
     void elementLookup(int elementId);
+
+    ArrayList<BranchElement> getTreeArray();
 }
