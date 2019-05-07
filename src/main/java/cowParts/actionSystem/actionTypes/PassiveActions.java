@@ -7,15 +7,16 @@ import metaControl.metaEnvironment.AssetLoading;
 import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import metaControl.metaEnvironment.logging.EventLogger;
 import infrastructure.terrain.TileHandler;
+import societyProduction.government.GovernmentHandler;
 
 public class PassiveActions {
 
     public static void buyHouse(Cow cowToCheck) {
         //If there is space available
-        if (TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.getMotion()) != null) {
+        if (TileHandler.getRandOuterProxTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), GovernmentHandler.getDefaultBuilding()) != null) {
             cowToCheck.setLivingSpace(BuildingCreation.createResidentialBuilding(
                     AssetLoading.basicSmallBuilding, LoadConfiguration.getBasicSmallDwelling(),
-                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), PlaygroundHandler.getMotion())
+                    TileHandler.getRandOuterProxTile(TileHandler.getSize(AssetLoading.basicSmallBuilding), GovernmentHandler.getDefaultBuilding())
             ));
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "income", 0);
             EventLogger.createLoggedEvent(cowToCheck, "Bought a House", 1, "bills", 0);

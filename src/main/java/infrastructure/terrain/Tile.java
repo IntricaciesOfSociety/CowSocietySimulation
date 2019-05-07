@@ -49,6 +49,7 @@ public class Tile extends ImageView {
     public boolean tieToObject(Tile proposedConstruction, int size) {
         Point2D randPlacement = this.getIsRoom(size);
         if (randPlacement != null) {
+            updatePlacementArray((int)randPlacement.getX(), (int)randPlacement.getY(), size);
             proposedConstruction.setLayoutX(this.getLayoutX() + (randPlacement.getX() * 100));
             proposedConstruction.setLayoutY(this.getLayoutY() + (randPlacement.getY() * 100));
             return true;
@@ -62,9 +63,7 @@ public class Tile extends ImageView {
     /**
      * @return If the selected tile is okay to build the proposed tile upon.
      */
-    @Contract(pure = true)
-    private Point2D getIsRoom(int size) {
-
+    Point2D getIsRoom(int size) {
         boolean broken;
         ArrayList<Point2D> possiblePoints = new ArrayList<>();
         if (placementArray[0][0] != 2)
@@ -86,11 +85,8 @@ public class Tile extends ImageView {
                 placementArray[0][0] = 2;
             return null;
         }
-        else {
-            Point2D randPoint = possiblePoints.get(random.nextInt(possiblePoints.size()));
-            updatePlacementArray((int) randPoint.getX(), (int) randPoint.getY(), size);
-            return randPoint;
-        }
+        else
+            return possiblePoints.get(random.nextInt(possiblePoints.size()));
     }
 
     private void updatePlacementArray(int x, int y, int size) {

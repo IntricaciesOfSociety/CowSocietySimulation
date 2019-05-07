@@ -44,7 +44,7 @@ public class GovernmentEstablishment extends GenericEstablishment {
     }
 
     @Override
-    Object getHeadquarters() {
+    public Object getHeadquarters() {
         return null;
     }
 }
