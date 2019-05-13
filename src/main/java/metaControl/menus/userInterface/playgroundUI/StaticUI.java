@@ -277,7 +277,6 @@ public class StaticUI {
 
         timeOfDay.setLayoutX(20);
         timeOfDay.setLayoutY(screenOffsetY - 25);
-
     }
 
     /**

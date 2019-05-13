@@ -12,6 +12,7 @@ import metaControl.metaEnvironment.Regioning.regionContainers.Playground;
 import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import societyProduction.government.GovernmentHandler;
 import societyProduction.technology.CurrentTechnology;
 import infrastructure.terrain.Tile;
 import infrastructure.terrain.TileHandler;
@@ -41,7 +42,7 @@ public class BuildingHandler {
         //TODO: Remove size from creation methods
         for (int k = 0; k < LoadConfiguration.getGroceryStores(); k++)
             BuildingCreation.createCommercialBuilding(
-                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandRegionTile(4, PlaygroundHandler.getMotion())
+                    AssetLoading.basicGroceryStoreBuilding, LoadConfiguration.getBasicGroceryStore(), TileHandler.getRandOuterProxTile(4, GovernmentHandler.getDefaultBuilding())
             );
 
         IndustrialBuilding mineExit = (IndustrialBuilding) BuildingCreation.createIndustrialBuilding(
