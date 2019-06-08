@@ -2,7 +2,14 @@
 
 This project is centered around gaining knowledge about creating artificial intelligence, applying java, and project development. The code is hosted on [github](https://github.com/IntricaciesOfSociety/CowSocietySimulation/) and a (very rough) concept can be found on [google drive](https://docs.google.com/presentation/u/2/d/1yiUae5--9wsAH2D4SWKuIOJiESNoR_YNxJHhiJk0rek/edit?usp=drive_web&ouid=104197416385618381584)
 
-Currently the project is being developed by about 10 kansan high schoolers, including programmers, graphic designers, and managers. 
+Currently this project is in slow/stagnated development. Any further development is done by Zackary Nichol
+
+Past influencial members who worked on this project include:
+
+Gage Miller
+Caleb Hubbard
+Tyson Dent
+Savva Pettengill
 
 ### How this project is organized
 
@@ -31,6 +38,9 @@ Once you feel like you have a pretty good grasp on the project as a whole, if ap
 [Prototypes documents](https://drive.google.com/open?id=1Rs1H_gR5_UxQoFicDb1XFd9UOq34PbLn) hold the steps for the next level of development for the sim itself and are the blueprints for the whole project. They hold the user stories for what the specific prototype is to accomplish. The user stories are then further broken down into their dependencies and specific smaller tasks that need to be accomplished.
 
 ### Meetings?
+
+Now defunct:
+
 Weekly meetings will serve as a place to distribute tasks and commit to changes. Fill out the next meeting form in the meetings channel if applicable. Meetings are not mandatory for those not needing a new task, although they are strongly encouraged to attend.
 
 ### Support or Contact
