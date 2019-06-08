@@ -1,5 +1,8 @@
 # Welcome to the simulation!!
 
+Overview screenshot:
+<img src="CowSim.png" alt="hi" class="inline"/>
+
 This project is centered around gaining knowledge about creating artificial intelligence, applying java, and project development. The code is hosted on [github](https://github.com/IntricaciesOfSociety/CowSocietySimulation/) and a (very rough) concept can be found on [google drive](https://docs.google.com/presentation/u/2/d/1yiUae5--9wsAH2D4SWKuIOJiESNoR_YNxJHhiJk0rek/edit?usp=drive_web&ouid=104197416385618381584)
 
 Currently this project is in slow/stagnated development. Any further development is done by Zackary Nichol
