@@ -3,6 +3,8 @@ The cow sim is an ambitious artificial intelligence project where a
 society of cows, acting similar to humans, create and live out a 
 society. 
 
+Check out a more in-depth presentation here: https://docs.google.com/presentation/u/2/d/1yiUae5--9wsAH2D4SWKuIOJiESNoR_YNxJHhiJk0rek/edit?usp=drive_web&ouid=104197416385618381584
+
 Large focuses for this project:
 1. Learn about professional software development practices
 1. Design the project using software construction standards
