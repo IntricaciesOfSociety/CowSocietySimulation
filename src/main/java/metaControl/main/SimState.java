@@ -212,7 +212,6 @@ public class SimState extends Application {
                 toDraw.add(BinRegionHandler.binRegionMap.get( (PlaygroundHandler.getMinBinId() + i) ).getBinId());
         }
 
-
         if (!toDraw.isEmpty())
             BinRegionHandler.setActiveRegions(toDraw);
     }

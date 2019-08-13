@@ -2,8 +2,6 @@ package infrastructure.terrain;
 
 import cowParts.creation.Cow;
 import cowParts.actionSystem.ActionHandler;
-import infrastructure.establishments.EstablishmentTypes.GovernmentEstablishment;
-import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import metaControl.metaEnvironment.LoadConfiguration;
@@ -14,7 +12,6 @@ import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
