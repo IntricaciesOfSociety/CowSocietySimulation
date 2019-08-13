@@ -1,5 +1,6 @@
 # IntellijJ files
 .idea
+.DS_Store
 .gradle/
 /build/
 /out/
