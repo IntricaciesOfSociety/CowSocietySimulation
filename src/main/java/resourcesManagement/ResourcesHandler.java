@@ -1,22 +1,21 @@
 package resourcesManagement;
 
-import cowParts.Cow;
+import cowParts.creation.Cow;
 import cowParts.CowHandler;
-import cowParts.cowMovement.DecideActions;
-import metaEnvironment.LoadConfiguration;
-import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.BinRegionHandler;
+import metaControl.metaEnvironment.LoadConfiguration;
+import metaControl.metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.Regioning.BinRegionHandler;
+import metaControl.metaEnvironment.Regioning.regionContainers.Playground;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import resourcesManagement.resourceTypes.GenericResource;
 import resourcesManagement.resourceTypes.RockSource;
 import resourcesManagement.resourceTypes.WaterSource;
 import resourcesManagement.resourceTypes.WoodSource;
-import terrain.Tile;
-import terrain.TileHandler;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Handles all the resource management for the city.
@@ -25,6 +24,10 @@ public class ResourcesHandler {
 
     private static int rock = 0;
     private static int wood = 0;
+    private static int clay = 0;
+    private static int coal = 0;
+    private static int copper = 0;
+    private static int iron = 0;
     private static int power = 0;
 
     /**
@@ -34,26 +37,39 @@ public class ResourcesHandler {
         for (int i = 0; i < LoadConfiguration.getInitialWaterSources(); i++)
             ResourceCreation.createWaterSource(
                     AssetLoading.basicWatersource,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.basicWatersource), AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.basicWatersource), PlaygroundHandler.getMotion(), AssetLoading.desertTileFull)
             );
         for (int j = 0; j < LoadConfiguration.getInitialSmallRocks(); j++)
             ResourceCreation.createRockSource(
                     AssetLoading.smallRock,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallRock))
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.smallRock), PlaygroundHandler.getMotion())
             );
         for (int k = 0; k < LoadConfiguration.getInitialSmallTrees(); k++)
             ResourceCreation.createWoodSource(
                     AssetLoading.smallTree,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.smallTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.smallTree), PlaygroundHandler.getMotion(), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         for (int q = 0; q < LoadConfiguration.getInitialLargeTrees(); q++)
             ResourceCreation.createWoodSource(
                     AssetLoading.largeTree,
-                    TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeTree), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
+                    TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.largeTree), PlaygroundHandler.getMotion(), AssetLoading.mountainTileFull, AssetLoading.desertTileFull)
             );
         for (int h = 0; h < LoadConfiguration.getInitialLargeRocks(); h++)
             ResourceCreation.createRockSource(
-                    AssetLoading.largeRock, TileHandler.getRandomNotFullTile(TileHandler.getSize(AssetLoading.largeRock))
+                    AssetLoading.largeRock, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.largeRock), PlaygroundHandler.getMotion())
+            );
+
+        for (int a = 0; a < LoadConfiguration.getInitialClay(); a++)
+            ResourceCreation.createRockSource(
+                    AssetLoading.clay, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.clay), PlaygroundHandler.getMines())
+            );
+        for (int b = 0; b < LoadConfiguration.getInitialCopper(); b++)
+            ResourceCreation.createRockSource(
+                    AssetLoading.copper, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.copper), PlaygroundHandler.getMines())
+            );
+        for (int c = 0; c < LoadConfiguration.getInitialIron(); c++)
+            ResourceCreation.createRockSource(
+                    AssetLoading.iron, TileHandler.getRandRegionTile(TileHandler.getSize(AssetLoading.iron), PlaygroundHandler.getMines())
             );
     }
 
@@ -88,6 +104,14 @@ public class ResourcesHandler {
         return power;
     }
 
+    public static int getClayAmount() { return clay; }
+
+    public static int getCoalAmount() { return coal; }
+
+    public static int getCopperAmount() { return copper; }
+
+    public static int getIronAmount() { return iron; }
+
     /**
      * Consumes city resources to build towards a buliding requirement.
      * @param buildingRequirement The building requirement to change
@@ -117,27 +141,30 @@ public class ResourcesHandler {
 
     public static RockSource getClosestRockSource(Cow cowToCheck) {
         ArrayList<Tile> resourceList = new ArrayList<>();
+        Playground resourcePool = cowToCheck.getRegionIn().getPlayground();
 
-        for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
-            resourceList.addAll(BinRegionHandler.binRegionMap.get(i).getAllRockSources());
+        for (int i = 0; i < (resourcePool.getMaxBinRegionId() - resourcePool.getMinBinRegionId()); i++)
+            resourceList.addAll(BinRegionHandler.binRegionMap.get(resourcePool.getMinBinRegionId() + i).getAllRockSources());
 
         return (RockSource) TileHandler.getClosestTile(cowToCheck, resourceList);
     }
 
     public static WoodSource getClosestWoodSource(Cow cowToCheck) {
         ArrayList<Tile> resourceList = new ArrayList<>();
+        Playground resourcePool = cowToCheck.getRegionIn().getPlayground();
 
-        for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
-            resourceList.addAll(BinRegionHandler.binRegionMap.get(i).getAllWoodSources());
+        for (int i = 0; i < (resourcePool.getMaxBinRegionId() - resourcePool.getMinBinRegionId()); i++)
+            resourceList.addAll(BinRegionHandler.binRegionMap.get(resourcePool.getMinBinRegionId() + i).getAllWoodSources());
 
         return (WoodSource) TileHandler.getClosestTile(cowToCheck, resourceList);
     }
 
     public static WaterSource getClosestWaterSource(Cow cowToCheck) {
         ArrayList<Tile> resourceList = new ArrayList<>();
+        Playground resourcePool = cowToCheck.getRegionIn().getPlayground();
 
-        for (int i = 0; i < BinRegionHandler.newestRegionId; i++)
-            resourceList.addAll(BinRegionHandler.binRegionMap.get(i).getAllWaterSources());
+        for (int i = 0; i < (resourcePool.getMaxBinRegionId() - resourcePool.getMinBinRegionId()); i++)
+            resourceList.addAll(BinRegionHandler.binRegionMap.get(resourcePool.getMinBinRegionId() + i).getAllWaterSources());
 
         return (WaterSource) TileHandler.getClosestTile(cowToCheck, resourceList);
     }

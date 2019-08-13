@@ -1,9 +1,8 @@
 package resourcesManagement.resourceTypes;
 
 import javafx.scene.image.Image;
-import metaEnvironment.Playground;
-import terrain.Tile;
-import terrain.TileHandler;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 /**
  * Creates and handles any rockSource resource.
@@ -41,9 +40,8 @@ public class RockSource extends GenericResource {
 
         if (resourceHealth <= 0) {
             region.removeRockSource(this);
-            Playground.playground.getChildren().remove(this);
+            this.region.getPlayground().getChildren().remove(this);
         }
-
     }
 
     /**

@@ -1,31 +1,33 @@
 package cowParts;
 
-import infrastructure.BuildingHandler;
+import cowParts.creation.Cow;
+import infrastructure.buildings.BuildingHandler;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
-import metaEnvironment.LoadConfiguration;
-import metaControl.Time;
-import metaEnvironment.AssetLoading;
-import metaEnvironment.Regioning.BinRegion;
-import metaEnvironment.Regioning.BinRegionHandler;
-import metaEnvironment.logging.EventLogger;
-import metaEnvironment.Playground;
+import metaControl.metaEnvironment.LoadConfiguration;
+import metaControl.timeControl.Time;
+import metaControl.metaEnvironment.AssetLoading;
+import metaControl.metaEnvironment.Regioning.BinRegion;
+import metaControl.metaEnvironment.Regioning.BinRegionHandler;
+import metaControl.metaEnvironment.Regioning.regionContainers.PlaygroundHandler;
+import metaControl.metaEnvironment.logging.EventLogger;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import societalProductivity.Role;
-import userInterface.playgroundUI.StaticUI;
+import societyProduction.jobs.JobHandler;
+import metaControl.menus.userInterface.playgroundUI.StaticUI;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import static cowParts.BirthEvent.random;
 
 /**
  * Handles the creation and initialization of cows.
  */
 public class CowHandler {
+
+    private static Random random = new Random();
 
     //List that holds every created cow
     public static ArrayList<Cow> liveCowList = new ArrayList<>();
@@ -52,7 +54,7 @@ public class CowHandler {
      * Draws a cow to the screen for testing purposes. Moves the cow to a random location then creates and saves a link
      * for the cow to be used in PlaygroundUIHandler.
      */
-    static Cow createCow(Cow parent1, Cow parent2) {
+    public static Cow createCow(Cow parent1, Cow parent2) {
         Image cowSprite = AssetLoading.basicCows.get(random.nextInt(AssetLoading.basicCows.size()));
 
         Cow newCow = new Cow(parent1, parent2);
@@ -62,10 +64,19 @@ public class CowHandler {
 
         newCow.setId("Cow" + ((char) (new Random().nextInt(26) + 'a')) + new Random().nextInt(10000));
 
-        BinRegion randRegion = BinRegionHandler.binRegionMap.get(random.nextInt(BinRegionHandler.newestRegionId));
-        newCow.setRegionIn(randRegion);
-        newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
-        newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
+        if (parent1 != null) {
+            newCow.setRegionIn(parent1.getRegionIn());
+            newCow.setTranslateX(parent1.getTranslateX());
+            newCow.setTranslateY(parent1.getTranslateY());
+            parent1.getRegionIn().getPlayground().getChildren().add(newCow);
+        }
+        else {
+            BinRegion randRegion = BinRegionHandler.getRandomRegion(PlaygroundHandler.getMotion());
+            newCow.setRegionIn(randRegion);
+            newCow.setTranslateX(random.nextInt(randRegion.getMaxX()) + randRegion.getLayoutX());
+            newCow.setTranslateY(random.nextInt(randRegion.getMaxY()) + randRegion.getLayoutY());
+            PlaygroundHandler.getMotion().getChildren().add(newCow);
+        }
 
         newCow.setEffect(newCow.getColor());
         newCow.setSmooth(false);
@@ -75,12 +86,11 @@ public class CowHandler {
 
         newCow.setLivingSpace(BuildingHandler.getBuildingAssignment(newCow.getId()));
 
-        new Role(newCow);
+        JobHandler.assignRandomJob(newCow);
 
         newCow.setCowLink(StaticUI.cowCreationEvent(newCow.getId()));
         EventLogger.createLoggedEvent(newCow, "creation", 2, "age", 0);
 
-        Playground.playground.getChildren().add(newCow);
         liveCowList.add(newCow);
 
         return newCow;
@@ -110,20 +120,21 @@ public class CowHandler {
     }
 
     /**
-     * Kills a whole list of cows
+     * Kills a whole list of given cows
      * @param killList The list of cows to kill
      */
     public static void killAll(@NotNull ArrayList<Cow> killList) {
-        for (Cow cowToKill : killList)
-            cowToKill.kill();
+        while (!killList.isEmpty()) {
+            killList.get(0).kill();
+        }
     }
 
     @NotNull
     @Contract("_, _ -> new")
     public static Point2D findHalfwayPoint(@NotNull Cow cowToCheck, @NotNull Cow otherCow) {
         return new Point2D(
-                (cowToCheck.getLayoutX() + cowToCheck.getTranslateX() + otherCow.getLayoutX() + otherCow.getTranslateX()) / 2,
-                (cowToCheck.getLayoutY() + cowToCheck.getTranslateY() + otherCow.getLayoutY() + otherCow.getTranslateY()) / 2
+                ((cowToCheck.getTranslateX() + otherCow.getTranslateX()) / 2),
+                ((cowToCheck.getTranslateY() + otherCow.getTranslateY()) / 2)
         );
     }
 }

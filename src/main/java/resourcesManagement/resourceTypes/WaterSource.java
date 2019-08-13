@@ -1,9 +1,8 @@
 package resourcesManagement.resourceTypes;
 
 import javafx.scene.image.Image;
-import metaEnvironment.Playground;
-import terrain.Tile;
-import terrain.TileHandler;
+import infrastructure.terrain.Tile;
+import infrastructure.terrain.TileHandler;
 
 /**
  * Creates and handles any waterSource resource.
@@ -41,7 +40,7 @@ public class WaterSource extends GenericResource {
 
         if (resourceHealth <= 0) {
             region.removeWaterSource(this);
-            Playground.playground.getChildren().remove(this);
+            this.region.getPlayground().getChildren().remove(this);
         }
 
     }
